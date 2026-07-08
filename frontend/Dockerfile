@@ -6,8 +6,7 @@ COPY package*.json ./
 # patches/ must exist before npm ci so the postinstall patch-package step can apply them
 COPY patches/ ./patches/
 # Flaky registry / CI: fewer parallel sockets + many retries; outer loop when npm's own retries exhaust (ECONNRESET).
-RUN --mount=type=cache,target=/root/.npm \
-    npm config set fetch-retries 15 \
+RUN npm config set fetch-retries 15 \
     && npm config set fetch-retry-factor 2 \
     && npm config set fetch-retry-mintimeout 30000 \
     && npm config set fetch-retry-maxtimeout 180000 \

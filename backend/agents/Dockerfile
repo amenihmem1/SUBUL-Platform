@@ -28,7 +28,7 @@ RUN cat /tmp/quiz-requirements.txt /tmp/roadmap-requirements.txt /tmp/coach-requ
 
 # Install Python dependencies (long timeout for slow networks); cache mount speeds rebuilds
 ENV PIP_DEFAULT_TIMEOUT=300
-RUN --mount=type=cache,target=/root/.cache/pip pip install --no-cache-dir -r /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 # ----------------- CV Booster base (sentence-transformers + CPU-only PyTorch; isolated to avoid bloating other agents)
 ARG BASE_IMAGE
@@ -196,5 +196,4 @@ EXPOSE 8006
 HEALTHCHECK --interval=15s --timeout=10s --start-period=240s --retries=8 \
     CMD curl -f http://localhost:8006/docs || exit 1
 CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8006"]
-
 

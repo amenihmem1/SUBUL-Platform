@@ -11,8 +11,7 @@ ENV PUPPETEER_SKIP_DOWNLOAD=true
 COPY api/package*.json ./
 
 # Install dependencies (reproducible with lockfile); tolerate flaky registry during CI (ECONNRESET).
-RUN --mount=type=cache,target=/root/.npm \
-    npm config set fetch-retries 15 \
+RUN npm config set fetch-retries 15 \
     && npm config set fetch-retry-factor 2 \
     && npm config set fetch-retry-mintimeout 30000 \
     && npm config set fetch-retry-maxtimeout 180000 \
