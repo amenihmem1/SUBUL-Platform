@@ -1,0 +1,20 @@
+# Keep the API build context small. The API Dockerfile copies only api/ and
+# courses.json from backend/, so the other backend apps are not needed here.
+agents/
+hr-coach/
+app/
+
+api/node_modules/
+api/dist/
+api/coverage/
+api/.env
+api/.env.*
+api/*.log
+
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+*.log
+*.png
