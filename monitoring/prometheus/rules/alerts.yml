@@ -1,0 +1,144 @@
+groups:
+
+  - name: service_health
+    interval: 30s
+    rules:
+
+      - alert: ServiceDown
+        expr: probe_success == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service {{ $labels.instance }} is DOWN"
+          description: "Blackbox probe has been failing for 2+ minutes."
+
+      - alert: HighProbeLatency
+        expr: probe_duration_seconds > 3
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Slow response on {{ $labels.instance }} ({{ $value | printf \"%.2f\" }}s)"
+          description: "HTTP probe latency has exceeded 3s for 5 minutes."
+
+  - name: infrastructure
+    rules:
+
+      - alert: HighCPU
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 85
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU ({{ $value | printf \"%.0f\" }}%) on {{ $labels.instance }}"
+
+      - alert: HighMemory
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 90
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Memory usage > 90% on {{ $labels.instance }}"
+
+      - alert: DiskSpaceLow
+        expr: (1 - (node_filesystem_avail_bytes{fstype!="tmpfs"} / node_filesystem_size_bytes{fstype!="tmpfs"})) * 100 > 85
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Disk {{ $value | printf \"%.0f\" }}% full on {{ $labels.instance }}"
+
+  - name: database
+    rules:
+
+      - alert: PostgreSQLDown
+        expr: pg_up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "PostgreSQL is unreachable"
+
+      - alert: RedisDown
+        expr: redis_up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Redis is unreachable"
+
+      - alert: PostgreSQLTooManyConnections
+        expr: pg_stat_activity_count > 90
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "PostgreSQL has {{ $value }} open connections"
+
+  - name: nestjs_api
+    rules:
+
+      - alert: HighEventLoopLag
+        expr: nodejs_eventloop_lag_seconds > 0.5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "NestJS event loop lag {{ $value | printf \"%.2f\" }}s"
+
+      - alert: HighHeapUsage
+        expr: (nodejs_heap_size_used_bytes / nodejs_heap_size_total_bytes) * 100 > 90
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "NestJS heap usage > 90%"
+
+  - name: ai_cost
+    rules:
+
+      # Daily AI cost threshold — update AI_DAILY_COST_ALERT_THRESHOLD_USD in .env then
+      # edit the value below and reload Prometheus: curl -X POST http://localhost:9090/-/reload
+      - alert: DailyAICostExceeded
+        expr: |
+          sum(increase(azure_openai_cost_usd_total[24h]))
+          + sum(increase(deepgram_cost_usd_total[24h]))
+          + sum(increase(cartesia_cost_usd_total[24h]))
+          + sum(increase(azure_search_cost_usd_total[24h])) > 50
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Daily AI spend ${{ $value | printf \"%.2f\" }} exceeded $50 threshold"
+          description: "Update threshold in monitoring/prometheus/rules/alerts.yml if needed."
+
+      - alert: MonthlyAICostExceeded
+        expr: |
+          sum(increase(azure_openai_cost_usd_total[30d]))
+          + sum(increase(deepgram_cost_usd_total[30d]))
+          + sum(increase(cartesia_cost_usd_total[30d]))
+          + sum(increase(azure_search_cost_usd_total[30d])) > 1000
+        for: 15m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Monthly AI spend ${{ $value | printf \"%.2f\" }} exceeded $1000 threshold"
+
+      - alert: AzureOpenAIHighFailureRate
+        expr: |
+          rate(azure_openai_requests_total{status="error"}[5m])
+          / rate(azure_openai_requests_total[5m]) > 0.10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Azure OpenAI failure rate {{ $value | printf \"%.0f\" }}% on agent {{ $labels.agent }}"
+
+      - alert: PaidAPIFailureSpike
+        expr: increase(paid_api_failures_total[5m]) > 10
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.provider }} — {{ $value | printf \"%.0f\" }} failures in 5 min (agent: {{ $labels.agent }})"

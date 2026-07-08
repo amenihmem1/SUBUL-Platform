@@ -1,0 +1,290 @@
+{
+  "id": "cisco-iot-dt",
+  "provider": "Cisco Networking Academy",
+  "exam_code": "N/A",
+  "title": "Introduction to IoT and Digital Transformation",
+  "domain": "iot",
+  "level": "debutant",
+  "badge_color": "#049FD9",
+  "description": "Cours introductif Cisco couvrant les fondamentaux de l'Internet des Objets (IoT) et la transformation numérique. Il explore comment les appareils connectés, la programmation, le Big Data, l'automatisation et la sécurité façonnent le monde numérique actuel, avec des exercices pratiques sur Cisco Packet Tracer.",
+  "estimated_hours": 20,
+  "modules": [
+    {
+      "id": "iot-m1",
+      "order": 1,
+      "title": "Everything is Connected",
+      "duration_min": 120,
+      "objectives": [
+        "Comprendre l'évolution de la transformation numérique et son impact sur les entreprises",
+        "Identifier les différents types de réseaux (PAN, LAN, WAN, Cloud, Edge, Fog)",
+        "Expliquer ce qu'est l'IoT et comment les appareils IoT se connectent au réseau",
+        "Explorer une maison intelligente et surveiller un réseau IoT"
+      ],
+      "lessons": [
+        {
+          "id": "iot-m1-l1",
+          "title": "La transformation numérique",
+          "content": "La transformation numérique est le processus par lequel les organisations intègrent les technologies numériques dans tous les aspects de leur activité. Cette leçon explore l'évolution de cette transformation, des premières générations numériques aux technologies actuelles, et examine comment les technologies numériques impactent les modèles d'affaires et créent de nouvelles opportunités économiques.",
+          "key_points": [
+            "La transformation numérique a évolué à travers plusieurs générations, chacune apportant de nouvelles technologies et de nouveaux comportements numériques. Les digital natives, nés après 1990, ont grandi avec Internet et les appareils mobiles.",
+            "Les technologies numériques transforment fondamentalement les modèles d'affaires traditionnels. Des entreprises comme Uber, Airbnb et Netflix ont perturbé des industries entières grâce à l'innovation numérique.",
+            "Les appareils intelligents (smart devices) sont capables de collecter des données, de communiquer avec d'autres appareils et de prendre des décisions autonomes grâce à des capteurs, des processeurs et une connectivité réseau.",
+            "La convergence de l'IT (Information Technology) et de l'OT (Operational Technology) est un moteur clé de la transformation numérique dans l'industrie."
+          ]
+        },
+        {
+          "id": "iot-m1-l2",
+          "title": "Les fondations du réseau",
+          "content": "Les réseaux constituent l'infrastructure fondamentale qui permet la communication entre les appareils IoT. Cette leçon couvre les différents types de réseaux, du réseau personnel (PAN) au réseau étendu (WAN), ainsi que les concepts émergents de Cloud Computing, Edge Computing et Fog Computing qui sont essentiels pour les architectures IoT.",
+          "key_points": [
+            "Un réseau personnel (PAN) couvre une portée de quelques mètres et connecte des appareils personnels via Bluetooth ou NFC. Un réseau local (LAN) connecte des appareils dans un bâtiment ou un campus via Ethernet ou Wi-Fi.",
+            "Un réseau étendu (WAN) connecte des réseaux géographiquement dispersés. Internet est le plus grand WAN au monde, interconnectant des milliards d'appareils.",
+            "Le Cloud Computing fournit des ressources informatiques (stockage, calcul, applications) à la demande via Internet, offrant élasticité et économies d'échelle.",
+            "L'Edge Computing traite les données au plus près de leur source, réduisant la latence et la bande passante nécessaire. Le Fog Computing étend le Cloud vers la périphérie du réseau, créant une couche intermédiaire entre les appareils IoT et le Cloud."
+          ],
+          "comparison_table": {
+            "headers": ["Caractéristique", "Cloud Computing", "Edge Computing", "Fog Computing"],
+            "rows": [
+              ["Localisation du traitement", "Centres de données distants", "Au niveau de l'appareil", "Entre l'appareil et le Cloud"],
+              ["Latence", "Élevée", "Très faible", "Faible"],
+              ["Bande passante requise", "Élevée", "Faible", "Modérée"],
+              ["Cas d'usage IoT", "Analyse Big Data", "Réponse temps réel", "Pré-traitement et agrégation"]
+            ]
+          }
+        },
+        {
+          "id": "iot-m1-l3",
+          "title": "Les appareils connectés à l'IoT",
+          "content": "L'Internet des Objets (IoT) désigne le réseau d'objets physiques équipés de capteurs, de logiciels et de connectivité réseau qui leur permettent de collecter et d'échanger des données. Cette leçon explore ce qu'est l'IoT, les avantages et les défis de la connexion des appareils, et comment ils s'intègrent dans un réseau domestique intelligent (Smart Home).",
+          "key_points": [
+            "L'IoT connecte des milliards d'appareils physiques au réseau, allant des capteurs industriels aux appareils domestiques intelligents (thermostats, caméras, ampoules connectées).",
+            "Les avantages de l'IoT incluent l'automatisation des tâches, l'optimisation des processus, la surveillance à distance et la prise de décision basée sur les données. Les inconvénients incluent les risques de sécurité, la complexité de gestion et les problèmes de confidentialité.",
+            "Les appareils IoT se connectent au réseau via différentes technologies : Wi-Fi, Bluetooth, Zigbee, Z-Wave, LoRaWAN, ou des connexions cellulaires (4G/5G).",
+            "Une maison intelligente (Smart Home) intègre des appareils IoT contrôlés via un hub central ou une application mobile, permettant l'automatisation de l'éclairage, du chauffage, de la sécurité et du divertissement.",
+            "L'accès et la surveillance d'un réseau IoT nécessitent des outils de gestion centralisés qui permettent de visualiser l'état des appareils, de configurer des règles d'automatisation et de recevoir des alertes."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iot-m2",
+      "order": 2,
+      "title": "Everything Becomes Programmable",
+      "duration_min": 120,
+      "objectives": [
+        "Comprendre les bases de la programmation pour supporter les appareils IoT",
+        "Utiliser des organigrammes pour concevoir des processus logiques",
+        "Apprendre les bases de la programmation avec Blockly et Python",
+        "Comprendre le concept de prototypage et les outils disponibles (Raspberry Pi, Arduino)"
+      ],
+      "lessons": [
+        {
+          "id": "iot-m2-l1",
+          "title": "Programmation de base pour l'IoT",
+          "content": "La programmation est essentielle pour donner vie aux appareils IoT. Cette leçon introduit les concepts fondamentaux de la programmation, en commençant par les organigrammes (flowcharts) pour visualiser la logique, puis en explorant les différents types de logiciels et de langages informatiques utilisés dans le développement IoT.",
+          "key_points": [
+            "Un organigramme (flowchart) est une représentation graphique d'un processus ou d'un algorithme utilisant des formes standardisées : rectangles pour les processus, losanges pour les décisions, parallélogrammes pour les entrées/sorties.",
+            "Les logiciels se divisent en trois catégories : le logiciel système (OS), les logiciels applicatifs (apps) et les langages de programmation. Chaque catégorie joue un rôle distinct dans l'écosystème IoT.",
+            "Les variables sont des conteneurs nommés qui stockent des données en mémoire. Les structures de programme de base incluent les séquences, les sélections (if/else) et les boucles (for/while).",
+            "Blockly est un langage de programmation visuel développé par Google qui utilise des blocs à assembler, idéal pour apprendre la logique de programmation sans syntaxe complexe."
+          ]
+        },
+        {
+          "id": "iot-m2-l2",
+          "title": "Introduction à Python pour l'IoT",
+          "content": "Python est l'un des langages de programmation les plus populaires pour le développement IoT grâce à sa syntaxe simple, ses nombreuses bibliothèques et sa compatibilité avec les plateformes embarquées. Cette leçon couvre les bases de Python, de l'interpréteur aux structures de données avancées.",
+          "key_points": [
+            "Python est un langage interprété, ce qui signifie que le code est exécuté ligne par ligne par l'interpréteur Python, sans nécessiter de compilation préalable.",
+            "Les variables en Python sont typées dynamiquement. Les types de données de base incluent les entiers (int), les flottants (float), les chaînes de caractères (str) et les booléens (bool).",
+            "Python offre des structures de données puissantes : les listes (modifiables et ordonnées), les tuples (non modifiables et ordonnés), les ensembles (sets, non ordonnés et sans doublons) et les dictionnaires (paires clé-valeur).",
+            "La fonction range() génère des séquences de nombres, essentielle pour les boucles. Les structures de contrôle (if/elif/else, for, while) permettent de créer des programmes logiques complexes.",
+            "Python dispose de bibliothèques spécifiques pour l'IoT comme RPi.GPIO pour contrôler les GPIO du Raspberry Pi, et MicroPython pour les microcontrôleurs."
+          ]
+        },
+        {
+          "id": "iot-m2-l3",
+          "title": "Prototypage de votre idée IoT",
+          "content": "Le prototypage est une étape cruciale dans le développement de solutions IoT. Il permet de transformer une idée en un modèle fonctionnel pour tester et valider le concept avant la production. Cette leçon explore les méthodes de prototypage, les matériaux physiques et les kits électroniques disponibles.",
+          "key_points": [
+            "Le prototypage est le processus de création d'un modèle préliminaire d'un produit pour tester sa faisabilité, son design et ses fonctionnalités. Il peut être physique (maquette) ou numérique (simulation).",
+            "Les matériaux physiques de prototypage incluent le carton, l'impression 3D, les breadboards (platines d'essai) et les composants électroniques de base (résistances, LEDs, capteurs).",
+            "Les kits électroniques populaires pour le prototypage IoT incluent le Raspberry Pi (un micro-ordinateur complet sous Linux) et l'Arduino (un microcontrôleur simple et accessible).",
+            "Le Raspberry Pi peut exécuter un système d'exploitation complet (Linux) et supporter des langages comme Python, tandis que l'Arduino est programmé en C/C++ et est idéal pour des tâches de contrôle en temps réel.",
+            "Les ateliers communautaires (makerspaces, hackathons) et les programmes d'entrepreneuriat offrent des ressources et un soutien pour transformer un prototype en produit viable."
+          ],
+          "comparison_table": {
+            "headers": ["Caractéristique", "Raspberry Pi", "Arduino"],
+            "rows": [
+              ["Type", "Micro-ordinateur", "Microcontrôleur"],
+              ["Système d'exploitation", "Linux (Raspbian)", "Pas d'OS (bare-metal)"],
+              ["Langage principal", "Python", "C/C++"],
+              ["Connectivité", "Wi-Fi, Bluetooth, Ethernet", "Shields additionnels"],
+              ["Cas d'usage IoT", "Serveur IoT, traitement de données", "Contrôle de capteurs/actionneurs"]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "iot-m3",
+      "order": 3,
+      "title": "Everything Generates Data",
+      "duration_min": 90,
+      "objectives": [
+        "Comprendre le concept de Big Data et ses défis",
+        "Explorer les solutions de stockage de données : Cloud, Fog Computing, traitement distribué",
+        "Analyser et visualiser les données pour une utilisation efficace en entreprise",
+        "Utiliser des outils de visualisation et de prévision de données"
+      ],
+      "lessons": [
+        {
+          "id": "iot-m3-l1",
+          "title": "Le Big Data",
+          "content": "Les appareils IoT génèrent des volumes massifs de données en continu. Le Big Data désigne ces ensembles de données si volumineux et complexes qu'ils nécessitent des outils et des méthodes spécifiques pour être stockés, traités et analysés. Cette leçon explore les caractéristiques du Big Data, ses défis et les solutions de stockage disponibles.",
+          "key_points": [
+            "Le Big Data est caractérisé par les '3V' : Volume (quantité massive de données), Vélocité (vitesse à laquelle les données sont générées et doivent être traitées) et Variété (diversité des formats de données : structurées, semi-structurées, non structurées).",
+            "Les défis du Big Data incluent le stockage (où et comment stocker des pétaoctets de données), le traitement (comment analyser ces données en temps utile), la sécurité (comment protéger ces données) et la qualité (comment garantir la fiabilité des données).",
+            "Le Fog Computing offre une solution intermédiaire en pré-traitant les données au plus près de leur source avant de les envoyer au Cloud, réduisant ainsi la bande passante nécessaire et la latence.",
+            "Le Cloud Computing et le traitement distribué (comme Hadoop et Spark) permettent de stocker et d'analyser de grandes quantités de données en répartissant le travail sur plusieurs serveurs."
+          ]
+        },
+        {
+          "id": "iot-m3-l2",
+          "title": "Analyse et visualisation des données",
+          "content": "L'analyse des données transforme les données brutes en informations exploitables pour la prise de décision. La visualisation des données utilise des représentations graphiques pour rendre les données compréhensibles et identifier des tendances. Cette leçon couvre les sources d'information, les types de graphiques et l'utilisation des données pour la stratégie d'entreprise.",
+          "key_points": [
+            "Les entreprises analysent les données pour identifier des tendances, optimiser les opérations, améliorer l'expérience client et prendre des décisions stratégiques basées sur des faits plutôt que sur l'intuition.",
+            "Les sources d'information incluent les données internes (ventes, production, RH), les données externes (réseaux sociaux, données publiques) et les données IoT (capteurs, appareils connectés).",
+            "Les types de graphiques courants incluent : les graphiques à barres (comparaison), les graphiques linéaires (tendances temporelles), les graphiques circulaires (proportions), les nuages de points (corrélations) et les cartes thermiques (densité).",
+            "L'analyse prédictive utilise des modèles statistiques et des algorithmes de machine learning pour prévoir des événements futurs à partir des données historiques. Des outils comme Excel, Tableau et Power BI facilitent cette analyse.",
+            "L'analyse des données IoT en temps réel permet la maintenance prédictive, l'optimisation de la chaîne d'approvisionnement et la détection d'anomalies dans les systèmes industriels."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iot-m4",
+      "order": 4,
+      "title": "Everything Can Be Automated",
+      "duration_min": 90,
+      "objectives": [
+        "Comprendre les concepts d'automatisation et leurs applications dans l'IoT",
+        "Explorer l'intelligence artificielle (IA) et le machine learning (ML) dans le contexte IoT",
+        "Comprendre le concept de réseau basé sur l'intention (Intent-Based Networking - IBN)",
+        "Identifier les liens entre ML, IA et IBN"
+      ],
+      "lessons": [
+        {
+          "id": "iot-m4-l1",
+          "title": "L'automatisation dans l'IoT",
+          "content": "L'automatisation est le processus par lequel des tâches sont exécutées avec un minimum d'intervention humaine. Dans le contexte de l'IoT, l'automatisation permet aux appareils connectés de prendre des décisions et d'agir de manière autonome en fonction des données collectées par leurs capteurs.",
+          "key_points": [
+            "L'automatisation va de la simple automatisation de tâches répétitives (comme un thermostat programmable) à l'automatisation intelligente où les systèmes apprennent et s'adaptent (comme un système de chauffage qui apprend vos habitudes).",
+            "Les systèmes d'automatisation domestique utilisent des règles de type 'si-alors' (IFTTT - If This Then That) pour déclencher des actions automatiques. Par exemple : si la température dépasse 25°C, alors activer la climatisation.",
+            "L'automatisation industrielle (Industry 4.0) utilise des robots, des capteurs IoT et des systèmes de contrôle pour optimiser les processus de fabrication, réduire les erreurs et améliorer la productivité.",
+            "Les maisons intelligentes (Smart Homes) représentent un cas d'usage courant de l'automatisation IoT, intégrant l'éclairage, le chauffage, la sécurité et les appareils ménagers dans un système unifié."
+          ]
+        },
+        {
+          "id": "iot-m4-l2",
+          "title": "Intelligence artificielle et Machine Learning dans l'IoT",
+          "content": "L'intelligence artificielle (IA) et le machine learning (ML) sont des technologies clés qui permettent aux systèmes IoT de devenir véritablement intelligents. L'IA permet aux machines de simuler l'intelligence humaine, tandis que le ML leur permet d'apprendre à partir des données sans être explicitement programmées.",
+          "key_points": [
+            "L'intelligence artificielle (IA) est la capacité d'une machine à imiter les fonctions cognitives humaines comme l'apprentissage, le raisonnement et la résolution de problèmes.",
+            "Le machine learning (ML) est un sous-ensemble de l'IA qui utilise des algorithmes pour permettre aux systèmes d'apprendre à partir de données et d'améliorer leurs performances au fil du temps sans programmation explicite.",
+            "Dans l'IoT, le ML est utilisé pour la maintenance prédictive (prédire les pannes d'équipement), la détection d'anomalies (identifier des comportements inhabituels), l'optimisation énergétique et la personnalisation de l'expérience utilisateur.",
+            "Les réseaux neuronaux et le deep learning permettent des applications IoT avancées comme la reconnaissance d'images (caméras de surveillance intelligentes), la reconnaissance vocale (assistants virtuels) et le traitement du langage naturel."
+          ]
+        },
+        {
+          "id": "iot-m4-l3",
+          "title": "Le réseau basé sur l'intention (Intent-Based Networking)",
+          "content": "L'Intent-Based Networking (IBN) représente une évolution majeure dans la gestion des réseaux. Au lieu de configurer manuellement chaque appareil réseau, l'IBN permet aux administrateurs de définir l'état souhaité du réseau (l'intention), et le système se charge de traduire cette intention en configurations réseau appropriées.",
+          "key_points": [
+            "L'IBN combine l'IA, le ML et l'automatisation pour créer des réseaux qui se configurent, se surveillent et se corrigent automatiquement en fonction des intentions définies par l'administrateur.",
+            "Le processus IBN comprend trois étapes : la traduction (convertir l'intention en politiques réseau), l'activation (appliquer les politiques sur le réseau) et l'assurance (vérifier en continu que le réseau respecte l'intention).",
+            "Cisco DNA (Digital Network Architecture) est un exemple de plateforme IBN qui utilise Cisco DNA Center comme contrôleur centralisé pour gérer et automatiser le réseau.",
+            "L'IBN réduit considérablement le temps de configuration, minimise les erreurs humaines et permet au réseau de s'adapter dynamiquement aux changements de conditions et de menaces de sécurité."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iot-m5",
+      "order": 5,
+      "title": "Everything Needs to Be Secured",
+      "duration_min": 90,
+      "objectives": [
+        "Comprendre les types de données et leur valeur dans le monde numérique",
+        "Identifier les menaces de sécurité et les acteurs malveillants",
+        "Appliquer les meilleures pratiques de sécurité pour protéger les appareils et les données IoT",
+        "Configurer la sécurité sans fil et protéger les données personnelles"
+      ],
+      "lessons": [
+        {
+          "id": "iot-m5-l1",
+          "title": "La sécurité dans le monde numérique",
+          "content": "Dans un monde de plus en plus connecté, la sécurité des données et des appareils IoT est devenue une préoccupation majeure. Cette leçon explore les différents types de données, qui cherche à les obtenir et ce qui peut se passer lorsque les données tombent entre de mauvaises mains.",
+          "key_points": [
+            "Les données se classent en plusieurs catégories : données personnelles (nom, adresse, numéro de sécurité sociale), données financières (comptes bancaires, cartes de crédit), données de santé (dossiers médicaux) et données comportementales (habitudes de navigation, historique d'achats).",
+            "Les 'bons acteurs' (white hats) incluent les chercheurs en sécurité, les équipes de réponse aux incidents et les organisations gouvernementales qui travaillent à protéger les données et les systèmes.",
+            "Les 'mauvais acteurs' (black hats) incluent les cybercriminels, les hacktivistes et les acteurs étatiques qui cherchent à voler des données, perturber des services ou espionner des organisations.",
+            "Lorsque les données tombent entre de mauvaises mains, les conséquences peuvent inclure le vol d'identité, la fraude financière, le chantage (ransomware), l'espionnage industriel et la compromission de la vie privée.",
+            "L'empreinte numérique (digital footprint) est l'ensemble des traces que vous laissez en ligne. Elle peut être active (publications sur les réseaux sociaux) ou passive (cookies, historique de navigation)."
+          ]
+        },
+        {
+          "id": "iot-m5-l2",
+          "title": "Meilleures pratiques de sécurité et protection des appareils",
+          "content": "La sécurisation des appareils IoT et des données personnelles nécessite une approche multicouche combinant des mesures techniques et comportementales. Cette leçon couvre les meilleures pratiques de sécurité, de la protection physique à la configuration de la sécurité sans fil.",
+          "key_points": [
+            "La sécurité physique est la première ligne de défense : verrouiller les appareils, sécuriser les salles de serveurs et contrôler l'accès physique aux équipements réseau.",
+            "Les défis spécifiques à la sécurité IoT incluent les ressources limitées des appareils (qui empêchent l'exécution d'antivirus), les mises à jour difficiles, les mots de passe par défaut et la grande surface d'attaque créée par des milliards d'appareils connectés.",
+            "Les mesures de protection des appareils incluent : maintenir le pare-feu activé, utiliser un antivirus à jour, gérer les mises à jour du système d'exploitation et du navigateur, et protéger tous les appareils connectés.",
+            "La sécurité Wi-Fi nécessite l'utilisation du protocole WPA3 (ou au minimum WPA2), la modification du SSID par défaut, la désactivation de la diffusion du SSID si possible et l'utilisation de mots de passe forts.",
+            "La protection des données personnelles passe par l'utilisation de mots de passe forts et uniques, l'activation de l'authentification à deux facteurs (2FA), l'utilisation d'un VPN sur les réseaux publics et la vigilance face aux tentatives de phishing."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iot-m6",
+      "order": 6,
+      "title": "Educational and Business Opportunities",
+      "duration_min": 60,
+      "objectives": [
+        "Identifier les opportunités de carrière dans le domaine de l'IoT et de la transformation numérique",
+        "Comprendre les défis et les compétences requises dans le monde numérique",
+        "Explorer les ressources d'apprentissage et les certifications disponibles",
+        "Développer un état d'esprit entrepreneurial dans le contexte IoT"
+      ],
+      "lessons": [
+        {
+          "id": "iot-m6-l1",
+          "title": "Opportunités de carrière et entrepreneuriat dans l'IoT",
+          "content": "Le domaine de l'IoT et de la transformation numérique crée de nombreuses opportunités professionnelles et entrepreneuriales. Cette leçon explore l'évolution du marché de l'emploi, les compétences recherchées et les ressources disponibles pour poursuivre une carrière dans ce domaine en pleine croissance.",
+          "key_points": [
+            "Le marché de l'emploi évolue rapidement avec la transformation numérique. De nouveaux métiers émergent (data scientist, ingénieur IoT, architecte cloud, spécialiste en cybersécurité) tandis que d'autres se transforment ou disparaissent.",
+            "Les compétences clés recherchées incluent la programmation, l'analyse de données, la cybersécurité, le réseautage, la pensée critique et la capacité d'adaptation. Les compétences transversales (soft skills) comme la communication et le travail en équipe sont également essentielles.",
+            "L'entrepreneuriat dans l'IoT offre des opportunités dans de nombreux secteurs : agriculture intelligente, santé connectée, villes intelligentes, industrie 4.0, énergie et transport.",
+            "Les ressources d'apprentissage incluent les cours Cisco Networking Academy, les certifications industrielles (Cisco, CompTIA, AWS IoT), les plateformes en ligne (Coursera, edX) et les communautés d'intérêt.",
+            "L'apprentissage tout au long de la vie (lifelong learning) est essentiel dans un domaine qui évolue aussi rapidement que l'IoT. Les professionnels doivent continuellement mettre à jour leurs compétences pour rester pertinents."
+          ]
+        }
+      ]
+    }
+  ],
+  "final_exam_tips": [
+    "Comprenez les concepts fondamentaux de la transformation numérique et comment l'IoT en est un moteur clé.",
+    "Maîtrisez les différents types de réseaux (PAN, LAN, WAN) et les concepts de Cloud, Edge et Fog Computing.",
+    "Sachez expliquer les avantages et les défis de la connexion des appareils IoT.",
+    "Comprenez les bases de la programmation Python et comment elle s'applique au développement IoT.",
+    "Connaissez les caractéristiques du Big Data (les 3V) et les outils d'analyse et de visualisation.",
+    "Maîtrisez les concepts d'automatisation, d'IA, de ML et d'Intent-Based Networking (IBN).",
+    "Appliquez les meilleures pratiques de sécurité pour protéger les appareils IoT et les données personnelles."
+  ],
+  "resources": {
+    "official_doc": "https://www.netacad.com/courses/introduction-iot",
+    "practice_exam": "https://www.netacad.com/courses/introduction-iot"
+  }
+}

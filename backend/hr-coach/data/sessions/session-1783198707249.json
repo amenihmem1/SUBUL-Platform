@@ -1,0 +1,69 @@
+{
+  "session_id": "session-1783198707249",
+  "interview_max_questions": 4,
+  "last_question_index": 0,
+  "turns": [],
+  "final_report": null,
+  "cv_profile": {
+    "candidate_name": "Ameni HMEM",
+    "name": "Ameni HMEM",
+    "headline": "\u00c9tudiante en Ing\u00e9nierie Informatique",
+    "email": "ameni.hmem@esprim.tn",
+    "phone": "+21623405359",
+    "linkedin": "",
+    "github": "",
+    "top_skills": [
+      "api",
+      "mongodb",
+      "angular",
+      "jenkins",
+      "mysql",
+      "postgresql",
+      "rest",
+      "spring",
+      "spring boot",
+      "agile"
+    ],
+    "experiences": [
+      "D\u00e9veloppeur FullStack",
+      "D\u00e9veloppeur de Base de Donn\u00e9es"
+    ],
+    "projects": [
+      "D\u00e9veloppement d\u2019une plateforme pour jeunes dipl\u00f4m\u00e9s.",
+      "Dashboard interactif Streamlit + API REST pour visualisation et exploitation des r\u00e9sultats",
+      "PIDEV - P rojet d\u2019integration de developpement -Plateforme d'\u00c9ducation en Ligne",
+      "D\u00e9veloppement d\u2019une plateforme d\u2019apprentissage en ligne pour la gestion des cours, \u00e9valuations et ressources.",
+      "Ajout d\u2019un module de quiz interactif bas\u00e9 sur l\u2019IA pour la g\u00e9n\u00e9ration et la correction intelligentes des questions.",
+      "Conception d\u2019une interface web et mobile fluide, r\u00e9active et accessible pour enseignants et apprenants.",
+      "D\u00e9veloppement de l'application mobile CookMate pour g\u00e9rer, consulter et supprimer les recettes favorites, avec possibilit\u00e9 de filtrer les recettes par cat\u00e9gorie.",
+      "mis en place un chatbot interactif intelligent pour assister les utilisateurs et leur fournir des recommandations de recettes personnalis\u00e9es."
+    ],
+    "confidence": {
+      "name": 0.95,
+      "headline": 0.6,
+      "email": 0.7,
+      "phone": 0.85,
+      "linkedin": 0.0,
+      "github": 0.0,
+      "top_skills": 1.0,
+      "experiences": 1.0,
+      "projects": 1.0,
+      "text_quality": 1.0
+    },
+    "overall_confidence": 0.806,
+    "text_preview": "Ameni HMEM\n\u00c9tudiante en ing\u00e9nierie informatique - D\u00e9veloppement web et mobile\nLinkedin ameni.hmem@esprim.tn +216 23 405 359\n\u00c0 PROPOS\nAnim\u00e9e par un vif enthousiasme pour la technologie, j\u2019ai d\u00e9velopp\u00e9 mes comp\u00e9tences \u00e0 travers un parcours diversifi\u00e9 m\u00ealant \u00e9tudes, exp\u00e9riences\nprofessionnelles et engagements associatifs.\nActuellement \u00e0 la recherche d\u2019un stage de fin d\u2019\u00e9tudes, je souhaite mettre en pratique mes comp\u00e9tences, contribuer \u00e0 des projets innovants et poursuivre mon\nappr entissage au sein d\u2019une \u00e9quipe dynamique.\nCOMP\u00c9TENCES\nLangages de programmation: Frameworks et Biblioth\u00e9ques: D\u00e9velop...",
+    "source_filename": "cvAmeniHMEM.pdf"
+  },
+  "cv_uploaded": true,
+  "response_language": "",
+  "visual_observations": {},
+  "audio_observations": {},
+  "proctoring_events": [],
+  "interview_status": "draft",
+  "finalized_at": "",
+  "finalized_by": "",
+  "preferred_input_mode": "mixed",
+  "cached_insights": {},
+  "updated_at": "2026-07-04T21:00:25.473269Z",
+  "schema_version": 2
+}

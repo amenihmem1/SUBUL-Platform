@@ -1,0 +1,299 @@
+{
+  "session_id": "session-1783004515297",
+  "interview_max_questions": 4,
+  "last_question_index": 4,
+  "turns": [
+    {
+      "time": "2026-07-02T15:03:38.197874",
+      "candidate_text": "je suis prete de commencer",
+      "phase": "INTRO",
+      "question_index": 1,
+      "say": "Bienvenue Ameni, pouvez-vous me parler de votre parcours en ing\u00e9nierie informatique ?",
+      "score_partial": {
+        "communication": 0,
+        "teamwork": 0,
+        "problem_solving": 0,
+        "motivation": 0
+      }
+    },
+    {
+      "time": "2026-07-02T15:04:32.088127",
+      "candidate_text": "Bonjour, merci pour cette opportunit\u00e9. Merci de me recevoir aujourd'hui. Je m'appelle Emmanuel, je suis \u00e9tudiant en 5e ann\u00e9e d'ing\u00e9nieur au cours de mon parcours acad\u00e9mique et professeur.",
+      "phase": "BEHAVIOR",
+      "question_index": 2,
+      "say": "Pouvez-vous me donner un exemple concret o\u00f9 vous avez rencontr\u00e9 une difficult\u00e9 lors de l'ajout du module de quiz interactif bas\u00e9 sur l'IA pour la g\u00e9n\u00e9ration et la correction ?",
+      "score_partial": {
+        "communication": 0,
+        "teamwork": 0,
+        "problem_solving": 0,
+        "motivation": 0
+      }
+    },
+    {
+      "time": "2026-07-02T15:05:38.792415",
+      "candidate_text": "Lors de d\u00e9veloppement de cette projet, nous avons confront\u00e9 un d\u00e9saccord avec l'un de ses fonctionnalit\u00e9s. Pour g\u00e9rer ces d\u00e9saccords, nous avons un petit train ou chacun entre nous son point de vue avec des arguments bien explicatifs. Nous avons utilis\u00e9 des outils du coactif ou quelqu'un qui nous explique bien son point de vue. Nous allons faire le coactif ou quelqu'un d'entre nous parle, les autres activ\u00e9s et et coactivement, nous avons partag\u00e9 les id\u00e9es. C'est gr\u00e2ce \u00e0 cette communication et cette collaboration que nous avons atteint notre objectif.",
+      "phase": "SOFT",
+      "question_index": 4,
+      "say": "Comment avez-vous g\u00e9r\u00e9 vos \u00e9motions lors de ce d\u00e9saccord avec votre \u00e9quipe ?",
+      "score_partial": {
+        "communication": 0,
+        "teamwork": 0,
+        "problem_solving": 0,
+        "motivation": 0
+      }
+    },
+    {
+      "time": "2026-07-02T15:06:48.747764",
+      "candidate_text": "",
+      "phase": "FINAL",
+      "question_index": 4,
+      "say": "Merci pour vos reponses. L'entretien est maintenant termine. Je vais finaliser votre rapport .",
+      "score_partial": {
+        "communication": 0,
+        "teamwork": 0,
+        "problem_solving": 0,
+        "motivation": 0
+      }
+    }
+  ],
+  "final_report": {
+    "generated_by": "llm",
+    "report_schema_version": 3,
+    "score_total": 35,
+    "competencies": {
+      "communication": 2,
+      "teamwork": 3,
+      "problem_solving": 1,
+      "motivation": 1
+    },
+    "strengths": [
+      "Vous avez une solide exp\u00e9rience en d\u00e9veloppement fullstack.",
+      "Vous d\u00e9montrez une bonne capacit\u00e9 \u00e0 collaborer en \u00e9quipe.",
+      "Votre parcours acad\u00e9mique est coh\u00e9rent et pertinent."
+    ],
+    "improvement_points": [
+      "Travaillez \u00e0 mieux structurer vos r\u00e9ponses orales.",
+      "Renforcez votre motivation pour maintenir l'engagement.",
+      "D\u00e9veloppez vos comp\u00e9tences en r\u00e9solution de probl\u00e8mes."
+    ],
+    "dimension_signals": {
+      "communication": "R\u00e9ponses parfois peu structur\u00e9es et claires.",
+      "teamwork": "Capacit\u00e9 \u00e0 g\u00e9rer les d\u00e9saccords en \u00e9quipe.",
+      "problem_solving": "Difficult\u00e9s \u00e0 proposer des solutions efficaces.",
+      "motivation": "Manque d'enthousiasme perceptible dans les r\u00e9ponses."
+    },
+    "dimension_actions": {
+      "communication": "Travaillez la clart\u00e9 et la structure de vos discours.",
+      "teamwork": "Continuez \u00e0 pratiquer l'\u00e9coute active en groupe.",
+      "problem_solving": "Entra\u00eenez-vous \u00e0 analyser et r\u00e9soudre des cas complexes.",
+      "motivation": "Fixez-vous des objectifs personnels motivants."
+    },
+    "risks": [],
+    "visual_signals": [
+      "L'analyse visuelle reste limitee car trop peu d'images ont ete capturees."
+    ],
+    "visual_flags": [
+      "analyse_visuelle_insuffisante"
+    ],
+    "visual_metrics": {
+      "sample_count": 0,
+      "face_detected_pct": 0,
+      "centered_pct": 0,
+      "looking_forward_pct": 0,
+      "multiple_faces_pct": 0,
+      "stable_posture_pct": 0,
+      "smile_pct": 0,
+      "neutral_pct": 0,
+      "engaged_pct": 0,
+      "smile_count": 0,
+      "dominant_expression": "",
+      "dominant_posture": "",
+      "visual_enthusiasm_pct": 0,
+      "visual_enthusiasm_bucket": "bas",
+      "object_sample_count": 0,
+      "object_counts": {},
+      "detected_objects": [],
+      "detected_object_total": 0,
+      "model_emotion_breakdown": {},
+      "dominant_emotion": "",
+      "dominant_emotion_pct": 0,
+      "model_emotion_breakdown_available": false,
+      "emotion_breakdown": {},
+      "emotion_breakdown_available": false,
+      "raw_emotion_breakdown": {},
+      "raw_emotion_breakdown_available": false,
+      "provider_metrics": {},
+      "custom": {
+        "dominant_label": "",
+        "neutral_pct": 0,
+        "engaged_pct": 0,
+        "tension_pct": 0,
+        "samples": 0
+      },
+      "confidence_note": "Confiance faible : trop peu d'echantillons visuels ont ete captures."
+    },
+    "confidence_note": "Confiance faible : trop peu d'echantillons visuels ont ete captures.",
+    "audio_signals": [
+      "Le debit de parole a paru mesure, autour de 104.0 mots par minute.",
+      "Les pauses et silences etaient perceptibles sur plusieurs reponses.",
+      "Les marqueurs d'hesitation verbale sont restes occasionnels a moderes (0 fillers detectes).",
+      "Le pitch moyen est reste autour de 208.1 Hz."
+    ],
+    "audio_flags": [
+      "debit_mesure",
+      "pauses_marquees",
+      "hesitations_verbales"
+    ],
+    "audio_metrics": {
+      "utterance_count": 3,
+      "total_duration_seconds": 81.9,
+      "avg_utterance_duration_seconds": 27.3,
+      "speech_rate_wpm_avg": 104.0,
+      "volume_score_avg": 43.7,
+      "silence_pct_avg": 52.0,
+      "pause_count_avg": 8.3,
+      "pause_rate_per_min_avg": 18.2,
+      "pitch_hz_avg": 208.1,
+      "pitch_variation_hz_avg": 42.4,
+      "filler_count_total": 0,
+      "filler_density_pct": 0.0,
+      "dominant_energy": "steady",
+      "dominant_pace": "steady",
+      "dominant_hesitation": "noticeable",
+      "confidence_note": "Confiance moyenne : les observations vocales reposent sur la capture navigateur et des metriques derivees de la transcription."
+    },
+    "audio_confidence_note": "Confiance moyenne : les observations vocales reposent sur la capture navigateur et des metriques derivees de la transcription.",
+    "proctoring_events": [
+      {
+        "time": "2026-07-02T15:03:45.194570+00:00",
+        "type": "blur",
+        "reason": "Perte de focus",
+        "message": "Alerte surveillance: la fenetre de l'entretien a perdu le focus.",
+        "details": {
+          "focused": false
+        }
+      },
+      {
+        "time": "2026-07-02T15:03:52.178508+00:00",
+        "type": "blur",
+        "reason": "Perte de focus",
+        "message": "Alerte surveillance: la fenetre de l'entretien a perdu le focus.",
+        "details": {
+          "focused": false
+        }
+      }
+    ],
+    "proctoring_alerts_count": 2,
+    "recommendations": [],
+    "advice": [
+      "Exprimez clairement vos id\u00e9es lors des \u00e9changes.",
+      "Impliquez-vous davantage dans les projets pour motiver.",
+      "Pratiquez des exercices de r\u00e9solution de probl\u00e8mes techniques."
+    ],
+    "summary": "Ameni montre un bon parcours acad\u00e9mique et une exp\u00e9rience pratique en d\u00e9veloppement fullstack. Sa capacit\u00e9 \u00e0 travailler en \u00e9quipe est notable malgr\u00e9 quelques difficult\u00e9s en r\u00e9solution de probl\u00e8mes. La motivation semble faible, n\u00e9cessitant un accompagnement pour renforcer son engagement. La communication peut \u00eatre am\u00e9lior\u00e9e pour mieux exprimer ses id\u00e9es. Un suivi cibl\u00e9 pourrait optimiser ses comp\u00e9tences techniques et relationnelles."
+  },
+  "cv_profile": {
+    "candidate_name": "Ameni HMEM",
+    "name": "Ameni HMEM",
+    "headline": "\u00c9tudiante en Ing\u00e9nierie Informatique",
+    "email": "ameni.hmem@esprim.tn",
+    "phone": "+21623405359",
+    "linkedin": "",
+    "github": "",
+    "top_skills": [
+      "api",
+      "mongodb",
+      "angular",
+      "jenkins",
+      "mysql",
+      "postgresql",
+      "rest",
+      "spring",
+      "spring boot",
+      "agile"
+    ],
+    "experiences": [
+      "D\u00e9veloppeur FullStack",
+      "D\u00e9veloppeur de Base de Donn\u00e9es"
+    ],
+    "projects": [
+      "D\u00e9veloppement d\u2019une plateforme pour jeunes dipl\u00f4m\u00e9s.",
+      "Dashboard interactif Streamlit + API REST pour visualisation et exploitation des r\u00e9sultats",
+      "PIDEV - P rojet d\u2019integration de developpement -Plateforme d'\u00c9ducation en Ligne",
+      "D\u00e9veloppement d\u2019une plateforme d\u2019apprentissage en ligne pour la gestion des cours, \u00e9valuations et ressources.",
+      "Ajout d\u2019un module de quiz interactif bas\u00e9 sur l\u2019IA pour la g\u00e9n\u00e9ration et la correction intelligentes des questions.",
+      "Conception d\u2019une interface web et mobile fluide, r\u00e9active et accessible pour enseignants et apprenants.",
+      "D\u00e9veloppement de l'application mobile CookMate pour g\u00e9rer, consulter et supprimer les recettes favorites, avec possibilit\u00e9 de filtrer les recettes par cat\u00e9gorie.",
+      "mis en place un chatbot interactif intelligent pour assister les utilisateurs et leur fournir des recommandations de recettes personnalis\u00e9es."
+    ],
+    "confidence": {
+      "name": 0.95,
+      "headline": 0.6,
+      "email": 0.7,
+      "phone": 0.85,
+      "linkedin": 0.0,
+      "github": 0.0,
+      "top_skills": 1.0,
+      "experiences": 1.0,
+      "projects": 1.0,
+      "text_quality": 1.0
+    },
+    "overall_confidence": 0.806,
+    "text_preview": "Ameni HMEM\n\u00c9tudiante en ing\u00e9nierie informatique - D\u00e9veloppement web et mobile\nLinkedin ameni.hmem@esprim.tn +216 23 405 359\n\u00c0 PROPOS\nAnim\u00e9e par un vif enthousiasme pour la technologie, j\u2019ai d\u00e9velopp\u00e9 mes comp\u00e9tences \u00e0 travers un parcours diversifi\u00e9 m\u00ealant \u00e9tudes, exp\u00e9riences\nprofessionnelles et engagements associatifs.\nActuellement \u00e0 la recherche d\u2019un stage de fin d\u2019\u00e9tudes, je souhaite mettre en pratique mes comp\u00e9tences, contribuer \u00e0 des projets innovants et poursuivre mon\nappr entissage au sein d\u2019une \u00e9quipe dynamique.\nCOMP\u00c9TENCES\nLangages de programmation: Frameworks et Biblioth\u00e9ques: D\u00e9velop...",
+    "source_filename": "cvAmeniHMEM.pdf"
+  },
+  "cv_uploaded": true,
+  "response_language": "fr",
+  "visual_observations": {},
+  "audio_observations": {
+    "utterance_count": 3,
+    "total_duration_seconds": 81.92,
+    "total_word_count": 150,
+    "total_filler_count": 0,
+    "speech_rate_sum": 312.1,
+    "volume_sum": 131.0,
+    "silence_ratio_sum": 1.559,
+    "pause_count_sum": 25,
+    "pitch_sum": 624.2,
+    "pitch_sample_count": 3,
+    "pitch_variation_sum": 127.3,
+    "energy_labels": {
+      "limited": 1.0,
+      "steady": 2.0
+    },
+    "pace_labels": {
+      "measured": 1.0,
+      "steady": 2.0
+    },
+    "hesitation_labels": {
+      "noticeable": 3.0
+    }
+  },
+  "proctoring_events": [
+    {
+      "time": "2026-07-02T15:03:45.194570+00:00",
+      "type": "blur",
+      "reason": "Perte de focus",
+      "message": "Alerte surveillance: la fenetre de l'entretien a perdu le focus.",
+      "details": {
+        "focused": false
+      }
+    },
+    {
+      "time": "2026-07-02T15:03:52.178508+00:00",
+      "type": "blur",
+      "reason": "Perte de focus",
+      "message": "Alerte surveillance: la fenetre de l'entretien a perdu le focus.",
+      "details": {
+        "focused": false
+      }
+    }
+  ],
+  "interview_status": "finalized",
+  "finalized_at": "2026-07-02T15:06:48.747764",
+  "finalized_by": "user",
+  "preferred_input_mode": "mixed",
+  "cached_insights": {},
+  "updated_at": "2026-07-02T15:06:48.759658Z",
+  "schema_version": 2
+}

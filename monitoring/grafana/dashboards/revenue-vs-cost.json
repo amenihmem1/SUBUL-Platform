@@ -1,0 +1,195 @@
+{
+  "title": "Subul — Revenue vs AI Cost",
+  "uid": "subul-revenue",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "5m",
+  "time": { "from": "now-30d", "to": "now" },
+  "tags": ["subul", "revenue", "cost"],
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Revenue (30d)",
+      "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "sum(increase(stripe_revenue_usd_total[30d]))", "legendFormat": "" }],
+      "options": { "colorMode": "background", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "decimals": 2,
+          "color": { "fixedColor": "green", "mode": "fixed" }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "AI Spend (30d)",
+      "gridPos": { "x": 4, "y": 0, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(increase(azure_openai_cost_usd_total[30d])) + sum(increase(deepgram_cost_usd_total[30d])) + sum(increase(cartesia_cost_usd_total[30d])) + sum(increase(azure_search_cost_usd_total[30d]))",
+          "legendFormat": ""
+        }
+      ],
+      "options": { "colorMode": "background", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "decimals": 2,
+          "color": { "fixedColor": "red", "mode": "fixed" }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "AI Cost % of Revenue",
+      "gridPos": { "x": 8, "y": 0, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "(sum(increase(azure_openai_cost_usd_total[30d])) + sum(increase(deepgram_cost_usd_total[30d])) + sum(increase(cartesia_cost_usd_total[30d])) + sum(increase(azure_search_cost_usd_total[30d]))) / sum(increase(stripe_revenue_usd_total[30d])) * 100",
+          "legendFormat": ""
+        }
+      ],
+      "options": { "colorMode": "background", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "decimals": 1,
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 20 }, { "color": "red", "value": 40 }] },
+          "color": { "mode": "thresholds" }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Payments (30d) — Succeeded",
+      "gridPos": { "x": 12, "y": 0, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "sum(increase(stripe_payment_intents_total{status=\"succeeded\"}[30d]))", "legendFormat": "" }],
+      "options": { "colorMode": "value", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": { "defaults": { "unit": "short", "decimals": 0, "color": { "mode": "palette-classic" } } }
+    },
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "Payments (30d) — Failed",
+      "gridPos": { "x": 16, "y": 0, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "sum(increase(stripe_payment_intents_total{status=\"failed\"}[30d]))", "legendFormat": "" }],
+      "options": { "colorMode": "background", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 1 }, { "color": "red", "value": 5 }] },
+          "color": { "mode": "thresholds" }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": "stat",
+      "title": "Revenue per AI Dollar",
+      "gridPos": { "x": 20, "y": 0, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(increase(stripe_revenue_usd_total[30d])) / (sum(increase(azure_openai_cost_usd_total[30d])) + sum(increase(deepgram_cost_usd_total[30d])) + sum(increase(cartesia_cost_usd_total[30d])) + sum(increase(azure_search_cost_usd_total[30d])))",
+          "legendFormat": ""
+        }
+      ],
+      "options": { "colorMode": "background", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "decimals": 2,
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "yellow", "value": 5 }, { "color": "green", "value": 10 }] },
+          "color": { "mode": "thresholds" }
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": "timeseries",
+      "title": "Revenue vs AI Cost (daily)",
+      "gridPos": { "x": 0, "y": 4, "w": 24, "h": 10 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(increase(stripe_revenue_usd_total[1d]))",
+          "legendFormat": "Revenue"
+        },
+        {
+          "expr": "sum(increase(azure_openai_cost_usd_total[1d])) + sum(increase(deepgram_cost_usd_total[1d])) + sum(increase(cartesia_cost_usd_total[1d])) + sum(increase(azure_search_cost_usd_total[1d]))",
+          "legendFormat": "AI Cost"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "currencyUSD", "custom": { "lineWidth": 2, "fillOpacity": 10 } },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "Revenue" }, "properties": [{ "id": "color", "value": { "fixedColor": "green", "mode": "fixed" } }] },
+          { "matcher": { "id": "byName", "options": "AI Cost" }, "properties": [{ "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }] }
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "type": "timeseries",
+      "title": "Revenue by Plan",
+      "gridPos": { "x": 0, "y": 14, "w": 12, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum by(plan_slug) (rate(stripe_revenue_usd_total[1h])) * 3600",
+          "legendFormat": "{{plan_slug}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "currencyUSD", "custom": { "lineWidth": 2, "fillOpacity": 8, "stacking": { "mode": "normal" } } }
+      }
+    },
+    {
+      "id": 12,
+      "type": "timeseries",
+      "title": "AI Spend Breakdown by Provider (daily)",
+      "gridPos": { "x": 12, "y": 14, "w": 12, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "sum(increase(azure_openai_cost_usd_total[1d]))", "legendFormat": "OpenAI" },
+        { "expr": "sum(increase(deepgram_cost_usd_total[1d]))", "legendFormat": "Deepgram" },
+        { "expr": "sum(increase(cartesia_cost_usd_total[1d]))", "legendFormat": "Cartesia" },
+        { "expr": "sum(increase(azure_search_cost_usd_total[1d]))", "legendFormat": "Azure Search" }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "currencyUSD", "custom": { "lineWidth": 2, "fillOpacity": 10, "stacking": { "mode": "normal" } } }
+      }
+    },
+    {
+      "id": 13,
+      "type": "timeseries",
+      "title": "AI Cost % of Revenue (rolling)",
+      "gridPos": { "x": 0, "y": 22, "w": 24, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "(sum(increase(azure_openai_cost_usd_total[7d])) + sum(increase(deepgram_cost_usd_total[7d])) + sum(increase(cartesia_cost_usd_total[7d])) + sum(increase(azure_search_cost_usd_total[7d]))) / sum(increase(stripe_revenue_usd_total[7d])) * 100",
+          "legendFormat": "7-day rolling"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "custom": { "lineWidth": 2, "fillOpacity": 15 },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 20 }, { "color": "red", "value": 40 }] }
+        }
+      }
+    }
+  ]
+}

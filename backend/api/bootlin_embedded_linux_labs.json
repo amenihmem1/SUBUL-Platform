@@ -1,0 +1,329 @@
+{
+  "id": "bootlin-emb-linux-labs",
+  "course_id": "bootlin-emb-linux",
+  "title": "Labs - Embedded Linux System Development",
+  "provider": "Bootlin",
+  "description": "Ensemble des travaux pratiques (labs) de la formation Bootlin Embedded Linux System Development. Les labs sont réalisés sur des cartes embarquées ARM (STM32MP1, BeagleBone Black, BeaglePlay ou NXP i.MX93) et couvrent l'ensemble du processus de développement d'un système Linux embarqué, de la toolchain au débogage d'applications.",
+  "total_labs": 10,
+  "labs": [
+    {
+      "id": "emb-lab-01",
+      "module_id": "emb-m1",
+      "order": 1,
+      "title": "Construction d'une toolchain de cross-compilation",
+      "type": "pratique",
+      "tool": "Crosstool-NG / Terminal Linux",
+      "duration_min": 60,
+      "difficulty": "intermediaire",
+      "description": "Ce lab guide les participants dans la construction d'une toolchain de cross-compilation personnalisée en utilisant Crosstool-NG. Les participants configurent, compilent et explorent les composants de la toolchain générée.",
+      "objectives": [
+        "Installer et configurer Crosstool-NG",
+        "Construire une toolchain de cross-compilation complète pour ARM",
+        "Explorer et comprendre les composants de la toolchain générée"
+      ],
+      "steps": [
+        "Installer les dépendances nécessaires sur la machine hôte Ubuntu : sudo apt install build-essential git autoconf bison flex texinfo help2man gawk libtool-bin libncurses5-dev.",
+        "Cloner le dépôt Crosstool-NG depuis GitHub : git clone https://github.com/crosstool-ng/crosstool-ng.",
+        "Compiler et installer Crosstool-NG : ./bootstrap && ./configure --enable-local && make.",
+        "Lister les configurations disponibles avec ./ct-ng list-samples et sélectionner une configuration ARM (par exemple arm-cortexa9_neon-linux-gnueabihf).",
+        "Charger la configuration : ./ct-ng arm-cortexa9_neon-linux-gnueabihf.",
+        "Personnaliser la configuration avec ./ct-ng menuconfig : choisir la version de GCC, la bibliothèque C (glibc ou musl), les options de débogage.",
+        "Lancer la construction de la toolchain : ./ct-ng build (cette étape prend 15 à 30 minutes).",
+        "Explorer le répertoire de sortie ~/x-tools/ : identifier le compilateur (arm-cortexa9_neon-linux-gnueabihf-gcc), les binutils, les bibliothèques et les en-têtes.",
+        "Tester la toolchain en compilant un programme 'Hello World' en C et en vérifiant le binaire avec la commande 'file'.",
+        "Vérifier que le binaire est bien compilé pour ARM et non pour x86."
+      ],
+      "expected_output": "Une toolchain de cross-compilation fonctionnelle installée dans ~/x-tools/, capable de compiler des programmes C pour l'architecture ARM cible."
+    },
+    {
+      "id": "emb-lab-02",
+      "module_id": "emb-m1",
+      "order": 2,
+      "title": "Configuration et utilisation du bootloader U-Boot",
+      "type": "pratique",
+      "tool": "Terminal Linux / Carte embarquée ARM / Communication série",
+      "duration_min": 90,
+      "difficulty": "intermediaire",
+      "description": "Ce lab couvre la configuration, la compilation et l'installation du bootloader U-Boot sur la carte embarquée cible. Les participants configurent la communication série, explorent l'environnement U-Boot et mettent en place la communication TFTP.",
+      "objectives": [
+        "Configurer la communication série avec la carte embarquée",
+        "Compiler et installer U-Boot pour la plateforme cible",
+        "Maîtriser les commandes et l'environnement U-Boot",
+        "Configurer la communication TFTP pour le transfert de fichiers"
+      ],
+      "steps": [
+        "Connecter la carte embarquée à la machine hôte via un câble USB-série ou le débogueur intégré (ST-LINK pour STM32MP1).",
+        "Installer et configurer un émulateur de terminal série : sudo apt install picocom && picocom -b 115200 /dev/ttyACM0.",
+        "Cloner le code source de U-Boot : git clone https://source.denx.de/u-boot/u-boot.git.",
+        "Configurer U-Boot pour la plateforme cible : make <board>_defconfig (par exemple stm32mp15_defconfig ou am335x_evm_defconfig).",
+        "Pour STM32MP1 : compiler et installer ARM Trusted Firmware-A (TF-A) avant U-Boot.",
+        "Cross-compiler U-Boot : make CROSS_COMPILE=arm-linux-gnueabihf-.",
+        "Installer U-Boot sur la carte SD : copier les fichiers SPL et u-boot.img sur les partitions appropriées.",
+        "Démarrer la carte et interagir avec le shell U-Boot via la console série.",
+        "Explorer les commandes U-Boot : printenv, setenv, saveenv, help.",
+        "Configurer les variables d'environnement pour le réseau : setenv ipaddr 192.168.0.100, setenv serverip 192.168.0.1.",
+        "Installer et configurer un serveur TFTP sur la machine hôte : sudo apt install tftpd-hpa.",
+        "Tester le transfert de fichiers via TFTP : tftp 0x81000000 test.txt."
+      ],
+      "expected_output": "U-Boot compilé et installé sur la carte embarquée, avec une communication série fonctionnelle, un environnement U-Boot configuré et une communication TFTP opérationnelle."
+    },
+    {
+      "id": "emb-lab-03",
+      "module_id": "emb-m2",
+      "order": 3,
+      "title": "Récupération des sources du noyau Linux",
+      "type": "pratique",
+      "tool": "Git / Terminal Linux",
+      "duration_min": 30,
+      "difficulty": "facile",
+      "description": "Ce lab enseigne comment récupérer le code source du noyau Linux depuis le dépôt officiel, naviguer entre les versions et accéder aux versions stables.",
+      "objectives": [
+        "Cloner l'arbre principal du noyau Linux avec Git",
+        "Naviguer entre les différentes versions et branches",
+        "Accéder aux versions stables et LTS du noyau"
+      ],
+      "steps": [
+        "Cloner le dépôt principal du noyau Linux (cette opération peut prendre du temps) : git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git.",
+        "Explorer la structure du dépôt : ls pour voir les répertoires principaux (arch/, drivers/, fs/, kernel/, etc.).",
+        "Lister les tags disponibles pour identifier les versions : git tag | grep v6.",
+        "Basculer vers une version spécifique : git checkout v6.6.",
+        "Ajouter le dépôt des versions stables comme remote : git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git.",
+        "Récupérer les branches stables : git fetch stable.",
+        "Basculer vers une version stable spécifique : git checkout stable/linux-6.6.y.",
+        "Consulter le fichier Makefile à la racine pour vérifier la version du noyau.",
+        "Explorer le répertoire arch/arm/ (ou arch/arm64/) pour voir les fichiers Device Tree disponibles pour votre plateforme."
+      ],
+      "expected_output": "Un clone local du noyau Linux avec accès aux versions mainline et stables, et une compréhension de la structure du code source."
+    },
+    {
+      "id": "emb-lab-04",
+      "module_id": "emb-m2",
+      "order": 4,
+      "title": "Cross-compilation et démarrage du noyau Linux",
+      "type": "pratique",
+      "tool": "Terminal Linux / Carte embarquée ARM / U-Boot / TFTP",
+      "duration_min": 90,
+      "difficulty": "intermediaire",
+      "description": "Ce lab couvre la configuration, la cross-compilation et le démarrage du noyau Linux sur la carte embarquée cible. Les participants utilisent TFTP pour charger le noyau via U-Boot et automatisent le processus de démarrage.",
+      "objectives": [
+        "Configurer le noyau Linux pour la plateforme cible",
+        "Cross-compiler le noyau Linux et le Device Tree",
+        "Charger et démarrer le noyau via U-Boot et TFTP",
+        "Automatiser le démarrage avec des scripts U-Boot"
+      ],
+      "steps": [
+        "Se placer dans le répertoire du code source du noyau Linux.",
+        "Charger la configuration par défaut pour la plateforme cible : make ARCH=arm multi_v7_defconfig (ou make ARCH=arm64 defconfig pour ARM64).",
+        "Personnaliser la configuration si nécessaire : make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig.",
+        "Cross-compiler le noyau : make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage.",
+        "Compiler les Device Trees : make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- dtbs.",
+        "Copier l'image du noyau (arch/arm/boot/zImage) et le fichier DTB dans le répertoire TFTP.",
+        "Dans U-Boot, charger le noyau via TFTP : tftp 0x81000000 zImage.",
+        "Charger le Device Tree : tftp 0x82000000 <board>.dtb.",
+        "Démarrer le noyau : bootz 0x81000000 - 0x82000000.",
+        "Observer les messages de démarrage du noyau (kernel log) sur la console série.",
+        "Le noyau va paniquer (kernel panic) car il n'y a pas encore de root filesystem – c'est normal à cette étape.",
+        "Créer un script U-Boot pour automatiser le chargement et le démarrage : setenv bootcmd 'tftp 0x81000000 zImage; tftp 0x82000000 board.dtb; bootz 0x81000000 - 0x82000000' && saveenv."
+      ],
+      "expected_output": "Un noyau Linux cross-compilé qui démarre avec succès sur la carte embarquée via TFTP et U-Boot, avec un processus de démarrage automatisé."
+    },
+    {
+      "id": "emb-lab-05",
+      "module_id": "emb-m2",
+      "order": 5,
+      "title": "Construction d'un root filesystem minimal avec BusyBox",
+      "type": "pratique",
+      "tool": "Terminal Linux / BusyBox / NFS / Carte embarquée ARM",
+      "duration_min": 120,
+      "difficulty": "intermediaire",
+      "description": "Ce lab guide les participants dans la création complète d'un système de fichiers racine minimal depuis zéro en utilisant BusyBox. Le filesystem est monté via NFS pour faciliter le développement, et les participants configurent le système d'initialisation et un serveur HTTP.",
+      "objectives": [
+        "Créer un root filesystem complet depuis zéro",
+        "Configurer et cross-compiler BusyBox",
+        "Configurer le démarrage via NFS pour le développement",
+        "Mettre en place le système d'initialisation BusyBox init",
+        "Déployer un serveur HTTP BusyBox et les bibliothèques partagées"
+      ],
+      "steps": [
+        "Créer la structure de répertoires du root filesystem : mkdir -p rootfs/{bin,sbin,etc,proc,sys,dev,tmp,var,usr/{bin,sbin,lib},lib}.",
+        "Télécharger et extraire le code source de BusyBox : wget https://busybox.net/downloads/busybox-1.36.1.tar.bz2 && tar xf busybox-1.36.1.tar.bz2.",
+        "Configurer BusyBox : make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig. Activer l'installation statique ou dynamique selon le besoin.",
+        "Cross-compiler BusyBox : make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-.",
+        "Installer BusyBox dans le root filesystem : make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- install CONFIG_PREFIX=/path/to/rootfs.",
+        "Configurer le serveur NFS sur la machine hôte : installer nfs-kernel-server, exporter le répertoire rootfs dans /etc/exports.",
+        "Configurer U-Boot pour démarrer le noyau avec le root filesystem via NFS : setenv bootargs 'root=/dev/nfs nfsroot=192.168.0.1:/path/to/rootfs,nfsvers=3 ip=192.168.0.100 rw'.",
+        "Démarrer le système et vérifier que le shell BusyBox est accessible.",
+        "Créer le fichier /etc/inittab pour configurer BusyBox init : définir la console, les scripts de démarrage et d'arrêt.",
+        "Créer le script /etc/init.d/rcS pour monter /proc, /sys et /dev/pts au démarrage.",
+        "Copier les bibliothèques partagées de la toolchain dans rootfs/lib/ : cp ~/x-tools/.../sysroot/lib/*.so* rootfs/lib/.",
+        "Activer et tester le serveur HTTP de BusyBox : créer une page index.html dans /var/www/ et démarrer httpd.",
+        "Accéder à la page web depuis le navigateur de la machine hôte pour vérifier le fonctionnement.",
+        "Compiler un programme C simple ('Hello World') avec la toolchain et l'exécuter sur la cible."
+      ],
+      "expected_output": "Un système Linux embarqué minimal fonctionnel avec BusyBox, démarrant via NFS, avec un serveur HTTP accessible depuis la machine hôte et la capacité d'exécuter des programmes compilés."
+    },
+    {
+      "id": "emb-lab-06",
+      "module_id": "emb-m3",
+      "order": 6,
+      "title": "Accès aux périphériques matériels et Device Tree",
+      "type": "pratique",
+      "tool": "Terminal Linux / Carte embarquée ARM / Capteurs I2C",
+      "duration_min": 90,
+      "difficulty": "avance",
+      "description": "Ce lab explore l'accès aux périphériques matériels sur la carte embarquée. Les participants explorent /dev et /sys, contrôlent des GPIO et des LEDs, modifient le Device Tree pour configurer le pin multiplexing et ajoutent le support de périphériques I2C et USB.",
+      "objectives": [
+        "Explorer les interfaces matérielles via /dev et /sys",
+        "Contrôler des GPIO et des LEDs depuis l'espace utilisateur",
+        "Modifier le Device Tree pour le pin multiplexing et l'ajout de périphériques",
+        "Charger des modules noyau pour le support de périphériques USB et I2C"
+      ],
+      "steps": [
+        "Explorer le contenu de /dev sur la cible : ls -la /dev/ pour identifier les fichiers de périphériques disponibles.",
+        "Explorer /sys/class/ pour voir les classes de périphériques : gpio, leds, net, input, etc.",
+        "Contrôler un GPIO depuis l'espace utilisateur via sysfs : echo <num> > /sys/class/gpio/export, echo out > /sys/class/gpio/gpio<num>/direction, echo 1 > /sys/class/gpio/gpio<num>/value.",
+        "Contrôler une LED via /sys/class/leds/ : echo 1 > /sys/class/leds/<led>/brightness.",
+        "Modifier le fichier Device Tree source (.dts) pour configurer le pin multiplexing : définir les broches pour I2C, SPI ou GPIO.",
+        "Ajouter un nœud Device Tree pour décrire un joystick connecté en I2C (par exemple un nunchuk Wii).",
+        "Recompiler le Device Tree : make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- dtbs.",
+        "Recharger le nouveau DTB via TFTP et redémarrer.",
+        "Connecter une carte son USB et charger les modules noyau nécessaires : modprobe snd-usb-audio.",
+        "Vérifier la détection de la carte son : cat /proc/asound/cards.",
+        "Compiler et charger un module noyau out-of-tree pour le joystick I2C.",
+        "Tester le joystick avec evtest ou en lisant /dev/input/eventX."
+      ],
+      "expected_output": "Des périphériques matériels (GPIO, LEDs, carte son USB, joystick I2C) fonctionnels et contrôlables depuis l'espace utilisateur, avec un Device Tree modifié."
+    },
+    {
+      "id": "emb-lab-07",
+      "module_id": "emb-m3",
+      "order": 7,
+      "title": "Systèmes de fichiers bloc",
+      "type": "pratique",
+      "tool": "Terminal Linux / Carte SD / Carte embarquée ARM",
+      "duration_min": 60,
+      "difficulty": "intermediaire",
+      "description": "Ce lab couvre le partitionnement d'une carte SD et la mise en place d'une architecture de systèmes de fichiers combinant SquashFS (lecture seule), ext4 (données) et tmpfs (temporaire) pour un système embarqué.",
+      "objectives": [
+        "Partitionner une carte SD pour un système embarqué",
+        "Créer et utiliser différents types de systèmes de fichiers",
+        "Configurer un système de démarrage avec un mix de systèmes de fichiers"
+      ],
+      "steps": [
+        "Insérer la carte SD dans la machine hôte et identifier le périphérique : lsblk.",
+        "Partitionner la carte SD avec fdisk ou parted : créer une partition de boot (FAT32), une partition root (SquashFS) et une partition de données (ext4).",
+        "Créer l'image SquashFS du root filesystem : mksquashfs rootfs/ rootfs.sqsh -comp xz.",
+        "Écrire l'image SquashFS sur la partition root : dd if=rootfs.sqsh of=/dev/sdX2.",
+        "Formater la partition de données en ext4 : mkfs.ext4 /dev/sdX3.",
+        "Modifier la configuration du noyau pour activer le support SquashFS : make menuconfig, activer CONFIG_SQUASHFS.",
+        "Recompiler le noyau avec le support SquashFS.",
+        "Configurer U-Boot pour démarrer depuis la carte SD avec le root filesystem SquashFS : setenv bootargs 'root=/dev/mmcblk0p2 rootfstype=squashfs'.",
+        "Démarrer le système et vérifier que le root filesystem est monté en lecture seule.",
+        "Monter la partition ext4 pour les données persistantes : mount /dev/mmcblk0p3 /data.",
+        "Monter tmpfs pour les fichiers temporaires : mount -t tmpfs tmpfs /tmp.",
+        "Vérifier les points de montage avec df -h et mount."
+      ],
+      "expected_output": "Un système embarqué démarrant depuis une carte SD avec SquashFS en lecture seule pour le root filesystem, ext4 pour les données persistantes et tmpfs pour les fichiers temporaires."
+    },
+    {
+      "id": "emb-lab-08",
+      "module_id": "emb-m4",
+      "order": 8,
+      "title": "Cross-compilation d'applications et bibliothèques open source",
+      "type": "pratique",
+      "tool": "Terminal Linux / Toolchain de cross-compilation",
+      "duration_min": 90,
+      "difficulty": "intermediaire",
+      "description": "Ce lab enseigne la cross-compilation manuelle de plusieurs bibliothèques et applications open source pour la plateforme embarquée cible. Les participants apprennent à gérer les dépendances et à résoudre les problèmes courants de cross-compilation.",
+      "objectives": [
+        "Cross-compiler des bibliothèques open source (alsa-lib, libvorbis, etc.)",
+        "Gérer les dépendances entre bibliothèques",
+        "Résoudre les problèmes courants de cross-compilation",
+        "Tester les applications compilées sur la cible"
+      ],
+      "steps": [
+        "Créer un répertoire de staging pour les bibliothèques cross-compilées : mkdir -p staging/usr/{lib,include}.",
+        "Télécharger le code source d'alsa-lib : wget ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.2.10.tar.bz2.",
+        "Configurer alsa-lib pour la cross-compilation : ./configure --host=arm-linux-gnueabihf --prefix=/usr --with-configdir=/usr/share/alsa.",
+        "Compiler et installer dans le staging : make -j$(nproc) && make install DESTDIR=/path/to/staging.",
+        "Télécharger et cross-compiler libogg (dépendance de libvorbis) de la même manière.",
+        "Télécharger et cross-compiler libvorbis en spécifiant le chemin vers libogg : ./configure --host=arm-linux-gnueabihf --prefix=/usr PKG_CONFIG_PATH=/path/to/staging/usr/lib/pkgconfig.",
+        "Télécharger et cross-compiler alsa-utils en spécifiant les chemins vers alsa-lib.",
+        "Copier les bibliothèques et binaires compilés dans le root filesystem de la cible.",
+        "Sur la cible, tester la détection audio : aplay -l.",
+        "Tester la lecture audio avec speaker-test : speaker-test -t wav -c 2.",
+        "Documenter les problèmes rencontrés et les solutions appliquées."
+      ],
+      "expected_output": "Plusieurs bibliothèques et applications open source cross-compilées et fonctionnelles sur la cible embarquée, avec la capacité de jouer de l'audio."
+    },
+    {
+      "id": "emb-lab-09",
+      "module_id": "emb-m4",
+      "order": 9,
+      "title": "Construction d'un système complet avec Buildroot",
+      "type": "pratique",
+      "tool": "Buildroot / Terminal Linux / Carte embarquée ARM",
+      "duration_min": 90,
+      "difficulty": "intermediaire",
+      "description": "Ce lab utilise Buildroot pour reconstruire automatiquement un système Linux embarqué complet incluant un serveur de musique (MPD) et son client (mpc). Les participants apprennent à configurer Buildroot, à analyser les dépendances et à tester le système.",
+      "objectives": [
+        "Configurer Buildroot pour la plateforme cible",
+        "Sélectionner et intégrer des paquets logiciels (MPD, mpc)",
+        "Construire un système complet avec Buildroot",
+        "Analyser les dépendances entre paquets",
+        "Tester la lecture musicale locale et à distance"
+      ],
+      "steps": [
+        "Cloner le dépôt Buildroot : git clone https://github.com/buildroot/buildroot.git.",
+        "Charger la configuration par défaut pour la plateforme cible : make <board>_defconfig.",
+        "Ouvrir l'interface de configuration : make menuconfig.",
+        "Dans 'Target packages > Audio and video applications', activer mpd (Music Player Daemon) et mpc (client MPD).",
+        "Configurer les options de MPD : activer le support ALSA et le décodeur Vorbis.",
+        "Vérifier la configuration de la toolchain et du noyau dans Buildroot.",
+        "Lancer la construction : make -j$(nproc) (cette étape peut prendre 30 à 60 minutes).",
+        "Analyser les dépendances avec : make graph-depends (génère un graphe de dépendances en PDF).",
+        "Flasher l'image générée (output/images/sdcard.img) sur la carte SD : dd if=output/images/sdcard.img of=/dev/sdX bs=1M.",
+        "Démarrer le système et vérifier que MPD est en cours d'exécution : ps aux | grep mpd.",
+        "Copier un fichier audio sur la cible et le lire avec mpc : mpc add file.ogg && mpc play.",
+        "Depuis la machine hôte, installer un client MPD et se connecter au serveur MPD de la cible pour contrôler la lecture à distance.",
+        "Explorer le répertoire output/ de Buildroot pour comprendre la structure de sortie."
+      ],
+      "expected_output": "Un système Linux embarqué complet construit avec Buildroot, avec un serveur de musique MPD fonctionnel contrôlable localement et à distance."
+    },
+    {
+      "id": "emb-lab-10",
+      "module_id": "emb-m5",
+      "order": 10,
+      "title": "Développement et débogage d'une application embarquée",
+      "type": "pratique",
+      "tool": "GDB / IDE / Terminal Linux / Carte embarquée ARM",
+      "duration_min": 120,
+      "difficulty": "avance",
+      "description": "Ce lab final couvre le développement complet d'une application embarquée qui utilise un joystick I2C pour contrôler un lecteur audio, ainsi que le débogage à distance avec GDB et l'analyse de performance avec strace, ltrace et perf.",
+      "objectives": [
+        "Développer une application C qui interagit avec des périphériques matériels",
+        "Configurer un IDE pour le développement et le débogage à distance",
+        "Utiliser gdbserver pour le débogage à distance",
+        "Analyser les performances et diagnostiquer les problèmes avec strace, ltrace et perf"
+      ],
+      "steps": [
+        "Créer un projet C pour l'application de contrôle audio : créer les fichiers source (main.c, joystick.c, audio.c) et un fichier CMakeLists.txt.",
+        "Implémenter la lecture des événements du joystick I2C via /dev/input/eventX en utilisant l'API evdev.",
+        "Implémenter le contrôle du lecteur audio MPD via la bibliothèque libmpdclient : connexion, play, pause, volume, piste suivante/précédente.",
+        "Mapper les mouvements du joystick aux commandes audio : haut/bas pour le volume, gauche/droite pour changer de piste, bouton pour play/pause.",
+        "Cross-compiler l'application avec CMake : cmake -DCMAKE_TOOLCHAIN_FILE=toolchain.cmake .. && make.",
+        "Déployer l'application sur la cible via NFS ou scp.",
+        "Configurer un IDE (VS Code ou Eclipse) pour le développement à distance : installer les extensions Remote-SSH et C/C++.",
+        "Sur la cible, lancer gdbserver : gdbserver :2345 ./audio_controller.",
+        "Sur l'hôte, lancer GDB avec la toolchain : arm-linux-gnueabihf-gdb ./audio_controller, puis se connecter : target remote 192.168.0.100:2345.",
+        "Placer des points d'arrêt (breakpoints), exécuter pas à pas et inspecter les variables.",
+        "Utiliser strace pour tracer les appels système de l'application : strace -f ./audio_controller.",
+        "Utiliser ltrace pour tracer les appels aux bibliothèques partagées : ltrace ./audio_controller.",
+        "Utiliser perf pour profiler l'application : perf record ./audio_controller && perf report.",
+        "Identifier et corriger un bug intentionnel dans l'application en utilisant les outils de débogage.",
+        "Utiliser valgrind (si disponible sur la cible) pour vérifier les fuites mémoire : valgrind --leak-check=full ./audio_controller."
+      ],
+      "expected_output": "Une application embarquée fonctionnelle contrôlant un lecteur audio via un joystick I2C, avec une expérience complète de débogage à distance, de traçage et de profilage."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "interview-1783407447683-a9b9410e",
+    "candidateName": "ameni hme",
+    "candidateEmail": "amenihmem9@gmail.com",
+    "role": "",
+    "scheduledAt": "2026-07-07T13:00:00.000Z",
+    "durationMinutes": 45,
+    "status": "planned",
+    "createdAt": "2026-07-07T06:57:27.683Z",
+    "reminderMinutesBefore": 60,
+    "candidateCancelToken": "db4aa26a-e48e-4261-8476-523e823a548c",
+    "candidateCancelUrl": "",
+    "reminderSentAt": "",
+    "cancelledAt": ""
+  }
+]

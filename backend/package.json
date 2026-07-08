@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.990.0",
+    "@nestjs/axios": "^4.0.1",
+    "@nestjs/common": "^11.1.13",
+    "@nestjs/config": "^1.1.5",
+    "@nestjs/core": "^11.1.13",
+    "@nestjs/jwt": "^11.0.2",
+    "@nestjs/passport": "^11.0.5",
+    "jwks-rsa": "^3.2.2",
+    "passport": "^0.7.0",
+    "passport-auth0": "^1.4.5",
+    "passport-jwt": "^4.0.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "lodash": "4.18.1",
+    "path-to-regexp": "8.4.2",
+    "picomatch": "4.0.4"
+  }
+}

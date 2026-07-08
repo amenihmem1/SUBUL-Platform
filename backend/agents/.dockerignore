@@ -1,0 +1,38 @@
+# Nested repo and embedded frontend not needed in agent images
+JobSearch-SUBUL/.git
+JobSearch-SUBUL/frontend
+
+# Python
+__pycache__
+**/__pycache__
+**/.pytest_cache
+**/*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv
+venv
+*.egg-info
+.eggs
+
+# IDE / OS
+.git
+.gitignore
+.env
+.env.*
+*.md
+*.log
+.DS_Store
+
+# Tests and docs (not needed in runtime image)
+*test*
+*tests*
+*.rst
+docs
+
+# Reduce context size
+node_modules
+*.pdf
+*.zip
+data/

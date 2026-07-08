@@ -1,0 +1,1441 @@
+{
+  "platform": "CertifLearn",
+  "version": "1.0",
+  "last_updated": "2026-03-04",
+  "certifications": [
+    {
+      "id": "az-900",
+      "provider": "Microsoft Azure",
+      "exam_code": "AZ-900",
+      "title": "Azure Fundamentals",
+      "domain": "cloud",
+      "level": "debutant",
+      "badge_color": "#0078D4",
+      "description": "Certification d'entrée pour comprendre les bases du cloud Microsoft Azure.",
+      "estimated_hours": 20,
+      "modules": [
+        {
+          "id": "az900-m1",
+          "order": 1,
+          "title": "Qu'est-ce que le Cloud ?",
+          "duration_min": 30,
+          "objectives": [
+            "Comprendre le modèle cloud (IaaS, PaaS, SaaS)",
+            "Connaître les types de cloud (public, privé, hybride)",
+            "Identifier les avantages du cloud"
+          ],
+          "lessons": [
+            {
+              "id": "az900-m1-l1",
+              "title": "Introduction au Cloud Computing",
+              "content": "Le cloud computing permet d'accéder à des ressources informatiques (serveurs, stockage, bases de données) via internet, à la demande et selon l'utilisation réelle. Plutôt qu'acheter du matériel, vous louez des ressources chez un fournisseur comme Microsoft Azure.",
+              "key_points": [
+                "Payer uniquement ce que vous utilisez (modèle Pay-as-you-go)",
+                "Accès depuis n'importe où dans le monde",
+                "Mise à l'échelle facile selon les besoins"
+              ],
+              "analogy": "Comme l'électricité : vous ne construisez pas votre propre centrale, vous vous branchez au réseau et payez ce que vous consommez."
+            },
+            {
+              "id": "az900-m1-l2",
+              "title": "Les modèles de service",
+              "content": "Il existe 3 modèles principaux selon le niveau de gestion partagé entre vous et le fournisseur cloud.",
+              "key_points": [
+                "IaaS (Infrastructure as a Service) : vous gérez l'OS et les apps, Azure gère le matériel. Ex: Machines Virtuelles Azure.",
+                "PaaS (Platform as a Service) : vous gérez uniquement votre code, Azure gère tout le reste. Ex: Azure App Service.",
+                "SaaS (Software as a Service) : vous utilisez directement l'application. Ex: Microsoft 365, Outlook."
+              ],
+              "comparison_table": {
+                "headers": ["Composant", "IaaS", "PaaS", "SaaS"],
+                "rows": [
+                  ["Matériel physique", "Azure", "Azure", "Azure"],
+                  ["Système d'exploitation", "Vous", "Azure", "Azure"],
+                  ["Application", "Vous", "Vous", "Azure"],
+                  ["Données", "Vous", "Vous", "Vous"]
+                ]
+              }
+            },
+            {
+              "id": "az900-m1-l3",
+              "title": "Types de cloud",
+              "content": "Selon vos besoins de confidentialité et de coût, vous pouvez choisir différents types de déploiement cloud.",
+              "key_points": [
+                "Cloud Public : ressources partagées, gérées par Azure. Moins cher, plus flexible.",
+                "Cloud Privé : infrastructure dédiée uniquement à votre organisation. Plus sécurisé.",
+                "Cloud Hybride : combinaison des deux. Idéal pour les entreprises en transition."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "az900-m1-q1",
+              "question": "Une entreprise veut utiliser Microsoft 365 sans gérer aucun serveur. Quel modèle de service correspond ?",
+              "options": ["IaaS", "PaaS", "SaaS", "On-premise"],
+              "correct": "SaaS",
+              "explanation": "Microsoft 365 est une application prête à l'emploi, entièrement gérée par Microsoft. C'est la définition du SaaS."
+            },
+            {
+              "id": "az900-m1-q2",
+              "question": "Quel avantage principal du cloud permet de payer uniquement les ressources consommées ?",
+              "options": ["Haute disponibilité", "Modèle OpEx / Pay-as-you-go", "Réseau privé", "Sauvegarde automatique"],
+              "correct": "Modèle OpEx / Pay-as-you-go",
+              "explanation": "Le modèle Pay-as-you-go est l'un des avantages clés du cloud : vous payez à l'utilisation, sans investissement initial."
+            }
+          ]
+        },
+        {
+          "id": "az900-m2",
+          "order": 2,
+          "title": "Services principaux Azure",
+          "duration_min": 40,
+          "objectives": [
+            "Connaître les services de calcul Azure",
+            "Comprendre le stockage Azure",
+            "Découvrir les réseaux Azure"
+          ],
+          "lessons": [
+            {
+              "id": "az900-m2-l1",
+              "title": "Calcul : Machines Virtuelles et Conteneurs",
+              "content": "Azure propose plusieurs façons d'exécuter vos applications selon vos besoins de contrôle et de flexibilité.",
+              "key_points": [
+                "Azure Virtual Machines (VM) : serveurs virtuels configurables, contrôle total de l'OS.",
+                "Azure App Service : hébergement d'applications web sans gérer les serveurs.",
+                "Azure Kubernetes Service (AKS) : gestion et orchestration de conteneurs Docker à grande échelle.",
+                "Azure Functions : exécution de code à la demande (serverless), idéal pour les tâches ponctuelles."
+              ]
+            },
+            {
+              "id": "az900-m2-l2",
+              "title": "Stockage Azure",
+              "content": "Azure offre différents types de stockage adaptés à différents types de données.",
+              "key_points": [
+                "Blob Storage : pour les fichiers non structurés (images, vidéos, backups). Très économique.",
+                "Azure Files : partage de fichiers réseau accessible depuis n'importe où.",
+                "Azure Disk : disques attachés aux machines virtuelles (comme un disque dur externe).",
+                "Azure Queue Storage : file de messages pour la communication entre composants d'une app."
+              ]
+            },
+            {
+              "id": "az900-m2-l3",
+              "title": "Réseau Azure",
+              "content": "Azure fournit une infrastructure réseau pour connecter vos ressources de façon sécurisée.",
+              "key_points": [
+                "Virtual Network (VNet) : réseau privé isolé dans Azure pour vos ressources.",
+                "Azure Load Balancer : distribue le trafic entre plusieurs serveurs pour éviter les surcharges.",
+                "Azure VPN Gateway : connecte votre réseau local (on-premise) à Azure de manière sécurisée.",
+                "Azure CDN : distribue le contenu au plus près des utilisateurs finaux pour des chargements rapides."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "az900-m2-q1",
+              "question": "Quel service Azure est le plus adapté pour stocker des milliers d'images de produits d'un site e-commerce ?",
+              "options": ["Azure VM", "Azure Blob Storage", "Azure Queue", "Azure Disk"],
+              "correct": "Azure Blob Storage",
+              "explanation": "Le Blob Storage est conçu pour les données non structurées comme les images. Il est économique et scalable."
+            }
+          ]
+        },
+        {
+          "id": "az900-m3",
+          "order": 3,
+          "title": "Sécurité et gouvernance Azure",
+          "duration_min": 35,
+          "objectives": [
+            "Comprendre le modèle de responsabilité partagée",
+            "Connaître les outils de sécurité Azure",
+            "Découvrir la gouvernance et la conformité"
+          ],
+          "lessons": [
+            {
+              "id": "az900-m3-l1",
+              "title": "Responsabilité partagée",
+              "content": "Dans le cloud, la sécurité est une responsabilité partagée entre Azure et vous. Plus vous utilisez un service managé (SaaS), plus Azure prend en charge la sécurité.",
+              "key_points": [
+                "Azure sécurise toujours : les datacenters physiques, le réseau physique, les hôtes.",
+                "Vous êtes toujours responsable : de vos données, de vos identités et accès.",
+                "En IaaS : vous gérez aussi le système d'exploitation et les applications.",
+                "En SaaS : Azure gère presque tout, vous gérez vos comptes et vos données."
+              ]
+            },
+            {
+              "id": "az900-m3-l2",
+              "title": "Azure Active Directory et identité",
+              "content": "Azure Active Directory (Azure AD, maintenant Microsoft Entra ID) est le service de gestion des identités et des accès d'Azure.",
+              "key_points": [
+                "Authentification unique (SSO) : connectez-vous une fois pour accéder à toutes vos apps.",
+                "Multi-Factor Authentication (MFA) : couche de sécurité supplémentaire (code SMS, app).",
+                "Rôles et permissions : contrôlez qui peut faire quoi avec RBAC (Role-Based Access Control).",
+                "Conditional Access : bloquez l'accès selon des critères (localisation, appareil non conforme)."
+              ]
+            },
+            {
+              "id": "az900-m3-l3",
+              "title": "Outils de sécurité Azure",
+              "content": "Azure fournit des outils intégrés pour protéger, surveiller et répondre aux menaces.",
+              "key_points": [
+                "Microsoft Defender for Cloud : évalue et améliore en continu votre posture de sécurité.",
+                "Azure Firewall : pare-feu managé pour filtrer le trafic réseau entrant et sortant.",
+                "Azure Key Vault : stocke de façon sécurisée les clés, secrets et certificats.",
+                "Azure DDoS Protection : protège vos applications contre les attaques par déni de service."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "az900-m3-q1",
+              "question": "Quel service Azure permet de stocker de manière sécurisée des mots de passe et clés API de votre application ?",
+              "options": ["Azure Firewall", "Azure Key Vault", "Azure AD", "Azure Monitor"],
+              "correct": "Azure Key Vault",
+              "explanation": "Azure Key Vault est spécialement conçu pour stocker et gérer les secrets, clés cryptographiques et certificats en toute sécurité."
+            }
+          ]
+        },
+        {
+          "id": "az900-m4",
+          "order": 4,
+          "title": "Tarification et support Azure",
+          "duration_min": 25,
+          "objectives": [
+            "Comprendre le modèle de tarification Azure",
+            "Utiliser les outils d'estimation des coûts",
+            "Connaître les niveaux de support Azure"
+          ],
+          "lessons": [
+            {
+              "id": "az900-m4-l1",
+              "title": "Modèle de tarification",
+              "content": "Azure propose plusieurs façons de payer selon votre utilisation et vos engagements.",
+              "key_points": [
+                "Pay-as-you-go : payez à l'utilisation, sans engagement. Idéal pour démarrer.",
+                "Reserved Instances : engagez-vous 1 ou 3 ans et économisez jusqu'à 72%.",
+                "Azure Hybrid Benefit : utilisez vos licences Windows Server ou SQL Server existantes sur Azure.",
+                "Azure Spot Instances : utilisez les capacités inutilisées à prix réduit (peut être interrompu)."
+              ]
+            },
+            {
+              "id": "az900-m4-l2",
+              "title": "Outils de gestion des coûts",
+              "content": "Azure fournit des outils intégrés pour estimer, suivre et optimiser vos dépenses.",
+              "key_points": [
+                "Calculateur de prix Azure : estimez le coût de vos ressources avant de les déployer.",
+                "Calculateur du coût total de possession (TCO) : comparez vos coûts actuels avec Azure.",
+                "Azure Cost Management : suivez et analysez vos dépenses réelles en temps réel.",
+                "Budgets et alertes : configurez des alertes automatiques quand vous approchez vos limites."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "az900-m4-q1",
+              "question": "Une startup veut tester Azure sans engagement. Quel modèle de tarification choisir ?",
+              "options": ["Reserved Instance 3 ans", "Pay-as-you-go", "Azure Spot", "Hybrid Benefit"],
+              "correct": "Pay-as-you-go",
+              "explanation": "Le Pay-as-you-go est idéal pour commencer car il n'y a aucun engagement : vous payez uniquement ce que vous utilisez."
+            }
+          ]
+        }
+      ],
+      "final_exam_tips": [
+        "Mémorisez la différence entre IaaS, PaaS et SaaS avec des exemples concrets",
+        "Comprenez bien le modèle de responsabilité partagée",
+        "Connaissez les principaux services (VM, Storage, VNet, Azure AD)",
+        "Familiarisez-vous avec les outils de coût et de gouvernance",
+        "L'examen comporte ~40-60 questions en 45 minutes"
+      ],
+      "resources": {
+        "official_doc": "https://learn.microsoft.com/fr-fr/certifications/azure-fundamentals/",
+        "practice_exam": "https://learn.microsoft.com/fr-fr/certifications/practice-assessments-for-microsoft-certifications"
+      }
+    },
+    {
+      "id": "ai-900",
+      "provider": "Microsoft Azure",
+      "exam_code": "AI-900",
+      "title": "Azure AI Fundamentals",
+      "domain": "ia",
+      "level": "debutant",
+      "badge_color": "#7B2D8B",
+      "description": "Certification d'entrée pour comprendre les concepts de l'IA et les services Azure AI.",
+      "estimated_hours": 18,
+      "modules": [
+        {
+          "id": "ai900-m1",
+          "order": 1,
+          "title": "Concepts fondamentaux de l'IA",
+          "duration_min": 35,
+          "objectives": [
+            "Comprendre ce qu'est l'intelligence artificielle",
+            "Distinguer les types d'apprentissage automatique",
+            "Connaître les principes de l'IA responsable"
+          ],
+          "lessons": [
+            {
+              "id": "ai900-m1-l1",
+              "title": "Qu'est-ce que l'Intelligence Artificielle ?",
+              "content": "L'IA est la capacité d'un système informatique à simuler des comportements humains comme apprendre, raisonner, percevoir et résoudre des problèmes. Contrairement aux programmes classiques basés sur des règles, l'IA apprend à partir de données.",
+              "key_points": [
+                "IA classique = règles programmées manuellement (if/then)",
+                "Machine Learning = l'ordinateur apprend à partir d'exemples (données)",
+                "Deep Learning = sous-ensemble du ML utilisant des réseaux de neurones pour des tâches complexes",
+                "IA Générative = génère du contenu nouveau (texte, images) à partir d'un modèle entraîné"
+              ],
+              "analogy": "Apprendre à reconnaître un chat : avec des règles (4 pattes, fourrure, moustaches...) c'est l'IA classique. Avec des milliers de photos de chats pour que le système apprenne seul, c'est le Machine Learning."
+            },
+            {
+              "id": "ai900-m1-l2",
+              "title": "Types de Machine Learning",
+              "content": "Il existe 3 grandes familles d'apprentissage automatique selon la nature des données d'entraînement.",
+              "key_points": [
+                "Supervisé : données étiquetées (on connaît les réponses). Ex: prédire le prix d'une maison à partir de ses caractéristiques.",
+                "Non supervisé : données sans étiquettes, le modèle trouve des structures cachées. Ex: regrouper des clients similaires (clustering).",
+                "Par renforcement : l'agent apprend par essai-erreur et récompenses. Ex: un robot qui apprend à marcher."
+              ]
+            },
+            {
+              "id": "ai900-m1-l3",
+              "title": "IA Responsable : les 6 principes Microsoft",
+              "content": "Microsoft définit 6 principes pour une IA éthique et responsable, essentiels pour l'examen AI-900.",
+              "key_points": [
+                "Équité (Fairness) : l'IA ne doit pas discriminer selon le genre, race, etc.",
+                "Fiabilité et sécurité : l'IA doit fonctionner comme prévu dans toutes les conditions.",
+                "Confidentialité et sécurité : protéger les données personnelles utilisées pour l'entraînement.",
+                "Inclusivité : l'IA doit profiter à tous, y compris les personnes handicapées.",
+                "Transparence : les utilisateurs doivent comprendre comment l'IA prend ses décisions.",
+                "Responsabilité : des humains doivent rester responsables des décisions de l'IA."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "ai900-m1-q1",
+              "question": "Un modèle prédit si un email est un spam ou non, entraîné sur des emails déjà étiquetés. Quel type d'apprentissage ?",
+              "options": ["Non supervisé", "Par renforcement", "Supervisé", "Génératif"],
+              "correct": "Supervisé",
+              "explanation": "Les données d'entraînement ont des étiquettes (spam / non-spam). C'est la définition de l'apprentissage supervisé."
+            },
+            {
+              "id": "ai900-m1-q2",
+              "question": "Un système d'IA refuse des prêts bancaires à une catégorie ethnique. Quel principe de l'IA responsable est violé ?",
+              "options": ["Transparence", "Équité", "Fiabilité", "Inclusivité"],
+              "correct": "Équité",
+              "explanation": "L'équité (Fairness) exige que l'IA traite toutes les personnes sans discrimination, indépendamment de leur race, genre ou origine."
+            }
+          ]
+        },
+        {
+          "id": "ai900-m2",
+          "order": 2,
+          "title": "Services Azure AI",
+          "duration_min": 45,
+          "objectives": [
+            "Connaître les services Azure Cognitive Services",
+            "Comprendre Azure Machine Learning",
+            "Découvrir Azure OpenAI Service"
+          ],
+          "lessons": [
+            {
+              "id": "ai900-m2-l1",
+              "title": "Vision par ordinateur avec Azure",
+              "content": "Azure propose des services prêts à l'emploi pour analyser et comprendre les images et vidéos.",
+              "key_points": [
+                "Azure Computer Vision : extrait du texte (OCR), détecte des objets, analyse des images.",
+                "Azure Face API : détection de visages, analyse d'expressions et vérification d'identité.",
+                "Azure Video Analyzer : analyse de vidéos pour détecter des événements, visages, ou objets.",
+                "Custom Vision : entraînez votre propre modèle de classification d'images avec vos photos."
+              ]
+            },
+            {
+              "id": "ai900-m2-l2",
+              "title": "Traitement du Langage Naturel (NLP)",
+              "content": "Azure propose des services pour comprendre, analyser et générer du texte en langage humain.",
+              "key_points": [
+                "Azure Language Service : analyse de sentiments, extraction d'entités nommées, résumé de texte.",
+                "Azure Translator : traduction de texte en temps réel dans plus de 100 langues.",
+                "Azure Speech : conversion parole-texte (STT) et texte-parole (TTS) avec des voix naturelles.",
+                "Azure Bot Service : créez des chatbots intelligents intégrables dans Teams, Web, etc."
+              ]
+            },
+            {
+              "id": "ai900-m2-l3",
+              "title": "Azure OpenAI Service et IA Générative",
+              "content": "Azure OpenAI Service donne accès aux modèles d'OpenAI (GPT-4, DALL-E, Whisper) dans l'environnement sécurisé d'Azure.",
+              "key_points": [
+                "GPT-4 : génération et compréhension de texte de haute qualité, idéal pour les chatbots et la rédaction.",
+                "DALL-E : génération d'images à partir de descriptions textuelles.",
+                "Embeddings : transformez du texte en vecteurs numériques pour la recherche sémantique.",
+                "Azure AI Studio : interface visuelle pour créer et déployer des applications d'IA générative."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "ai900-m2-q1",
+              "question": "Quel service Azure permet d'extraire automatiquement du texte d'une photo de document (facture, contrat) ?",
+              "options": ["Azure Speech", "Azure Translator", "Azure Computer Vision (OCR)", "Azure Bot Service"],
+              "correct": "Azure Computer Vision (OCR)",
+              "explanation": "La fonction OCR (Reconnaissance Optique de Caractères) d'Azure Computer Vision extrait le texte contenu dans les images."
+            }
+          ]
+        }
+      ],
+      "final_exam_tips": [
+        "Maîtrisez les 6 principes de l'IA responsable par cœur",
+        "Distinguez bien les services : Computer Vision, Language, Speech, OpenAI",
+        "Comprenez la différence entre ML supervisé, non supervisé et par renforcement",
+        "L'examen dure 45 minutes avec ~40 questions"
+      ],
+      "resources": {
+        "official_doc": "https://learn.microsoft.com/fr-fr/certifications/azure-ai-fundamentals/",
+        "practice_exam": "https://learn.microsoft.com/fr-fr/certifications/practice-assessments-for-microsoft-certifications"
+      }
+    },
+    {
+      "id": "sc-900",
+      "provider": "Microsoft Azure",
+      "exam_code": "SC-900",
+      "title": "Security, Compliance, and Identity Fundamentals",
+      "domain": "securite",
+      "level": "debutant",
+      "badge_color": "#D83B01",
+      "description": "Certification d'entrée pour comprendre la sécurité, la conformité et la gestion des identités Microsoft.",
+      "estimated_hours": 16,
+      "modules": [
+        {
+          "id": "sc900-m1",
+          "order": 1,
+          "title": "Concepts de sécurité et conformité",
+          "duration_min": 35,
+          "objectives": [
+            "Comprendre la triade CIA",
+            "Connaître les modèles Zero Trust et défense en profondeur",
+            "Distinguer conformité et réglementation"
+          ],
+          "lessons": [
+            {
+              "id": "sc900-m1-l1",
+              "title": "La Triade CIA : piliers de la sécurité",
+              "content": "Tout système de sécurité repose sur 3 piliers fondamentaux, représentés par l'acronyme CIA.",
+              "key_points": [
+                "Confidentialité (C) : les données ne sont accessibles qu'aux personnes autorisées. Ex: chiffrement.",
+                "Intégrité (I) : les données ne peuvent pas être modifiées sans autorisation. Ex: signatures numériques.",
+                "Disponibilité (A - Availability) : le système reste accessible quand on en a besoin. Ex: plans de reprise."
+              ]
+            },
+            {
+              "id": "sc900-m1-l2",
+              "title": "Modèle Zero Trust",
+              "content": "Le Zero Trust est une approche moderne de la sécurité qui part du principe qu'aucun utilisateur ou appareil ne doit être automatiquement de confiance, même s'il est dans le réseau interne.",
+              "key_points": [
+                "Principe clé : 'Ne jamais faire confiance, toujours vérifier'",
+                "Vérifier explicitement : toujours authentifier et autoriser chaque accès.",
+                "Accès minimal (least privilege) : donner uniquement les droits nécessaires pour la tâche.",
+                "Assumer la compromission : agir comme si une faille était toujours possible."
+              ],
+              "analogy": "Comme un aéroport moderne : même si vous avez votre billet, vous devez passer la sécurité, contrôler votre passeport et parfois votre bagage à chaque point d'accès."
+            },
+            {
+              "id": "sc900-m1-l3",
+              "title": "Défense en profondeur",
+              "content": "La défense en profondeur consiste à empiler plusieurs couches de sécurité, de sorte que si une couche est compromise, les autres protègent encore les données.",
+              "key_points": [
+                "Couche 1 - Sécurité physique : contrôle d'accès aux datacenters.",
+                "Couche 2 - Identité et accès : MFA, Azure AD.",
+                "Couche 3 - Réseau : pare-feu, NSG, segmentation.",
+                "Couche 4 - Application : WAF, tests de sécurité du code.",
+                "Couche 5 - Données : chiffrement, Azure Key Vault."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "sc900-m1-q1",
+              "question": "Un hôpital veut s'assurer que les dossiers patients ne sont modifiés que par le personnel autorisé. Quel pilier CIA est prioritaire ?",
+              "options": ["Confidentialité", "Intégrité", "Disponibilité", "Authentification"],
+              "correct": "Intégrité",
+              "explanation": "L'Intégrité garantit que les données ne peuvent pas être modifiées sans autorisation, crucial pour les dossiers médicaux."
+            }
+          ]
+        },
+        {
+          "id": "sc900-m2",
+          "order": 2,
+          "title": "Gestion des identités Microsoft Entra",
+          "duration_min": 40,
+          "objectives": [
+            "Comprendre Microsoft Entra ID (Azure AD)",
+            "Maîtriser l'authentification et l'autorisation",
+            "Découvrir les types d'identités"
+          ],
+          "lessons": [
+            {
+              "id": "sc900-m2-l1",
+              "title": "Microsoft Entra ID (ex Azure AD)",
+              "content": "Microsoft Entra ID est le service cloud de gestion des identités et des accès de Microsoft. Il est le socle de toute la sécurité des identités dans l'écosystème Microsoft.",
+              "key_points": [
+                "Annuaire cloud : stocke les comptes utilisateurs, groupes et appareils.",
+                "Authentification unique (SSO) : un seul compte pour accéder à toutes les applications connectées.",
+                "Intégration apps : connectez vos applications SaaS (Salesforce, GitHub, etc.) à un seul annuaire.",
+                "Différence avec Active Directory on-prem : Entra ID est cloud, AD est pour les réseaux locaux."
+              ]
+            },
+            {
+              "id": "sc900-m2-l2",
+              "title": "Méthodes d'authentification",
+              "content": "L'authentification est le processus de vérification de l'identité. Microsoft propose plusieurs méthodes, du mot de passe classique à l'authentification sans mot de passe.",
+              "key_points": [
+                "Mot de passe : méthode classique, mais vulnérable (phishing, force brute).",
+                "MFA : ajoute une 2ème vérification (SMS, app Authenticator). Bloque 99,9% des attaques sur les comptes.",
+                "Sans mot de passe : Windows Hello (biométrie), clés FIDO2 (clé USB physique), app Authenticator.",
+                "Conditional Access : accès conditionnel selon le contexte (où, quoi, quel appareil)."
+              ]
+            },
+            {
+              "id": "sc900-m2-l3",
+              "title": "RBAC et gestion des accès",
+              "content": "Le contrôle d'accès basé sur les rôles (RBAC) permet de définir précisément qui peut faire quoi sur quelles ressources.",
+              "key_points": [
+                "Rôle : ensemble de permissions (ex: Lecteur, Contributeur, Propriétaire).",
+                "Attribution : on assigne un rôle à un utilisateur sur une ressource spécifique.",
+                "Principe du moindre privilège : donner uniquement les accès nécessaires, ni plus.",
+                "Privileged Identity Management (PIM) : accès admin temporaire et justifié, avec approbation."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "sc900-m2-q1",
+              "question": "Un développeur a besoin d'accès admin uniquement pendant 2 heures pour une maintenance. Quel outil utiliser ?",
+              "options": ["MFA", "Conditional Access", "Privileged Identity Management (PIM)", "RBAC standard"],
+              "correct": "Privileged Identity Management (PIM)",
+              "explanation": "PIM permet des accès privilégiés temporaires, justifiés et audités. Idéal pour limiter les risques des comptes admin permanents."
+            }
+          ]
+        }
+      ],
+      "final_exam_tips": [
+        "Retenez la triade CIA et le modèle Zero Trust ('Ne jamais faire confiance')",
+        "Maîtrisez les produits Microsoft Entra (anciennement Azure AD)",
+        "Comprenez la différence entre authentification (qui es-tu ?) et autorisation (que peux-tu faire ?)",
+        "Connaissez Microsoft Purview pour la conformité et la gouvernance des données",
+        "L'examen dure 45 minutes avec ~40-60 questions"
+      ],
+      "resources": {
+        "official_doc": "https://learn.microsoft.com/fr-fr/certifications/security-compliance-and-identity-fundamentals/",
+        "practice_exam": "https://learn.microsoft.com/fr-fr/certifications/practice-assessments-for-microsoft-certifications"
+      }
+    },
+    {
+      "id": "aws-clf-c02",
+      "provider": "Amazon Web Services",
+      "exam_code": "CLF-C02",
+      "title": "AWS Cloud Practitioner",
+      "domain": "cloud",
+      "level": "debutant",
+      "badge_color": "#FF9900",
+      "description": "Certification d'entrée AWS couvrant les concepts fondamentaux du cloud Amazon.",
+      "estimated_hours": 20,
+      "modules": [
+        {
+          "id": "clf-m1",
+          "order": 1,
+          "title": "Le Cloud AWS : les bases",
+          "duration_min": 35,
+          "objectives": [
+            "Comprendre la valeur du cloud AWS",
+            "Connaître le modèle de responsabilité partagée AWS",
+            "Maîtriser les 6 avantages du cloud selon AWS"
+          ],
+          "lessons": [
+            {
+              "id": "clf-m1-l1",
+              "title": "Les 6 avantages du Cloud selon AWS",
+              "content": "AWS définit 6 avantages fondamentaux de migrer vers le cloud. Ces points sont fréquemment testés à l'examen.",
+              "key_points": [
+                "1. Échangez les dépenses fixes contre des dépenses variables (CapEx → OpEx)",
+                "2. Bénéficiez d'économies d'échelle massives (AWS achète en gros pour tous ses clients)",
+                "3. Arrêtez de deviner la capacité nécessaire (scalez à la demande)",
+                "4. Augmentez la vitesse et l'agilité (déployez en minutes, pas en semaines)",
+                "5. Arrêtez de dépenser pour la gestion des datacenters",
+                "6. Devenez mondial en quelques minutes (régions AWS partout dans le monde)"
+              ]
+            },
+            {
+              "id": "clf-m1-l2",
+              "title": "Modèle de responsabilité partagée AWS",
+              "content": "Comme Azure, AWS utilise un modèle de responsabilité partagée. AWS s'appelle ce modèle 'Security OF the Cloud vs Security IN the Cloud'.",
+              "key_points": [
+                "AWS est responsable DE la sécurité du cloud : infrastructure physique, réseau, hyperviseur.",
+                "Client responsable DANS le cloud : données, chiffrement, gestion des identités, configs réseau.",
+                "EC2 (IaaS) : client gère l'OS, les patches, les firewalls applicatifs.",
+                "RDS (PaaS) : AWS gère l'OS et le moteur DB, client gère les données et les accès."
+              ]
+            },
+            {
+              "id": "clf-m1-l3",
+              "title": "Infrastructure mondiale AWS",
+              "content": "AWS possède l'infrastructure cloud la plus étendue au monde, organisée en régions et zones de disponibilité.",
+              "key_points": [
+                "Région AWS : zone géographique (ex: eu-west-3 = Paris) contenant plusieurs datacenters.",
+                "Zone de disponibilité (AZ) : datacenter(s) isolé(s) dans une région. Chaque région a min. 3 AZ.",
+                "Edge Location (Point de présence) : serveurs CDN pour distribuer le contenu au plus près des utilisateurs.",
+                "Choisir une région selon : conformité légale, latence, services disponibles, prix."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "clf-m1-q1",
+              "question": "Qui est responsable de la mise à jour (patching) du système d'exploitation d'une instance EC2 ?",
+              "options": ["AWS uniquement", "Le client uniquement", "Responsabilité partagée 50/50", "AWS Trusted Advisor"],
+              "correct": "Le client uniquement",
+              "explanation": "EC2 est un service IaaS. AWS gère le matériel physique et l'hyperviseur, mais le client est responsable de l'OS, des patches et des applications installées."
+            }
+          ]
+        },
+        {
+          "id": "clf-m2",
+          "order": 2,
+          "title": "Services clés AWS",
+          "duration_min": 50,
+          "objectives": [
+            "Connaître les services de calcul AWS (EC2, Lambda)",
+            "Comprendre le stockage AWS (S3, EBS)",
+            "Découvrir les bases de données AWS"
+          ],
+          "lessons": [
+            {
+              "id": "clf-m2-l1",
+              "title": "Calcul : EC2 et Lambda",
+              "content": "AWS propose deux grandes familles de calcul : les serveurs virtuels (EC2) et le calcul serverless (Lambda).",
+              "key_points": [
+                "Amazon EC2 : machines virtuelles configurables. Vous choisissez CPU, RAM, OS. Full contrôle.",
+                "EC2 Auto Scaling : ajuste automatiquement le nombre d'instances selon la charge.",
+                "AWS Lambda : exécutez du code sans gérer de serveur. Payez par exécution (max 15 min).",
+                "Amazon ECS / EKS : gestion de conteneurs Docker et Kubernetes managé sur AWS."
+              ]
+            },
+            {
+              "id": "clf-m2-l2",
+              "title": "Stockage AWS",
+              "content": "AWS propose une famille complète de services de stockage pour tous les cas d'usage.",
+              "key_points": [
+                "Amazon S3 : stockage d'objets (fichiers, images, backups). Durabilité de 99,999999999% (11 neuf).",
+                "Amazon EBS : disques persistants attachés aux instances EC2. Comme un disque dur virtuel.",
+                "Amazon EFS : système de fichiers partagé, accessible par plusieurs EC2 simultanément.",
+                "Amazon S3 Glacier : archivage de données long terme, très peu coûteux. Accès en heures."
+              ]
+            },
+            {
+              "id": "clf-m2-l3",
+              "title": "Bases de données AWS",
+              "content": "AWS propose des bases de données managées pour vous éviter de gérer l'installation et la maintenance.",
+              "key_points": [
+                "Amazon RDS : bases de données relationnelles managées (MySQL, PostgreSQL, Oracle, SQL Server).",
+                "Amazon Aurora : base de données compatible MySQL/PostgreSQL, 5x plus rapide, native cloud.",
+                "Amazon DynamoDB : base de données NoSQL serverless, ultra-rapide, scalable automatiquement.",
+                "Amazon Redshift : entrepôt de données (Data Warehouse) pour l'analyse de grandes quantités de données."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "clf-m2-q1",
+              "question": "Vous devez stocker des millions de fichiers d'archives accessibles rarement et à moindre coût. Quel service AWS choisir ?",
+              "options": ["Amazon EBS", "Amazon S3 Standard", "Amazon S3 Glacier", "Amazon DynamoDB"],
+              "correct": "Amazon S3 Glacier",
+              "explanation": "S3 Glacier est conçu pour l'archivage long terme de données rarement consultées. Son coût est très faible mais le temps de récupération peut prendre des heures."
+            }
+          ]
+        },
+        {
+          "id": "clf-m3",
+          "order": 3,
+          "title": "Sécurité et identité AWS",
+          "duration_min": 40,
+          "objectives": [
+            "Maîtriser AWS IAM",
+            "Connaître les services de sécurité AWS",
+            "Comprendre AWS Organizations"
+          ],
+          "lessons": [
+            {
+              "id": "clf-m3-l1",
+              "title": "AWS IAM : gestion des identités",
+              "content": "AWS IAM (Identity and Access Management) est le service central de gestion des accès dans AWS.",
+              "key_points": [
+                "Utilisateur IAM : compte pour une personne ou application avec des permissions précises.",
+                "Groupe IAM : regroupez des utilisateurs pour appliquer les mêmes permissions en bloc.",
+                "Rôle IAM : identité temporaire qu'un service AWS peut assumer (ex: EC2 accède à S3).",
+                "Politique IAM (Policy) : document JSON définissant précisément ce qui est autorisé ou refusé.",
+                "Root account : compte maître, ne jamais l'utiliser au quotidien. Activez le MFA dessus immédiatement."
+              ]
+            },
+            {
+              "id": "clf-m3-l2",
+              "title": "Services de sécurité AWS",
+              "content": "AWS propose de nombreux services de sécurité intégrés pour protéger vos ressources.",
+              "key_points": [
+                "AWS Shield : protection DDoS automatique (Standard gratuit, Advanced payant avec support 24/7).",
+                "AWS WAF : pare-feu applicatif web, filtre les requêtes HTTP malveillantes.",
+                "Amazon GuardDuty : détection de menaces en continu par ML sur vos logs CloudTrail et VPC.",
+                "AWS Inspector : analyse automatique des vulnérabilités de vos instances EC2 et conteneurs.",
+                "AWS Secrets Manager : stockage sécurisé et rotation automatique des secrets (mots de passe, clés API)."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "clf-m3-q1",
+              "question": "Votre application EC2 doit accéder à un bucket S3. Comment configurer cela de façon sécurisée sans stocker de clés ?",
+              "options": [
+                "Créer un utilisateur IAM et mettre ses clés dans le code",
+                "Assigner un rôle IAM à l'instance EC2",
+                "Rendre le bucket S3 public",
+                "Utiliser le compte root AWS"
+              ],
+              "correct": "Assigner un rôle IAM à l'instance EC2",
+              "explanation": "Un rôle IAM permet à l'instance EC2 d'obtenir des credentials temporaires pour accéder à S3 de façon sécurisée, sans stocker de clés dans le code."
+            }
+          ]
+        }
+      ],
+      "final_exam_tips": [
+        "Mémorisez les 6 avantages du cloud AWS",
+        "Comprenez bien le modèle de responsabilité partagée",
+        "Distinguez les services similaires : S3 vs EBS vs EFS, RDS vs DynamoDB",
+        "Connaissez les 4 plans de support AWS (Basic, Developer, Business, Enterprise)",
+        "L'examen dure 90 minutes avec 65 questions"
+      ],
+      "resources": {
+        "official_doc": "https://aws.amazon.com/fr/certification/certified-cloud-practitioner/",
+        "practice_exam": "https://explore.skillbuilder.aws/learn/course/external/view/elearning/14050/aws-certified-cloud-practitioner-official-practice-question-set"
+      }
+    },
+    {
+      "id": "aws-saa-c03",
+      "provider": "Amazon Web Services",
+      "exam_code": "SAA-C03",
+      "title": "AWS Solutions Architect Associate",
+      "domain": "cloud",
+      "level": "intermediaire",
+      "badge_color": "#FF6600",
+      "description": "Certification intermédiaire pour concevoir des architectures cloud résilientes et sécurisées sur AWS.",
+      "estimated_hours": 50,
+      "modules": [
+        {
+          "id": "saa-m1",
+          "order": 1,
+          "title": "Architectures hautement disponibles",
+          "duration_min": 55,
+          "objectives": [
+            "Concevoir des architectures multi-AZ",
+            "Comprendre Elastic Load Balancing",
+            "Maîtriser Auto Scaling"
+          ],
+          "lessons": [
+            {
+              "id": "saa-m1-l1",
+              "title": "Haute disponibilité et tolérance aux pannes",
+              "content": "Les architectures AWS de niveau professionnel doivent être conçues pour résister aux pannes sans interruption de service.",
+              "key_points": [
+                "Haute disponibilité (HA) : le système reste opérationnel malgré la panne d'un composant.",
+                "Tolérance aux pannes : le système continue de fonctionner normalement même si un composant tombe.",
+                "Multi-AZ : déployez vos ressources sur au moins 2 zones de disponibilité différentes.",
+                "RTO (Recovery Time Objective) : temps maximum acceptable pour restaurer le service après une panne.",
+                "RPO (Recovery Point Objective) : quantité maximale de données pouvant être perdues (en temps)."
+              ]
+            },
+            {
+              "id": "saa-m1-l2",
+              "title": "Elastic Load Balancing (ELB)",
+              "content": "ELB distribue automatiquement le trafic entrant sur plusieurs cibles (EC2, conteneurs, IPs) dans une ou plusieurs AZ.",
+              "key_points": [
+                "Application Load Balancer (ALB) : équilibrage HTTP/HTTPS intelligent. Route selon l'URL (/api, /web). Niveau 7.",
+                "Network Load Balancer (NLB) : équilibrage TCP/UDP ultra-rapide. Millions de requêtes/sec. Niveau 4.",
+                "Gateway Load Balancer : pour les appliances réseau tierces (pare-feux, IDS).",
+                "Classic Load Balancer : ancienne génération, préférez ALB ou NLB."
+              ]
+            },
+            {
+              "id": "saa-m1-l3",
+              "title": "Auto Scaling",
+              "content": "AWS Auto Scaling ajuste automatiquement la capacité de vos ressources selon la demande, pour maximiser la disponibilité et minimiser les coûts.",
+              "key_points": [
+                "Scaling horizontal : ajouter/retirer des instances EC2 (préféré dans le cloud).",
+                "Scaling vertical : augmenter la taille d'une instance (limites physiques).",
+                "Politique de scaling : basée sur des métriques (CPU > 70% → ajouter des instances).",
+                "Scaling prévisible : planifiez le scaling à l'avance pour des événements connus (soldes, concerts).",
+                "Capacité minimale / souhaitée / maximale : define les limites du groupe Auto Scaling."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "saa-m1-q1",
+              "question": "Vous hébergez une API REST. Vous voulez router /api/v1 vers un groupe d'instances et /api/v2 vers un autre. Quel Load Balancer choisir ?",
+              "options": ["Network Load Balancer", "Classic Load Balancer", "Application Load Balancer", "Gateway Load Balancer"],
+              "correct": "Application Load Balancer",
+              "explanation": "L'ALB fonctionne au niveau 7 (application) et supporte le routage basé sur le chemin URL, parfait pour votre cas."
+            }
+          ]
+        },
+        {
+          "id": "saa-m2",
+          "order": 2,
+          "title": "Stockage avancé et S3",
+          "duration_min": 50,
+          "objectives": [
+            "Maîtriser les classes de stockage S3",
+            "Comprendre S3 Lifecycle et versioning",
+            "Concevoir des architectures de stockage optimisées"
+          ],
+          "lessons": [
+            {
+              "id": "saa-m2-l1",
+              "title": "Classes de stockage S3 en détail",
+              "content": "S3 propose plusieurs classes de stockage permettant d'optimiser les coûts selon la fréquence d'accès aux données.",
+              "key_points": [
+                "S3 Standard : accès fréquent. Haute durabilité et disponibilité. Prix : ~0.023$/Go/mois.",
+                "S3 Intelligent-Tiering : déplace automatiquement les objets vers la classe la moins chère selon l'accès.",
+                "S3 Standard-IA (Infrequent Access) : accès rare mais rapide. Moins cher que Standard, frais de récupération.",
+                "S3 One Zone-IA : comme IA mais stocké dans 1 seule AZ. Encore moins cher mais moins résilient.",
+                "S3 Glacier Instant Retrieval : archivage avec accès en millisecondes.",
+                "S3 Glacier Flexible Retrieval : archivage avec accès en minutes à heures. Très économique.",
+                "S3 Glacier Deep Archive : archivage long terme (7-10 ans). Accès en 12h. Le moins cher."
+              ]
+            },
+            {
+              "id": "saa-m2-l2",
+              "title": "Fonctionnalités avancées S3",
+              "content": "S3 offre des fonctionnalités avancées pour la sécurité, la gestion du cycle de vie et les performances.",
+              "key_points": [
+                "Versioning : conserve toutes les versions de vos objets. Protection contre la suppression accidentelle.",
+                "Lifecycle Policies : transition automatique vers des classes moins chères après X jours. Archivage automatique.",
+                "Réplication Cross-Region (CRR) : réplique automatiquement les objets dans une autre région pour la résilience.",
+                "S3 Transfer Acceleration : accélère les uploads depuis des clients distants via les edge locations CloudFront.",
+                "Object Lock : rend les objets immuables (WORM) pour la conformité réglementaire."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "saa-m2-q1",
+              "question": "Des logs d'accès doivent être conservés 30 jours en accès fréquent, puis archivés 1 an. Comment automatiser cela ?",
+              "options": [
+                "Créer un script Lambda quotidien pour déplacer les fichiers",
+                "Configurer une Lifecycle Policy S3 pour transiter vers Glacier après 30 jours",
+                "Utiliser S3 Intelligent-Tiering uniquement",
+                "Configurer la réplication Cross-Region"
+              ],
+              "correct": "Configurer une Lifecycle Policy S3 pour transiter vers Glacier après 30 jours",
+              "explanation": "Les Lifecycle Policies automatisent la transition entre classes de stockage selon l'âge des objets, sans aucune intervention manuelle."
+            }
+          ]
+        },
+        {
+          "id": "saa-m3",
+          "order": 3,
+          "title": "Réseau VPC avancé",
+          "duration_min": 60,
+          "objectives": [
+            "Concevoir des VPC avec sous-réseaux publics et privés",
+            "Comprendre les options de connectivité",
+            "Maîtriser la sécurité réseau"
+          ],
+          "lessons": [
+            {
+              "id": "saa-m3-l1",
+              "title": "Architecture VPC : sous-réseaux et routage",
+              "content": "Un VPC (Virtual Private Cloud) est votre réseau privé isolé dans AWS. Une bonne conception de VPC est essentielle pour la sécurité.",
+              "key_points": [
+                "Sous-réseau public : a un Internet Gateway. Les ressources peuvent être accessibles d'Internet.",
+                "Sous-réseau privé : pas d'accès Internet direct. Pour les bases de données et serveurs d'application.",
+                "Internet Gateway (IGW) : connecte votre VPC à Internet.",
+                "NAT Gateway : permet aux ressources privées d'initier des connexions vers Internet (mais pas l'inverse).",
+                "Route Table : définit où le trafic réseau est dirigé."
+              ],
+              "architecture_pattern": "Architecture 3 tiers : ALB (public) → Serveurs App (privé) → Base de données (privé)"
+            },
+            {
+              "id": "saa-m3-l2",
+              "title": "Sécurité réseau : Security Groups et NACLs",
+              "content": "AWS fournit deux niveaux de contrôle du trafic réseau : les Security Groups (niveau instance) et les NACLs (niveau sous-réseau).",
+              "key_points": [
+                "Security Group : pare-feu virtuel au niveau de l'instance. Stateful (retour auto autorisé). Règles d'autorisation uniquement.",
+                "NACL (Network ACL) : pare-feu au niveau du sous-réseau. Stateless (règles entrée ET sortie séparées). Autorise et refuse.",
+                "Bonne pratique : Security Group comme première ligne, NACL pour blocage explicite en urgence.",
+                "VPC Peering : connexion privée entre deux VPC (même région ou cross-region). Pas de trafic sur Internet."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "saa-m3-q1",
+              "question": "Vos serveurs dans un sous-réseau privé doivent télécharger des mises à jour depuis Internet. Quelle solution utiliser ?",
+              "options": ["Internet Gateway directement", "NAT Gateway dans un sous-réseau public", "VPC Peering", "Direct Connect"],
+              "correct": "NAT Gateway dans un sous-réseau public",
+              "explanation": "La NAT Gateway permet aux instances privées d'initier des connexions sortantes vers Internet, sans permettre les connexions entrantes depuis Internet."
+            }
+          ]
+        }
+      ],
+      "final_exam_tips": [
+        "L'examen teste la conception : mémorisez les patterns architecturaux (multi-AZ, multi-region)",
+        "Maîtrisez les classes S3 et leurs cas d'usage selon la fréquence d'accès",
+        "Comprenez les différences entre Security Groups (stateful) et NACLs (stateless)",
+        "Connaissez les services de base de données et quand utiliser lequel (RDS vs DynamoDB vs Redshift)",
+        "L'examen dure 130 minutes avec 65 questions. Score minimum : 720/1000"
+      ],
+      "resources": {
+        "official_doc": "https://aws.amazon.com/fr/certification/certified-solutions-architect-associate/",
+        "practice_exam": "https://explore.skillbuilder.aws/learn/course/external/view/elearning/13266/aws-certified-solutions-architect-associate-official-practice-question-set"
+      }
+    },
+    {
+      "id": "aws-aif-c01",
+      "provider": "Amazon Web Services",
+      "exam_code": "AIF-C01",
+      "title": "AWS AI Practitioner",
+      "domain": "ia",
+      "level": "debutant",
+      "badge_color": "#CC3300",
+      "description": "Certification AWS sur les fondamentaux de l'IA, du ML et de l'IA générative avec les services Amazon.",
+      "estimated_hours": 16,
+      "modules": [
+        {
+          "id": "aif-m1",
+          "order": 1,
+          "title": "IA et ML sur AWS",
+          "duration_min": 40,
+          "objectives": [
+            "Comprendre le cycle de vie ML sur AWS",
+            "Connaître les services IA/ML d'AWS",
+            "Découvrir Amazon Bedrock et l'IA générative"
+          ],
+          "lessons": [
+            {
+              "id": "aif-m1-l1",
+              "title": "Services IA managés AWS",
+              "content": "AWS propose une gamme complète de services IA prêts à l'emploi (sans expertise ML) et des outils pour les data scientists.",
+              "key_points": [
+                "Amazon Rekognition : reconnaissance d'images et vidéos (visages, objets, texte, contenu inapproprié).",
+                "Amazon Comprehend : analyse NLP (sentiments, entités, langues, thèmes) dans le texte.",
+                "Amazon Transcribe : conversion parole en texte (STT) pour des réunions, call centers, sous-titres.",
+                "Amazon Polly : conversion texte en parole (TTS) avec des voix réalistes en 60+ langues.",
+                "Amazon Translate : traduction automatique neuronale en temps réel.",
+                "Amazon Lex : création de chatbots conversationnels (même technologie que les Alexa Skills)."
+              ]
+            },
+            {
+              "id": "aif-m1-l2",
+              "title": "Amazon SageMaker : ML de bout en bout",
+              "content": "Amazon SageMaker est la plateforme ML complète d'AWS permettant de construire, entraîner et déployer des modèles ML facilement.",
+              "key_points": [
+                "SageMaker Studio : environnement de développement ML intégré (Jupyter + outils AWS).",
+                "SageMaker Autopilot : AutoML, entraîne et compare automatiquement plusieurs modèles sur vos données.",
+                "SageMaker Training : entraînement distribué à grande échelle sur GPU/CPU managés.",
+                "SageMaker Endpoints : déploiement de modèles en production avec scalabilité automatique.",
+                "SageMaker Canvas : outil no-code pour créer des modèles ML visuellement, sans programmation."
+              ]
+            },
+            {
+              "id": "aif-m1-l3",
+              "title": "Amazon Bedrock et IA Générative",
+              "content": "Amazon Bedrock est le service AWS pour accéder aux meilleurs modèles fondamentaux (Foundation Models) d'IA générative.",
+              "key_points": [
+                "Foundation Models disponibles : Claude (Anthropic), Llama (Meta), Mistral, Titan (Amazon), etc.",
+                "API unifiée : accédez à différents modèles sans gérer d'infrastructure.",
+                "RAG (Retrieval Augmented Generation) : améliorez les modèles avec vos propres données via Knowledge Bases.",
+                "Agents Bedrock : créez des agents IA autonomes qui peuvent appeler des APIs et exécuter des actions.",
+                "Guardrails Bedrock : contrôlez le comportement des modèles pour éviter contenus nuisibles ou hors-sujet."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "aif-m1-q1",
+              "question": "Un data scientist veut entraîner rapidement plusieurs modèles ML et choisir le meilleur automatiquement. Quel service AWS utiliser ?",
+              "options": ["Amazon Rekognition", "SageMaker Autopilot", "Amazon Bedrock", "Amazon Comprehend"],
+              "correct": "SageMaker Autopilot",
+              "explanation": "SageMaker Autopilot est le service AutoML d'AWS : il explore automatiquement les algorithmes et hyperparamètres pour trouver le meilleur modèle."
+            }
+          ]
+        }
+      ],
+      "final_exam_tips": [
+        "Distinguez les services IA managés (Rekognition, Comprehend) de SageMaker (personnalisé)",
+        "Connaissez Amazon Bedrock et le concept de Foundation Models",
+        "Comprenez RAG (Retrieval Augmented Generation) et son utilité",
+        "Maîtrisez les principes d'IA responsable appliqués à AWS",
+        "L'examen dure 90 minutes avec 65 questions"
+      ],
+      "resources": {
+        "official_doc": "https://aws.amazon.com/fr/certification/certified-ai-practitioner/",
+        "practice_exam": "https://explore.skillbuilder.aws/learn/course/external/view/elearning/19790/aws-certified-ai-practitioner-official-practice-question-set"
+      }
+    },
+    {
+      "id": "aws-scs-c02",
+      "provider": "Amazon Web Services",
+      "exam_code": "SCS-C02",
+      "title": "AWS Security Specialty",
+      "domain": "securite",
+      "level": "intermediaire",
+      "badge_color": "#CC0000",
+      "description": "Certification spécialisée AWS pour les professionnels de la sécurité cloud.",
+      "estimated_hours": 60,
+      "modules": [
+        {
+          "id": "scs-m1",
+          "order": 1,
+          "title": "Gestion des identités et des accès avancée",
+          "duration_min": 60,
+          "objectives": [
+            "Maîtriser IAM avancé (STS, Policy conditions)",
+            "Comprendre AWS Organizations et SCP",
+            "Connaître AWS SSO / IAM Identity Center"
+          ],
+          "lessons": [
+            {
+              "id": "scs-m1-l1",
+              "title": "IAM avancé : Politiques et conditions",
+              "content": "Pour la sécurité avancée, les politiques IAM peuvent contenir des conditions complexes permettant un contrôle très fin des accès.",
+              "key_points": [
+                "Politique basée sur les ressources : attachée directement à la ressource (ex: politique de bucket S3).",
+                "Politique basée sur l'identité : attachée à un utilisateur, groupe ou rôle IAM.",
+                "Conditions IAM : limitez l'accès selon l'IP source, l'heure, le tag de ressource, le MFA requis.",
+                "Permission Boundary : limite maximale des permissions qu'un rôle peut avoir (même si la politique l'autorise).",
+                "AWS STS AssumeRole : obtenez des credentials temporaires pour accéder à des ressources cross-account."
+              ]
+            },
+            {
+              "id": "scs-m1-l2",
+              "title": "AWS Organizations et contrôle multi-comptes",
+              "content": "AWS Organizations permet de gérer plusieurs comptes AWS depuis un compte maître, avec des politiques de contrôle centralisées.",
+              "key_points": [
+                "Service Control Policies (SCP) : limitent les actions possibles dans les comptes membres, quelles que soient leurs politiques IAM.",
+                "Les SCP ne donnent pas de permissions, elles les plafonnent. Exemple : interdire de désactiver CloudTrail.",
+                "Organizational Units (OU) : regroupez les comptes par département ou environnement (Prod, Dev, Test).",
+                "Consolidated Billing : une seule facture pour tous les comptes, avec avantages de volume partagés.",
+                "AWS Control Tower : outil pour créer et gouverner un environnement multi-comptes sécurisé (Landing Zone)."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "scs-m1-q1",
+              "question": "Un administrateur IAM dans un compte membre a toutes les permissions IAM, mais ne peut pas activer les régions non approuvées. Comment est-ce possible ?",
+              "options": [
+                "Le MFA bloque ces actions",
+                "Une SCP au niveau d'AWS Organizations limite les actions disponibles",
+                "Le Permission Boundary de l'administrateur l'interdit",
+                "AWS Config bloque automatiquement"
+              ],
+              "correct": "Une SCP au niveau d'AWS Organizations limite les actions disponibles",
+              "explanation": "Les SCP s'appliquent au niveau du compte entier dans AWS Organizations. Même un utilisateur root du compte membre ne peut pas dépasser les limites imposées par les SCP."
+            }
+          ]
+        },
+        {
+          "id": "scs-m2",
+          "order": 2,
+          "title": "Détection des menaces et réponse aux incidents",
+          "duration_min": 55,
+          "objectives": [
+            "Maîtriser CloudTrail, CloudWatch et GuardDuty",
+            "Comprendre la réponse aux incidents sur AWS",
+            "Connaître AWS Security Hub"
+          ],
+          "lessons": [
+            {
+              "id": "scs-m2-l1",
+              "title": "Journalisation et surveillance : CloudTrail et CloudWatch",
+              "content": "Une détection efficace des menaces repose sur une journalisation complète et une surveillance en temps réel.",
+              "key_points": [
+                "AWS CloudTrail : enregistre TOUTES les actions API effectuées dans votre compte (qui a fait quoi, quand, depuis où).",
+                "CloudTrail Lake : stockage et analyse avancée des logs CloudTrail avec des requêtes SQL.",
+                "Amazon CloudWatch : métriques, logs et alarmes. Déclenchez des alertes sur des comportements anormaux.",
+                "CloudWatch Logs Insights : analysez les logs applicatifs avec des requêtes pour détecter des anomalies.",
+                "Bonne pratique : activez CloudTrail dans toutes les régions, stockez les logs dans S3 avec MFA Delete activé."
+              ]
+            },
+            {
+              "id": "scs-m2-l2",
+              "title": "Amazon GuardDuty et AWS Security Hub",
+              "content": "GuardDuty et Security Hub forment le cœur de la détection intelligente des menaces sur AWS.",
+              "key_points": [
+                "Amazon GuardDuty : service de détection de menaces par ML. Analyse CloudTrail, VPC Flow Logs, DNS logs automatiquement.",
+                "Menaces détectées par GuardDuty : instances EC2 minant des cryptomonnaies, appels API depuis IPs malveillantes, tentatives de reconnaissance.",
+                "AWS Security Hub : tableau de bord centralisé agrégeant les findings de GuardDuty, Inspector, Macie, etc.",
+                "Amazon Macie : détecte et protège les données sensibles (PII, numéros de carte) dans S3.",
+                "AWS Detective : investigation des incidents de sécurité avec des graphes de relations entre ressources."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "scs-m2-q1",
+              "question": "GuardDuty détecte qu'une instance EC2 envoie du trafic vers une adresse IP malveillante connue. Quelle est la première action recommandée ?",
+              "options": [
+                "Supprimer immédiatement l'instance",
+                "Isoler l'instance en modifiant son Security Group pour couper les connexions sortantes",
+                "Redémarrer l'instance",
+                "Ignorer, c'est probablement un faux positif"
+              ],
+              "correct": "Isoler l'instance en modifiant son Security Group pour couper les connexions sortantes",
+              "explanation": "L'isolation est la première étape de la réponse aux incidents : couper les communications sans perdre les données forensiques. Supprimer immédiatement effacerait les preuves."
+            }
+          ]
+        }
+      ],
+      "final_exam_tips": [
+        "Maîtrisez les politiques IAM complexes avec conditions et Permission Boundaries",
+        "Comprenez la différence entre SCP (plafond) et politiques IAM (permissions)",
+        "Connaissez parfaitement GuardDuty, Security Hub, Macie et Detective",
+        "Maîtrisez le chiffrement AWS : KMS, CloudHSM, SSE-S3 vs SSE-KMS vs SSE-C",
+        "L'examen dure 170 minutes avec 65 questions. Score minimum : 750/1000"
+      ],
+      "resources": {
+        "official_doc": "https://aws.amazon.com/fr/certification/certified-security-specialty/",
+        "practice_exam": "https://explore.skillbuilder.aws/learn/course/external/view/elearning/12555/aws-certified-security-specialty-official-practice-question-set"
+      }
+    },
+    {
+      "id": "gcp-ccp",
+      "provider": "Google Cloud Platform",
+      "exam_code": "Cloud Digital Leader",
+      "title": "Google Cloud Certified - Cloud Digital Leader (CCP)",
+      "domain": "cloud",
+      "level": "debutant",
+      "badge_color": "#4285F4",
+      "description": "Certification d'entrée GCP pour comprendre les concepts du cloud Google et ses services clés pour les décideurs et professionnels non-techniques.",
+      "estimated_hours": 22,
+      "modules": [
+        {
+          "id": "ccp-m1",
+          "order": 1,
+          "title": "Introduction au Cloud Google",
+          "duration_min": 35,
+          "objectives": [
+            "Comprendre la valeur du cloud selon Google",
+            "Connaître l'infrastructure mondiale GCP",
+            "Maîtriser les modèles de service cloud"
+          ],
+          "lessons": [
+            {
+              "id": "ccp-m1-l1",
+              "title": "Pourquoi Google Cloud ?",
+              "content": "Google Cloud Platform (GCP) est le cloud de Google, construit sur la même infrastructure que Google Search, YouTube et Gmail. Google gère plus de 7 millions de kilomètres de câbles sous-marins et des datacenters dans le monde entier.",
+              "key_points": [
+                "Infrastructure battle-tested : les mêmes serveurs qui font tourner YouTube (~1 milliard d'utilisateurs) sont disponibles pour vous.",
+                "Réseau privé mondial : Google possède son propre réseau fibre optique international, plus rapide que l'internet public.",
+                "Leader en IA/ML : TensorFlow (né chez Google), Vertex AI, Gemini — GCP est le cloud de référence pour l'IA.",
+                "Engagement environnemental : Google Cloud est carbon-neutral depuis 2007 et vise 100% énergie renouvelable 24/7."
+              ],
+              "analogy": "Utiliser GCP, c'est comme louer les mêmes autoroutes privées ultra-rapides que Google utilise en interne pour ses propres produits."
+            },
+            {
+              "id": "ccp-m1-l2",
+              "title": "Infrastructure mondiale GCP : Régions et Zones",
+              "content": "L'infrastructure GCP est organisée en régions, zones et points de présence (PoP) pour garantir performance et résilience.",
+              "key_points": [
+                "Région : zone géographique contenant plusieurs datacenters. Ex: europe-west9 = Paris.",
+                "Zone : datacenter isolé dans une région. Chaque région a min. 3 zones. Déployez sur plusieurs zones pour la HA.",
+                "Points de présence (PoP) : 200+ emplacements mondiaux pour distribuer le contenu via le CDN Google.",
+                "Interconnexion privée : trafic entre régions GCP passe sur le réseau privé Google, pas sur l'internet public.",
+                "Choisir sa région selon : réglementation (RGPD), latence, disponibilité des services, prix."
+              ]
+            },
+            {
+              "id": "ccp-m1-l3",
+              "title": "Les modèles de service sur GCP",
+              "content": "GCP propose les 3 modèles standards (IaaS, PaaS, SaaS) avec des services phares pour chaque catégorie.",
+              "key_points": [
+                "IaaS sur GCP : Compute Engine (machines virtuelles). Contrôle total de l'OS et des ressources.",
+                "PaaS sur GCP : App Engine (hébergement d'apps sans gestion de serveurs), Cloud Run (conteneurs serverless).",
+                "SaaS sur GCP : Google Workspace (Gmail, Drive, Docs, Meet). Vous utilisez, Google gère tout.",
+                "Serverless sur GCP : Cloud Functions (code à la demande), BigQuery (analyse sans infrastructure)."
+              ],
+              "comparison_table": {
+                "headers": ["Service GCP", "Modèle", "Cas d'usage"],
+                "rows": [
+                  ["Compute Engine", "IaaS", "Serveurs personnalisés, migration lift-and-shift"],
+                  ["App Engine", "PaaS", "Applications web scalables sans gestion serveur"],
+                  ["Cloud Run", "PaaS/Serverless", "Conteneurs scalables à la demande"],
+                  ["Cloud Functions", "FaaS", "Fonctions événementielles ponctuelles"],
+                  ["Google Workspace", "SaaS", "Productivité bureautique dans le navigateur"]
+                ]
+              }
+            }
+          ],
+          "quiz": [
+            {
+              "id": "ccp-m1-q1",
+              "question": "Une entreprise veut migrer ses serveurs existants sur GCP avec le minimum de modifications. Quel service utiliser ?",
+              "options": ["App Engine", "Cloud Functions", "Compute Engine", "BigQuery"],
+              "correct": "Compute Engine",
+              "explanation": "Compute Engine (IaaS) permet de créer des VMs identiques à vos serveurs actuels : même OS, même configuration. C'est le choix idéal pour une migration 'lift-and-shift'."
+            },
+            {
+              "id": "ccp-m1-q2",
+              "question": "Quel avantage différenciant de GCP est particulièrement fort pour les workloads d'Intelligence Artificielle ?",
+              "options": ["Réseau de distribution de contenu (CDN)", "Leadership en IA/ML avec TensorFlow et Vertex AI", "Hybrid Cloud avec Anthos", "Tarification à la seconde"],
+              "correct": "Leadership en IA/ML avec TensorFlow et Vertex AI",
+              "explanation": "Google est à l'origine de TensorFlow, des Transformers (architecture de base des LLMs), et propose Vertex AI et Gemini sur GCP. C'est le cloud de référence pour l'IA."
+            }
+          ]
+        },
+        {
+          "id": "ccp-m2",
+          "order": 2,
+          "title": "Services de données et IA sur GCP",
+          "duration_min": 45,
+          "objectives": [
+            "Connaître les services de données GCP",
+            "Comprendre Vertex AI et les services d'IA",
+            "Découvrir BigQuery pour l'analyse de données"
+          ],
+          "lessons": [
+            {
+              "id": "ccp-m2-l1",
+              "title": "Stockage et bases de données GCP",
+              "content": "GCP propose une large gamme de services de stockage et de bases de données selon la nature et l'usage de vos données.",
+              "key_points": [
+                "Cloud Storage : stockage d'objets (fichiers, images, backups). 4 classes : Standard, Nearline, Coldline, Archive.",
+                "Cloud SQL : bases de données relationnelles managées (MySQL, PostgreSQL, SQL Server).",
+                "Cloud Spanner : base de données relationnelle globalement distribuée et fortement cohérente. Unique en son genre.",
+                "Firestore : base NoSQL serverless pour les applications mobiles et web en temps réel.",
+                "Bigtable : base NoSQL haute performance pour les séries temporelles, IoT, analytics à grande échelle."
+              ]
+            },
+            {
+              "id": "ccp-m2-l2",
+              "title": "BigQuery : l'entrepôt de données serverless",
+              "content": "BigQuery est l'un des services les plus emblématiques de GCP. C'est un entrepôt de données serverless capable d'analyser des pétaoctets de données en quelques secondes.",
+              "key_points": [
+                "Serverless : aucune infrastructure à gérer. Vous écrivez du SQL, BigQuery s'occupe du reste.",
+                "Ultra-rapide : analyse des téraoctets en secondes grâce au traitement massivement parallèle.",
+                "BigQuery ML : entraînez des modèles ML directement avec du SQL, sans exporter les données.",
+                "BigQuery Omni : analysez des données stockées dans AWS S3 ou Azure Blob sans les déplacer.",
+                "Tarification : payez par requête (quantité de données scannées) ou abonnement mensuel fixe."
+              ],
+              "analogy": "BigQuery c'est comme avoir une armée de milliers d'analystes qui lisent simultanément vos fichiers et vous donnent le résultat en quelques secondes."
+            },
+            {
+              "id": "ccp-m2-l3",
+              "title": "Vertex AI et services d'IA Google",
+              "content": "GCP propose une suite complète de services IA, des APIs prêtes à l'emploi jusqu'à la plateforme ML complète.",
+              "key_points": [
+                "Vertex AI : plateforme ML unifiée pour construire, entraîner, déployer et surveiller des modèles ML.",
+                "Gemini API : accès aux modèles Gemini (Pro, Flash, Ultra) de Google pour la génération de texte, images, code.",
+                "Vision AI : reconnaissance d'images (objets, visages, texte OCR, contenu explicite).",
+                "Natural Language AI : analyse de sentiments, extraction d'entités, classification de texte.",
+                "Speech-to-Text / Text-to-Speech : transcription et synthèse vocale en 125+ langues.",
+                "Document AI : extraction intelligente d'informations depuis des documents (factures, contrats, formulaires)."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "ccp-m2-q1",
+              "question": "Un analyste veut interroger 10 To de données de vente sans gérer de serveur. Quel service GCP est le plus adapté ?",
+              "options": ["Cloud SQL", "Bigtable", "BigQuery", "Firestore"],
+              "correct": "BigQuery",
+              "explanation": "BigQuery est un entrepôt de données serverless capable d'analyser des pétaoctets avec du SQL standard. Aucune infrastructure à gérer, idéal pour l'analyse ad-hoc."
+            },
+            {
+              "id": "ccp-m2-q2",
+              "question": "Quel service GCP permet d'extraire automatiquement des données structurées d'une facture PDF ?",
+              "options": ["Vision AI", "Document AI", "Natural Language AI", "BigQuery ML"],
+              "correct": "Document AI",
+              "explanation": "Document AI est spécialement conçu pour comprendre et extraire des informations de documents semi-structurés comme les factures, reçus ou contrats."
+            }
+          ]
+        },
+        {
+          "id": "ccp-m3",
+          "order": 3,
+          "title": "Sécurité et conformité sur GCP",
+          "duration_min": 35,
+          "objectives": [
+            "Comprendre le modèle de sécurité GCP",
+            "Connaître Cloud IAM",
+            "Découvrir les outils de sécurité GCP"
+          ],
+          "lessons": [
+            {
+              "id": "ccp-m3-l1",
+              "title": "Modèle de responsabilité partagée GCP",
+              "content": "Comme AWS et Azure, GCP utilise un modèle de responsabilité partagée où Google et le client partagent les responsabilités de sécurité.",
+              "key_points": [
+                "Google est responsable : sécurité physique des datacenters, réseau physique, infrastructure matérielle.",
+                "Client responsable : données, identités et accès, configuration des services, chiffrement côté client.",
+                "En IaaS (Compute Engine) : le client gère aussi l'OS, les patches et les applications.",
+                "En SaaS (Google Workspace) : Google gère la quasi-totalité, le client gère ses comptes et ses données.",
+                "Infrastructure sécurisée by design : les serveurs Google utilisent des puces de sécurité Titan personnalisées."
+              ]
+            },
+            {
+              "id": "ccp-m3-l2",
+              "title": "Cloud IAM : gestion des identités GCP",
+              "content": "Cloud IAM (Identity and Access Management) contrôle qui peut faire quoi sur quelles ressources GCP.",
+              "key_points": [
+                "Principal : entité qui demande l'accès (compte Google, groupe, compte de service, domaine).",
+                "Rôle : ensemble de permissions. 3 types : Basiques (Owner, Editor, Viewer), Prédéfinis (granulaires), Personnalisés.",
+                "Binding : associe un principal à un rôle sur une ressource spécifique.",
+                "Compte de service : identité pour les applications et VMs (équivalent du rôle IAM AWS).",
+                "Principe du moindre privilège : accordez uniquement les permissions nécessaires à la tâche."
+              ]
+            },
+            {
+              "id": "ccp-m3-l3",
+              "title": "Outils de sécurité GCP",
+              "content": "GCP intègre de nombreux services pour protéger, surveiller et répondre aux menaces de sécurité.",
+              "key_points": [
+                "Security Command Center : tableau de bord centralisé de la posture de sécurité GCP (équivalent AWS Security Hub).",
+                "Cloud Armor : protection DDoS et WAF (Web Application Firewall) pour vos applications web.",
+                "Cloud KMS : gestion des clés de chiffrement. Créez et contrôlez les clés qui protègent vos données.",
+                "VPC Service Controls : périmètre de sécurité autour des services GCP pour prévenir l'exfiltration de données.",
+                "Chronicle SIEM : plateforme d'analyse des logs de sécurité à grande échelle, propulsée par l'IA Google."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "ccp-m3-q1",
+              "question": "Une application sur Compute Engine doit lire des fichiers dans Cloud Storage. Quelle identité utiliser sans stocker de clé dans le code ?",
+              "options": ["Créer un utilisateur IAM avec une clé API", "Utiliser un compte de service attaché à la VM", "Rendre le bucket public en lecture", "Utiliser le compte root Google"],
+              "correct": "Utiliser un compte de service attaché à la VM",
+              "explanation": "Un compte de service est l'identité recommandée pour les applications. Attaché à la VM, il fournit des credentials automatiques et temporaires sans aucune clé à gérer."
+            }
+          ]
+        },
+        {
+          "id": "ccp-m4",
+          "order": 4,
+          "title": "Modernisation des applications et DevOps",
+          "duration_min": 40,
+          "objectives": [
+            "Comprendre les conteneurs et Kubernetes sur GCP",
+            "Connaître les outils DevOps GCP",
+            "Découvrir le développement d'applications modernes"
+          ],
+          "lessons": [
+            {
+              "id": "ccp-m4-l1",
+              "title": "Conteneurs et GKE (Google Kubernetes Engine)",
+              "content": "Google a inventé Kubernetes en interne (projet Borg) avant de l'open-sourcer. GKE est donc le service Kubernetes le plus mature du marché.",
+              "key_points": [
+                "Conteneur : package léger contenant l'application et toutes ses dépendances. Portable et reproductible.",
+                "Docker : technologie de conteneurisation la plus populaire. Build once, run anywhere.",
+                "Kubernetes : orchestration de conteneurs à grande échelle (déploiement, scaling, résilience).",
+                "GKE (Google Kubernetes Engine) : Kubernetes managé sur GCP. Google gère le plan de contrôle.",
+                "Cloud Run : déployez des conteneurs sans gérer de cluster. Scalabilité automatique jusqu'à zéro."
+              ],
+              "analogy": "Les conteneurs c'est comme des boîtes de livraison standardisées : peu importe ce qu'il y a dedans, elles s'empilent de la même façon partout."
+            },
+            {
+              "id": "ccp-m4-l2",
+              "title": "Outils DevOps et CI/CD sur GCP",
+              "content": "GCP propose une suite d'outils intégrés pour automatiser le développement, les tests et le déploiement d'applications.",
+              "key_points": [
+                "Cloud Source Repositories : hébergement de code Git privé et sécurisé sur GCP.",
+                "Cloud Build : service CI/CD managé. Compile, teste et déploie automatiquement votre code.",
+                "Artifact Registry : stockage des images Docker, packages Maven/npm, produits du build.",
+                "Cloud Deploy : déploiement continu géré vers GKE, Cloud Run ou GCE avec workflows d'approbation.",
+                "Google Kubernetes Engine Autopilot : GKE entièrement managé, Google optimise et sécurise les nodes."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "ccp-m4-q1",
+              "question": "Une équipe veut déployer des conteneurs sur GCP sans gérer de cluster Kubernetes. Quel service choisir ?",
+              "options": ["GKE Standard", "Compute Engine", "Cloud Run", "App Engine Flexible"],
+              "correct": "Cloud Run",
+              "explanation": "Cloud Run permet de déployer des conteneurs directement sans gérer de cluster. Il scale automatiquement (y compris jusqu'à zéro) et vous ne payez que lors de l'exécution."
+            }
+          ]
+        },
+        {
+          "id": "ccp-m5",
+          "order": 5,
+          "title": "Tarification, support et bonnes pratiques GCP",
+          "duration_min": 30,
+          "objectives": [
+            "Comprendre la tarification GCP",
+            "Connaître les outils de gestion des coûts",
+            "Découvrir les niveaux de support Google"
+          ],
+          "lessons": [
+            {
+              "id": "ccp-m5-l1",
+              "title": "Modèle de tarification GCP",
+              "content": "GCP se distingue par des fonctionnalités de tarification avantageuses, notamment les remises automatiques sans engagement.",
+              "key_points": [
+                "Pay-as-you-go : payez à la seconde (Compute Engine), sans minimum d'utilisation.",
+                "Sustained Use Discounts (SUD) : remises automatiques allant jusqu'à 30% si vous utilisez une VM plus de 25% du mois. Aucun engagement requis.",
+                "Committed Use Discounts (CUD) : engagez-vous 1 ou 3 ans sur des ressources spécifiques pour 57-70% de réduction.",
+                "Spot VMs : VMs à prix réduit (60-90% moins cher) pouvant être interrompues par Google. Idéal pour les batchs.",
+                "Free Tier : toujours gratuit — 1 micro VM par mois, 5 Go Cloud Storage, requêtes BigQuery, etc."
+              ]
+            },
+            {
+              "id": "ccp-m5-l2",
+              "title": "Gestion des coûts et support GCP",
+              "content": "GCP fournit des outils pour visualiser, analyser et optimiser vos dépenses cloud.",
+              "key_points": [
+                "Cloud Billing : tableau de bord de facturation avec rapports détaillés par projet, service et label.",
+                "Budgets et alertes : configurez des seuils et recevez des alertes email ou Pub/Sub quand vous les approchez.",
+                "Recommandations d'économies : GCP suggère automatiquement des ressources sous-utilisées à réduire.",
+                "Plans de support GCP : Basic (gratuit, documentation), Standard (heures ouvrées), Enhanced (24/7), Premium (TAM dédié).",
+                "Google Cloud Pricing Calculator : estimez vos coûts avant de déployer."
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "id": "ccp-m5-q1",
+              "question": "Vous exécutez une VM GCP toute la journée pendant tout le mois. Quelle réduction obtenez-vous automatiquement sans aucun engagement ?",
+              "options": ["Aucune réduction", "Committed Use Discount (CUD)", "Sustained Use Discount (SUD)", "Free Tier"],
+              "correct": "Sustained Use Discount (SUD)",
+              "explanation": "Les Sustained Use Discounts s'appliquent automatiquement quand vous utilisez une ressource plus de 25% du mois. À 100% du mois, la réduction atteint ~30%, sans contrat ni engagement."
+            }
+          ]
+        }
+      ],
+      "final_exam_tips": [
+        "Mémorisez les services clés GCP et leurs équivalents AWS/Azure (Compute Engine=EC2, Cloud Storage=S3, BigQuery=Redshift)",
+        "Comprenez les Sustained Use Discounts (automatiques) vs Committed Use Discounts (avec engagement)",
+        "Connaissez bien BigQuery et son positionnement unique (serverless, SQL, pétaoctets)",
+        "Maîtrisez Cloud IAM : rôles basiques vs prédéfinis vs personnalisés",
+        "Retenez les 6 piliers du Cloud Well-Architected Framework de Google",
+        "L'examen dure 90 minutes avec ~60 questions. Score minimum : 70%"
+      ],
+      "resources": {
+        "official_doc": "https://cloud.google.com/learn/certification/cloud-digital-leader",
+        "practice_exam": "https://cloud.google.com/learn/certification/cloud-digital-leader#preparation"
+      }
+    }
+  ],
+  "metadata": {
+    "total_certifications": 7,
+    "by_level": {
+      "debutant": ["az-900", "ai-900", "sc-900", "aws-clf-c02", "aws-aif-c01", "gcp-ccp"],
+      "intermediaire": ["aws-saa-c03", "aws-scs-c02"]
+    },
+    "by_domain": {
+      "cloud": ["az-900", "aws-clf-c02", "aws-saa-c03", "gcp-ccp"],
+      "ia": ["ai-900", "aws-aif-c01"],
+      "securite": ["sc-900", "aws-scs-c02"]
+    },
+    "by_provider": {
+      "Microsoft Azure": ["az-900", "ai-900", "sc-900"],
+      "Amazon Web Services": ["aws-clf-c02", "aws-saa-c03", "aws-aif-c01", "aws-scs-c02"],
+      "Google Cloud Platform": ["gcp-ccp"]
+    }
+  }
+}

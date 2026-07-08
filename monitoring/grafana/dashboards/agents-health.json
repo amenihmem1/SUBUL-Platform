@@ -1,0 +1,265 @@
+{
+  "title": "Subul — Agents Health",
+  "uid": "subul-agents",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "30s",
+  "time": { "from": "now-3h", "to": "now" },
+  "tags": ["subul", "agents"],
+  "templating": {
+    "list": [
+      {
+        "name": "agent",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(azure_openai_requests_total, agent)",
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "label": "Agent"
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "cloud-tutor",
+      "gridPos": { "x": 0, "y": 0, "w": 4, "h": 3 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "probe_success{instance=~\".*agent-cloud-tutor.*\"}", "legendFormat": "" }
+      ],
+      "options": { "colorMode": "background", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "DOWN", "color": "red" }, "1": { "text": "UP", "color": "green" } } }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "green", "value": 1 }] }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "quiz",
+      "gridPos": { "x": 4, "y": 0, "w": 4, "h": 3 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "probe_success{instance=~\".*agent-quiz.*\"}", "legendFormat": "" }
+      ],
+      "options": { "colorMode": "background", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "DOWN", "color": "red" }, "1": { "text": "UP", "color": "green" } } }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "green", "value": 1 }] }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "roadmap",
+      "gridPos": { "x": 8, "y": 0, "w": 4, "h": 3 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "probe_success{instance=~\".*agent-roadmap.*\"}", "legendFormat": "" }
+      ],
+      "options": { "colorMode": "background", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "DOWN", "color": "red" }, "1": { "text": "UP", "color": "green" } } }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "green", "value": 1 }] }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "coach",
+      "gridPos": { "x": 12, "y": 0, "w": 4, "h": 3 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "probe_success{instance=~\".*agent-coach.*\"}", "legendFormat": "" }
+      ],
+      "options": { "colorMode": "background", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "DOWN", "color": "red" }, "1": { "text": "UP", "color": "green" } } }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "green", "value": 1 }] }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "cv-booster",
+      "gridPos": { "x": 16, "y": 0, "w": 4, "h": 3 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "probe_success{instance=~\".*agent-cv.*\"}", "legendFormat": "" }
+      ],
+      "options": { "colorMode": "background", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "DOWN", "color": "red" }, "1": { "text": "UP", "color": "green" } } }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "green", "value": 1 }] }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": "stat",
+      "title": "job-search",
+      "gridPos": { "x": 20, "y": 0, "w": 4, "h": 3 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "probe_success{instance=~\".*agent-job.*\"}", "legendFormat": "" }
+      ],
+      "options": { "colorMode": "background", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "DOWN", "color": "red" }, "1": { "text": "UP", "color": "green" } } }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "green", "value": 1 }] }
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": "timeseries",
+      "title": "Request Rate by Agent (req/s)",
+      "gridPos": { "x": 0, "y": 3, "w": 12, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum by(agent) (rate(azure_openai_requests_total{agent=~\"$agent\"}[5m]))",
+          "legendFormat": "{{agent}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "reqps", "custom": { "lineWidth": 2, "fillOpacity": 8 } }
+      }
+    },
+    {
+      "id": 11,
+      "type": "timeseries",
+      "title": "Request Duration P95 by Agent (s)",
+      "gridPos": { "x": 12, "y": 3, "w": 12, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum by(agent, le) (rate(azure_openai_request_duration_seconds_bucket{agent=~\"$agent\"}[5m])))",
+          "legendFormat": "p95 {{agent}}"
+        },
+        {
+          "expr": "histogram_quantile(0.50, sum by(agent, le) (rate(azure_openai_request_duration_seconds_bucket{agent=~\"$agent\"}[5m])))",
+          "legendFormat": "p50 {{agent}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "s", "custom": { "lineWidth": 2 } }
+      }
+    },
+    {
+      "id": 12,
+      "type": "timeseries",
+      "title": "Error Rate by Agent (%)",
+      "gridPos": { "x": 0, "y": 11, "w": 12, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum by(agent) (rate(azure_openai_requests_total{agent=~\"$agent\", status=\"error\"}[5m])) / sum by(agent) (rate(azure_openai_requests_total{agent=~\"$agent\"}[5m])) * 100",
+          "legendFormat": "{{agent}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "custom": { "lineWidth": 2 },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 5 }, { "color": "red", "value": 10 }] }
+        }
+      }
+    },
+    {
+      "id": 13,
+      "type": "timeseries",
+      "title": "Tokens per Minute by Agent",
+      "gridPos": { "x": 12, "y": 11, "w": 12, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum by(agent) (rate(azure_openai_total_tokens_total{agent=~\"$agent\"}[5m])) * 60",
+          "legendFormat": "total {{agent}}"
+        },
+        {
+          "expr": "sum by(agent) (rate(azure_openai_prompt_tokens_total{agent=~\"$agent\"}[5m])) * 60",
+          "legendFormat": "prompt {{agent}}"
+        },
+        {
+          "expr": "sum by(agent) (rate(azure_openai_completion_tokens_total{agent=~\"$agent\"}[5m])) * 60",
+          "legendFormat": "completion {{agent}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "short", "custom": { "lineWidth": 1, "fillOpacity": 5 } }
+      }
+    },
+    {
+      "id": 14,
+      "type": "timeseries",
+      "title": "Azure Search Queries / Failures",
+      "gridPos": { "x": 0, "y": 19, "w": 12, "h": 7 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum by(agent) (rate(azure_search_requests_total{agent=~\"$agent\", success=\"true\"}[5m]))",
+          "legendFormat": "ok {{agent}}"
+        },
+        {
+          "expr": "sum by(agent) (rate(azure_search_requests_total{agent=~\"$agent\", success=\"false\"}[5m]))",
+          "legendFormat": "fail {{agent}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "reqps", "custom": { "lineWidth": 2 } }
+      }
+    },
+    {
+      "id": 15,
+      "type": "timeseries",
+      "title": "Paid API Failures (any provider)",
+      "gridPos": { "x": 12, "y": 19, "w": 12, "h": 7 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum by(agent, provider) (rate(paid_api_failures_total{agent=~\"$agent\"}[5m]))",
+          "legendFormat": "{{agent}} / {{provider}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "custom": { "lineWidth": 2 },
+          "color": { "fixedColor": "red", "mode": "fixed" }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <circle cx="100" cy="100" r="80" fill="hsl(217 91% 60% / 0.1)"/>
+  <path d="M100 45L50 70v35l50 25 50-25V70L100 45z" stroke="hsl(217 91% 60%)" stroke-width="4" fill="hsl(217 91% 60% / 0.15)"/>
+  <circle cx="100" cy="55" r="12" fill="hsl(217 91% 60%)"/>
+  <rect x="88" y="120" width="24" height="35" rx="4" fill="hsl(217 91% 60% / 0.8)"/>
+  <path d="M70 155c0-16 13-30 30-30s30 14 30 30" stroke="hsl(217 91% 60%)" stroke-width="3" fill="none"/>
+</svg>

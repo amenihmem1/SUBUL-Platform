@@ -1,0 +1,50 @@
+# Backend deployment patch for 504 timeout fix
+# Apply this patch to ensure Kubernetes doesn't terminate pods during long-running agent requests
+#
+# Usage:
+#   kubectl patch deployment backend -n subul --type=strategic --patch-file backend-deployment-patch.yaml
+#
+# Or merge into your kustomize overlay in the infra repo.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  template:
+    spec:
+      containers:
+        - name: backend
+          # Readiness probe must account for slow agent initialization and DB seed
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3001
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
+          # Liveness probe - give plenty of time for long-running requests
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3001
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          # Environment variable to propagate timeout settings
+          env:
+            # Timeout for HTTP calls from NestJS to Python agents (ms)
+            # Must be >= ALB idle timeout (4000s) to prevent premature drops
+            - name: AGENT_HTTP_TIMEOUT_MS
+              value: "4000000"
+          # Resource requests/limits to prevent throttling
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "2000m"
+              memory: "2Gi"

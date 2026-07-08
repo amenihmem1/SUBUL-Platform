@@ -1,0 +1,22 @@
+{
+  "adminUser": {
+    "email": "admin@subul.com",
+    "password": "admin123",
+    "role": "admin"
+  },
+  "learnerUser": {
+    "email": "learner@subul.com",
+    "password": "learner123",
+    "role": "learner"
+  },
+  "employerUser": {
+    "email": "employer@subul.com",
+    "password": "employer123",
+    "role": "employer"
+  },
+  "universityUser": {
+    "email": "university@subul.com",
+    "password": "university123",
+    "role": "university"
+  }
+}

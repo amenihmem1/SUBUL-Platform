@@ -1,0 +1,323 @@
+# YAML anchor: inject Google public DNS into every service that calls external Azure endpoints.
+# Without this, Docker on Windows often fails to resolve *.openai.azure.com / *.documents.azure.com.
+x-dns: &azure-dns
+  dns:
+    - 8.8.8.8
+    - 8.8.4.4
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-shared_db}
+    ports:
+      - "${DB_PORT:-5434}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d ${DB_NAME:-shared_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Redis for job search caching (60-80% faster repeated searches)
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+
+  api:
+    <<: *azure-dns
+    build:
+      context: ./backend
+      dockerfile: ./api/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3001}:3001"
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: 3001
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_NAME: ${DB_NAME:-shared_db}
+      DATABASE_URL: postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@postgres:5432/${DB_NAME:-shared_db}
+      JWT_SECRET: ${JWT_SECRET:-dev-only-change-in-production-min-16-chars}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-24h}
+      SESSION_SECRET: ${SESSION_SECRET:-subul-dev-session-secret-change-in-production}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      BACKEND_URL: ${BACKEND_URL:-http://localhost:3001}
+      NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-http://localhost:3001}
+      STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY:-}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+      STRIPE_PRICE_STANDARD_MONTHLY: ${STRIPE_PRICE_STANDARD_MONTHLY:-}
+      STRIPE_PRICE_STANDARD_QUARTERLY: ${STRIPE_PRICE_STANDARD_QUARTERLY:-}
+      STRIPE_PRICE_STANDARD_ANNUAL: ${STRIPE_PRICE_STANDARD_ANNUAL:-}
+      STRIPE_PRICE_BASIC_FREE: ${STRIPE_PRICE_BASIC_FREE:-}
+      FLOUCI_PUBLIC_TOKEN: ${FLOUCI_PUBLIC_TOKEN:-}
+      FLOUCI_PRIVATE_TOKEN: ${FLOUCI_PRIVATE_TOKEN:-}
+      FLOUCI_API_URL: ${FLOUCI_API_URL:-https://developers.flouci.com/api/v2}
+      FLOUCI_PRICE_STANDARD_MONTHLY: ${FLOUCI_PRICE_STANDARD_MONTHLY:-49.99}
+      FLOUCI_PRICE_STANDARD_QUARTERLY: ${FLOUCI_PRICE_STANDARD_QUARTERLY:-149.97}
+      FLOUCI_PRICE_STANDARD_ANNUAL: ${FLOUCI_PRICE_STANDARD_ANNUAL:-599.88}
+      PROXYCHECK_API_KEY: ${PROXYCHECK_API_KEY:-}
+      GEO_DEV_FORCE_REGION: ${GEO_DEV_FORCE_REGION:-}
+      # Set FORCE_PLAN_SEED=true in production .env on every deploy to sync prices from code → DB.
+      # Leave unset (or false) for normal restarts so admin dashboard price edits are preserved.
+      FORCE_PLAN_SEED: ${FORCE_PLAN_SEED:-false}
+      LEARNER_EMPLOI_V2_ENABLED: ${LEARNER_EMPLOI_V2_ENABLED:-true}
+      # Do not auto-seed catalog content on boot unless explicitly enabled.
+      RUN_SEED_ON_BOOT: ${RUN_SEED_ON_BOOT:-false}
+      SEED_PROFILE: ${SEED_PROFILE:-none}
+      SEED_LEGACY_CATALOG: ${SEED_LEGACY_CATALOG:-false}
+      # Subul certification academy pack import on boot (opt-in only; explicit command preferred).
+      AUTO_SEED_CERTIFICATION_PACK: ${AUTO_SEED_CERTIFICATION_PACK:-false}
+      CONTENT_PACK_IMPORT_ON_START: ${CONTENT_PACK_IMPORT_ON_START:-false}
+      REQUIRE_CONTENT_INDEXING: ${REQUIRE_CONTENT_INDEXING:-false}
+      CERTIFICATION_PACK_DIR: ${CERTIFICATION_PACK_DIR:-seed/subul-certification-pack}
+      # Always use Compose service hostnames here. Host .env often sets ROADMAP_AGENT_URL=http://localhost:8002
+      # for the browser; substituting that into the API container breaks proxies (localhost = this container).
+      QUIZ_AGENT_URL: http://agent-quiz:8001
+      ROADMAP_AGENT_URL: http://agent-roadmap:8002
+      COACH_AGENT_URL: http://agent-coach:8004
+      CLOUD_TUTOR_AGENT_URL: http://agent-cloud-tutor:8000
+      CV_BOOSTER_AGENT_URL: http://agent-cv-booster:8005
+      JOB_SEARCH_AGENT_URL: http://agent-job-search:8006
+      AGENT_HTTP_TIMEOUT_MS: ${AGENT_HTTP_TIMEOUT_MS:-300000}
+      REDIS_URL: redis://redis:6379/1
+      AZURE_SEARCH_ENDPOINT: ${AZURE_SEARCH_ENDPOINT:-}
+      AZURE_SEARCH_API_KEY: ${AZURE_SEARCH_API_KEY:-}
+      AZURE_SEARCH_INDEX_NAME: ${AZURE_SEARCH_INDEX_NAME:-index-subul-semantic-v2}
+      TUTOR_AZURE_OPENAI_ENDPOINT: ${TUTOR_AZURE_OPENAI_ENDPOINT:-}
+      TUTOR_AZURE_OPENAI_API_KEY: ${TUTOR_AZURE_OPENAI_API_KEY:-}
+      TUTOR_AZURE_OPENAI_EMBEDDING_DEPLOYMENT: ${TUTOR_AZURE_OPENAI_EMBEDDING_DEPLOYMENT:-text-embedding-3-small-2}
+      TUTOR_AZURE_OPENAI_API_VERSION: ${TUTOR_AZURE_OPENAI_API_VERSION:-2024-12-01-preview}
+      EMAIL_VERIFICATION_LOCALE: ${EMAIL_VERIFICATION_LOCALE:-en}
+      SMTP_HOST: ${SMTP_HOST:-email-smtp.eu-central-1.amazonaws.com}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      MAIL_FROM: ${MAIL_FROM:-subul@smartovate.com}
+      MAIL_FROM_NAME: ${MAIL_FROM_NAME:-Subul Platform}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      agent-cloud-tutor:
+        condition: service_started
+      agent-quiz:
+        condition: service_started
+      agent-roadmap:
+        condition: service_healthy
+      agent-cv-booster:
+        condition: service_healthy
+      agent-job-search:
+        condition: service_healthy
+      agent-coach:
+        condition: service_started
+    volumes:
+      - cv_uploads:/app/uploads/cvs
+      - manual_proofs:/app/uploads/manual-proofs
+
+  agent-cloud-tutor:
+    <<: *azure-dns
+    build:
+      context: ./backend/agents
+      dockerfile: Dockerfile
+      target: cloud-tutor-agent
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+
+  agent-quiz:
+    <<: *azure-dns
+    build:
+      context: ./backend/agents
+      dockerfile: Dockerfile
+      target: quiz-agent
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+
+  agent-roadmap:
+    <<: *azure-dns
+    build:
+      context: ./backend/agents
+      dockerfile: Dockerfile
+      target: roadmap-agent
+    restart: unless-stopped
+    ports:
+      - "8002:8002"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/api/roadmap/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 120s
+
+  agent-coach:
+    <<: *azure-dns
+    build:
+      context: ./backend/agents
+      dockerfile: Dockerfile
+      target: coach-agent
+    restart: unless-stopped
+    ports:
+      - "8004:8004"
+
+  agent-cv-booster:
+    <<: *azure-dns
+    build:
+      context: ./backend/agents
+      dockerfile: Dockerfile
+      target: cv-booster-agent
+    restart: unless-stopped
+    ports:
+      - "8005:8005"
+    environment:
+      # Only override AZURE_OPENAI_ENDPOINT / AZURE_OPENAI_API_KEY if explicitly set in .env.
+      # Empty-string overrides crash AzureOpenAI() at import time; the Dockerfile bakes in
+      # correct defaults so we only pass these when a real value is available.
+      AZURE_OPENAI_DEPLOYMENT_NAME: ${AZURE_OPENAI_CV_BOOSTER_DEPLOYMENT:-gpt-4o-mini}
+      AZURE_OPENAI_EMBEDDING_DEPLOYMENT: ${AZURE_OPENAI_CV_BOOSTER_EMBEDDING:-text-embedding-3-small}
+    healthcheck:
+      # /api/cv/ returns the root health JSON; used to gate depends_on service_healthy.
+      # start_period covers the first SentenceTransformer model download (~60-120 s).
+      test: ["CMD", "curl", "-f", "http://localhost:8005/api/cv/"]
+      interval: 30s
+      timeout: 15s
+      retries: 5
+      start_period: 120s
+
+  agent-job-search:
+    <<: *azure-dns
+    build:
+      context: ./backend/agents
+      dockerfile: Dockerfile
+      target: job-search-agent
+    restart: unless-stopped
+    ports:
+      - "8006:8006"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8006/docs"]
+      interval: 15s
+      timeout: 10s
+      retries: 8
+      start_period: 240s
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      AZURE_OPENAI_ENDPOINT: ${AZURE_OPENAI_JOB_SEARCH_ENDPOINT:-}
+      AZURE_OPENAI_API_KEY: ${AZURE_OPENAI_JOB_SEARCH_API_KEY:-}
+      AZURE_OPENAI_DEPLOYMENT_NAME: ${AZURE_OPENAI_JOB_SEARCH_DEPLOYMENT:-gpt-4o-mini}
+      AZURE_OPENAI_EMBEDDING_DEPLOYMENT: ${AZURE_OPENAI_JOB_SEARCH_EMBEDDING:-text-embedding-3-small}
+      AZURE_SEARCH_ENDPOINT: ${AZURE_SEARCH_ENDPOINT:-}
+      AZURE_SEARCH_API_KEY: ${AZURE_SEARCH_API_KEY:-}
+      AZURE_SEARCH_INDEX_NAME: ${AZURE_SEARCH_INDEX_NAME:-index-subul-semantic-v2}
+      AZURE_COSMOS_ENDPOINT: ${AZURE_COSMOS_ENDPOINT:-}
+      AZURE_COSMOS_KEY: ${AZURE_COSMOS_KEY:-}
+      AZURE_COSMOS_DATABASE_NAME: ${AZURE_COSMOS_DATABASE_NAME:-EduTech_AI_Production}
+      AZURE_COSMOS_CONTAINER_NAME: ${AZURE_COSMOS_JOB_SEARCH_CONTAINER_NAME:-JobSearchSessions}
+      REDIS_URL: redis://redis:6379/0
+      JOB_CACHE_TTL: ${JOB_CACHE_TTL:-3600}
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: prod
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
+        BACKEND_URL: ${BACKEND_URL:-http://localhost:3001}
+        # Used at Next build-time for `next.config.ts` rewrites inside the container network.
+        # Without this, rewrites default to http://localhost:3001 (frontend container), causing ECONNREFUSED.
+        BACKEND_INTERNAL_URL: http://api:3001
+        NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-http://localhost:3001}
+        # Pass both names; Dockerfile merges into NEXT_PUBLIC_* before `next build` (nested compose defaults are unreliable).
+        NEXT_PUBLIC_DEEPGRAM_API_KEY: ${NEXT_PUBLIC_DEEPGRAM_API_KEY:-}
+        DEEPGRAM_API_KEY: ${DEEPGRAM_API_KEY:-}
+        VITE_DEEPGRAM_API_KEY: ${VITE_DEEPGRAM_API_KEY:-}
+        NEXT_PUBLIC_CARTESIA_API_KEY: ${NEXT_PUBLIC_CARTESIA_API_KEY:-}
+        CARTESIA_API_KEY: ${CARTESIA_API_KEY:-}
+        NEXT_PUBLIC_AGENT_API_TIMEOUT_MS: ${NEXT_PUBLIC_AGENT_API_TIMEOUT_MS:-300000}
+        NEXT_PUBLIC_QUIZ_AGENT_URL: ${QUIZ_AGENT_URL:-http://localhost:8001}
+        NEXT_PUBLIC_ROADMAP_AGENT_URL: ${ROADMAP_AGENT_URL:-http://localhost:8002}
+        NEXT_PUBLIC_CV_BOOSTER_AGENT_URL: ${CV_BOOSTER_AGENT_URL:-http://localhost:8005}
+        NEXT_PUBLIC_JOB_SEARCH_AGENT_URL: ${JOB_SEARCH_AGENT_URL:-http://localhost:8006}
+        NEXT_PUBLIC_COACH_AGENT_URL: ${COACH_AGENT_URL:-http://localhost:8004}
+        NEXT_PUBLIC_CLOUD_TUTOR_AGENT_URL: ${CLOUD_TUTOR_AGENT_URL:-http://localhost:8000}
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    environment:
+      NODE_ENV: production
+      BACKEND_INTERNAL_URL: http://api:3001
+      NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-http://localhost:3001}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
+      NEXT_PUBLIC_AGENT_API_TIMEOUT_MS: ${NEXT_PUBLIC_AGENT_API_TIMEOUT_MS:-4000000}
+      NEXT_PUBLIC_CARTESIA_API_KEY: ${NEXT_PUBLIC_CARTESIA_API_KEY:-${CARTESIA_API_KEY:-}}
+      NEXT_PUBLIC_DEEPGRAM_API_KEY: ${NEXT_PUBLIC_DEEPGRAM_API_KEY:-${DEEPGRAM_API_KEY:-${VITE_DEEPGRAM_API_KEY:-}}}
+
+  frontend-prod:
+    profiles: ["prod"]
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: prod
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
+        BACKEND_URL: ${BACKEND_URL:-http://localhost:3001}
+        BACKEND_INTERNAL_URL: http://api:3001
+        NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-http://localhost:3001}
+        NEXT_PUBLIC_DEEPGRAM_API_KEY: ${NEXT_PUBLIC_DEEPGRAM_API_KEY:-}
+        DEEPGRAM_API_KEY: ${DEEPGRAM_API_KEY:-}
+        VITE_DEEPGRAM_API_KEY: ${VITE_DEEPGRAM_API_KEY:-}
+        NEXT_PUBLIC_CARTESIA_API_KEY: ${NEXT_PUBLIC_CARTESIA_API_KEY:-}
+        CARTESIA_API_KEY: ${CARTESIA_API_KEY:-}
+        NEXT_PUBLIC_AGENT_API_TIMEOUT_MS: ${NEXT_PUBLIC_AGENT_API_TIMEOUT_MS:-300000}
+        NEXT_PUBLIC_QUIZ_AGENT_URL: ${QUIZ_AGENT_URL:-http://localhost:8001}
+        NEXT_PUBLIC_ROADMAP_AGENT_URL: ${ROADMAP_AGENT_URL:-http://localhost:8002}
+        NEXT_PUBLIC_CV_BOOSTER_AGENT_URL: ${CV_BOOSTER_AGENT_URL:-http://localhost:8005}
+        NEXT_PUBLIC_JOB_SEARCH_AGENT_URL: ${JOB_SEARCH_AGENT_URL:-http://localhost:8006}
+        NEXT_PUBLIC_COACH_AGENT_URL: ${COACH_AGENT_URL:-http://localhost:8004}
+        NEXT_PUBLIC_CLOUD_TUTOR_AGENT_URL: ${CLOUD_TUTOR_AGENT_URL:-http://localhost:8000}
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    environment:
+      NODE_ENV: production
+      BACKEND_INTERNAL_URL: http://api:3001
+      NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-http://localhost:3001}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
+      NEXT_PUBLIC_AGENT_API_TIMEOUT_MS: ${NEXT_PUBLIC_AGENT_API_TIMEOUT_MS:-4000000}
+      NEXT_PUBLIC_CARTESIA_API_KEY: ${NEXT_PUBLIC_CARTESIA_API_KEY:-${CARTESIA_API_KEY:-}}
+      NEXT_PUBLIC_DEEPGRAM_API_KEY: ${NEXT_PUBLIC_DEEPGRAM_API_KEY:-${DEEPGRAM_API_KEY:-${VITE_DEEPGRAM_API_KEY:-}}}
+
+volumes:
+  pgdata:
+  cv_uploads:     # persists uploaded CV files across API container restarts
+  manual_proofs:  # persists manual payment proof files across API container restarts
+  redis_data:     # persists Redis cache data
+  frontend_node_modules:
+  frontend_next_cache:

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "subul.academy.invalid-test.v1",
+  "purpose": "Intentional invalid JSON payload for testing Subul path-precise validator and dry-run rollback.",
+  "certifications": [
+    {
+      "externalId": "invalid-missing-title-demo",
+      "provider": "AWS",
+      "certificationCode": "BROKEN-001",
+      "courses": [
+        {
+          "courseId": "BROKEN-COURSE-001",
+          "title": "Broken Course Example",
+          "modules": [
+            {
+              "moduleOrder": 1,
+              "lessons": [
+                {
+                  "lessonOrder": 1,
+                  "content": "Missing lesson title intentionally."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

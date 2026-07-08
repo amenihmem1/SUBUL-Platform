@@ -1,0 +1,20 @@
+# Dependencies and build output (recreated in container)
+node_modules
+dist
+
+# Env and secrets
+.env
+.env.*
+
+# Git and IDE
+.git
+.gitignore
+*.log
+.DS_Store
+
+# Test and tooling
+test
+coverage
+.nyc_output
+.eslintcache
+*.tsbuildinfo

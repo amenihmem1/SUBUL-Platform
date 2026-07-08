@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: default
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 30s
+      evaluation_interval: 30s
+      external_labels:
+        environment: 'subul-eks'
+
+    scrape_configs:
+
+      - job_name: 'prometheus'
+        static_configs:
+          - targets: ['localhost:9090']
+
+      # NestJS API — /metrics endpoint registered by PrometheusModule
+      - job_name: 'nestjs-api'
+        metrics_path: /metrics
+        static_configs:
+          - targets: ['backend-service:80']
+
+      # Python agents — /metrics endpoint registered by shared.metrics
+      - job_name: 'python-agents-metrics'
+        scrape_interval: 30s
+        metrics_path: /metrics
+        static_configs:
+          - targets:
+              - 'agent-cloud-tutor:8000'
+              - 'agent-quiz:8001'
+              - 'agent-roadmap:8002'
+              - 'agent-coach:8004'
+              - 'agent-cv-booster:8003'
+              - 'agent-job-search:8005'
+
+      # Blackbox HTTP probes — agent health endpoints
+      - job_name: 'blackbox-agents'
+        metrics_path: /probe
+        params:
+          module: [http_2xx]
+        static_configs:
+          - targets:
+              - http://agent-cloud-tutor:8000/health
+              - http://agent-quiz:8001/api/quiz/health
+              - http://agent-roadmap:8002/api/roadmap/health
+              - http://agent-coach:8004/api/coach/health
+              - http://agent-cv-booster:8003/health
+              - http://agent-job-search:8005/health
+              - http://backend-service:80/api/health
+              - http://frontend-service:80/
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: blackbox-exporter:9115

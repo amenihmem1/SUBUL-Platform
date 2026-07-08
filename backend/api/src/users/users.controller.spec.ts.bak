@@ -1,0 +1,35 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
+import { AuthService } from '../auth/auth.service';
+import { User } from './entities/user.entity';
+import { UserSyncService } from './sync.service';
+import { UserRoadmap } from '../roadmap/entities/roadmap.entity';
+import { QuizLevelResult } from '../quiz-results/entities/quiz-level-result.entity';
+
+const mockRepo = { find: jest.fn(), findOne: jest.fn(), create: jest.fn(), save: jest.fn() };
+
+describe('UsersController', () => {
+  let controller: UsersController;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [UsersController],
+      providers: [
+        UsersService,
+        { provide: AuthService, useValue: {} },
+        { provide: UserSyncService, useValue: {} },
+        { provide: getRepositoryToken(User), useValue: mockRepo },
+        { provide: getRepositoryToken(UserRoadmap), useValue: mockRepo },
+        { provide: getRepositoryToken(QuizLevelResult), useValue: mockRepo },
+      ],
+    }).compile();
+
+    controller = module.get<UsersController>(UsersController);
+  });
+
+  it('should be defined', () => {
+    expect(controller).toBeDefined();
+  });
+});

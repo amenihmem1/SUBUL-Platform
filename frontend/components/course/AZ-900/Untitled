@@ -1,0 +1,67 @@
+You are a senior UI/UX designer and frontend engineer.
+
+I have a learning platform page (lesson + AI chat + navigation). I want you to improve the design and fix some UX issues.
+
+-----------------------------------
+🎨 1) GLOBAL DESIGN IMPROVEMENT
+-----------------------------------
+- Make the UI more modern, premium, and clean (inspired by Stripe / Notion / Coursera)
+- Improve spacing, alignment, and visual hierarchy
+- Use better shadows, rounded cards, and subtle hover effects
+- Improve typography (titles, subtitles, readability)
+- Make the lesson content more engaging and less flat
+
+-----------------------------------
+💬 2) AI CHAT PANEL IMPROVEMENT
+-----------------------------------
+- Redesign the chat to look more modern and clean
+- Improve message bubbles (spacing, contrast, readability)
+- Improve header (make it more minimal and premium)
+
+REMOVE:
+- Remove the 🎙️ "176/76" display completely
+
+REPLACE WITH:
+- Show voice usage like: "🎙️ 12 / 60"
+- Limit total voice uses to 60
+- Track how many voice interactions were used
+- Update dynamically when user uses voice
+- If limit reached → disable voice + show "limit reached"
+
+-----------------------------------
+🎤 3) VOICE UX IMPROVEMENT
+-----------------------------------
+- Show clear feedback when AI is speaking (wave animation or indicator)
+- Prevent multiple voice overlaps
+- Disable "Démarrer" while speaking
+- Make voice experience smooth and professional
+
+-----------------------------------
+➡️ 4) NEXT BUTTON UX FIX (IMPORTANT)
+-----------------------------------
+CURRENT ISSUE:
+- "Next" button is too much at the extreme right → bad UX
+
+FIX:
+- Move it slightly to the left (aligned with content container)
+- Keep balanced layout (Prev left, Next right but NOT at edge)
+- Improve button design (size, spacing, visual importance)
+
+-----------------------------------
+✨ 5) BONUS UX IMPROVEMENTS
+-----------------------------------
+- Improve bottom navigation bar design
+- Add subtle animations for transitions
+- Make layout more responsive and balanced
+
+-----------------------------------
+OUTPUT:
+-----------------------------------
+1. Explain UX problems
+2. Show improved design structure
+3. Provide updated React/Tailwind code
+4. Improve chat + voice system UI logic
+
+IMPORTANT:
+Think like a senior designer building a production SaaS.
+Focus on premium feel + clean UX + clarity.

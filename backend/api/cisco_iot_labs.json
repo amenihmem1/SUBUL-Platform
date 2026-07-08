@@ -1,0 +1,611 @@
+{
+  "id": "cisco-iot-dt-labs",
+  "course_id": "cisco-iot-dt",
+  "title": "Labs - Introduction to IoT and Digital Transformation",
+  "provider": "Cisco Networking Academy",
+  "description": "Ensemble des travaux pratiques (labs) du cours Cisco Introduction to IoT and Digital Transformation. Les labs utilisent Cisco Packet Tracer pour les simulations réseau et IoT, ainsi que des exercices de recherche, de programmation Python et de sensibilisation à la sécurité.",
+  "total_labs": 22,
+  "labs": [
+    {
+      "id": "iot-lab-01",
+      "module_id": "iot-m1",
+      "order": 1,
+      "code": "1.1.1.2",
+      "title": "How Connected are You?",
+      "type": "recherche",
+      "tool": "Questionnaire / Réflexion",
+      "duration_min": 15,
+      "difficulty": "facile",
+      "description": "Ce lab invite les participants à évaluer leur propre niveau de connectivité numérique en analysant le nombre et le type d'appareils connectés qu'ils utilisent quotidiennement.",
+      "objectives": [
+        "Identifier les appareils connectés que vous utilisez au quotidien",
+        "Évaluer votre niveau de dépendance aux technologies numériques",
+        "Comprendre l'omniprésence de la connectivité dans la vie moderne"
+      ],
+      "steps": [
+        "Dresser la liste de tous les appareils connectés à Internet que vous possédez ou utilisez régulièrement (smartphones, ordinateurs, tablettes, montres connectées, consoles de jeux, etc.).",
+        "Pour chaque appareil, noter les types de données qu'il collecte et transmet (localisation, habitudes d'utilisation, données de santé, etc.).",
+        "Calculer le nombre total d'heures par jour passées connecté à Internet.",
+        "Réfléchir aux avantages et inconvénients de cette connectivité permanente.",
+        "Comparer vos résultats avec ceux de votre génération et des générations précédentes."
+      ],
+      "expected_output": "Un document de réflexion personnelle listant vos appareils connectés, les données qu'ils génèrent et une analyse de votre empreinte numérique."
+    },
+    {
+      "id": "iot-lab-02",
+      "module_id": "iot-m1",
+      "order": 2,
+      "code": "1.1.1.8",
+      "title": "Packet Tracer – Deploying and Cabling Devices",
+      "type": "simulation",
+      "tool": "Cisco Packet Tracer",
+      "duration_min": 30,
+      "difficulty": "facile",
+      "description": "Ce lab pratique introduit Cisco Packet Tracer en guidant les participants dans le déploiement et le câblage de périphériques réseau de base dans un environnement simulé.",
+      "objectives": [
+        "Se familiariser avec l'interface de Cisco Packet Tracer",
+        "Placer et connecter des périphériques réseau (routeurs, commutateurs, PC)",
+        "Comprendre les différents types de câbles et leur utilisation"
+      ],
+      "steps": [
+        "Ouvrir Cisco Packet Tracer et créer un nouveau projet.",
+        "Depuis la palette de périphériques, placer un routeur, un commutateur et deux PC dans l'espace de travail.",
+        "Sélectionner le type de câble approprié (câble droit, câble croisé, câble console) pour chaque connexion.",
+        "Connecter les PC au commutateur avec des câbles droits (copper straight-through).",
+        "Connecter le commutateur au routeur avec un câble droit.",
+        "Vérifier que les indicateurs de lien passent au vert, confirmant la connectivité physique.",
+        "Explorer les différentes vues (logique et physique) de Packet Tracer."
+      ],
+      "expected_output": "Un réseau simple fonctionnel dans Packet Tracer avec des périphériques correctement câblés et des liens actifs."
+    },
+    {
+      "id": "iot-lab-03",
+      "module_id": "iot-m1",
+      "order": 3,
+      "code": "1.1.2.4",
+      "title": "Mapping the Internet",
+      "type": "recherche",
+      "tool": "Navigateur web / Outils en ligne",
+      "duration_min": 20,
+      "difficulty": "facile",
+      "description": "Ce lab explore la structure d'Internet en utilisant des outils de traçage de routes et de cartographie pour visualiser comment les données voyagent à travers le réseau mondial.",
+      "objectives": [
+        "Comprendre comment les données traversent Internet via différents réseaux",
+        "Utiliser des outils de traceroute pour visualiser le chemin des paquets",
+        "Identifier les différents fournisseurs de services Internet (ISP) impliqués dans une connexion"
+      ],
+      "steps": [
+        "Ouvrir un terminal ou un outil en ligne de traceroute.",
+        "Exécuter un traceroute vers plusieurs destinations (par exemple google.com, un site dans un autre pays).",
+        "Analyser les résultats : identifier chaque saut (hop), la latence et le nom des routeurs traversés.",
+        "Utiliser un outil de géolocalisation IP pour cartographier le chemin physique des données.",
+        "Comparer les chemins vers différentes destinations et noter les points de convergence.",
+        "Documenter vos observations sur la structure d'Internet."
+      ],
+      "expected_output": "Un rapport montrant les chemins tracés vers différentes destinations avec une analyse des sauts, des latences et de la géographie du réseau."
+    },
+    {
+      "id": "iot-lab-04",
+      "module_id": "iot-m1",
+      "order": 4,
+      "code": "1.1.2.5",
+      "title": "Packet Tracer – Create a Simple Network Using Packet Tracer",
+      "type": "simulation",
+      "tool": "Cisco Packet Tracer",
+      "duration_min": 30,
+      "difficulty": "facile",
+      "description": "Ce lab guide les participants dans la création d'un réseau simple et fonctionnel dans Packet Tracer, incluant la configuration IP et le test de connectivité.",
+      "objectives": [
+        "Créer un réseau local simple avec des PC et un commutateur",
+        "Configurer les adresses IP sur les périphériques",
+        "Tester la connectivité avec la commande ping"
+      ],
+      "steps": [
+        "Placer un commutateur et trois PC dans l'espace de travail de Packet Tracer.",
+        "Câbler chaque PC au commutateur avec des câbles droits.",
+        "Configurer les adresses IP des PC (par exemple 192.168.1.1/24, 192.168.1.2/24, 192.168.1.3/24).",
+        "Ouvrir l'invite de commandes sur le premier PC.",
+        "Exécuter la commande 'ping 192.168.1.2' pour tester la connectivité vers le deuxième PC.",
+        "Tester la connectivité entre tous les PC.",
+        "Observer le flux des paquets en mode simulation de Packet Tracer."
+      ],
+      "expected_output": "Un réseau LAN fonctionnel avec trois PC capables de communiquer entre eux, vérifié par des pings réussis."
+    },
+    {
+      "id": "iot-lab-05",
+      "module_id": "iot-m1",
+      "order": 5,
+      "code": "1.2.1.2",
+      "title": "Imagine a New Intelligent Sensor",
+      "type": "conception",
+      "tool": "Document / Présentation",
+      "duration_min": 25,
+      "difficulty": "facile",
+      "description": "Ce lab créatif demande aux participants d'imaginer et de concevoir un nouveau capteur intelligent IoT qui pourrait résoudre un problème du quotidien.",
+      "objectives": [
+        "Identifier un problème du quotidien qui pourrait être résolu par un capteur IoT",
+        "Concevoir les spécifications d'un capteur intelligent",
+        "Décrire comment le capteur collecte, transmet et utilise les données"
+      ],
+      "steps": [
+        "Identifier un problème ou un besoin dans votre vie quotidienne ou votre environnement de travail.",
+        "Concevoir un capteur intelligent qui pourrait résoudre ce problème : quel type de données mesure-t-il ?",
+        "Définir les spécifications techniques : type de capteur, alimentation, connectivité (Wi-Fi, Bluetooth, LoRa).",
+        "Décrire le flux de données : comment les données sont collectées, transmises, stockées et analysées.",
+        "Expliquer les bénéfices attendus et les défis potentiels (coût, sécurité, vie privée).",
+        "Présenter votre concept sous forme de document ou de schéma."
+      ],
+      "expected_output": "Un document de conception décrivant un capteur IoT innovant avec ses spécifications, son flux de données et ses bénéfices."
+    },
+    {
+      "id": "iot-lab-06",
+      "module_id": "iot-m1",
+      "order": 6,
+      "code": "1.2.1.4",
+      "title": "Advantages and Disadvantages of IoT Devices",
+      "type": "recherche",
+      "tool": "Recherche en ligne / Document",
+      "duration_min": 20,
+      "difficulty": "facile",
+      "description": "Ce lab demande aux participants de rechercher et d'analyser les avantages et les inconvénients des appareils IoT dans différents domaines d'application.",
+      "objectives": [
+        "Identifier les principaux avantages des appareils IoT",
+        "Identifier les principaux inconvénients et risques des appareils IoT",
+        "Analyser l'impact des appareils IoT dans différents secteurs"
+      ],
+      "steps": [
+        "Choisir trois domaines d'application IoT (par exemple : santé, agriculture, maison intelligente, transport, industrie).",
+        "Pour chaque domaine, rechercher au moins deux exemples concrets d'appareils IoT utilisés.",
+        "Lister les avantages de ces appareils : efficacité, automatisation, économies, sécurité, confort.",
+        "Lister les inconvénients : coût, complexité, risques de sécurité, dépendance technologique, impact environnemental.",
+        "Créer un tableau comparatif avantages/inconvénients pour chaque domaine.",
+        "Formuler une conclusion personnelle sur le rapport bénéfice/risque de l'IoT."
+      ],
+      "expected_output": "Un tableau comparatif des avantages et inconvénients de l'IoT dans trois domaines, avec une analyse argumentée."
+    },
+    {
+      "id": "iot-lab-07",
+      "module_id": "iot-m1",
+      "order": 7,
+      "code": "1.2.2.1",
+      "title": "Packet Tracer – Adding IoT Devices to a Smart Home",
+      "type": "simulation",
+      "tool": "Cisco Packet Tracer",
+      "duration_min": 30,
+      "difficulty": "intermediaire",
+      "description": "Ce lab utilise Packet Tracer pour simuler une maison intelligente en ajoutant et en configurant des appareils IoT (capteurs, actionneurs, appareils domestiques connectés).",
+      "objectives": [
+        "Ajouter des appareils IoT à un réseau domestique dans Packet Tracer",
+        "Configurer la connectivité des appareils IoT (Wi-Fi, passerelle IoT)",
+        "Créer des règles d'automatisation simples pour les appareils IoT"
+      ],
+      "steps": [
+        "Ouvrir le fichier Packet Tracer fourni contenant un réseau domestique de base.",
+        "Depuis l'onglet 'End Devices', sélectionner la catégorie 'Home' pour accéder aux appareils IoT.",
+        "Ajouter des appareils IoT : un thermostat intelligent, une ampoule connectée, un détecteur de mouvement et une caméra de sécurité.",
+        "Connecter les appareils IoT au réseau domestique via le point d'accès Wi-Fi ou la passerelle IoT (Home Gateway).",
+        "Configurer chaque appareil IoT avec les paramètres réseau appropriés.",
+        "Accéder au serveur IoT (Registration Server) pour enregistrer et contrôler les appareils.",
+        "Tester le contrôle à distance des appareils via l'interface web du serveur IoT."
+      ],
+      "expected_output": "Une maison intelligente simulée dans Packet Tracer avec des appareils IoT connectés et contrôlables à distance."
+    },
+    {
+      "id": "iot-lab-08",
+      "module_id": "iot-m1",
+      "order": 8,
+      "code": "1.2.2.3",
+      "title": "Packet Tracer – Connect and Monitor IoT Devices",
+      "type": "simulation",
+      "tool": "Cisco Packet Tracer",
+      "duration_min": 30,
+      "difficulty": "intermediaire",
+      "description": "Ce lab approfondit la gestion des appareils IoT dans Packet Tracer en se concentrant sur la connexion, la surveillance et le monitoring des appareils connectés.",
+      "objectives": [
+        "Connecter des appareils IoT à un réseau et les enregistrer sur un serveur IoT",
+        "Surveiller l'état et les données des appareils IoT en temps réel",
+        "Créer des conditions et des règles d'automatisation basées sur les données des capteurs"
+      ],
+      "steps": [
+        "Ouvrir le fichier Packet Tracer fourni avec un environnement IoT pré-configuré.",
+        "Vérifier la connectivité de tous les appareils IoT au réseau.",
+        "Accéder au tableau de bord du serveur IoT pour visualiser les appareils enregistrés.",
+        "Observer les données en temps réel des capteurs (température, humidité, mouvement).",
+        "Créer une règle d'automatisation : si le détecteur de mouvement détecte une présence, allumer la lumière.",
+        "Créer une deuxième règle : si la température dépasse un seuil, activer le ventilateur.",
+        "Tester les règles en simulant des événements et vérifier que les actions automatiques se déclenchent correctement.",
+        "Analyser les journaux d'événements pour comprendre le comportement du système."
+      ],
+      "expected_output": "Un réseau IoT fonctionnel avec des appareils surveillés en temps réel et des règles d'automatisation opérationnelles."
+    },
+    {
+      "id": "iot-lab-09",
+      "module_id": "iot-m2",
+      "order": 9,
+      "code": "2.1.1.8",
+      "title": "Create a Process Flowchart",
+      "type": "conception",
+      "tool": "Outil de dessin / Papier",
+      "duration_min": 20,
+      "difficulty": "facile",
+      "description": "Ce lab enseigne la création d'organigrammes (flowcharts) pour représenter visuellement des processus logiques, une compétence fondamentale en programmation.",
+      "objectives": [
+        "Comprendre les symboles standard des organigrammes",
+        "Créer un organigramme pour un processus quotidien",
+        "Traduire un processus logique en représentation visuelle"
+      ],
+      "steps": [
+        "Réviser les symboles standard des organigrammes : début/fin (ovale), processus (rectangle), décision (losange), entrée/sortie (parallélogramme), flèches de flux.",
+        "Choisir un processus quotidien simple (par exemple : préparer un café, décider quoi porter en fonction de la météo).",
+        "Identifier les étapes séquentielles du processus.",
+        "Identifier les points de décision (conditions if/else).",
+        "Dessiner l'organigramme en utilisant les symboles appropriés.",
+        "Vérifier que l'organigramme est complet : toutes les branches de décision mènent à une fin.",
+        "Tester l'organigramme en le suivant pas à pas avec différents scénarios."
+      ],
+      "expected_output": "Un organigramme complet et correct représentant un processus logique avec des séquences, des décisions et des boucles."
+    },
+    {
+      "id": "iot-lab-10",
+      "module_id": "iot-m2",
+      "order": 10,
+      "code": "2.1.2.3",
+      "title": "Packet Tracer – Blinking an LED Using Blockly",
+      "type": "simulation",
+      "tool": "Cisco Packet Tracer / Blockly",
+      "duration_min": 25,
+      "difficulty": "facile",
+      "description": "Ce lab utilise le langage de programmation visuel Blockly dans Packet Tracer pour programmer un microcontrôleur afin de faire clignoter une LED.",
+      "objectives": [
+        "Utiliser l'interface de programmation Blockly dans Packet Tracer",
+        "Programmer un microcontrôleur pour contrôler une LED",
+        "Comprendre les concepts de boucle et de temporisation"
+      ],
+      "steps": [
+        "Ouvrir Packet Tracer et placer un microcontrôleur (MCU) et une LED dans l'espace de travail.",
+        "Connecter la LED au port GPIO approprié du microcontrôleur.",
+        "Ouvrir l'interface de programmation du microcontrôleur et sélectionner Blockly.",
+        "Créer un programme avec une boucle infinie (forever loop).",
+        "Dans la boucle, ajouter un bloc pour allumer la LED (set pin HIGH).",
+        "Ajouter un bloc de temporisation (delay) d'une seconde.",
+        "Ajouter un bloc pour éteindre la LED (set pin LOW).",
+        "Ajouter un autre bloc de temporisation d'une seconde.",
+        "Exécuter le programme et observer la LED clignoter."
+      ],
+      "expected_output": "Une LED qui clignote à un rythme régulier d'une seconde, contrôlée par un programme Blockly sur un microcontrôleur dans Packet Tracer."
+    },
+    {
+      "id": "iot-lab-11",
+      "module_id": "iot-m2",
+      "order": 11,
+      "code": "2.1.3.6",
+      "title": "Setting Up a Virtualized Server Environment",
+      "type": "pratique",
+      "tool": "VirtualBox / Machine virtuelle",
+      "duration_min": 30,
+      "difficulty": "intermediaire",
+      "description": "Ce lab guide les participants dans l'installation et la configuration d'un environnement de serveur virtualisé, une compétence essentielle pour le développement IoT.",
+      "objectives": [
+        "Installer et configurer un logiciel de virtualisation",
+        "Créer et configurer une machine virtuelle Linux",
+        "Comprendre les avantages de la virtualisation pour le développement"
+      ],
+      "steps": [
+        "Télécharger et installer VirtualBox (ou un autre hyperviseur) sur votre machine.",
+        "Télécharger une image ISO d'Ubuntu Server.",
+        "Créer une nouvelle machine virtuelle avec les paramètres recommandés (2 GB RAM, 20 GB disque).",
+        "Monter l'image ISO et démarrer l'installation d'Ubuntu Server.",
+        "Configurer le réseau de la machine virtuelle (mode NAT ou Bridge).",
+        "Installer les outils de base (openssh-server, python3, git).",
+        "Tester la connectivité réseau et l'accès SSH depuis la machine hôte.",
+        "Prendre un snapshot de la machine virtuelle pour pouvoir restaurer cet état."
+      ],
+      "expected_output": "Un serveur Linux virtualisé fonctionnel, accessible via SSH, prêt pour le développement IoT."
+    },
+    {
+      "id": "iot-lab-12",
+      "module_id": "iot-m2",
+      "order": 12,
+      "code": "2.1.3.7",
+      "title": "Basic Python Programming",
+      "type": "programmation",
+      "tool": "Python IDLE / Éditeur de texte",
+      "duration_min": 30,
+      "difficulty": "facile",
+      "description": "Ce lab introduit les bases de la programmation Python à travers des exercices pratiques couvrant les variables, les structures de contrôle et les fonctions.",
+      "objectives": [
+        "Écrire et exécuter des programmes Python simples",
+        "Utiliser les variables, les opérateurs et les structures de contrôle",
+        "Créer des fonctions et manipuler des structures de données"
+      ],
+      "steps": [
+        "Ouvrir Python IDLE ou un éditeur de texte.",
+        "Écrire un programme qui demande le nom de l'utilisateur et affiche un message de bienvenue personnalisé.",
+        "Créer un programme utilisant des conditions (if/elif/else) pour classer une température en catégories (froid, tiède, chaud).",
+        "Écrire une boucle for qui calcule la somme des nombres de 1 à 100.",
+        "Créer une liste de capteurs IoT et utiliser une boucle pour afficher chaque capteur avec son index.",
+        "Écrire une fonction qui convertit une température de Celsius en Fahrenheit.",
+        "Créer un dictionnaire représentant un appareil IoT (nom, type, statut, température) et afficher ses propriétés."
+      ],
+      "expected_output": "Plusieurs scripts Python fonctionnels démontrant la maîtrise des variables, conditions, boucles, fonctions et structures de données."
+    },
+    {
+      "id": "iot-lab-13",
+      "module_id": "iot-m2",
+      "order": 13,
+      "code": "2.1.3.8",
+      "title": "Create a Simple Game with Python IDLE",
+      "type": "programmation",
+      "tool": "Python IDLE",
+      "duration_min": 30,
+      "difficulty": "intermediaire",
+      "description": "Ce lab met en pratique les compétences Python acquises en créant un jeu simple de devinette de nombres, intégrant les boucles, les conditions et la gestion des entrées utilisateur.",
+      "objectives": [
+        "Appliquer les concepts de programmation Python dans un projet concret",
+        "Utiliser les boucles, les conditions et les fonctions dans un programme complet",
+        "Gérer les entrées utilisateur et les cas d'erreur"
+      ],
+      "steps": [
+        "Ouvrir Python IDLE et créer un nouveau fichier.",
+        "Importer le module 'random' pour générer un nombre aléatoire.",
+        "Générer un nombre aléatoire entre 1 et 100.",
+        "Créer une boucle qui demande à l'utilisateur de deviner le nombre.",
+        "Après chaque tentative, indiquer si le nombre est trop haut ou trop bas.",
+        "Compter le nombre de tentatives et l'afficher quand le joueur trouve le nombre.",
+        "Ajouter une gestion des erreurs pour les entrées non numériques.",
+        "Ajouter une option pour rejouer à la fin de la partie."
+      ],
+      "expected_output": "Un jeu de devinette fonctionnel en Python avec gestion des erreurs et option de rejouer."
+    },
+    {
+      "id": "iot-lab-14",
+      "module_id": "iot-m2",
+      "order": 14,
+      "code": "2.2.2.5",
+      "title": "Setting up PL-App with the Raspberry Pi (Optionnel)",
+      "type": "pratique",
+      "tool": "Raspberry Pi / PL-App",
+      "duration_min": 30,
+      "difficulty": "intermediaire",
+      "optional": true,
+      "description": "Ce lab optionnel guide les participants dans la configuration de l'application PL-App sur un Raspberry Pi pour le prototypage IoT.",
+      "objectives": [
+        "Configurer un Raspberry Pi pour le développement IoT",
+        "Installer et configurer PL-App sur le Raspberry Pi",
+        "Tester la connectivité et les fonctionnalités de base"
+      ],
+      "steps": [
+        "Préparer la carte SD avec le système d'exploitation Raspberry Pi OS.",
+        "Démarrer le Raspberry Pi et effectuer la configuration initiale.",
+        "Connecter le Raspberry Pi au réseau (Wi-Fi ou Ethernet).",
+        "Installer PL-App en suivant les instructions de la documentation officielle.",
+        "Configurer PL-App pour accéder aux GPIO du Raspberry Pi.",
+        "Tester l'accès à PL-App depuis un navigateur web sur un autre appareil.",
+        "Vérifier que les capteurs et actionneurs connectés sont détectés."
+      ],
+      "expected_output": "Un Raspberry Pi configuré avec PL-App accessible via navigateur web, prêt pour le prototypage IoT."
+    },
+    {
+      "id": "iot-lab-15",
+      "module_id": "iot-m2",
+      "order": 15,
+      "code": "2.2.2.7",
+      "title": "Blinking an LED using Raspberry Pi and PL-App (Optionnel)",
+      "type": "pratique",
+      "tool": "Raspberry Pi / PL-App / LED",
+      "duration_min": 20,
+      "difficulty": "intermediaire",
+      "optional": true,
+      "description": "Ce lab optionnel utilise le Raspberry Pi et PL-App pour contrôler physiquement une LED, démontrant l'interaction entre le logiciel et le matériel.",
+      "objectives": [
+        "Connecter une LED au GPIO du Raspberry Pi",
+        "Programmer le clignotement de la LED via PL-App",
+        "Comprendre l'interface entre le logiciel et le matériel"
+      ],
+      "steps": [
+        "Connecter une LED et une résistance de 220Ω au GPIO du Raspberry Pi (par exemple GPIO 17).",
+        "Ouvrir PL-App dans le navigateur web.",
+        "Créer un nouveau notebook ou script.",
+        "Écrire le code pour configurer le GPIO en mode sortie.",
+        "Créer une boucle pour allumer et éteindre la LED avec un délai.",
+        "Exécuter le programme et observer la LED clignoter.",
+        "Modifier la fréquence de clignotement et observer le changement."
+      ],
+      "expected_output": "Une LED physique qui clignote, contrôlée par un programme exécuté sur le Raspberry Pi via PL-App."
+    },
+    {
+      "id": "iot-lab-16",
+      "module_id": "iot-m2",
+      "order": 16,
+      "code": "2.2.2.8",
+      "title": "Introduction to Arduino (Optionnel)",
+      "type": "pratique",
+      "tool": "Arduino IDE / Arduino Board",
+      "duration_min": 30,
+      "difficulty": "intermediaire",
+      "optional": true,
+      "description": "Ce lab optionnel introduit la plateforme Arduino pour le prototypage IoT, couvrant l'installation de l'IDE, le câblage de base et la programmation d'un premier sketch.",
+      "objectives": [
+        "Installer et configurer l'Arduino IDE",
+        "Comprendre la structure d'un programme Arduino (sketch)",
+        "Programmer un Arduino pour contrôler une LED"
+      ],
+      "steps": [
+        "Télécharger et installer l'Arduino IDE.",
+        "Connecter la carte Arduino à l'ordinateur via USB.",
+        "Sélectionner le bon type de carte et le port série dans l'IDE.",
+        "Ouvrir l'exemple 'Blink' (Fichier > Exemples > Basics > Blink).",
+        "Étudier la structure du sketch : setup() et loop().",
+        "Compiler et téléverser le sketch sur la carte Arduino.",
+        "Observer la LED intégrée clignoter.",
+        "Modifier le délai et re-téléverser pour observer le changement."
+      ],
+      "expected_output": "Un Arduino programmé avec un sketch Blink fonctionnel, démontrant la compréhension de la structure de base d'un programme Arduino."
+    },
+    {
+      "id": "iot-lab-17",
+      "module_id": "iot-m3",
+      "order": 17,
+      "code": "3.1.1.5",
+      "title": "Explore a Large Dataset",
+      "type": "analyse",
+      "tool": "Tableur (Excel / Google Sheets)",
+      "duration_min": 25,
+      "difficulty": "facile",
+      "description": "Ce lab permet aux participants d'explorer un grand ensemble de données pour comprendre les défis du Big Data et les techniques de base d'analyse de données.",
+      "objectives": [
+        "Ouvrir et naviguer dans un grand ensemble de données",
+        "Utiliser des filtres et des tris pour explorer les données",
+        "Identifier des tendances et des patterns dans les données"
+      ],
+      "steps": [
+        "Télécharger le dataset fourni (ou utiliser un dataset public comme les données météorologiques ou de transport).",
+        "Ouvrir le fichier dans un tableur (Excel ou Google Sheets).",
+        "Observer la structure des données : colonnes, types de données, nombre d'enregistrements.",
+        "Appliquer des filtres pour isoler des sous-ensembles de données intéressants.",
+        "Utiliser les fonctions de tri pour organiser les données par différents critères.",
+        "Calculer des statistiques de base : moyenne, médiane, minimum, maximum.",
+        "Identifier au moins trois tendances ou observations intéressantes dans les données."
+      ],
+      "expected_output": "Un rapport d'analyse présentant les caractéristiques du dataset, les statistiques clés et les tendances identifiées."
+    },
+    {
+      "id": "iot-lab-18",
+      "module_id": "iot-m3",
+      "order": 18,
+      "code": "3.1.3.7",
+      "title": "Using Excel to Forecast",
+      "type": "analyse",
+      "tool": "Microsoft Excel / Google Sheets",
+      "duration_min": 30,
+      "difficulty": "intermediaire",
+      "description": "Ce lab enseigne l'utilisation des outils de prévision d'Excel pour analyser des données historiques et projeter des tendances futures, une compétence clé pour l'analyse IoT.",
+      "objectives": [
+        "Créer des graphiques à partir de données historiques",
+        "Utiliser les fonctions de tendance et de prévision d'Excel",
+        "Interpréter les résultats de prévision et évaluer leur fiabilité"
+      ],
+      "steps": [
+        "Ouvrir le fichier Excel fourni contenant des données historiques (par exemple, données de capteurs IoT sur plusieurs mois).",
+        "Créer un graphique linéaire pour visualiser l'évolution des données dans le temps.",
+        "Ajouter une courbe de tendance (trendline) au graphique et afficher l'équation.",
+        "Utiliser la fonction FORECAST (PREVISION) pour projeter les valeurs futures.",
+        "Créer un graphique combinant les données historiques et les prévisions.",
+        "Évaluer la fiabilité de la prévision en calculant le coefficient de détermination (R²).",
+        "Documenter vos conclusions et les limites de la prévision."
+      ],
+      "expected_output": "Un classeur Excel avec des graphiques de tendance, des prévisions calculées et une analyse de la fiabilité des projections."
+    },
+    {
+      "id": "iot-lab-19",
+      "module_id": "iot-m4",
+      "order": 19,
+      "code": "4.1.1.3",
+      "title": "Automating Everyday Events",
+      "type": "conception",
+      "tool": "Document / Organigramme",
+      "duration_min": 20,
+      "difficulty": "facile",
+      "description": "Ce lab demande aux participants d'identifier des événements quotidiens qui peuvent être automatisés et de concevoir des règles d'automatisation IoT.",
+      "objectives": [
+        "Identifier des tâches quotidiennes automatisables avec l'IoT",
+        "Concevoir des règles d'automatisation de type 'si-alors'",
+        "Évaluer les bénéfices et les limites de l'automatisation"
+      ],
+      "steps": [
+        "Lister dix tâches quotidiennes que vous effectuez régulièrement.",
+        "Pour chaque tâche, évaluer si elle peut être automatisée avec des appareils IoT.",
+        "Sélectionner les cinq tâches les plus pertinentes pour l'automatisation.",
+        "Pour chaque tâche sélectionnée, définir la règle d'automatisation : le déclencheur (trigger), la condition et l'action.",
+        "Identifier les capteurs et actionneurs IoT nécessaires pour chaque automatisation.",
+        "Créer un organigramme pour l'une des automatisations les plus complexes.",
+        "Évaluer les avantages (gain de temps, confort, économies) et les inconvénients (coût, dépendance, pannes) de chaque automatisation."
+      ],
+      "expected_output": "Un document présentant cinq scénarios d'automatisation IoT avec les règles, les appareils nécessaires et une analyse coût-bénéfice."
+    },
+    {
+      "id": "iot-lab-20",
+      "module_id": "iot-m4",
+      "order": 20,
+      "code": "4.1.1.6",
+      "title": "Packet Tracer – Explore the Smart Home",
+      "type": "simulation",
+      "tool": "Cisco Packet Tracer",
+      "duration_min": 30,
+      "difficulty": "intermediaire",
+      "description": "Ce lab utilise Packet Tracer pour explorer une maison intelligente complète avec des appareils IoT automatisés, des capteurs et des règles de contrôle.",
+      "objectives": [
+        "Explorer un environnement de maison intelligente pré-configuré",
+        "Comprendre les interactions entre les capteurs, les actionneurs et le contrôleur",
+        "Modifier et créer des règles d'automatisation"
+      ],
+      "steps": [
+        "Ouvrir le fichier Packet Tracer fourni contenant une maison intelligente complète.",
+        "Explorer les différentes pièces et identifier tous les appareils IoT installés.",
+        "Accéder au serveur IoT et examiner les appareils enregistrés et leurs états.",
+        "Observer les règles d'automatisation existantes et comprendre leur logique.",
+        "Tester les automatisations en simulant des changements d'environnement (température, mouvement, luminosité).",
+        "Modifier une règle existante pour changer le comportement du système.",
+        "Créer une nouvelle règle d'automatisation personnalisée.",
+        "Tester la nouvelle règle et vérifier son bon fonctionnement."
+      ],
+      "expected_output": "Une compréhension complète du fonctionnement d'une maison intelligente IoT avec des règles d'automatisation modifiées et testées."
+    },
+    {
+      "id": "iot-lab-21",
+      "module_id": "iot-m4",
+      "order": 21,
+      "code": "4.1.2.3",
+      "title": "Design a Prototype of an AI Application",
+      "type": "conception",
+      "tool": "Document / Présentation",
+      "duration_min": 30,
+      "difficulty": "intermediaire",
+      "description": "Ce lab demande aux participants de concevoir le prototype d'une application utilisant l'intelligence artificielle pour résoudre un problème concret dans le domaine IoT.",
+      "objectives": [
+        "Identifier un problème qui peut bénéficier de l'IA dans le contexte IoT",
+        "Concevoir l'architecture d'une application IA/IoT",
+        "Décrire le flux de données et le processus d'apprentissage"
+      ],
+      "steps": [
+        "Choisir un domaine d'application (santé, agriculture, industrie, ville intelligente, etc.).",
+        "Identifier un problème spécifique qui peut être résolu par l'IA combinée à l'IoT.",
+        "Définir les données nécessaires : quels capteurs IoT collectent les données, quel type et volume de données.",
+        "Décrire le modèle d'IA proposé : quel type d'algorithme (classification, régression, détection d'anomalies).",
+        "Concevoir l'architecture du système : capteurs → collecte de données → traitement → modèle IA → action.",
+        "Identifier les défis techniques et éthiques (biais des données, vie privée, fiabilité).",
+        "Créer une présentation ou un document décrivant votre prototype d'application IA/IoT."
+      ],
+      "expected_output": "Un document de conception d'une application IA/IoT avec l'architecture, le flux de données, le modèle IA et l'analyse des défis."
+    },
+    {
+      "id": "iot-lab-22",
+      "module_id": "iot-m5",
+      "order": 22,
+      "code": "5.1.2.6",
+      "title": "Packet Tracer – Configure Wireless Security",
+      "type": "simulation",
+      "tool": "Cisco Packet Tracer",
+      "duration_min": 30,
+      "difficulty": "intermediaire",
+      "description": "Ce lab guide les participants dans la configuration de la sécurité sans fil dans Packet Tracer, incluant le chiffrement WPA2, le filtrage MAC et la configuration du pare-feu.",
+      "objectives": [
+        "Configurer la sécurité WPA2 sur un point d'accès sans fil",
+        "Mettre en place le filtrage d'adresses MAC",
+        "Tester la sécurité de la configuration sans fil"
+      ],
+      "steps": [
+        "Ouvrir le fichier Packet Tracer fourni contenant un réseau sans fil de base.",
+        "Accéder à la configuration du point d'accès sans fil (Wireless Router).",
+        "Modifier le SSID par défaut par un nom personnalisé.",
+        "Configurer le mode de sécurité en WPA2-PSK avec chiffrement AES.",
+        "Définir un mot de passe fort (au moins 12 caractères, mélange de lettres, chiffres et symboles).",
+        "Activer le filtrage d'adresses MAC et ajouter les adresses MAC des appareils autorisés.",
+        "Configurer les appareils clients (PC, tablettes) avec les paramètres de sécurité correspondants.",
+        "Tester la connectivité des appareils autorisés.",
+        "Vérifier qu'un appareil non autorisé ne peut pas se connecter au réseau."
+      ],
+      "expected_output": "Un réseau sans fil sécurisé avec WPA2, filtrage MAC et connectivité vérifiée pour les appareils autorisés uniquement."
+    }
+  ]
+}

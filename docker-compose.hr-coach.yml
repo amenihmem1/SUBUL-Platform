@@ -1,0 +1,138 @@
+# HR Coach Microservices Integration
+# Extend the main docker-compose.yml with:
+#   docker compose -f docker-compose.yml -f docker-compose.hr-coach.yml up --build
+#
+# This provides:
+# - hr-coach-frontend: Next.js UI on port 8080
+# - hr-coach-interview: FastAPI interview service on 8100
+# - hr-coach-calendar: FastAPI calendar service on 8101
+# - hr-coach-analytics: FastAPI analytics service on 8102
+# - hr-coach-media: FastAPI media service on 8103
+# - hr-coach-reporting: FastAPI reporting service on 8104
+# - hr-coach-gateway: Nginx API gateway on 8099
+
+x-azure-dns: &azure-dns
+  dns:
+    - 8.8.8.8
+    - 8.8.4.4
+
+x-hr-coach-backend: &hr-coach-backend
+  <<: *azure-dns
+  build:
+    context: ./backend/hr-coach
+  env_file:
+    - ./.env
+  environment: &hr-coach-backend-env
+    PYTHONUNBUFFERED: "1"
+    DATABASE_URL: ${HR_COACH_DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/hr_coach_db}
+    INTERVIEW_SERVICE_URL: http://hr-coach-interview:8000
+    CALENDAR_SERVICE_URL: http://hr-coach-calendar:8000
+    ANALYTICS_SERVICE_URL: http://hr-coach-analytics:8000
+    MEDIA_SERVICE_URL: http://hr-coach-media:8000
+    REPORTING_SERVICE_URL: http://hr-coach-reporting:8000
+  volumes:
+    - ./backend/hr-coach/data:/app/data
+  restart: unless-stopped
+
+services:
+  # HR Coach Frontend (accessible at http://localhost:8080)
+  hr-coach-frontend:
+    <<: *azure-dns
+    build:
+      context: ./frontend/hr-coach
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:8080}
+      RH_API_BASE_URL: ${RH_API_BASE_URL:-http://localhost:8099}
+    depends_on:
+      - hr-coach-gateway
+
+  # API Gateway for HR Coach services
+  hr-coach-gateway:
+    <<: *azure-dns
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - "8099:8099"
+    volumes:
+      - ./backend/hr-coach/infra/nginx/api-gateway.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - hr-coach-interview
+      - hr-coach-calendar
+      - hr-coach-analytics
+      - hr-coach-media
+      - hr-coach-reporting
+
+  # HR Coach Interview Service
+  hr-coach-interview:
+    <<: *hr-coach-backend
+    build:
+      context: ./backend/hr-coach
+      dockerfile: services/interview/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8100:8000"
+    environment:
+      <<: *hr-coach-backend-env
+      SERVICE_PORT: "8000"
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+
+  # HR Coach Calendar Service
+  hr-coach-calendar:
+    <<: *hr-coach-backend
+    build:
+      context: ./backend/hr-coach
+      dockerfile: services/calendar/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8101:8000"
+    environment:
+      <<: *hr-coach-backend-env
+      SERVICE_PORT: "8000"
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+
+  # HR Coach Analytics Service
+  hr-coach-analytics:
+    <<: *hr-coach-backend
+    build:
+      context: ./backend/hr-coach
+      dockerfile: services/analytics/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8102:8000"
+    environment:
+      <<: *hr-coach-backend-env
+      SERVICE_PORT: "8000"
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+
+  # HR Coach Media Service
+  hr-coach-media:
+    <<: *hr-coach-backend
+    build:
+      context: ./backend/hr-coach
+      dockerfile: services/media/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8103:8000"
+    environment:
+      <<: *hr-coach-backend-env
+      SERVICE_PORT: "8000"
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+
+  # HR Coach Reporting Service
+  hr-coach-reporting:
+    <<: *hr-coach-backend
+    build:
+      context: ./backend/hr-coach
+      dockerfile: services/reporting/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8104:8000"
+    environment:
+      <<: *hr-coach-backend-env
+      SERVICE_PORT: "8000"
+    command: uvicorn main:app --host 0.0.0.0 --port 8000

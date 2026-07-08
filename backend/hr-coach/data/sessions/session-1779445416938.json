@@ -1,0 +1,578 @@
+{
+  "session_id": "session-1779445416938",
+  "interview_max_questions": 4,
+  "last_question_index": 4,
+  "turns": [
+    {
+      "time": "2026-05-22T10:24:31.398871",
+      "candidate_text": "je suis prete de commencer",
+      "phase": "INTRO",
+      "question_index": 1,
+      "say": "Bienvenue et merci de vous joindre \u00e0 nous aujourd'hui ! Pouvez-vous me parler un peu de votre parcours en ing\u00e9nierie informatique ?",
+      "score_partial": {
+        "communication": 0,
+        "teamwork": 0,
+        "problem_solving": 0,
+        "motivation": 0
+      }
+    },
+    {
+      "time": "2026-05-22T10:25:26.235063",
+      "candidate_text": "Bonjour, merci pour cette opportunit\u00e9. Merci de me recevoir aujourd'hui. Je m'appelle je suis ing\u00e9nieur en informatique. Au cours de mon parcours professionnel et acad\u00e9mique, j'ai eu l'opportunit\u00e9 de d\u00e9velopper plusieurs projets, notamment avec des technologies modernes. J'ai une base solide en conception, d\u00e9veloppement web mobile et l'intelligence artificielle. Je suis une personne s\u00e9rieuse, curieuse et motiv\u00e9e.",
+      "phase": "BEHAVIOR",
+      "question_index": 2,
+      "say": "Lors de votre travail sur le Dashboard interactif Streamlit avec API REST, avez-vous rencontr\u00e9 un moment o\u00f9 vous avez d\u00fb g\u00e9rer un d\u00e9saccord au sein de l'\u00e9quipe ?",
+      "score_partial": {
+        "communication": 0,
+        "teamwork": 0,
+        "problem_solving": 0,
+        "motivation": 0
+      }
+    },
+    {
+      "time": "2026-05-22T10:26:32.901831",
+      "candidate_text": "Oui, bien \u00e9videmment, lors du d\u00e9veloppement de cette application, je confrontais un d\u00e9saccord avec l'un de mon de mon coll\u00e8gue. Pour g\u00e9rer ces probl\u00e8mes, nous avons fait une petite r\u00e9union avec l'aspect technique o\u00f9 chacun d'entre nous parle de son point de vue avec des arguments bien explicatifs. Nous avons \u00e9chang\u00e9 les donn\u00e9es. Apr\u00e8s, nous avons faire les avantages et les inconv\u00e9nients de chaque id\u00e9e et et nous avons atteindre notre objectif et fix\u00e9 les probl\u00e8mes.",
+      "phase": "SOFT",
+      "question_index": 3,
+      "say": "Comment avez-vous ressenti la communication lors de cette r\u00e9union pour r\u00e9soudre votre d\u00e9saccord ?",
+      "score_partial": {
+        "communication": 0,
+        "teamwork": 0,
+        "problem_solving": 0,
+        "motivation": 0
+      }
+    },
+    {
+      "time": "2026-05-22T10:27:27.365182",
+      "candidate_text": "J'ai ressenti avec une communication calme, fluide et bien s\u00fbr professionnelle. Nous avons utilis\u00e9 le coactif ou quand quelqu'un d'entre nous parle, les autres coactivement. Et apr\u00e8s cette collaboration et cette communication professionnelle et active, nous avons atteindre un autre objectif et fix\u00e9 tout.",
+      "phase": "MOTIVATION",
+      "question_index": 4,
+      "say": "Qu'est-ce qui vous motive le plus dans le fait de rejoindre une \u00e9quipe en d\u00e9veloppement informatique ?",
+      "score_partial": {
+        "communication": 0,
+        "teamwork": 0,
+        "problem_solving": 0,
+        "motivation": 0
+      }
+    },
+    {
+      "time": "2026-05-22T10:28:35.150570",
+      "candidate_text": "Je suis tr\u00e8s motiv\u00e9e de rejoindre une \u00e9quipe collaborative, une \u00e9quipe agile. Je suis tr\u00e8s attir\u00e9e par les projets que vous voulez bien d\u00e9velopper dans au sein de cette entreprise, avec notamment des technologies tr\u00e8s modernes. Je je veux pratiquer mes comp\u00e9tences techniques dans un vrai environnement professionnel.",
+      "phase": "FINAL",
+      "question_index": 4,
+      "say": "Merci pour vos reponses. L'entretien est maintenant termine. Je vais finaliser votre rapport .",
+      "score_partial": {
+        "communication": 0,
+        "teamwork": 0,
+        "problem_solving": 0,
+        "motivation": 0
+      }
+    }
+  ],
+  "final_report": {
+    "generated_by": "llm",
+    "report_schema_version": 3,
+    "score_total": 65,
+    "competencies": {
+      "communication": 4,
+      "teamwork": 4,
+      "problem_solving": 3,
+      "motivation": 2
+    },
+    "strengths": [
+      "Vous communiquez clairement dans les situations conflictuelles.",
+      "Vous collaborez efficacement avec vos coll\u00e8gues.",
+      "Vous poss\u00e9dez une exp\u00e9rience technique diversifi\u00e9e en d\u00e9veloppement."
+    ],
+    "improvement_points": [
+      "Vous pourriez renforcer votre motivation pour les projets \u00e0 long terme.",
+      "Vous pouvez am\u00e9liorer votre capacit\u00e9 \u00e0 r\u00e9soudre des probl\u00e8mes complexes.",
+      "Vous gagneriez \u00e0 approfondir votre engagement dans l'\u00e9quipe."
+    ],
+    "dimension_signals": {
+      "communication": "Communication claire lors des d\u00e9saccords techniques.",
+      "teamwork": "L'entretien montre un niveau solide en collaboration, appuye par des exemples exploitables.",
+      "problem_solving": "Approche m\u00e9thodique mais parfois h\u00e9sitante.",
+      "motivation": "Motivation exprim\u00e9e mais peu soutenue."
+    },
+    "dimension_actions": {
+      "communication": "Continuez \u00e0 pratiquer l'\u00e9coute active en r\u00e9union.",
+      "teamwork": "Participez \u00e0 des projets collaboratifs vari\u00e9s.",
+      "problem_solving": "Travaillez sur des cas pratiques complexes.",
+      "motivation": "Identifiez ce qui vous passionne vraiment."
+    },
+    "risks": [],
+    "visual_signals": [
+      "L'analyse visuelle reste limitee car trop peu d'images ont ete capturees."
+    ],
+    "visual_flags": [
+      "analyse_visuelle_insuffisante"
+    ],
+    "visual_metrics": {
+      "sample_count": 2,
+      "face_detected_pct": 100,
+      "centered_pct": 100,
+      "looking_forward_pct": 50,
+      "multiple_faces_pct": 0,
+      "stable_posture_pct": 50,
+      "smile_pct": 0,
+      "neutral_pct": 50,
+      "engaged_pct": 0,
+      "smile_count": 0,
+      "dominant_expression": "attentive",
+      "dominant_posture": "slightly turned",
+      "visual_enthusiasm_pct": 38,
+      "visual_enthusiasm_bucket": "moyen-bas",
+      "object_sample_count": 0,
+      "object_counts": {},
+      "detected_objects": [],
+      "detected_object_total": 0,
+      "model_emotion_breakdown": {
+        "angry": 3,
+        "happy": 3,
+        "sad": 2,
+        "surprise": 46,
+        "neutral": 46
+      },
+      "dominant_emotion": "surprise",
+      "dominant_emotion_pct": 46,
+      "model_emotion_breakdown_available": true,
+      "emotion_breakdown": {
+        "angry": 3,
+        "happy": 3,
+        "sad": 2,
+        "surprise": 46,
+        "neutral": 46
+      },
+      "emotion_breakdown_available": true,
+      "raw_emotion_breakdown": {
+        "angry": 3,
+        "happy": 3,
+        "sad": 2,
+        "surprise": 46,
+        "neutral": 46
+      },
+      "raw_emotion_breakdown_available": true,
+      "provider_metrics": {
+        "custom": {
+          "dominant_label": "",
+          "neutral_pct": 91,
+          "engaged_pct": 6,
+          "tension_pct": 38,
+          "samples": 0
+        }
+      },
+      "custom": {
+        "dominant_label": "",
+        "neutral_pct": 91,
+        "engaged_pct": 6,
+        "tension_pct": 38,
+        "samples": 0
+      },
+      "confidence_note": "Confiance faible : trop peu d'echantillons visuels ont ete captures."
+    },
+    "confidence_note": "Confiance faible : trop peu d'echantillons visuels ont ete captures.",
+    "audio_signals": [
+      "L'analyse vocale reste limitee car trop peu d'echantillons ont ete captures."
+    ],
+    "audio_flags": [
+      "analyse_vocale_insuffisante"
+    ],
+    "audio_metrics": {
+      "utterance_count": 0,
+      "total_duration_seconds": 0.0,
+      "avg_utterance_duration_seconds": 0.0,
+      "speech_rate_wpm_avg": 0.0,
+      "volume_score_avg": 0.0,
+      "silence_pct_avg": 0.0,
+      "pause_count_avg": 0.0,
+      "pause_rate_per_min_avg": 0.0,
+      "pitch_hz_avg": 0.0,
+      "pitch_variation_hz_avg": 0.0,
+      "filler_count_total": 0,
+      "filler_density_pct": 0.0,
+      "dominant_energy": "",
+      "dominant_pace": "",
+      "dominant_hesitation": "",
+      "confidence_note": "Confiance faible : trop peu d'echantillons vocaux ont ete captures."
+    },
+    "audio_confidence_note": "Confiance faible : trop peu d'echantillons vocaux ont ete captures.",
+    "proctoring_events": [],
+    "proctoring_alerts_count": 0,
+    "recommendations": [],
+    "advice": [
+      "Exprimez plus souvent ce qui vous motive dans votre travail.",
+      "Pratiquez des exercices de r\u00e9solution de probl\u00e8mes vari\u00e9s.",
+      "Impliquez-vous davantage dans les discussions d'\u00e9quipe."
+    ],
+    "summary": "Ameni HMEM montre une bonne ma\u00eetrise technique et une communication efficace lors des projets. Elle travaille bien en \u00e9quipe et sait g\u00e9rer les d\u00e9saccords de mani\u00e8re constructive. Sa motivation semble plus faible, ce qui pourrait limiter son engagement \u00e0 long terme. Elle b\u00e9n\u00e9ficie d'une exp\u00e9rience pratique solide en d\u00e9veloppement web et base de donn\u00e9es. Un accompagnement sur la motivation et la r\u00e9solution de probl\u00e8mes serait b\u00e9n\u00e9fique."
+  },
+  "cv_profile": {
+    "candidate_name": "Ameni HMEM",
+    "name": "Ameni HMEM",
+    "headline": "\u00c9tudiante en Ing\u00e9nierie Informatique",
+    "email": "ameni.hmem@esprim.tn",
+    "phone": "+21623405359",
+    "linkedin": "",
+    "github": "",
+    "top_skills": [
+      "api",
+      "mongodb",
+      "angular",
+      "jenkins",
+      "mysql",
+      "postgresql",
+      "rest",
+      "spring",
+      "spring boot",
+      "agile"
+    ],
+    "experiences": [
+      "D\u00e9veloppeur FullStack",
+      "D\u00e9veloppeur de Base de Donn\u00e9es"
+    ],
+    "projects": [
+      "D\u00e9veloppement d\u2019une plateforme pour jeunes dipl\u00f4m\u00e9s.",
+      "Dashboard interactif Streamlit + API REST pour visualisation et exploitation des r\u00e9sultats",
+      "PIDEV - P rojet d\u2019integration de developpement -Plateforme d'\u00c9ducation en Ligne",
+      "D\u00e9veloppement d\u2019une plateforme d\u2019apprentissage en ligne pour la gestion des cours, \u00e9valuations et ressources.",
+      "Ajout d\u2019un module de quiz interactif bas\u00e9 sur l\u2019IA pour la g\u00e9n\u00e9ration et la correction intelligentes des questions.",
+      "Conception d\u2019une interface web et mobile fluide, r\u00e9active et accessible pour enseignants et apprenants.",
+      "D\u00e9veloppement de l'application mobile CookMate pour g\u00e9rer, consulter et supprimer les recettes favorites, avec possibilit\u00e9 de filtrer les recettes par cat\u00e9gorie.",
+      "mis en place un chatbot interactif intelligent pour assister les utilisateurs et leur fournir des recommandations de recettes personnalis\u00e9es."
+    ],
+    "confidence": {
+      "name": 0.95,
+      "headline": 0.6,
+      "email": 0.7,
+      "phone": 0.85,
+      "linkedin": 0.0,
+      "github": 0.0,
+      "top_skills": 1.0,
+      "experiences": 1.0,
+      "projects": 1.0,
+      "text_quality": 1.0
+    },
+    "overall_confidence": 0.806,
+    "text_preview": "Ameni HMEM\n\u00c9tudiante en ing\u00e9nierie informatique - D\u00e9veloppement web et mobile\nLinkedin ameni.hmem@esprim.tn +216 23 405 359\n\u00c0 PROPOS\nAnim\u00e9e par un vif enthousiasme pour la technologie, j\u2019ai d\u00e9velopp\u00e9 mes comp\u00e9tences \u00e0 travers un parcours diversifi\u00e9 m\u00ealant \u00e9tudes, exp\u00e9riences\nprofessionnelles et engagements associatifs.\nActuellement \u00e0 la recherche d\u2019un stage de fin d\u2019\u00e9tudes, je souhaite mettre en pratique mes comp\u00e9tences, contribuer \u00e0 des projets innovants et poursuivre mon\nappr entissage au sein d\u2019une \u00e9quipe dynamique.\nCOMP\u00c9TENCES\nLangages de programmation: Frameworks et Biblioth\u00e9ques: D\u00e9velop...",
+    "source_filename": "cv.pdf"
+  },
+  "cv_uploaded": true,
+  "response_language": "fr",
+  "visual_observations": {
+    "sample_count": 2,
+    "face_detected_count": 2,
+    "centered_count": 2,
+    "looking_forward_count": 1,
+    "multiple_faces_count": 0,
+    "stable_posture_count": 1,
+    "smile_count": 0,
+    "expressions": {
+      "attentive": 1,
+      "neutral": 1
+    },
+    "postures": {
+      "slightly turned": 1,
+      "stable": 1
+    },
+    "providers": {
+      "custom": {
+        "ready": true,
+        "summary": "The custom emotion model analyzed the latest frame, but the emotion label is uncertain.",
+        "last_label": "uncertain",
+        "last_confidence": 0.8144555613398552,
+        "attempts": 2,
+        "labels": {},
+        "metadata": {
+          "model_dir": "/app/data/models/emotion/efficientnet_b3_20260425_053142",
+          "raw_emotion": {
+            "angry": 2.141629531979561,
+            "happy": 1.3636027462780476,
+            "sad": 1.1894122697412968,
+            "surprise": 88.3754551410675,
+            "neutral": 6.9298990070819855
+          },
+          "raw_predictions": [
+            {
+              "label": "surprise",
+              "score": 0.883754551410675
+            },
+            {
+              "label": "neutral",
+              "score": 0.06929899007081985
+            },
+            {
+              "label": "angry",
+              "score": 0.02141629531979561
+            },
+            {
+              "label": "happy",
+              "score": 0.013636027462780476
+            },
+            {
+              "label": "sad",
+              "score": 0.011894122697412968
+            }
+          ],
+          "labels": [
+            "angry",
+            "happy",
+            "sad",
+            "surprise",
+            "neutral"
+          ],
+          "input_shape": [
+            300,
+            300,
+            3
+          ],
+          "crop": {
+            "strategy": "auto-face-detect",
+            "source_size": [
+              640,
+              480
+            ],
+            "autodetect": {
+              "detector": "opencv-haarcascade",
+              "detected_faces": 53,
+              "selected_face_box": [
+                193,
+                95,
+                451,
+                353
+              ],
+              "selected_detector_variant": "haarcascade_profileface.xml:gray-flipped",
+              "fallback_attempts": [
+                {
+                  "detector": "mtcnn-unavailable"
+                }
+              ]
+            },
+            "autodetect_refinement": {
+              "refined": true,
+              "recrop": {
+                "pixel_box": [
+                  116,
+                  0,
+                  529,
+                  413
+                ],
+                "original_pixel_box": [
+                  116,
+                  0,
+                  529,
+                  410
+                ],
+                "padding": {
+                  "left": 0,
+                  "top": 3,
+                  "right": 0,
+                  "bottom": 0
+                },
+                "square_side": 413
+              },
+              "redetect": {
+                "detector": "opencv-haarcascade",
+                "detected_faces": 35,
+                "selected_face_box": [
+                  139,
+                  114,
+                  370,
+                  345
+                ],
+                "selected_detector_variant": "haarcascade_profileface.xml:gray",
+                "fallback_attempts": [
+                  {
+                    "detector": "mtcnn-unavailable"
+                  }
+                ]
+              },
+              "original_face_box": {
+                "left": 0.3015625,
+                "top": 0.19791666666666666,
+                "right": 0.7046875,
+                "bottom": 0.7354166666666667
+              },
+              "refined_face_box": {
+                "left": 0.3984375,
+                "top": 0.23125,
+                "right": 0.759375,
+                "bottom": 0.7125
+              }
+            },
+            "normalized_box": {
+              "left": 0.3984375,
+              "top": 0.23125,
+              "right": 0.759375,
+              "bottom": 0.7125
+            },
+            "pixel_box": [
+              218,
+              60,
+              523,
+              365
+            ],
+            "original_pixel_box": [
+              218,
+              60,
+              523,
+              365
+            ],
+            "padding": {
+              "left": 0,
+              "top": 0,
+              "right": 0,
+              "bottom": 0
+            },
+            "square_side": 305,
+            "model_input_size": [
+              300,
+              300
+            ]
+          },
+          "raw_top_label": "surprise",
+          "raw_top_confidence": 0.883754551410675,
+          "prediction_margin": 0.8144555613398552,
+          "reportable": false,
+          "frame_quality": 0.97,
+          "frame_face_area": 0.09543279247020742,
+          "raw_model_only_mode": false,
+          "calibrated_label": "uncertain",
+          "calibrated_confidence": 0.8144555613398552,
+          "uncertainty_flags": [
+            "weak_face_detector"
+          ],
+          "report_weight": 0.0
+        },
+        "distribution_totals": {
+          "tense": 5.316150933504105,
+          "engaged": 6.2019784934818745,
+          "low affect": 4.341655317693949,
+          "alert": 92.92337037622929,
+          "neutral": 91.2168450653553
+        },
+        "raw_emotion_totals": {
+          "angry": 5.316150933504105,
+          "happy": 6.2019784934818745,
+          "sad": 4.341655317693949,
+          "surprise": 92.92337037622929,
+          "neutral": 91.2168450653553
+        }
+      }
+    }
+  },
+  "audio_observations": {},
+  "proctoring_events": [],
+  "interview_status": "finalized",
+  "finalized_at": "2026-05-22T10:28:35.150570",
+  "finalized_by": "",
+  "preferred_input_mode": "mixed",
+  "cached_insights": {
+    "cache_key": "{\"audio_observations\":{},\"response_language\":\"fr\",\"visual_observations\":{\"centered_count\":2,\"expressions\":{\"attentive\":1,\"neutral\":1},\"face_detected_count\":2,\"looking_forward_count\":1,\"multiple_faces_count\":0,\"postures\":{\"slightly turned\":1,\"stable\":1},\"providers\":{\"custom\":{\"attempts\":2,\"distribution_totals\":{\"alert\":92.92337037622929,\"engaged\":6.2019784934818745,\"low affect\":4.341655317693949,\"neutral\":91.2168450653553,\"tense\":5.316150933504105},\"labels\":{},\"last_confidence\":0.8144555613398552,\"last_label\":\"uncertain\",\"metadata\":{\"calibrated_confidence\":0.8144555613398552,\"calibrated_label\":\"uncertain\",\"crop\":{\"autodetect\":{\"detected_faces\":53,\"detector\":\"opencv-haarcascade\",\"fallback_attempts\":[{\"detector\":\"mtcnn-unavailable\"}],\"selected_detector_variant\":\"haarcascade_profileface.xml:gray-flipped\",\"selected_face_box\":[193,95,451,353]},\"autodetect_refinement\":{\"original_face_box\":{\"bottom\":0.7354166666666667,\"left\":0.3015625,\"right\":0.7046875,\"top\":0.19791666666666666},\"recrop\":{\"original_pixel_box\":[116,0,529,410],\"padding\":{\"bottom\":0,\"left\":0,\"right\":0,\"top\":3},\"pixel_box\":[116,0,529,413],\"square_side\":413},\"redetect\":{\"detected_faces\":35,\"detector\":\"opencv-haarcascade\",\"fallback_attempts\":[{\"detector\":\"mtcnn-unavailable\"}],\"selected_detector_variant\":\"haarcascade_profileface.xml:gray\",\"selected_face_box\":[139,114,370,345]},\"refined\":true,\"refined_face_box\":{\"bottom\":0.7125,\"left\":0.3984375,\"right\":0.759375,\"top\":0.23125}},\"model_input_size\":[300,300],\"normalized_box\":{\"bottom\":0.7125,\"left\":0.3984375,\"right\":0.759375,\"top\":0.23125},\"original_pixel_box\":[218,60,523,365],\"padding\":{\"bottom\":0,\"left\":0,\"right\":0,\"top\":0},\"pixel_box\":[218,60,523,365],\"source_size\":[640,480],\"square_side\":305,\"strategy\":\"auto-face-detect\"},\"frame_face_area\":0.09543279247020742,\"frame_quality\":0.97,\"input_shape\":[300,300,3],\"labels\":[\"angry\",\"happy\",\"sad\",\"surprise\",\"neutral\"],\"model_dir\":\"/app/data/models/emotion/efficientnet_b3_20260425_053142\",\"prediction_margin\":0.8144555613398552,\"raw_emotion\":{\"angry\":2.141629531979561,\"happy\":1.3636027462780476,\"neutral\":6.9298990070819855,\"sad\":1.1894122697412968,\"surprise\":88.3754551410675},\"raw_model_only_mode\":false,\"raw_predictions\":[{\"label\":\"surprise\",\"score\":0.883754551410675},{\"label\":\"neutral\",\"score\":0.06929899007081985},{\"label\":\"angry\",\"score\":0.02141629531979561},{\"label\":\"happy\",\"score\":0.013636027462780476},{\"label\":\"sad\",\"score\":0.011894122697412968}],\"raw_top_confidence\":0.883754551410675,\"raw_top_label\":\"surprise\",\"report_weight\":0.0,\"reportable\":false,\"uncertainty_flags\":[\"weak_face_detector\"]},\"raw_emotion_totals\":{\"angry\":5.316150933504105,\"happy\":6.2019784934818745,\"neutral\":91.2168450653553,\"sad\":4.341655317693949,\"surprise\":92.92337037622929},\"ready\":true,\"summary\":\"The custom emotion model analyzed the latest frame, but the emotion label is uncertain.\"}},\"sample_count\":2,\"smile_count\":0,\"stable_posture_count\":1}}",
+    "response_language": "fr",
+    "visual_context": {
+      "metrics": {
+        "sample_count": 2,
+        "face_detected_pct": 100,
+        "centered_pct": 100,
+        "looking_forward_pct": 50,
+        "multiple_faces_pct": 0,
+        "stable_posture_pct": 50,
+        "smile_pct": 0,
+        "neutral_pct": 50,
+        "engaged_pct": 0,
+        "smile_count": 0,
+        "dominant_expression": "attentive",
+        "dominant_posture": "slightly turned",
+        "visual_enthusiasm_pct": 38,
+        "visual_enthusiasm_bucket": "moyen-bas",
+        "object_sample_count": 0,
+        "object_counts": {},
+        "detected_objects": [],
+        "detected_object_total": 0,
+        "model_emotion_breakdown": {
+          "angry": 3,
+          "happy": 3,
+          "sad": 2,
+          "surprise": 46,
+          "neutral": 46
+        },
+        "dominant_emotion": "surprise",
+        "dominant_emotion_pct": 46,
+        "model_emotion_breakdown_available": true,
+        "emotion_breakdown": {
+          "angry": 3,
+          "happy": 3,
+          "sad": 2,
+          "surprise": 46,
+          "neutral": 46
+        },
+        "emotion_breakdown_available": true,
+        "raw_emotion_breakdown": {
+          "angry": 3,
+          "happy": 3,
+          "sad": 2,
+          "surprise": 46,
+          "neutral": 46
+        },
+        "raw_emotion_breakdown_available": true,
+        "provider_metrics": {
+          "custom": {
+            "dominant_label": "",
+            "neutral_pct": 91,
+            "engaged_pct": 6,
+            "tension_pct": 38,
+            "samples": 0
+          }
+        },
+        "custom": {
+          "dominant_label": "",
+          "neutral_pct": 91,
+          "engaged_pct": 6,
+          "tension_pct": 38,
+          "samples": 0
+        },
+        "confidence_note": "Confiance faible : trop peu d'echantillons visuels ont ete captures."
+      },
+      "signals": [
+        "L'analyse visuelle reste limitee car trop peu d'images ont ete capturees."
+      ],
+      "heuristic_flags": [
+        "analyse_visuelle_insuffisante"
+      ],
+      "confidence_note": "Confiance faible : trop peu d'echantillons visuels ont ete captures."
+    },
+    "audio_context": {
+      "metrics": {
+        "utterance_count": 0,
+        "total_duration_seconds": 0.0,
+        "avg_utterance_duration_seconds": 0.0,
+        "speech_rate_wpm_avg": 0.0,
+        "volume_score_avg": 0.0,
+        "silence_pct_avg": 0.0,
+        "pause_count_avg": 0.0,
+        "pause_rate_per_min_avg": 0.0,
+        "pitch_hz_avg": 0.0,
+        "pitch_variation_hz_avg": 0.0,
+        "filler_count_total": 0,
+        "filler_density_pct": 0.0,
+        "dominant_energy": "",
+        "dominant_pace": "",
+        "dominant_hesitation": "",
+        "confidence_note": "Confiance faible : trop peu d'echantillons vocaux ont ete captures."
+      },
+      "signals": [
+        "L'analyse vocale reste limitee car trop peu d'echantillons ont ete captures."
+      ],
+      "heuristic_flags": [
+        "analyse_vocale_insuffisante"
+      ],
+      "confidence_note": "Confiance faible : trop peu d'echantillons vocaux ont ete captures."
+    },
+    "stress_context": {},
+    "insights_advice": null,
+    "updated_at": "2026-05-22T10:28:51.362307"
+  },
+  "updated_at": "2026-05-22T10:28:51.365809Z",
+  "schema_version": 2
+}

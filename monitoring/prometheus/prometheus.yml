@@ -1,0 +1,113 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    environment: 'subul-platform'
+
+rule_files:
+  - /etc/prometheus/rules/*.yml
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['alertmanager:9093']
+
+scrape_configs:
+
+  # ── Prometheus self ──────────────────────────────────────────────────────────
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # ── Infrastructure exporters ─────────────────────────────────────────────────
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+
+  - job_name: 'postgres-exporter'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+
+  - job_name: 'redis-exporter'
+    static_configs:
+      - targets: ['redis-exporter:9121']
+
+  # ── NestJS API — Node.js default metrics + voice/revenue/proxy counters ──────
+  - job_name: 'nestjs-api'
+    static_configs:
+      - targets: ['api:3001']
+    metrics_path: /metrics
+    scrape_interval: 15s
+
+  # ── Python agents — AI cost counters (azure_openai_*, azure_search_*, cosmos_*) ─
+  - job_name: 'python-agents-metrics'
+    scrape_interval: 30s
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - 'agent-cloud-tutor:8000'
+          - 'agent-quiz:8001'
+          - 'agent-roadmap:8002'
+          - 'agent-coach:8004'
+          - 'agent-cv-booster:8005'
+          - 'agent-job-search:8006'
+
+  # ── Blackbox HTTP probes — internal services ─────────────────────────────────
+  - job_name: 'blackbox-agents'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+          - http://agent-cloud-tutor:8000/health
+          - http://agent-quiz:8001/api/quiz/health
+          - http://agent-roadmap:8002/api/roadmap/health
+          - http://agent-coach:8004/api/coach/health
+          - http://agent-cv-booster:8005/health
+          - http://agent-job-search:8006/health
+          - http://api:3001/api/health
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # ── Blackbox HTTP probes — external APIs (401/403 = reachable = UP) ──────────
+  - job_name: 'blackbox-external'
+    metrics_path: /probe
+    params:
+      module: [http_2xx_insecure]
+    static_configs:
+      - targets:
+          - https://api.stripe.com/v1/account
+          - https://api.cartesia.ai/voices
+          - https://api.deepgram.com/v1/listen
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # ── Blackbox TCP probe — SMTP ────────────────────────────────────────────────
+  - job_name: 'blackbox-smtp'
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets:
+          - 'email-smtp.eu-central-1.amazonaws.com:587'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115

@@ -1,0 +1,37 @@
+# Dockerfile
+FROM python:3.12-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+ENV PYTHONPATH=/app
+
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    netcat-traditional \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install backend requirements first
+COPY requirements.txt ./backend/
+RUN pip install --no-cache-dir -r backend/requirements.txt
+
+# Create directory for shared models (will be mounted)
+RUN mkdir -p /app/shared-models
+
+# Copy backend code
+COPY backend/ ./backend/
+COPY backend/main.ts ./main.ts
+COPY jobsearchsubul ./jobsearchsubul
+
+WORKDIR /app/backend
+
+COPY backend/entrypoint.dev.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+
+EXPOSE 5000
+ENTRYPOINT ["/entrypoint.sh"]

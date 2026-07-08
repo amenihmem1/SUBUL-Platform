@@ -1,0 +1,283 @@
+{
+  "title": "Subul — AI Cost & Usage",
+  "uid": "subul-ai-cost",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "1m",
+  "time": { "from": "now-24h", "to": "now" },
+  "tags": ["subul", "ai", "cost"],
+  "templating": {
+    "list": [
+      {
+        "name": "agent",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(azure_openai_cost_usd_total, agent)",
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "label": "Agent"
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Total AI Cost Today",
+      "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(increase(azure_openai_cost_usd_total[24h])) + sum(increase(deepgram_cost_usd_total[24h])) + sum(increase(cartesia_cost_usd_total[24h])) + sum(increase(azure_search_cost_usd_total[24h]))",
+          "legendFormat": "Today"
+        }
+      ],
+      "options": { "colorMode": "background", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "decimals": 2,
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 25 }, { "color": "red", "value": 50 }] },
+          "color": { "mode": "thresholds" }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "OpenAI Cost Today",
+      "gridPos": { "x": 4, "y": 0, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "sum(increase(azure_openai_cost_usd_total[24h]))", "legendFormat": "" }],
+      "options": { "colorMode": "value", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": { "defaults": { "unit": "currencyUSD", "decimals": 2, "color": { "mode": "palette-classic" } } }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Deepgram Cost Today",
+      "gridPos": { "x": 8, "y": 0, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "sum(increase(deepgram_cost_usd_total[24h]))", "legendFormat": "" }],
+      "options": { "colorMode": "value", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": { "defaults": { "unit": "currencyUSD", "decimals": 2, "color": { "mode": "palette-classic" } } }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Cartesia Cost Today",
+      "gridPos": { "x": 12, "y": 0, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "sum(increase(cartesia_cost_usd_total[24h]))", "legendFormat": "" }],
+      "options": { "colorMode": "value", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": { "defaults": { "unit": "currencyUSD", "decimals": 2, "color": { "mode": "palette-classic" } } }
+    },
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "Azure Search Cost Today",
+      "gridPos": { "x": 16, "y": 0, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "sum(increase(azure_search_cost_usd_total[24h]))", "legendFormat": "" }],
+      "options": { "colorMode": "value", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": { "defaults": { "unit": "currencyUSD", "decimals": 2, "color": { "mode": "palette-classic" } } }
+    },
+    {
+      "id": 6,
+      "type": "stat",
+      "title": "Total AI Cost This Month",
+      "gridPos": { "x": 20, "y": 0, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(increase(azure_openai_cost_usd_total[30d])) + sum(increase(deepgram_cost_usd_total[30d])) + sum(increase(cartesia_cost_usd_total[30d])) + sum(increase(azure_search_cost_usd_total[30d]))",
+          "legendFormat": "Month"
+        }
+      ],
+      "options": { "colorMode": "background", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "decimals": 2,
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 500 }, { "color": "red", "value": 1000 }] },
+          "color": { "mode": "thresholds" }
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": "piechart",
+      "title": "Cost by Provider (last 24h)",
+      "gridPos": { "x": 0, "y": 4, "w": 8, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "sum(increase(azure_openai_cost_usd_total[24h]))", "legendFormat": "OpenAI", "refId": "A" },
+        { "expr": "sum(increase(deepgram_cost_usd_total[24h]))", "legendFormat": "Deepgram", "refId": "B" },
+        { "expr": "sum(increase(cartesia_cost_usd_total[24h]))", "legendFormat": "Cartesia", "refId": "C" },
+        { "expr": "sum(increase(azure_search_cost_usd_total[24h]))", "legendFormat": "Azure Search", "refId": "D" }
+      ],
+      "options": { "pieType": "donut", "displayLabels": ["name", "percent"] },
+      "fieldConfig": { "defaults": { "unit": "currencyUSD" } }
+    },
+    {
+      "id": 11,
+      "type": "piechart",
+      "title": "OpenAI Cost by Agent (last 24h)",
+      "gridPos": { "x": 8, "y": 4, "w": 8, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum by(agent) (increase(azure_openai_cost_usd_total[24h]))",
+          "legendFormat": "{{agent}}"
+        }
+      ],
+      "options": { "pieType": "donut", "displayLabels": ["name", "percent"] },
+      "fieldConfig": { "defaults": { "unit": "currencyUSD" } }
+    },
+    {
+      "id": 12,
+      "type": "table",
+      "title": "Cost by Agent (last 24h)",
+      "gridPos": { "x": 16, "y": 4, "w": 8, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum by(agent) (increase(azure_openai_cost_usd_total[24h]))",
+          "instant": true,
+          "legendFormat": "{{agent}}",
+          "refId": "A"
+        }
+      ],
+      "options": { "sortBy": [{ "displayName": "Value #A", "desc": true }] },
+      "fieldConfig": {
+        "defaults": { "unit": "currencyUSD", "decimals": 4 },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "Value #A" }, "properties": [{ "id": "displayName", "value": "Cost (USD)" }] }
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "type": "timeseries",
+      "title": "AI Cost Rate by Provider (USD/hr)",
+      "gridPos": { "x": 0, "y": 12, "w": 24, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "sum(rate(azure_openai_cost_usd_total[10m])) * 3600", "legendFormat": "OpenAI" },
+        { "expr": "sum(rate(deepgram_cost_usd_total[10m])) * 3600", "legendFormat": "Deepgram" },
+        { "expr": "sum(rate(cartesia_cost_usd_total[10m])) * 3600", "legendFormat": "Cartesia" },
+        { "expr": "sum(rate(azure_search_cost_usd_total[10m])) * 3600", "legendFormat": "Azure Search" }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "currencyUSD", "custom": { "lineWidth": 2, "fillOpacity": 10, "stacking": { "mode": "normal" } } }
+      }
+    },
+    {
+      "id": 21,
+      "type": "timeseries",
+      "title": "OpenAI Cost by Agent (USD/hr)",
+      "gridPos": { "x": 0, "y": 20, "w": 12, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum by(agent) (rate(azure_openai_cost_usd_total{agent=~\"$agent\"}[10m])) * 3600",
+          "legendFormat": "{{agent}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "currencyUSD", "custom": { "lineWidth": 2, "fillOpacity": 5 } }
+      }
+    },
+    {
+      "id": 22,
+      "type": "timeseries",
+      "title": "Token Usage by Agent (tokens/min)",
+      "gridPos": { "x": 12, "y": 20, "w": 12, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum by(agent) (rate(azure_openai_prompt_tokens_total{agent=~\"$agent\"}[5m])) * 60",
+          "legendFormat": "prompt {{agent}}"
+        },
+        {
+          "expr": "sum by(agent) (rate(azure_openai_completion_tokens_total{agent=~\"$agent\"}[5m])) * 60",
+          "legendFormat": "completion {{agent}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "short", "custom": { "lineWidth": 1 } }
+      }
+    },
+    {
+      "id": 30,
+      "type": "timeseries",
+      "title": "Deepgram Audio Seconds Processed",
+      "gridPos": { "x": 0, "y": 28, "w": 8, "h": 7 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum by(user_tier) (rate(deepgram_audio_seconds_total[5m])) * 60",
+          "legendFormat": "{{user_tier}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "s", "custom": { "lineWidth": 2 } }
+      }
+    },
+    {
+      "id": 31,
+      "type": "timeseries",
+      "title": "Cartesia Characters Synthesized",
+      "gridPos": { "x": 8, "y": 28, "w": 8, "h": 7 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum by(user_tier) (rate(cartesia_characters_total[5m])) * 60",
+          "legendFormat": "{{user_tier}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "short", "custom": { "lineWidth": 2 } }
+      }
+    },
+    {
+      "id": 32,
+      "type": "table",
+      "title": "Top 10 Expensive Agents (last 24h)",
+      "gridPos": { "x": 16, "y": 28, "w": 8, "h": 7 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "topk(10, sum by(agent) (increase(azure_openai_cost_usd_total[24h])))",
+          "instant": true,
+          "legendFormat": "{{agent}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "currencyUSD", "decimals": 4 }
+      }
+    },
+    {
+      "id": 40,
+      "type": "table",
+      "title": "Paid API Failures (last 1h)",
+      "gridPos": { "x": 0, "y": 35, "w": 24, "h": 6 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum by(agent, provider, error_type) (increase(paid_api_failures_total[1h]))",
+          "instant": true,
+          "legendFormat": "{{agent}} / {{provider}} / {{error_type}}"
+        }
+      ],
+      "options": { "sortBy": [{ "displayName": "Value", "desc": true }] },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 1 }, { "color": "red", "value": 5 }] },
+          "custom": { "displayMode": "color-background" }
+        }
+      }
+    }
+  ]
+}

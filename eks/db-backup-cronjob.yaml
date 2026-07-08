@@ -1,0 +1,110 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-backup-secret
+  namespace: default
+type: Opaque
+stringData:
+  db-host: "aurora-cluster.cluster-c5m2is8oevwh.eu-central-1.rds.amazonaws.com"
+  db-username: "subul_admin"
+  db-password: "Subul@Pr0d#DB!2026$Secure"
+  db-name: "appdatabase"
+  github-token: "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"
+  github-repo: "https://github.com/SMARTOVATEAI/Subul_DB.git"
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: db-backup-to-github
+  namespace: default
+spec:
+  schedule: "0 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: db-backup
+            image: postgres:16-alpine
+            resources:
+              requests:
+                memory: "256Mi"
+                cpu: "100m"
+              limits:
+                memory: "512Mi"
+                cpu: "500m"
+            env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: db-backup-secret
+                  key: db-host
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-backup-secret
+                  key: db-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-backup-secret
+                  key: db-password
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-backup-secret
+                  key: db-name
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: db-backup-secret
+                  key: github-token
+            - name: GITHUB_REPO
+              valueFrom:
+                secretKeyRef:
+                  name: db-backup-secret
+                  key: github-repo
+            command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+
+              apk add --no-cache git curl
+
+              TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+              DUMP_FILE="backup_${TIMESTAMP}.sql.gz"
+
+              echo "Dumping database..."
+              PGPASSWORD=$DB_PASSWORD pg_dump \
+                -h "$DB_HOST" \
+                -U "$DB_USERNAME" \
+                -d "$DB_NAME" \
+                --no-owner --no-acl \
+                | gzip > /tmp/$DUMP_FILE
+
+              echo "Cloning repo..."
+              git config --global user.email "backup@subul.app"
+              git config --global user.name "Subul DB Backup"
+              REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/SMARTOVATEAI/Subul_DB.git"
+              git clone "$REPO_URL" /tmp/repo
+
+              mkdir -p /tmp/repo/backups
+              mv /tmp/$DUMP_FILE /tmp/repo/backups/
+
+              # Keep only the latest 48 backups (2 days)
+              cd /tmp/repo/backups
+              ls -t *.sql.gz 2>/dev/null | tail -n +49 | xargs -r rm -f
+
+              cd /tmp/repo
+              git add backups/
+              git diff --cached --quiet && echo "No changes" && exit 0
+              git commit -m "DB backup ${TIMESTAMP}"
+              git push origin main
+
+              echo "Backup complete: ${DUMP_FILE}"

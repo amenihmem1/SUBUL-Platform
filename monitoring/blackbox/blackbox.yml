@@ -1,0 +1,25 @@
+modules:
+
+  # Standard HTTP 2xx probe for internal services
+  http_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      valid_status_codes: [200, 201]
+      method: GET
+      follow_redirects: true
+      preferred_ip_protocol: "ip4"
+
+  # External API probe: 401/403 = reachable without auth key = service is UP
+  http_2xx_insecure:
+    prober: http
+    timeout: 10s
+    http:
+      valid_status_codes: [200, 201, 401, 403]
+      method: GET
+      preferred_ip_protocol: "ip4"
+
+  # TCP connectivity probe (SMTP, databases)
+  tcp_connect:
+    prober: tcp
+    timeout: 5s

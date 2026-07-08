@@ -1,0 +1,4 @@
+* text=auto
+# Shell scripts must be LF so Linux containers can exec them after Docker build on Windows.
+*.sh text eol=lf
+*.keras filter=lfs diff=lfs merge=lfs -text

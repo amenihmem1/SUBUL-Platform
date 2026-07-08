@@ -1,0 +1,4 @@
+services:
+  media-service:
+    container_name: ai-agent-media-service
+    image: technique-agent-media-service:latest

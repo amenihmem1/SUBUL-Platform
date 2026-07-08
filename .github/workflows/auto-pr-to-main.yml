@@ -1,0 +1,60 @@
+name: Auto PR to Main
+
+on:
+  push:
+    branches: [devs]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if PR already exists
+        id: check_pr
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN}}
+        run: |
+          PR_EXISTS=$(gh pr list --base main --head dev --state open --json number --jq length)
+          echo "pr_exists=$PR_EXISTS" >> $GITHUB_OUTPUT
+
+
+      - name: Create Pull Request
+        if: steps.check_pr.outputs.pr_exists == '0'
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN}}
+        run: |
+          gh pr create \
+            --base main \
+            --head dev \
+            --title "🚀 Deploy dev to main - $(date +%Y-%m-%d)" \
+            --body "## Changements à déployer
+
+          Cette PR contient les derniers changements de la branche \`dev\` prêts à être déployés sur \`main\`.
+
+          ### ✅ Checklist
+          - [ ] Les tests passent
+          - [ ] Le code a été reviewé
+          - [ ] La documentation est à jour
+
+          **⚠️ Cette PR a été créée automatiquement lors du push sur dev**
+          
+          Merci de reviewer et approuver pour déclencher le déploiement."
+
+
+  wait-for-approval-and-deploy:
+    runs-on: ubuntu-latest
+    needs: create-pull-request
+    if: always()
+    steps:
+      - name: Wait for PR approval
+        id: wait_approval
+        run: |
+          echo "En attente d'approbation du PR..."

@@ -1,0 +1,279 @@
+{
+  "session_id": "session-1781466035041",
+  "cached_insights": {},
+  "visual_observations": {
+    "sample_count": 21,
+    "face_detected_count": 21,
+    "centered_count": 19,
+    "looking_forward_count": 20,
+    "multiple_faces_count": 0,
+    "stable_posture_count": 20,
+    "smile_count": 4,
+    "expressions": {
+      "neutral": 14.0,
+      "attentive": 2.0,
+      "smiling": 4.0,
+      "speaking": 1.0
+    },
+    "postures": {
+      "stable": 20.0,
+      "slightly turned": 1.0
+    },
+    "providers": {
+      "custom": {
+        "ready": true,
+        "summary": "The custom emotion model analyzed the latest frame, but the emotion label is uncertain.",
+        "last_label": "uncertain",
+        "last_confidence": 0.3312227427959442,
+        "attempts": 21,
+        "labels": {},
+        "metadata": {
+          "model_dir": "/app/data/models/emotion/efficientnet_b3_20260425_053142",
+          "raw_emotion": {
+            "angry": 10.20970270037651,
+            "happy": 5.043891072273254,
+            "sad": 4.083022847771645,
+            "surprise": 23.77055585384369,
+            "neutral": 56.89283013343811
+          },
+          "raw_predictions": [
+            {
+              "label": "neutral",
+              "score": 0.5689283013343811
+            },
+            {
+              "label": "surprise",
+              "score": 0.2377055585384369
+            },
+            {
+              "label": "angry",
+              "score": 0.1020970270037651
+            },
+            {
+              "label": "happy",
+              "score": 0.050438910722732544
+            },
+            {
+              "label": "sad",
+              "score": 0.040830228477716446
+            }
+          ],
+          "labels": [
+            "angry",
+            "happy",
+            "sad",
+            "surprise",
+            "neutral"
+          ],
+          "input_shape": [
+            300,
+            300,
+            3
+          ],
+          "crop": {
+            "strategy": "auto-face-detect",
+            "source_size": [
+              640,
+              480
+            ],
+            "autodetect": {
+              "detector": "opencv-haarcascade",
+              "detected_faces": 34,
+              "selected_face_box": [
+                197,
+                90,
+                491,
+                384
+              ],
+              "selected_detector_variant": "haarcascade_profileface.xml:gray-flipped",
+              "fallback_attempts": [
+                {
+                  "detector": "mtcnn-unavailable"
+                }
+              ]
+            },
+            "autodetect_refinement": {
+              "refined": true,
+              "recrop": {
+                "pixel_box": [
+                  109,
+                  0,
+                  579,
+                  470
+                ],
+                "original_pixel_box": [
+                  109,
+                  0,
+                  579,
+                  448
+                ],
+                "padding": {
+                  "left": 0,
+                  "top": 22,
+                  "right": 0,
+                  "bottom": 0
+                },
+                "square_side": 470
+              },
+              "redetect": {
+                "detector": "opencv-haarcascade",
+                "detected_faces": 38,
+                "selected_face_box": [
+                  97,
+                  119,
+                  381,
+                  403
+                ],
+                "selected_detector_variant": "haarcascade_profileface.xml:gray-flipped",
+                "fallback_attempts": [
+                  {
+                    "detector": "mtcnn-unavailable"
+                  }
+                ]
+              },
+              "original_face_box": {
+                "left": 0.3078125,
+                "top": 0.1875,
+                "right": 0.7671875,
+                "bottom": 0.8
+              },
+              "refined_face_box": {
+                "left": 0.321875,
+                "top": 0.2020833333333333,
+                "right": 0.765625,
+                "bottom": 0.79375
+              }
+            },
+            "normalized_box": {
+              "left": 0.321875,
+              "top": 0.2020833333333333,
+              "right": 0.765625,
+              "bottom": 0.79375
+            },
+            "pixel_box": [
+              160,
+              34,
+              535,
+              409
+            ],
+            "original_pixel_box": [
+              160,
+              34,
+              535,
+              409
+            ],
+            "padding": {
+              "left": 0,
+              "top": 0,
+              "right": 0,
+              "bottom": 0
+            },
+            "square_side": 375,
+            "model_input_size": [
+              300,
+              300
+            ]
+          },
+          "raw_top_label": "neutral",
+          "raw_top_confidence": 0.5689283013343811,
+          "prediction_margin": 0.3312227427959442,
+          "reportable": false,
+          "frame_quality": 1.0,
+          "frame_face_area": 0.12459176772981095,
+          "raw_model_only_mode": false,
+          "calibrated_label": "uncertain",
+          "calibrated_confidence": 0.3312227427959442,
+          "uncertainty_flags": [
+            "weak_face_detector",
+            "low_confidence"
+          ],
+          "report_weight": 0.0
+        },
+        "distribution_totals": {
+          "tense": 429.61488822475076,
+          "engaged": 277.8952652355656,
+          "low affect": 92.0254088472575,
+          "alert": 406.37502593453974,
+          "neutral": 894.0894242143258
+        },
+        "raw_emotion_totals": {
+          "angry": 429.61488822475076,
+          "happy": 277.8952652355656,
+          "sad": 92.0254088472575,
+          "surprise": 406.37502593453974,
+          "neutral": 894.0894242143258
+        }
+      }
+    },
+    "object_sample_count": 2,
+    "object_counts": {
+      "tennis racket": 1.0,
+      "tie": 1.0
+    },
+    "object_confidence_totals": {
+      "tennis racket": 63.0,
+      "tie": 28.0
+    }
+  },
+  "cv_profile": {
+    "candidate_name": "Ameni HMEM",
+    "name": "Ameni HMEM",
+    "headline": "\u00c9tudiante en Ing\u00e9nierie Informatique",
+    "email": "ameni.hmem@esprim.tn",
+    "phone": "+21623405359",
+    "linkedin": "",
+    "github": "",
+    "top_skills": [
+      "api",
+      "mongodb",
+      "angular",
+      "jenkins",
+      "mysql",
+      "postgresql",
+      "rest",
+      "spring",
+      "spring boot",
+      "agile"
+    ],
+    "experiences": [
+      "D\u00e9veloppeur FullStack",
+      "D\u00e9veloppeur de Base de Donn\u00e9es"
+    ],
+    "projects": [
+      "D\u00e9veloppement d\u2019une plateforme pour jeunes dipl\u00f4m\u00e9s.",
+      "Dashboard interactif Streamlit + API REST pour visualisation et exploitation des r\u00e9sultats",
+      "PIDEV - P rojet d\u2019integration de developpement -Plateforme d'\u00c9ducation en Ligne",
+      "D\u00e9veloppement d\u2019une plateforme d\u2019apprentissage en ligne pour la gestion des cours, \u00e9valuations et ressources.",
+      "Ajout d\u2019un module de quiz interactif bas\u00e9 sur l\u2019IA pour la g\u00e9n\u00e9ration et la correction intelligentes des questions.",
+      "Conception d\u2019une interface web et mobile fluide, r\u00e9active et accessible pour enseignants et apprenants.",
+      "D\u00e9veloppement de l'application mobile CookMate pour g\u00e9rer, consulter et supprimer les recettes favorites, avec possibilit\u00e9 de filtrer les recettes par cat\u00e9gorie.",
+      "mis en place un chatbot interactif intelligent pour assister les utilisateurs et leur fournir des recommandations de recettes personnalis\u00e9es."
+    ],
+    "confidence": {
+      "name": 0.95,
+      "headline": 0.6,
+      "email": 0.7,
+      "phone": 0.85,
+      "linkedin": 0.0,
+      "github": 0.0,
+      "top_skills": 1.0,
+      "experiences": 1.0,
+      "projects": 1.0,
+      "text_quality": 1.0
+    },
+    "overall_confidence": 0.806,
+    "text_preview": "Ameni HMEM\n\u00c9tudiante en ing\u00e9nierie informatique - D\u00e9veloppement web et mobile\nLinkedin ameni.hmem@esprim.tn +216 23 405 359\n\u00c0 PROPOS\nAnim\u00e9e par un vif enthousiasme pour la technologie, j\u2019ai d\u00e9velopp\u00e9 mes comp\u00e9tences \u00e0 travers un parcours diversifi\u00e9 m\u00ealant \u00e9tudes, exp\u00e9riences\nprofessionnelles et engagements associatifs.\nActuellement \u00e0 la recherche d\u2019un stage de fin d\u2019\u00e9tudes, je souhaite mettre en pratique mes comp\u00e9tences, contribuer \u00e0 des projets innovants et poursuivre mon\nappr entissage au sein d\u2019une \u00e9quipe dynamique.\nCOMP\u00c9TENCES\nLangages de programmation: Frameworks et Biblioth\u00e9ques: D\u00e9velop...",
+    "source_filename": "cvAmeniHMEM.pdf"
+  },
+  "interview_status": "draft",
+  "preferred_input_mode": "mixed",
+  "cv_uploaded": true,
+  "turns": [],
+  "last_question_index": 0,
+  "interview_max_questions": 4,
+  "audio_observations": {},
+  "proctoring_events": [],
+  "final_report": null,
+  "updated_at": "2026-06-14T19:43:55.010997Z",
+  "schema_version": 2
+}

@@ -1,0 +1,124 @@
+{
+  "title": "Subul — Logs",
+  "uid": "subul-logs",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "30s",
+  "time": { "from": "now-1h", "to": "now" },
+  "tags": ["subul", "logs"],
+  "templating": {
+    "list": [
+      {
+        "name": "service",
+        "type": "query",
+        "datasource": "Loki",
+        "query": "label_values(service)",
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "label": "Service"
+      },
+      {
+        "name": "level",
+        "type": "custom",
+        "options": [
+          { "text": "All", "value": "" },
+          { "text": "error", "value": "error" },
+          { "text": "warn", "value": "warn" },
+          { "text": "info", "value": "info" },
+          { "text": "debug", "value": "debug" }
+        ],
+        "multi": false,
+        "label": "Level",
+        "current": { "text": "All", "value": "" }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "logs",
+      "title": "Application Logs",
+      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 18 },
+      "datasource": "Loki",
+      "targets": [
+        {
+          "expr": "{service=~\"$service\"} |= \"\" | level=~\"$level|.*\"",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      }
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "Log Rate by Level",
+      "gridPos": { "x": 0, "y": 18, "w": 12, "h": 7 },
+      "datasource": "Loki",
+      "targets": [
+        {
+          "expr": "sum by(level) (rate({service=~\"$service\"}[5m]))",
+          "legendFormat": "{{level}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": { "lineWidth": 2, "fillOpacity": 10 }
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "error" }, "properties": [{ "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }] },
+          { "matcher": { "id": "byName", "options": "warn" }, "properties": [{ "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }] },
+          { "matcher": { "id": "byName", "options": "info" }, "properties": [{ "id": "color", "value": { "fixedColor": "blue", "mode": "fixed" } }] }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "Error Rate by Service",
+      "gridPos": { "x": 12, "y": 18, "w": 12, "h": 7 },
+      "datasource": "Loki",
+      "targets": [
+        {
+          "expr": "sum by(service) (rate({service=~\"$service\", level=\"error\"}[5m]))",
+          "legendFormat": "{{service}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "short", "custom": { "lineWidth": 2 } }
+      }
+    },
+    {
+      "id": 4,
+      "type": "logs",
+      "title": "Errors Only",
+      "gridPos": { "x": 0, "y": 25, "w": 24, "h": 10 },
+      "datasource": "Loki",
+      "targets": [
+        {
+          "expr": "{service=~\"$service\", level=\"error\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      }
+    }
+  ]
+}

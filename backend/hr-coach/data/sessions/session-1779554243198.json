@@ -1,0 +1,733 @@
+{
+  "session_id": "session-1779554243198",
+  "interview_max_questions": 4,
+  "last_question_index": 5,
+  "turns": [
+    {
+      "time": "2026-05-23T16:42:03.811275",
+      "candidate_text": "je suis prete de commencer",
+      "phase": "INTRO",
+      "question_index": 1,
+      "say": "Bienvenue et merci de votre pr\u00e9sence. Pouvez-vous me parler de votre parcours en ing\u00e9nierie informatique ?",
+      "score_partial": {
+        "communication": 0,
+        "teamwork": 0,
+        "problem_solving": 0,
+        "motivation": 0
+      }
+    },
+    {
+      "time": "2026-05-23T16:42:57.246203",
+      "candidate_text": "Bonjour, merci pour cette opportunit\u00e9, merci de me recevoir aujourd'hui. Je m'appelle Am\u00e9lie Hume, je suis ing\u00e9nieur en informatique. Au cours de mon parcours professionnel et acad\u00e9mique, j'ai eu l'opportunit\u00e9 de travailler sur plusieurs projets, notamment avec technologie moderne. J'ai une base solide en conception, d\u00e9veloppement web mobile et l'intelligence artificielle. Je suis une personne s\u00e9rieuse, curieuse et motiv\u00e9e.",
+      "phase": "BEHAVIOR",
+      "question_index": 2,
+      "say": "Lors de votre travail sur le dashboard interactif Streamlit avec API REST, avez-vous rencontr\u00e9 une situation o\u00f9 vous avez d\u00fb convaincre votre \u00e9quipe d'adopter une approche particuli\u00e8re ?",
+      "score_partial": {
+        "communication": 0,
+        "teamwork": 0,
+        "problem_solving": 0,
+        "motivation": 0
+      }
+    },
+    {
+      "time": "2026-05-23T16:43:56.583429",
+      "candidate_text": "Oui, lors du d\u00e9veloppement de cette application Dashboard interactive avec API RS, je confrontais un d\u00e9saccord avec l'un de mes coll\u00e8gues. Pour g\u00e9rer ces d\u00e9saccords, nous avons fait une petite r\u00e9union o\u00f9 chacun d'entre nous parle bien de son point de vue, avec des arguments bien explicatifs. Nous avons \u00e9chang\u00e9 les id\u00e9es. Apr\u00e8s cette collaboration et cette communication, nous travaillons ensemble. Nous avons atteint notre objectif et fait, fix\u00e9 le probl\u00e8me.",
+      "phase": "SOFT",
+      "question_index": 4,
+      "say": "Comment avez-vous ressenti la dynamique d'\u00e9quipe apr\u00e8s cette r\u00e9union pour r\u00e9soudre le d\u00e9saccord ?",
+      "score_partial": {
+        "communication": 0,
+        "teamwork": 0,
+        "problem_solving": 0,
+        "motivation": 0
+      }
+    },
+    {
+      "time": "2026-05-23T16:44:45.524941",
+      "candidate_text": "J'ai ressenti tr\u00e8s bien. Nous avons utilis\u00e9 une communication calme, une communication fluide et professionnelle bien s\u00fbr. Nous avons utilis\u00e9 l'\u00e9coactive quand chacun entre nous parle et les autres \u00e9coactivement. C'est pourquoi nous avons r\u00e9ussi cette communication et nous avons obtenu l'objectif.",
+      "phase": "MOTIVATION",
+      "question_index": 5,
+      "say": "Qu'est-ce qui vous motive le plus \u00e0 rejoindre une \u00e9quipe comme celle du projet PIDEV ?",
+      "score_partial": {
+        "communication": 0,
+        "teamwork": 0,
+        "problem_solving": 0,
+        "motivation": 0
+      }
+    },
+    {
+      "time": "2026-05-23T16:45:21.343172",
+      "candidate_text": "Je suis tr\u00e8s motiv\u00e9 de rejoindre une \u00e9quipe dynamique qui agit. Je suis tr\u00e8s satisfaite et je suis tr\u00e8s attir\u00e9 par le projet que vous voulez bien d\u00e9velopper.",
+      "phase": "FINAL",
+      "question_index": 5,
+      "say": "Merci pour vos reponses. L'entretien est maintenant termine. Je vais finaliser votre rapport .",
+      "score_partial": {
+        "communication": 0,
+        "teamwork": 0,
+        "problem_solving": 0,
+        "motivation": 0
+      }
+    }
+  ],
+  "final_report": {
+    "generated_by": "llm",
+    "report_schema_version": 3,
+    "score_total": 65,
+    "competencies": {
+      "communication": 4,
+      "teamwork": 4,
+      "problem_solving": 3,
+      "motivation": 2
+    },
+    "strengths": [
+      "Vous d\u00e9montrez une communication claire et professionnelle.",
+      "Vous collaborez efficacement avec vos coll\u00e8gues en \u00e9quipe.",
+      "Vous poss\u00e9dez une exp\u00e9rience technique solide en d\u00e9veloppement web."
+    ],
+    "improvement_points": [
+      "Vous pourriez renforcer votre motivation pour maintenir votre engagement.",
+      "Vous pouvez d\u00e9velopper davantage vos comp\u00e9tences en r\u00e9solution de probl\u00e8mes.",
+      "Vous gagneriez \u00e0 approfondir votre gestion des d\u00e9saccords en \u00e9quipe."
+    ],
+    "dimension_signals": {
+      "communication": "Communication claire et professionnelle observ\u00e9e.",
+      "teamwork": "L'entretien montre un niveau solide en collaboration, appuye par des exemples exploitables.",
+      "problem_solving": "R\u00e9solution de probl\u00e8mes parfois limit\u00e9e.",
+      "motivation": "L'entretien donne peu d'elements concrets sur la dimension motivation."
+    },
+    "dimension_actions": {
+      "communication": "Continuez \u00e0 pratiquer des \u00e9changes clairs et structur\u00e9s.",
+      "teamwork": "Impliquez-vous davantage dans la gestion des conflits.",
+      "problem_solving": "Entra\u00eenez-vous avec des cas pratiques complexes.",
+      "motivation": "Identifiez et cultivez vos sources de motivation."
+    },
+    "risks": [],
+    "visual_signals": [
+      "La presence visuelle est restee stable et bien cadree durant la majeure partie de l'entretien.",
+      "L'engagement visuel a semble globalement constant a l'ecran.",
+      "Le candidat a maintenu une posture visuelle stable et professionnelle.",
+      "L'expression faciale a montre plusieurs moments positifs et ouverts.",
+      "Emotion dominante du modele : neutral (56 %).",
+      "Score d'enthousiasme visuel : eleve."
+    ],
+    "visual_flags": [
+      "tension_apparente_moderee",
+      "expressivite_positive",
+      "enthousiasme_visuel_positif",
+      "presence_professionnelle_stable"
+    ],
+    "visual_metrics": {
+      "sample_count": 39,
+      "face_detected_pct": 100,
+      "centered_pct": 72,
+      "looking_forward_pct": 100,
+      "multiple_faces_pct": 0,
+      "stable_posture_pct": 97,
+      "smile_pct": 59,
+      "neutral_pct": 31,
+      "engaged_pct": 59,
+      "smile_count": 23,
+      "dominant_expression": "smiling",
+      "dominant_posture": "stable",
+      "visual_enthusiasm_pct": 76,
+      "visual_enthusiasm_bucket": "eleve",
+      "object_sample_count": 1,
+      "object_counts": {
+        "cat": 1.0
+      },
+      "detected_objects": [
+        {
+          "label": "cat",
+          "count": 1,
+          "avg_confidence": 29
+        }
+      ],
+      "detected_object_total": 1,
+      "model_emotion_breakdown": {
+        "angry": 4,
+        "happy": 9,
+        "sad": 3,
+        "surprise": 28,
+        "neutral": 56
+      },
+      "dominant_emotion": "neutral",
+      "dominant_emotion_pct": 56,
+      "model_emotion_breakdown_available": true,
+      "emotion_breakdown": {
+        "angry": 4,
+        "happy": 9,
+        "sad": 3,
+        "surprise": 28,
+        "neutral": 56
+      },
+      "emotion_breakdown_available": true,
+      "raw_emotion_breakdown": {
+        "angry": 4,
+        "happy": 9,
+        "sad": 3,
+        "surprise": 28,
+        "neutral": 56
+      },
+      "raw_emotion_breakdown_available": true,
+      "provider_metrics": {
+        "custom": {
+          "dominant_label": "",
+          "neutral_pct": 100,
+          "engaged_pct": 100,
+          "tension_pct": 100,
+          "samples": 0
+        }
+      },
+      "custom": {
+        "dominant_label": "",
+        "neutral_pct": 100,
+        "engaged_pct": 100,
+        "tension_pct": 100,
+        "samples": 0
+      },
+      "confidence_note": "Confiance elevee : la capture visuelle est restee stable pendant la majeure partie de l'entretien."
+    },
+    "confidence_note": "Confiance elevee : la capture visuelle est restee stable pendant la majeure partie de l'entretien.",
+    "audio_signals": [
+      "Les pauses et silences etaient perceptibles sur plusieurs reponses.",
+      "Les marqueurs d'hesitation verbale sont restes occasionnels a moderes (0 fillers detectes).",
+      "L'enthousiasme vocal a paru present mais mesure.",
+      "Le pitch moyen est reste autour de 225.2 Hz."
+    ],
+    "audio_flags": [
+      "pauses_marquees",
+      "hesitations_verbales",
+      "enthousiasme_vocal_mesure"
+    ],
+    "audio_metrics": {
+      "utterance_count": 3,
+      "total_duration_seconds": 76.8,
+      "avg_utterance_duration_seconds": 25.6,
+      "speech_rate_wpm_avg": 133.0,
+      "volume_score_avg": 60.7,
+      "silence_pct_avg": 39.0,
+      "pause_count_avg": 9.3,
+      "pause_rate_per_min_avg": 21.8,
+      "pitch_hz_avg": 225.2,
+      "pitch_variation_hz_avg": 20.4,
+      "filler_count_total": 0,
+      "filler_density_pct": 0.0,
+      "dominant_energy": "steady",
+      "dominant_pace": "steady",
+      "dominant_hesitation": "noticeable",
+      "confidence_note": "Confiance moyenne : les observations vocales reposent sur la capture navigateur et des metriques derivees de la transcription."
+    },
+    "audio_confidence_note": "Confiance moyenne : les observations vocales reposent sur la capture navigateur et des metriques derivees de la transcription.",
+    "proctoring_events": [
+      {
+        "type": "blur",
+        "reason": "Perte de focus",
+        "message": "Alerte surveillance: la fenetre de l'entretien a perdu le focus.",
+        "details": {
+          "focused": false
+        },
+        "time": "2026-05-23T16:42:21.643746"
+      },
+      {
+        "type": "blur",
+        "reason": "Perte de focus",
+        "message": "Alerte surveillance: la fenetre de l'entretien a perdu le focus.",
+        "details": {
+          "focused": false
+        },
+        "time": "2026-05-23T16:44:03.244693"
+      },
+      {
+        "type": "visibilitychange",
+        "reason": "Changement d'onglet",
+        "message": "Alerte surveillance: changement d'onglet detecte pendant l'entretien.",
+        "details": {
+          "hidden": true
+        },
+        "time": "2026-05-23T16:44:03.257069"
+      }
+    ],
+    "proctoring_alerts_count": 3,
+    "recommendations": [],
+    "advice": [
+      "Travaillez \u00e0 identifier ce qui vous motive profond\u00e9ment dans vos projets.",
+      "Pratiquez des exercices de r\u00e9solution de probl\u00e8mes complexes r\u00e9guli\u00e8rement.",
+      "Cherchez \u00e0 exprimer vos id\u00e9es plus assertivement en r\u00e9union."
+    ],
+    "summary": "Ameni HMEM montre une bonne ma\u00eetrise technique et une communication efficace. Elle a su collaborer positivement en \u00e9quipe malgr\u00e9 quelques d\u00e9fis. Sa motivation semble perfectible pour soutenir son engagement sur le long terme. Elle b\u00e9n\u00e9ficie d'une exp\u00e9rience pratique pertinente en d\u00e9veloppement web et base de donn\u00e9es. Un accompagnement cibl\u00e9 pourrait renforcer son implication et sa r\u00e9solution de probl\u00e8mes."
+  },
+  "cv_profile": {
+    "candidate_name": "Ameni HMEM",
+    "name": "Ameni HMEM",
+    "headline": "\u00c9tudiante en Ing\u00e9nierie Informatique",
+    "email": "ameni.hmem@esprim.tn",
+    "phone": "+21623405359",
+    "linkedin": "",
+    "github": "",
+    "top_skills": [
+      "api",
+      "mongodb",
+      "angular",
+      "jenkins",
+      "mysql",
+      "postgresql",
+      "rest",
+      "spring",
+      "spring boot",
+      "agile"
+    ],
+    "experiences": [
+      "D\u00e9veloppeur FullStack",
+      "D\u00e9veloppeur de Base de Donn\u00e9es"
+    ],
+    "projects": [
+      "D\u00e9veloppement d\u2019une plateforme pour jeunes dipl\u00f4m\u00e9s.",
+      "Dashboard interactif Streamlit + API REST pour visualisation et exploitation des r\u00e9sultats",
+      "PIDEV - P rojet d\u2019integration de developpement -Plateforme d'\u00c9ducation en Ligne",
+      "D\u00e9veloppement d\u2019une plateforme d\u2019apprentissage en ligne pour la gestion des cours, \u00e9valuations et ressources.",
+      "Ajout d\u2019un module de quiz interactif bas\u00e9 sur l\u2019IA pour la g\u00e9n\u00e9ration et la correction intelligentes des questions.",
+      "Conception d\u2019une interface web et mobile fluide, r\u00e9active et accessible pour enseignants et apprenants.",
+      "D\u00e9veloppement de l'application mobile CookMate pour g\u00e9rer, consulter et supprimer les recettes favorites, avec possibilit\u00e9 de filtrer les recettes par cat\u00e9gorie.",
+      "mis en place un chatbot interactif intelligent pour assister les utilisateurs et leur fournir des recommandations de recettes personnalis\u00e9es."
+    ],
+    "confidence": {
+      "name": 0.95,
+      "headline": 0.6,
+      "email": 0.7,
+      "phone": 0.85,
+      "linkedin": 0.0,
+      "github": 0.0,
+      "top_skills": 1.0,
+      "experiences": 1.0,
+      "projects": 1.0,
+      "text_quality": 1.0
+    },
+    "overall_confidence": 0.806,
+    "text_preview": "Ameni HMEM\n\u00c9tudiante en ing\u00e9nierie informatique - D\u00e9veloppement web et mobile\nLinkedin ameni.hmem@esprim.tn +216 23 405 359\n\u00c0 PROPOS\nAnim\u00e9e par un vif enthousiasme pour la technologie, j\u2019ai d\u00e9velopp\u00e9 mes comp\u00e9tences \u00e0 travers un parcours diversifi\u00e9 m\u00ealant \u00e9tudes, exp\u00e9riences\nprofessionnelles et engagements associatifs.\nActuellement \u00e0 la recherche d\u2019un stage de fin d\u2019\u00e9tudes, je souhaite mettre en pratique mes comp\u00e9tences, contribuer \u00e0 des projets innovants et poursuivre mon\nappr entissage au sein d\u2019une \u00e9quipe dynamique.\nCOMP\u00c9TENCES\nLangages de programmation: Frameworks et Biblioth\u00e9ques: D\u00e9velop...",
+    "source_filename": "cv.pdf"
+  },
+  "cv_uploaded": true,
+  "response_language": "",
+  "visual_observations": {
+    "sample_count": 42,
+    "face_detected_count": 42,
+    "centered_count": 28,
+    "looking_forward_count": 42,
+    "multiple_faces_count": 0,
+    "stable_posture_count": 41,
+    "smile_count": 26,
+    "expressions": {
+      "neutral": 12.0,
+      "smiling": 26.0,
+      "attentive": 4.0
+    },
+    "postures": {
+      "stable": 41.0,
+      "tilted": 1.0
+    },
+    "providers": {
+      "custom": {
+        "ready": true,
+        "summary": "The custom emotion model analyzed the latest frame, but the emotion label is uncertain.",
+        "last_label": "uncertain",
+        "last_confidence": 0.3311506509780884,
+        "attempts": 42,
+        "labels": {},
+        "metadata": {
+          "model_dir": "/app/data/models/emotion/efficientnet_b3_20260425_053142",
+          "raw_emotion": {
+            "angry": 5.345956981182098,
+            "happy": 54.72307801246643,
+            "sad": 1.974797248840332,
+            "surprise": 16.348151862621307,
+            "neutral": 21.608012914657593
+          },
+          "raw_predictions": [
+            {
+              "label": "happy",
+              "score": 0.5472307801246643
+            },
+            {
+              "label": "neutral",
+              "score": 0.21608012914657593
+            },
+            {
+              "label": "surprise",
+              "score": 0.16348151862621307
+            },
+            {
+              "label": "angry",
+              "score": 0.053459569811820984
+            },
+            {
+              "label": "sad",
+              "score": 0.01974797248840332
+            }
+          ],
+          "labels": [
+            "angry",
+            "happy",
+            "sad",
+            "surprise",
+            "neutral"
+          ],
+          "input_shape": [
+            300,
+            300,
+            3
+          ],
+          "crop": {
+            "strategy": "auto-face-detect",
+            "source_size": [
+              640,
+              480
+            ],
+            "autodetect": {
+              "detector": "opencv-haarcascade",
+              "detected_faces": 24,
+              "selected_face_box": [
+                145,
+                175,
+                426,
+                456
+              ],
+              "selected_detector_variant": "haarcascade_frontalface_default.xml:gray-equalized-flipped",
+              "fallback_attempts": [
+                {
+                  "detector": "mtcnn-unavailable"
+                }
+              ]
+            },
+            "autodetect_refinement": {
+              "refined": true,
+              "recrop": {
+                "pixel_box": [
+                  60,
+                  68,
+                  510,
+                  518
+                ],
+                "original_pixel_box": [
+                  60,
+                  68,
+                  510,
+                  480
+                ],
+                "padding": {
+                  "left": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 38
+                },
+                "square_side": 450
+              },
+              "redetect": {
+                "detector": "opencv-haarcascade",
+                "detected_faces": 24,
+                "selected_face_box": [
+                  77,
+                  100,
+                  376,
+                  399
+                ],
+                "selected_detector_variant": "haarcascade_frontalface_default.xml:gray-equalized-flipped",
+                "fallback_attempts": [
+                  {
+                    "detector": "mtcnn-unavailable"
+                  }
+                ]
+              },
+              "original_face_box": {
+                "left": 0.2265625,
+                "top": 0.3645833333333333,
+                "right": 0.665625,
+                "bottom": 0.95
+              },
+              "refined_face_box": {
+                "left": 0.2140625,
+                "top": 0.35,
+                "right": 0.68125,
+                "bottom": 0.9729166666666667
+              }
+            },
+            "normalized_box": {
+              "left": 0.2140625,
+              "top": 0.35,
+              "right": 0.68125,
+              "bottom": 0.9729166666666667
+            },
+            "pixel_box": [
+              89,
+              102,
+              484,
+              480
+            ],
+            "original_pixel_box": [
+              89,
+              102,
+              484,
+              480
+            ],
+            "padding": {
+              "left": 0,
+              "top": 0,
+              "right": 0,
+              "bottom": 17
+            },
+            "square_side": 395,
+            "model_input_size": [
+              300,
+              300
+            ]
+          },
+          "raw_top_label": "happy",
+          "raw_top_confidence": 0.5472307801246643,
+          "prediction_margin": 0.3311506509780884,
+          "reportable": false,
+          "frame_quality": 0.85,
+          "frame_face_area": 0.17096818916083834,
+          "raw_model_only_mode": false,
+          "calibrated_label": "uncertain",
+          "calibrated_confidence": 0.3311506509780884,
+          "uncertainty_flags": [
+            "weak_face_detector",
+            "low_confidence"
+          ],
+          "report_weight": 0.0
+        },
+        "distribution_totals": {
+          "tense": 148.3342797961086,
+          "engaged": 575.6796522065997,
+          "low affect": 118.296038499102,
+          "alert": 1130.5248007178307,
+          "neutral": 2227.165232459083
+        },
+        "raw_emotion_totals": {
+          "angry": 148.3342797961086,
+          "happy": 575.6796522065997,
+          "sad": 118.296038499102,
+          "surprise": 1130.5248007178307,
+          "neutral": 2227.165232459083
+        }
+      }
+    },
+    "object_sample_count": 1,
+    "object_counts": {
+      "cat": 1.0
+    },
+    "object_confidence_totals": {
+      "cat": 29.0
+    }
+  },
+  "audio_observations": {
+    "utterance_count": 4,
+    "total_duration_seconds": 88.02000000000001,
+    "total_word_count": 200,
+    "total_filler_count": 0,
+    "speech_rate_sum": 548.2,
+    "volume_sum": 231.0,
+    "silence_ratio_sum": 1.613,
+    "pause_count_sum": 31,
+    "pitch_sum": 908.8,
+    "pitch_sample_count": 4,
+    "pitch_variation_sum": 84.80000000000001,
+    "energy_labels": {
+      "steady": 4.0
+    },
+    "pace_labels": {
+      "steady": 4.0
+    },
+    "hesitation_labels": {
+      "noticeable": 4.0
+    }
+  },
+  "proctoring_events": [
+    {
+      "type": "blur",
+      "reason": "Perte de focus",
+      "message": "Alerte surveillance: la fenetre de l'entretien a perdu le focus.",
+      "details": {
+        "focused": false
+      },
+      "time": "2026-05-23T16:42:21.643746"
+    },
+    {
+      "type": "blur",
+      "reason": "Perte de focus",
+      "message": "Alerte surveillance: la fenetre de l'entretien a perdu le focus.",
+      "details": {
+        "focused": false
+      },
+      "time": "2026-05-23T16:44:03.244693"
+    },
+    {
+      "type": "visibilitychange",
+      "reason": "Changement d'onglet",
+      "message": "Alerte surveillance: changement d'onglet detecte pendant l'entretien.",
+      "details": {
+        "hidden": true
+      },
+      "time": "2026-05-23T16:44:03.257069"
+    }
+  ],
+  "interview_status": "finalized",
+  "finalized_at": "",
+  "finalized_by": "",
+  "preferred_input_mode": "mixed",
+  "cached_insights": {
+    "cache_key": "{\"audio_observations\":{\"energy_labels\":{\"steady\":4.0},\"hesitation_labels\":{\"noticeable\":4.0},\"pace_labels\":{\"steady\":4.0},\"pause_count_sum\":31,\"pitch_sample_count\":4,\"pitch_sum\":908.8,\"pitch_variation_sum\":84.80000000000001,\"silence_ratio_sum\":1.613,\"speech_rate_sum\":548.2,\"total_duration_seconds\":88.02000000000001,\"total_filler_count\":0,\"total_word_count\":200,\"utterance_count\":4,\"volume_sum\":231.0},\"response_language\":\"fr\",\"visual_observations\":{\"centered_count\":28,\"expressions\":{\"attentive\":4.0,\"neutral\":12.0,\"smiling\":26.0},\"face_detected_count\":42,\"looking_forward_count\":42,\"multiple_faces_count\":0,\"object_confidence_totals\":{\"cat\":29.0},\"object_counts\":{\"cat\":1.0},\"object_sample_count\":1,\"postures\":{\"stable\":41.0,\"tilted\":1.0},\"providers\":{\"custom\":{\"attempts\":42,\"distribution_totals\":{\"alert\":1130.5248007178307,\"engaged\":575.6796522065997,\"low affect\":118.296038499102,\"neutral\":2227.165232459083,\"tense\":148.3342797961086},\"labels\":{},\"last_confidence\":0.3311506509780884,\"last_label\":\"uncertain\",\"metadata\":{\"calibrated_confidence\":0.3311506509780884,\"calibrated_label\":\"uncertain\",\"crop\":{\"autodetect\":{\"detected_faces\":24,\"detector\":\"opencv-haarcascade\",\"fallback_attempts\":[{\"detector\":\"mtcnn-unavailable\"}],\"selected_detector_variant\":\"haarcascade_frontalface_default.xml:gray-equalized-flipped\",\"selected_face_box\":[145,175,426,456]},\"autodetect_refinement\":{\"original_face_box\":{\"bottom\":0.95,\"left\":0.2265625,\"right\":0.665625,\"top\":0.3645833333333333},\"recrop\":{\"original_pixel_box\":[60,68,510,480],\"padding\":{\"bottom\":38,\"left\":0,\"right\":0,\"top\":0},\"pixel_box\":[60,68,510,518],\"square_side\":450},\"redetect\":{\"detected_faces\":24,\"detector\":\"opencv-haarcascade\",\"fallback_attempts\":[{\"detector\":\"mtcnn-unavailable\"}],\"selected_detector_variant\":\"haarcascade_frontalface_default.xml:gray-equalized-flipped\",\"selected_face_box\":[77,100,376,399]},\"refined\":true,\"refined_face_box\":{\"bottom\":0.9729166666666667,\"left\":0.2140625,\"right\":0.68125,\"top\":0.35}},\"model_input_size\":[300,300],\"normalized_box\":{\"bottom\":0.9729166666666667,\"left\":0.2140625,\"right\":0.68125,\"top\":0.35},\"original_pixel_box\":[89,102,484,480],\"padding\":{\"bottom\":17,\"left\":0,\"right\":0,\"top\":0},\"pixel_box\":[89,102,484,480],\"source_size\":[640,480],\"square_side\":395,\"strategy\":\"auto-face-detect\"},\"frame_face_area\":0.17096818916083834,\"frame_quality\":0.85,\"input_shape\":[300,300,3],\"labels\":[\"angry\",\"happy\",\"sad\",\"surprise\",\"neutral\"],\"model_dir\":\"/app/data/models/emotion/efficientnet_b3_20260425_053142\",\"prediction_margin\":0.3311506509780884,\"raw_emotion\":{\"angry\":5.345956981182098,\"happy\":54.72307801246643,\"neutral\":21.608012914657593,\"sad\":1.974797248840332,\"surprise\":16.348151862621307},\"raw_model_only_mode\":false,\"raw_predictions\":[{\"label\":\"happy\",\"score\":0.5472307801246643},{\"label\":\"neutral\",\"score\":0.21608012914657593},{\"label\":\"surprise\",\"score\":0.16348151862621307},{\"label\":\"angry\",\"score\":0.053459569811820984},{\"label\":\"sad\",\"score\":0.01974797248840332}],\"raw_top_confidence\":0.5472307801246643,\"raw_top_label\":\"happy\",\"report_weight\":0.0,\"reportable\":false,\"uncertainty_flags\":[\"weak_face_detector\",\"low_confidence\"]},\"raw_emotion_totals\":{\"angry\":148.3342797961086,\"happy\":575.6796522065997,\"neutral\":2227.165232459083,\"sad\":118.296038499102,\"surprise\":1130.5248007178307},\"ready\":true,\"summary\":\"The custom emotion model analyzed the latest frame, but the emotion label is uncertain.\"}},\"sample_count\":42,\"smile_count\":26,\"stable_posture_count\":41}}",
+    "response_language": "fr",
+    "visual_context": {
+      "metrics": {
+        "sample_count": 42,
+        "face_detected_pct": 100,
+        "centered_pct": 67,
+        "looking_forward_pct": 100,
+        "multiple_faces_pct": 0,
+        "stable_posture_pct": 98,
+        "smile_pct": 62,
+        "neutral_pct": 29,
+        "engaged_pct": 62,
+        "smile_count": 26,
+        "dominant_expression": "smiling",
+        "dominant_posture": "stable",
+        "visual_enthusiasm_pct": 76,
+        "visual_enthusiasm_bucket": "eleve",
+        "object_sample_count": 1,
+        "object_counts": {
+          "cat": 1.0
+        },
+        "detected_objects": [
+          {
+            "label": "cat",
+            "count": 1,
+            "avg_confidence": 29
+          }
+        ],
+        "detected_object_total": 1,
+        "model_emotion_breakdown": {
+          "angry": 3,
+          "happy": 14,
+          "sad": 3,
+          "surprise": 27,
+          "neutral": 53
+        },
+        "dominant_emotion": "neutral",
+        "dominant_emotion_pct": 53,
+        "model_emotion_breakdown_available": true,
+        "emotion_breakdown": {
+          "angry": 3,
+          "happy": 14,
+          "sad": 3,
+          "surprise": 27,
+          "neutral": 53
+        },
+        "emotion_breakdown_available": true,
+        "raw_emotion_breakdown": {
+          "angry": 3,
+          "happy": 14,
+          "sad": 3,
+          "surprise": 27,
+          "neutral": 53
+        },
+        "raw_emotion_breakdown_available": true,
+        "provider_metrics": {
+          "custom": {
+            "dominant_label": "",
+            "neutral_pct": 100,
+            "engaged_pct": 100,
+            "tension_pct": 100,
+            "samples": 0
+          }
+        },
+        "custom": {
+          "dominant_label": "",
+          "neutral_pct": 100,
+          "engaged_pct": 100,
+          "tension_pct": 100,
+          "samples": 0
+        },
+        "confidence_note": "Confiance elevee : la capture visuelle est restee stable pendant la majeure partie de l'entretien."
+      },
+      "signals": [
+        "La presence visuelle est restee stable et bien cadree durant la majeure partie de l'entretien.",
+        "L'engagement visuel a semble globalement constant a l'ecran.",
+        "Le candidat a maintenu une posture visuelle stable et professionnelle.",
+        "L'expression faciale a montre plusieurs moments positifs et ouverts.",
+        "Emotion dominante du modele : neutral (53 %).",
+        "Score d'enthousiasme visuel : eleve."
+      ],
+      "heuristic_flags": [
+        "tension_apparente_moderee",
+        "expressivite_positive",
+        "enthousiasme_visuel_positif",
+        "presence_professionnelle_stable"
+      ],
+      "confidence_note": "Confiance elevee : la capture visuelle est restee stable pendant la majeure partie de l'entretien."
+    },
+    "audio_context": {
+      "metrics": {
+        "utterance_count": 4,
+        "total_duration_seconds": 88.0,
+        "avg_utterance_duration_seconds": 22.0,
+        "speech_rate_wpm_avg": 137.1,
+        "volume_score_avg": 57.8,
+        "silence_pct_avg": 40.3,
+        "pause_count_avg": 7.8,
+        "pause_rate_per_min_avg": 21.3,
+        "pitch_hz_avg": 227.2,
+        "pitch_variation_hz_avg": 21.2,
+        "filler_count_total": 0,
+        "filler_density_pct": 0.0,
+        "dominant_energy": "steady",
+        "dominant_pace": "steady",
+        "dominant_hesitation": "noticeable",
+        "confidence_note": "Confiance moyenne : les observations vocales reposent sur la capture navigateur et des metriques derivees de la transcription."
+      },
+      "signals": [
+        "Les pauses et silences etaient perceptibles sur plusieurs reponses.",
+        "Les marqueurs d'hesitation verbale sont restes occasionnels a moderes (0 fillers detectes).",
+        "L'enthousiasme vocal a paru present mais mesure.",
+        "Le pitch moyen est reste autour de 227.2 Hz."
+      ],
+      "heuristic_flags": [
+        "pauses_marquees",
+        "hesitations_verbales",
+        "enthousiasme_vocal_mesure"
+      ],
+      "confidence_note": "Confiance moyenne : les observations vocales reposent sur la capture navigateur et des metriques derivees de la transcription."
+    },
+    "stress_context": {},
+    "insights_advice": {
+      "thank_you": "Merci pour votre participation \u00e0 cet entretien, votre pr\u00e9sence attentive a \u00e9t\u00e9 tr\u00e8s appr\u00e9ci\u00e9e.",
+      "summary": [
+        "Votre posture visuelle est rest\u00e9e stable et professionnelle tout au long de l'entretien.",
+        "L'enthousiasme visuel a \u00e9t\u00e9 \u00e9lev\u00e9, avec plusieurs expressions faciales positives."
+      ],
+      "strengths": [
+        "Maintien d'un bon contact visuel et d'une posture centr\u00e9e.",
+        "Expressions faciales ouvertes et souriantes qui ont favoris\u00e9 une atmosph\u00e8re positive.",
+        "Un rythme vocal steady avec une \u00e9nergie constante."
+      ],
+      "improvements": [
+        "Il pourrait \u00eatre b\u00e9n\u00e9fique de travailler sur la r\u00e9duction des pauses pour fluidifier davantage le discours.",
+        "Explorer des variations vocales plus marqu\u00e9es pourrait renforcer l'expression de l'enthousiasme.",
+        "Continuer \u00e0 d\u00e9velopper la confiance dans la prise de parole pour diminuer les h\u00e9sitations verbales."
+      ],
+      "next_steps": [
+        "Pratiquer des exercices de prise de parole pour am\u00e9liorer la fluidit\u00e9 et r\u00e9duire les silences.",
+        "Enregistrer des simulations d'entretien pour observer et ajuster les variations vocales.",
+        "Se concentrer sur des techniques de relaxation pour renforcer la confiance et diminuer les h\u00e9sitations."
+      ],
+      "closing": "Continuez \u00e0 valoriser votre engagement visuel et votre posture stable, ces qualit\u00e9s sont de v\u00e9ritables atouts. Avec un peu de pratique sur la fluidit\u00e9 vocale, vous gagnerez encore en aisance. Bon courage pour vos prochaines exp\u00e9riences !"
+    },
+    "updated_at": "2026-05-23T16:45:34.643038"
+  },
+  "updated_at": "2026-07-02T14:54:36.501157Z",
+  "schema_version": 2,
+  "history_meta": {
+    "title": "\u00c9tudiante en Ing\u00e9nierie Informatique",
+    "pinned": false,
+    "archived": false
+  }
+}

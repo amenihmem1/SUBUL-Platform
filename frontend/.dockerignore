@@ -1,0 +1,34 @@
+# Dependencies and build output (recreated in container)
+node_modules
+.next
+out
+dist
+build
+
+# Local caches
+.turbo
+.cache
+.npm
+.pnpm-store
+
+# Git and IDE
+.git
+.gitignore
+.env*.local
+.env
+*.log
+.DS_Store
+.vscode
+.idea
+
+# Debug and test
+npm-debug*
+coverage
+.nyc_output
+*.tsbuildinfo
+cypress
+cypress.config.*
+*.md
+.eslintcache
+yarn-error.log*
+pnpm-debug.log*

@@ -1,0 +1,4408 @@
+{
+  "schemaVersion": "subul.academy.certification-paths.v1",
+  "generatedAt": "2026-05-04T15:45:28Z",
+  "certificationPaths": [
+    {
+      "certificationExternalId": "aws-certified-cloud-practitioner-clf-c02",
+      "certificationCode": "CLF-C02",
+      "title": "AWS Certified Cloud Practitioner (CLF-C02) Academy Learning Path",
+      "provider": "AWS",
+      "level": "Fundamental",
+      "track": "cloud",
+      "estimatedWeeks": 6,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "CLF-C02-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "CLF-C02 Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "CLF-C02-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "CLF-C02 Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "CLF-C02-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "CLF-C02 Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "CLF-C02-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "CLF-C02 Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "CLF-C02-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "CLF-C02 Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "clf-c02-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Cloud concepts, value, and adoption",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "clf-c02-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Security, compliance, and shared responsibility",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "clf-c02-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "AWS global infrastructure and core services",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "clf-c02-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Billing, pricing, support, and cost controls",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "clf-c02-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Cloud concepts, value, and adoption",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "clf-c02-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Security, compliance, and shared responsibility",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "clf-c02-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "AWS global infrastructure and core services",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "clf-c02-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Billing, pricing, support, and cost controls",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "clf-c02-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Cloud concepts, value, and adoption",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "clf-c02-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Security, compliance, and shared responsibility",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "clf-c02-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "AWS global infrastructure and core services",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "clf-c02-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Billing, pricing, support, and cost controls",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "clf-c02-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "clf-c02-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "aws-certified-cloud-practitioner-clf-c02",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "aws-solutions-architect-associate-saa-c03",
+      "certificationCode": "SAA-C03",
+      "title": "AWS Certified Solutions Architect – Associate (SAA-C03) Academy Learning Path",
+      "provider": "AWS",
+      "level": "Intermediate",
+      "track": "cloud",
+      "estimatedWeeks": 10,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "SAA-C03-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "SAA-C03 Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "SAA-C03-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "SAA-C03 Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "SAA-C03-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "SAA-C03 Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "SAA-C03-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "SAA-C03 Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "SAA-C03-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "SAA-C03 Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "saa-c03-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Design secure architectures",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "saa-c03-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Design resilient architectures",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "saa-c03-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Design high-performing architectures",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "saa-c03-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Design cost-optimized architectures",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "saa-c03-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Design secure architectures",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "saa-c03-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Design resilient architectures",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "saa-c03-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Design high-performing architectures",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "saa-c03-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Design cost-optimized architectures",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "saa-c03-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Design secure architectures",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "saa-c03-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Design resilient architectures",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "saa-c03-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Design high-performing architectures",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "saa-c03-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Design cost-optimized architectures",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "saa-c03-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "saa-c03-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "aws-solutions-architect-associate-saa-c03",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "aws-developer-associate-dva-c02",
+      "certificationCode": "DVA-C02",
+      "title": "AWS Certified Developer – Associate (DVA-C02) Academy Learning Path",
+      "provider": "AWS",
+      "level": "Intermediate",
+      "track": "devops",
+      "estimatedWeeks": 9,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "DVA-C02-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "DVA-C02 Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "DVA-C02-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "DVA-C02 Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "DVA-C02-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "DVA-C02 Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "DVA-C02-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "DVA-C02 Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "DVA-C02-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "DVA-C02 Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "dva-c02-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Develop with AWS services",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "dva-c02-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Security",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "dva-c02-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Deployment",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "dva-c02-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Troubleshooting and optimization",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "dva-c02-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Develop with AWS services",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "dva-c02-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Security",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "dva-c02-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Deployment",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "dva-c02-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Troubleshooting and optimization",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "dva-c02-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Develop with AWS services",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "dva-c02-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Security",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "dva-c02-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Deployment",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "dva-c02-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Troubleshooting and optimization",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "dva-c02-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "dva-c02-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "aws-developer-associate-dva-c02",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "aws-certified-ai-practitioner-aif-c01",
+      "certificationCode": "AIF-C01",
+      "title": "AWS Certified AI Practitioner (AIF-C01) Academy Learning Path",
+      "provider": "AWS",
+      "level": "Beginner",
+      "track": "ai",
+      "estimatedWeeks": 7,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "AIF-C01-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "AIF-C01 Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "AIF-C01-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "AIF-C01 Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "AIF-C01-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "AIF-C01 Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "AIF-C01-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "AIF-C01 Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "AIF-C01-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "AIF-C01 Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "aif-c01-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "AI, ML, and generative AI fundamentals",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "aif-c01-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Foundation models and responsible AI",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "aif-c01-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "AWS AI services and solution patterns",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "aif-c01-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Security, governance, and cost for AI workloads",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "aif-c01-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "AI, ML, and generative AI fundamentals",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "aif-c01-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Foundation models and responsible AI",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "aif-c01-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "AWS AI services and solution patterns",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "aif-c01-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Security, governance, and cost for AI workloads",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "aif-c01-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "AI, ML, and generative AI fundamentals",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "aif-c01-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Foundation models and responsible AI",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "aif-c01-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "AWS AI services and solution patterns",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "aif-c01-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Security, governance, and cost for AI workloads",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "aif-c01-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "aif-c01-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "aws-certified-ai-practitioner-aif-c01",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "microsoft-azure-fundamentals-az-900",
+      "certificationCode": "AZ-900",
+      "title": "Microsoft Azure Fundamentals (AZ-900) Academy Learning Path",
+      "provider": "Microsoft",
+      "level": "Fundamental",
+      "track": "cloud",
+      "estimatedWeeks": 6,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "AZ-900-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "AZ-900 Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "AZ-900-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "AZ-900 Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "AZ-900-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "AZ-900 Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "AZ-900-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "AZ-900 Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "AZ-900-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "AZ-900 Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "az-900-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Cloud concepts",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "az-900-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Azure architecture and services",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "az-900-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Azure management and governance",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "az-900-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Cloud concepts",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "az-900-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Azure architecture and services",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "az-900-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Azure management and governance",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "az-900-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Cloud concepts",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "az-900-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Azure architecture and services",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "az-900-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Azure management and governance",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "az-900-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Cloud concepts",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "az-900-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Azure architecture and services",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "az-900-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Azure management and governance",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "az-900-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "az-900-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "microsoft-azure-fundamentals-az-900",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "microsoft-azure-ai-fundamentals-ai-900",
+      "certificationCode": "AI-900",
+      "title": "Microsoft Azure AI Fundamentals (AI-900) Academy Learning Path",
+      "provider": "Microsoft",
+      "level": "Fundamental",
+      "track": "ai",
+      "estimatedWeeks": 6,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "AI-900-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "AI-900 Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "AI-900-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "AI-900 Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "AI-900-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "AI-900 Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "AI-900-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "AI-900 Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "AI-900-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "AI-900 Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "ai-900-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "AI workloads and responsible AI",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "ai-900-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Machine learning principles on Azure",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "ai-900-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Computer vision and NLP workloads",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "ai-900-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Generative AI workloads on Azure",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "ai-900-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "AI workloads and responsible AI",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "ai-900-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Machine learning principles on Azure",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "ai-900-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Computer vision and NLP workloads",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "ai-900-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Generative AI workloads on Azure",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "ai-900-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "AI workloads and responsible AI",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "ai-900-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Machine learning principles on Azure",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "ai-900-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Computer vision and NLP workloads",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "ai-900-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Generative AI workloads on Azure",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "ai-900-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "ai-900-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "microsoft-azure-ai-fundamentals-ai-900",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "microsoft-security-compliance-identity-sc-900",
+      "certificationCode": "SC-900",
+      "title": "Microsoft Security, Compliance, and Identity Fundamentals (SC-900) Academy Learning Path",
+      "provider": "Microsoft",
+      "level": "Fundamental",
+      "track": "cyber",
+      "estimatedWeeks": 6,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "SC-900-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "SC-900 Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "SC-900-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "SC-900 Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "SC-900-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "SC-900 Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "SC-900-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "SC-900 Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "SC-900-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "SC-900 Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "sc-900-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Security, compliance, and identity concepts",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "sc-900-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Microsoft Entra capabilities",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "sc-900-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Microsoft security solutions",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "sc-900-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Microsoft compliance solutions",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "sc-900-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Security, compliance, and identity concepts",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "sc-900-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Microsoft Entra capabilities",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "sc-900-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Microsoft security solutions",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "sc-900-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Microsoft compliance solutions",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "sc-900-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Security, compliance, and identity concepts",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "sc-900-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Microsoft Entra capabilities",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "sc-900-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Microsoft security solutions",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "sc-900-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Microsoft compliance solutions",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "sc-900-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "sc-900-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "microsoft-security-compliance-identity-sc-900",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "microsoft-azure-administrator-az-104",
+      "certificationCode": "AZ-104",
+      "title": "Microsoft Azure Administrator (AZ-104) Academy Learning Path",
+      "provider": "Microsoft",
+      "level": "Intermediate",
+      "track": "cloud",
+      "estimatedWeeks": 10,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "AZ-104-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "AZ-104 Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "AZ-104-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "AZ-104 Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "AZ-104-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "AZ-104 Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "AZ-104-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "AZ-104 Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "AZ-104-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "AZ-104 Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "az-104-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Manage Azure identities and governance",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "az-104-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Implement and manage storage",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "az-104-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Deploy and manage compute resources",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "az-104-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Implement virtual networking",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "az-104-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Monitor and maintain Azure resources",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "az-104-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Manage Azure identities and governance",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "az-104-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Implement and manage storage",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "az-104-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Deploy and manage compute resources",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "az-104-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Implement virtual networking",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "az-104-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Monitor and maintain Azure resources",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "az-104-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Manage Azure identities and governance",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "az-104-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Implement and manage storage",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "az-104-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "az-104-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "microsoft-azure-administrator-az-104",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "google-cloud-digital-leader",
+      "certificationCode": "CDL",
+      "title": "Google Cloud Digital Leader Academy Learning Path",
+      "provider": "Google Cloud",
+      "level": "Fundamental",
+      "track": "cloud",
+      "estimatedWeeks": 6,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "CDL-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "CDL Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "CDL-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "CDL Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "CDL-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "CDL Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "CDL-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "CDL Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "CDL-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "CDL Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "cdl-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Digital transformation with Google Cloud",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "cdl-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Innovating with data and AI",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "cdl-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Infrastructure and application modernization",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "cdl-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Trust, security, and operations",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "cdl-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Digital transformation with Google Cloud",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "cdl-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Innovating with data and AI",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "cdl-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Infrastructure and application modernization",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "cdl-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Trust, security, and operations",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "cdl-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Digital transformation with Google Cloud",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "cdl-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Innovating with data and AI",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "cdl-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Infrastructure and application modernization",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "cdl-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Trust, security, and operations",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "cdl-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "cdl-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "google-cloud-digital-leader",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "google-associate-cloud-engineer",
+      "certificationCode": "ACE",
+      "title": "Google Associate Cloud Engineer Academy Learning Path",
+      "provider": "Google Cloud",
+      "level": "Intermediate",
+      "track": "cloud",
+      "estimatedWeeks": 10,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "ACE-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "ACE Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "ACE-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "ACE Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "ACE-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "ACE Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "ACE-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "ACE Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "ACE-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "ACE Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "ace-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Set up a cloud solution environment",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "ace-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Plan and configure a cloud solution",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "ace-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Deploy and implement a cloud solution",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "ace-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Operate and maintain a cloud solution",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "ace-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Configure access and security",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "ace-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Set up a cloud solution environment",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "ace-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Plan and configure a cloud solution",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "ace-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Deploy and implement a cloud solution",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "ace-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Operate and maintain a cloud solution",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "ace-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Configure access and security",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "ace-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Set up a cloud solution environment",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "ace-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Plan and configure a cloud solution",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "ace-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "ace-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "google-associate-cloud-engineer",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "google-professional-cloud-architect",
+      "certificationCode": "PCA",
+      "title": "Google Professional Cloud Architect Academy Learning Path",
+      "provider": "Google Cloud",
+      "level": "Advanced",
+      "track": "cloud",
+      "estimatedWeeks": 12,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "PCA-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "PCA Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "PCA-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "PCA Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "PCA-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "PCA Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "PCA-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "PCA Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "PCA-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "PCA Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "pca-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Design and plan cloud solution architecture",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "pca-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Manage and provision infrastructure",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "pca-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Design security and compliance",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "pca-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Analyze and optimize business processes",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "pca-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Manage implementation and ensure operations excellence",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "pca-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Design and plan cloud solution architecture",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "pca-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Manage and provision infrastructure",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "pca-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Design security and compliance",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "pca-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Analyze and optimize business processes",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "pca-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Manage implementation and ensure operations excellence",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "pca-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Design and plan cloud solution architecture",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "pca-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Manage and provision infrastructure",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "pca-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "pca-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "google-professional-cloud-architect",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "google-professional-machine-learning-engineer",
+      "certificationCode": "PMLE",
+      "title": "Google Professional Machine Learning Engineer Academy Learning Path",
+      "provider": "Google Cloud",
+      "level": "Advanced",
+      "track": "ai",
+      "estimatedWeeks": 12,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "PMLE-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "PMLE Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "PMLE-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "PMLE Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "PMLE-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "PMLE Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "PMLE-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "PMLE Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "PMLE-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "PMLE Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "pmle-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Frame ML problems and design solutions",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "pmle-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Prepare and process data",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "pmle-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Develop and train ML models",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "pmle-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Automate and orchestrate ML pipelines",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "pmle-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Deploy, monitor, and govern ML solutions",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "pmle-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Frame ML problems and design solutions",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "pmle-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Prepare and process data",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "pmle-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Develop and train ML models",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "pmle-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Automate and orchestrate ML pipelines",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "pmle-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Deploy, monitor, and govern ML solutions",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "pmle-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Frame ML problems and design solutions",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "pmle-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Prepare and process data",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "pmle-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "pmle-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "google-professional-machine-learning-engineer",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "nvidia-certified-associate-generative-ai-llms",
+      "certificationCode": "NCA-GENL",
+      "title": "NVIDIA-Certified Associate Generative AI LLMs Academy Learning Path",
+      "provider": "NVIDIA",
+      "level": "Beginner",
+      "track": "ai",
+      "estimatedWeeks": 7,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "NCA-GENL-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "NCA-GENL Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "NCA-GENL-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "NCA-GENL Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "NCA-GENL-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "NCA-GENL Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "NCA-GENL-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "NCA-GENL Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "NCA-GENL-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "NCA-GENL Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "nca-genl-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Generative AI and LLM foundations",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "nca-genl-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Prompting, RAG, and application integration",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "nca-genl-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "NVIDIA AI software ecosystem",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "nca-genl-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Evaluation, safety, and deployment basics",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "nca-genl-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Generative AI and LLM foundations",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "nca-genl-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Prompting, RAG, and application integration",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "nca-genl-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "NVIDIA AI software ecosystem",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "nca-genl-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Evaluation, safety, and deployment basics",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "nca-genl-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Generative AI and LLM foundations",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "nca-genl-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Prompting, RAG, and application integration",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "nca-genl-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "NVIDIA AI software ecosystem",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "nca-genl-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Evaluation, safety, and deployment basics",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "nca-genl-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "nca-genl-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "nvidia-certified-associate-generative-ai-llms",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "nvidia-certified-associate-ai-infrastructure-operations",
+      "certificationCode": "NCA-AIIO",
+      "title": "NVIDIA-Certified Associate AI Infrastructure and Operations Academy Learning Path",
+      "provider": "NVIDIA",
+      "level": "Beginner",
+      "track": "devops",
+      "estimatedWeeks": 7,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "NCA-AIIO-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "NCA-AIIO Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "NCA-AIIO-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "NCA-AIIO Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "NCA-AIIO-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "NCA-AIIO Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "NCA-AIIO-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "NCA-AIIO Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "NCA-AIIO-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "NCA-AIIO Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "nca-aiio-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "AI infrastructure fundamentals",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "nca-aiio-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "GPU and CPU architecture comparison",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "nca-aiio-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Data center facility and cluster basics",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "nca-aiio-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "NVIDIA software stack and scheduling",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "nca-aiio-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Virtualization and operations considerations",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "nca-aiio-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "AI infrastructure fundamentals",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "nca-aiio-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "GPU and CPU architecture comparison",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "nca-aiio-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Data center facility and cluster basics",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "nca-aiio-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "NVIDIA software stack and scheduling",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "nca-aiio-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Virtualization and operations considerations",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "nca-aiio-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "AI infrastructure fundamentals",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "nca-aiio-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "GPU and CPU architecture comparison",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "nca-aiio-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "nca-aiio-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "nvidia-certified-associate-ai-infrastructure-operations",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "nvidia-certified-professional-generative-ai-llms",
+      "certificationCode": "NCP-GENL",
+      "title": "NVIDIA-Certified Professional Generative AI LLMs Academy Learning Path",
+      "provider": "NVIDIA",
+      "level": "Advanced",
+      "track": "ai",
+      "estimatedWeeks": 12,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "NCP-GENL-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "NCP-GENL Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "NCP-GENL-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "NCP-GENL Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "NCP-GENL-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "NCP-GENL Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "NCP-GENL-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "NCP-GENL Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "NCP-GENL-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "NCP-GENL Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "ncp-genl-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "LLM design and training strategies",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "ncp-genl-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Fine-tuning and parameter-efficient adaptation",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "ncp-genl-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "GPU acceleration and distributed optimization",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "ncp-genl-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Inference optimization and serving",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "ncp-genl-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Governance, evaluation, and production reliability",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "ncp-genl-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "LLM design and training strategies",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "ncp-genl-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Fine-tuning and parameter-efficient adaptation",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "ncp-genl-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "GPU acceleration and distributed optimization",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "ncp-genl-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Inference optimization and serving",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "ncp-genl-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Governance, evaluation, and production reliability",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "ncp-genl-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "LLM design and training strategies",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "ncp-genl-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Fine-tuning and parameter-efficient adaptation",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "ncp-genl-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "ncp-genl-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "nvidia-certified-professional-generative-ai-llms",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "cncf-kubernetes-cloud-native-associate",
+      "certificationCode": "KCNA",
+      "title": "Kubernetes and Cloud Native Associate (KCNA) Academy Learning Path",
+      "provider": "CNCF",
+      "level": "Beginner",
+      "track": "devops",
+      "estimatedWeeks": 7,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "KCNA-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "KCNA Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "KCNA-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "KCNA Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "KCNA-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "KCNA Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "KCNA-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "KCNA Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "KCNA-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "KCNA Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "kcna-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Kubernetes fundamentals",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "kcna-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Container orchestration",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "kcna-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Cloud native architecture",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "kcna-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Cloud native observability",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "kcna-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Cloud native application delivery",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "kcna-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Kubernetes fundamentals",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "kcna-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Container orchestration",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "kcna-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Cloud native architecture",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "kcna-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Cloud native observability",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "kcna-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Cloud native application delivery",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "kcna-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Kubernetes fundamentals",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "kcna-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Container orchestration",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "kcna-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "kcna-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "cncf-kubernetes-cloud-native-associate",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "cncf-certified-kubernetes-administrator",
+      "certificationCode": "CKA",
+      "title": "Certified Kubernetes Administrator (CKA) Academy Learning Path",
+      "provider": "CNCF",
+      "level": "Advanced",
+      "track": "devops",
+      "estimatedWeeks": 12,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "CKA-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "CKA Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "CKA-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "CKA Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "CKA-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "CKA Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "CKA-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "CKA Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "CKA-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "CKA Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "cka-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Cluster architecture, installation, and configuration",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "cka-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Workloads and scheduling",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "cka-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Services and networking",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "cka-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Storage",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "cka-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Troubleshooting",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "cka-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Cluster architecture, installation, and configuration",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "cka-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Workloads and scheduling",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "cka-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Services and networking",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "cka-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Storage",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "cka-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Troubleshooting",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "cka-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Cluster architecture, installation, and configuration",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "cka-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Workloads and scheduling",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "cka-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "cka-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "cncf-certified-kubernetes-administrator",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "cncf-certified-kubernetes-security-specialist",
+      "certificationCode": "CKS",
+      "title": "Certified Kubernetes Security Specialist (CKS) Academy Learning Path",
+      "provider": "CNCF",
+      "level": "Expert",
+      "track": "cyber",
+      "estimatedWeeks": 12,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "CKS-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "CKS Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "CKS-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "CKS Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "CKS-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "CKS Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "CKS-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "CKS Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "CKS-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "CKS Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "cks-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Cluster setup and hardening",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "cks-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Cluster hardening and RBAC",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "cks-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "System hardening",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "cks-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Minimize microservice vulnerabilities",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "cks-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Supply chain security",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "cks-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Monitoring, logging, and runtime security",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "cks-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Cluster setup and hardening",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "cks-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Cluster hardening and RBAC",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "cks-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "System hardening",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "cks-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Minimize microservice vulnerabilities",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "cks-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Supply chain security",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "cks-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Monitoring, logging, and runtime security",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "cks-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "cks-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "cncf-certified-kubernetes-security-specialist",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "hashicorp-certified-terraform-associate-004",
+      "certificationCode": "TA-004",
+      "title": "HashiCorp Certified: Terraform Associate (004) Academy Learning Path",
+      "provider": "HashiCorp",
+      "level": "Intermediate",
+      "track": "devops",
+      "estimatedWeeks": 8,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "TA-004-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "TA-004 Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "TA-004-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "TA-004 Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "TA-004-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "TA-004 Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "TA-004-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "TA-004 Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "TA-004-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "TA-004 Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "ta-004-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Infrastructure as Code with Terraform",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "ta-004-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Terraform fundamentals",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "ta-004-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Core Terraform workflow",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "ta-004-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Terraform configuration language",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "ta-004-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "State, modules, and collaboration",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "ta-004-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Infrastructure as Code with Terraform",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "ta-004-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Terraform fundamentals",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "ta-004-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Core Terraform workflow",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "ta-004-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Terraform configuration language",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "ta-004-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "State, modules, and collaboration",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "ta-004-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Infrastructure as Code with Terraform",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "ta-004-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Terraform fundamentals",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "ta-004-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "ta-004-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "hashicorp-certified-terraform-associate-004",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "hashicorp-certified-vault-associate-003",
+      "certificationCode": "VA-003",
+      "title": "HashiCorp Certified: Vault Associate (003) Academy Learning Path",
+      "provider": "HashiCorp",
+      "level": "Intermediate",
+      "track": "cyber",
+      "estimatedWeeks": 8,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "VA-003-FOUNDATION",
+          "required": true,
+          "estimatedMinutes": 1020,
+          "skillGain": "VA-003 Foundations and Domain Orientation",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "VA-003-CORE",
+          "required": true,
+          "estimatedMinutes": 1200,
+          "skillGain": "VA-003 Core Services and Platform Components",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "VA-003-SECURITY",
+          "required": true,
+          "estimatedMinutes": 1380,
+          "skillGain": "VA-003 Security, Identity, and Governance",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "VA-003-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 1560,
+          "skillGain": "VA-003 Architecture, Operations, and Reliability",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "VA-003-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1740,
+          "skillGain": "VA-003 Exam Readiness and Capstone Projects",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "lab",
+          "stepRef": "va-003-environment-baseline-01",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Authentication methods and identity",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "lab",
+          "stepRef": "va-003-identity-access-02",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Vault policies and token concepts",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "lab",
+          "stepRef": "va-003-networking-path-03",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Secrets engines and dynamic secrets",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 9,
+          "stepType": "lab",
+          "stepRef": "va-003-compute-deploy-04",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Encryption, transit, and PKI concepts",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 10,
+          "stepType": "lab",
+          "stepRef": "va-003-storage-data-05",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Operations, audit, and high availability basics",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 11,
+          "stepType": "lab",
+          "stepRef": "va-003-monitoring-alerting-06",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Authentication methods and identity",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 12,
+          "stepType": "lab",
+          "stepRef": "va-003-security-hardening-07",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Vault policies and token concepts",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 13,
+          "stepType": "lab",
+          "stepRef": "va-003-automation-iac-08",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Secrets engines and dynamic secrets",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 14,
+          "stepType": "lab",
+          "stepRef": "va-003-troubleshooting-incident-09",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Encryption, transit, and PKI concepts",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 15,
+          "stepType": "lab",
+          "stepRef": "va-003-cost-governance-10",
+          "required": true,
+          "estimatedMinutes": 75,
+          "skillGain": "Operations, audit, and high availability basics",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 16,
+          "stepType": "lab",
+          "stepRef": "va-003-integrated-scenario-11",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "Authentication methods and identity",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 17,
+          "stepType": "lab",
+          "stepRef": "va-003-capstone-readiness-12",
+          "required": true,
+          "estimatedMinutes": 45,
+          "skillGain": "Vault policies and token concepts",
+          "recommended": false,
+          "ctaLabel": "Start lab"
+        },
+        {
+          "stepOrder": 18,
+          "stepType": "practice_exam",
+          "stepRef": "va-003-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 19,
+          "stepType": "practice_exam",
+          "stepRef": "va-003-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 60,
+          "skillGain": "Exam readiness and domain remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 20,
+          "stepType": "final_certificate",
+          "stepRef": "hashicorp-certified-vault-associate-003",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "microsoft-certified-power-bi-data-analyst-associate-pl-300",
+      "certificationCode": "PL-300",
+      "title": "Microsoft Certified: Power BI Data Analyst Associate (Exam PL-300) Academy Learning Path",
+      "provider": "Microsoft",
+      "level": "Intermediate",
+      "track": "data",
+      "estimatedWeeks": 10,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "PL300-DATA-PREP",
+          "required": true,
+          "estimatedMinutes": 1920,
+          "skillGain": "PL-300 Data Preparation with Power Query and Dataflows",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "PL300-SEMANTIC-MODEL",
+          "required": true,
+          "estimatedMinutes": 2160,
+          "skillGain": "PL-300 Semantic Modeling and DAX Mastery",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "PL300-VISUAL-ANALYTICS",
+          "required": true,
+          "estimatedMinutes": 2040,
+          "skillGain": "PL-300 Visualization, UX, and Insight Communication",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "PL300-GOVERNANCE-DEPLOYMENT",
+          "required": true,
+          "estimatedMinutes": 1980,
+          "skillGain": "PL-300 Governance, Security, and Deployment",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "PL300-CAPSTONE",
+          "required": true,
+          "estimatedMinutes": 1980,
+          "skillGain": "PL-300 End-to-End Capstone Scenarios and Exam Strategy",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "practice_exam",
+          "stepRef": "pl-300-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "PL-300 timed exam simulation and remediation",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "practice_exam",
+          "stepRef": "pl-300-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 90,
+          "skillGain": "PL-300 domain-level score improvement",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "final_certificate",
+          "stepRef": "microsoft-certified-power-bi-data-analyst-associate-pl-300",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    },
+    {
+      "certificationExternalId": "aws-certified-data-engineer-associate-dea-c01",
+      "certificationCode": "DEA-C01",
+      "title": "AWS Certified Data Engineer - Associate (DEA-C01) Academy Learning Path",
+      "provider": "AWS",
+      "level": "Intermediate",
+      "track": "data",
+      "estimatedWeeks": 11,
+      "steps": [
+        {
+          "stepOrder": 1,
+          "stepType": "course",
+          "stepRef": "DEA-C01-INGESTION",
+          "required": true,
+          "estimatedMinutes": 2280,
+          "skillGain": "DEA-C01 Ingestion Architecture and Pipeline Design",
+          "recommended": true,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 2,
+          "stepType": "course",
+          "stepRef": "DEA-C01-TRANSFORMATION",
+          "required": true,
+          "estimatedMinutes": 2220,
+          "skillGain": "DEA-C01 Transformation, Orchestration, and Data Quality",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 3,
+          "stepType": "course",
+          "stepRef": "DEA-C01-STORAGE",
+          "required": true,
+          "estimatedMinutes": 2160,
+          "skillGain": "DEA-C01 Data Lake, Warehouse, and Serving Layers",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 4,
+          "stepType": "course",
+          "stepRef": "DEA-C01-OPERATIONS",
+          "required": true,
+          "estimatedMinutes": 2100,
+          "skillGain": "DEA-C01 Operations, Reliability, and Cost Optimization",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 5,
+          "stepType": "course",
+          "stepRef": "DEA-C01-SECURITY-GOV",
+          "required": true,
+          "estimatedMinutes": 2160,
+          "skillGain": "DEA-C01 Security, Governance, and Exam Capstone",
+          "recommended": false,
+          "ctaLabel": "Open course"
+        },
+        {
+          "stepOrder": 6,
+          "stepType": "practice_exam",
+          "stepRef": "dea-c01-practice-exam-1",
+          "required": true,
+          "estimatedMinutes": 130,
+          "skillGain": "DEA-C01 full-length simulation and feedback",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 7,
+          "stepType": "practice_exam",
+          "stepRef": "dea-c01-practice-exam-2",
+          "required": true,
+          "estimatedMinutes": 130,
+          "skillGain": "DEA-C01 domain remediation and confidence ramp",
+          "recommended": false,
+          "ctaLabel": "Take practice exam"
+        },
+        {
+          "stepOrder": 8,
+          "stepType": "final_certificate",
+          "stepRef": "aws-certified-data-engineer-associate-dea-c01",
+          "required": true,
+          "estimatedMinutes": 30,
+          "skillGain": "Final Subul certification badge",
+          "recommended": false,
+          "ctaLabel": "Claim final badge"
+        }
+      ]
+    }
+  ]
+}

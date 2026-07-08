@@ -1,0 +1,72 @@
+[
+  {
+    "id": "bdde443c-8adb-481f-86b9-00d0b1338c0c",
+    "candidateName": "ameni hmem",
+    "candidateEmail": "amenihmem9@gmail.com",
+    "role": "full stack",
+    "scheduledAt": "2026-05-22T14:00:00+00:00",
+    "durationMinutes": 45,
+    "status": "planned",
+    "createdAt": "2026-05-22T13:13:55.056600+00:00",
+    "reminderMinutesBefore": 60,
+    "candidateCancelToken": "325d064b-3263-4f66-818c-b539596db8da",
+    "reminderSentAt": "2026-05-22T13:14:15.828775+00:00",
+    "cancelledAt": ""
+  },
+  {
+    "id": "749b619c-0ea5-42fb-9e51-12c6d5e53d25",
+    "candidateName": "ameni hmem",
+    "candidateEmail": "amenihmem9@gmail.com",
+    "role": "full stack",
+    "scheduledAt": "2026-06-14T18:00:00+00:00",
+    "durationMinutes": 45,
+    "status": "planned",
+    "createdAt": "2026-06-14T17:43:38.622843+00:00",
+    "reminderMinutesBefore": 60,
+    "candidateCancelToken": "20737ded-6e7d-4d4f-a929-bdbcb98e5a7a",
+    "reminderSentAt": "2026-06-14T17:43:46.445859+00:00",
+    "cancelledAt": ""
+  },
+  {
+    "id": "7b70d98b-94e3-456a-8f61-323fc08ce95b",
+    "candidateName": "aaa",
+    "candidateEmail": "ameni.hmem@esprim.tn",
+    "role": "ingenieur",
+    "scheduledAt": "2026-06-17T20:00:00+00:00",
+    "durationMinutes": 45,
+    "status": "planned",
+    "createdAt": "2026-06-14T18:33:47.503386+00:00",
+    "reminderMinutesBefore": 60,
+    "candidateCancelToken": "ef0cea75-e0b9-44af-b9c0-0d445ee626ef",
+    "reminderSentAt": "",
+    "cancelledAt": ""
+  },
+  {
+    "id": "b8471caa-8d58-45f6-b822-dcb141a9f8a5",
+    "candidateName": "ameni hmem",
+    "candidateEmail": "amenihmem9@gmail.com",
+    "role": "",
+    "scheduledAt": "2026-06-28T23:00:00+00:00",
+    "durationMinutes": 45,
+    "status": "planned",
+    "createdAt": "2026-06-28T22:53:02.406334+00:00",
+    "reminderMinutesBefore": 60,
+    "candidateCancelToken": "a1398323-e170-4b52-9122-9fa7317b6777",
+    "reminderSentAt": "2026-06-28T22:53:33.216250+00:00",
+    "cancelledAt": ""
+  },
+  {
+    "id": "741e1d5b-3883-44d4-b48c-00c955eaf033",
+    "candidateName": "ameni",
+    "candidateEmail": "amenihmem9@gmail.com",
+    "role": "",
+    "scheduledAt": "2026-07-07T08:00:00+00:00",
+    "durationMinutes": 45,
+    "status": "planned",
+    "createdAt": "2026-07-07T07:13:59.163964+00:00",
+    "reminderMinutesBefore": 60,
+    "candidateCancelToken": "0a659274-871a-41b0-98ba-4cb9c9ba4c0a",
+    "reminderSentAt": "2026-07-07T07:14:14.932898+00:00",
+    "cancelledAt": ""
+  }
+]
