@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { ShieldX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { PageLoader } from '@/components/ui/loading';
 
 const defaultLocale = 'en';
 
@@ -60,7 +59,7 @@ export default function UnauthorizedPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <PageLoader />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary/30 border-t-primary" />
       </div>
     }>
       <UnauthorizedContent />
