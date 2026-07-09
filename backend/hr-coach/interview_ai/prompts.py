@@ -200,7 +200,7 @@ def normalize_cv_profile(cv_profile: dict[str, Any] | Any) -> dict[str, Any]:
         preview = str(cv_profile.get("text_preview") or "").strip()
         first_line = next((line.strip() for line in preview.splitlines() if line.strip()), "")
         if first_line and len(first_line) <= 40 and first_line == first_line.upper():
-            upper_words = re.findall(r"[A-ZÀ-Ÿ][A-ZÀ-Ÿ'â€™-]{1,}", first_line)
+            upper_words = re.findall(r"[A-Z\u00C0-\u00D6\u00D8-\u00DE][A-Z\u00C0-\u00D6\u00D8-\u00DE'\u2019-]{1,}", first_line)
             if 2 <= len(upper_words) <= 4:
                 name = " ".join(word.capitalize() for word in upper_words)
 
@@ -379,7 +379,7 @@ def normalize_cv_profile(cv_profile: dict[str, Any] | Any) -> dict[str, Any]:
         preview = str(cv_profile.get("text_preview") or "").strip()
         first_line = next((line.strip() for line in preview.splitlines() if line.strip()), "")
         if first_line and len(first_line) <= 40 and first_line == first_line.upper():
-            upper_words = re.findall(r"[A-ZÃ€-Å¸][A-ZÃ€-Å¸'Ã¢â‚¬â„¢-]{1,}", first_line)
+            upper_words = re.findall(r"[A-Z\u00C0-\u00D6\u00D8-\u00DE][A-Z\u00C0-\u00D6\u00D8-\u00DE'\u2019-]{1,}", first_line)
             if 2 <= len(upper_words) <= 4:
                 name = " ".join(word.capitalize() for word in upper_words)
 
