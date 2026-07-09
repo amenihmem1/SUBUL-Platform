@@ -82,7 +82,9 @@ import { QuizFeedbackModule } from './quiz-feedback/quiz-feedback.module';
           database: configService.get<string>('DB_NAME', 'shared_db'),
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
           synchronize: configService.get<string>('NODE_ENV') !== 'production',
-          migrationsRun: configService.get<string>('NODE_ENV') === 'production',
+          migrationsRun:
+            configService.get<string>('NODE_ENV') === 'production' &&
+            configService.get<string>('DB_RUN_MIGRATIONS', 'true') !== 'false',
           logging: ['error'],
           migrations: [__dirname + '/migrations/*.js'],
           ssl: sslEnabled ? { rejectUnauthorized: false } : false,
