@@ -32,11 +32,36 @@ export const platformBridgeScript = `
     document.documentElement.dataset.subulPlatform = "true";
   };
 
+  const ensureSidebarToggle = () => {
+    if (document.querySelector('[class*="sidebarToggle"], .subul-sidebar-toggle')) return;
+    if (!document.querySelector('aside[class*="sidebar"]')) return;
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "subul-sidebar-toggle";
+    button.setAttribute("aria-label", "Ouvrir le menu");
+    button.setAttribute("aria-expanded", "false");
+    button.innerHTML = "<span></span><span></span><span></span>";
+    button.addEventListener("click", () => {
+      const isOpen = document.documentElement.dataset.subulSidebarOpen === "true";
+      document.documentElement.dataset.subulSidebarOpen = isOpen ? "false" : "true";
+      button.setAttribute("aria-expanded", String(!isOpen));
+      button.setAttribute("aria-label", isOpen ? "Ouvrir le menu" : "Fermer le menu");
+    });
+    document.body.appendChild(button);
+  };
+
   const params = new URLSearchParams(location.search);
   apply(
     normalizeLanguage(params.get("locale") || params.get("lang")),
     normalizeTheme(params.get("theme")),
   );
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", ensureSidebarToggle, { once: true });
+  } else {
+    ensureSidebarToggle();
+  }
 
   addEventListener("message", (event) => {
     const data = event.data || {};
