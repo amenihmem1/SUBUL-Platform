@@ -7,10 +7,11 @@ from importlib.util import find_spec
 import json
 import os
 from pathlib import Path
+import shutil
 import sys
 import tempfile
 from typing import Any, Protocol
-from zipfile import ZIP_DEFLATED, ZipFile
+from zipfile import ZIP_STORED, ZipFile
 
 
 # ---------------------------------------------------------------------------
@@ -1160,14 +1161,19 @@ class CustomEmotionAnalyzer:
         temp_model_path = Path(temp_path)
 
         try:
-            with ZipFile(keras_model_path) as archive_in, ZipFile(temp_model_path, "w", compression=ZIP_DEFLATED) as archive_out:
+            with ZipFile(keras_model_path) as archive_in, ZipFile(temp_model_path, "w", compression=ZIP_STORED) as archive_out:
                 for member_name in archive_in.namelist():
-                    payload = archive_in.read(member_name)
                     if member_name == "config.json":
+                        payload = archive_in.read(member_name)
                         config_payload = json.loads(payload.decode("utf-8"))
                         config_payload = _sanitize_keras_archive_config(config_payload)
-                        payload = json.dumps(config_payload).encode("utf-8")
-                    archive_out.writestr(member_name, payload)
+                        archive_out.writestr(member_name, json.dumps(config_payload).encode("utf-8"))
+                        continue
+                    if member_name.endswith("/"):
+                        archive_out.writestr(member_name, b"")
+                        continue
+                    with archive_in.open(member_name) as source, archive_out.open(member_name, "w", force_zip64=True) as target:
+                        shutil.copyfileobj(source, target, length=1024 * 1024)
         except Exception:
             temp_model_path.unlink(missing_ok=True)
             raise

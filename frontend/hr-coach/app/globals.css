@@ -6686,3 +6686,51 @@ svg circle {
     grid-template-columns: 1fr;
   }
 }
+html[data-subul-platform="true"] [class*="themeToggle"],
+html[data-subul-platform="true"] [class*="languageToggle"] {
+  display: none !important;
+}
+
+html[data-subul-platform="true"] aside[class*="sidebar"]:not(.history-sidebar) {
+  width: 250px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border-right: 1px solid #e2e8f0;
+  box-shadow: 0 24px 65px -55px rgba(15, 23, 42, 0.35);
+}
+
+html[data-subul-platform="true"] aside[class*="sidebar"]:not(.history-sidebar) [class*="sidebarTop"] {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+html[data-subul-platform="true"] aside[class*="sidebar"]:not(.history-sidebar) a {
+  min-height: 38px;
+  border-radius: 8px;
+  letter-spacing: 0;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+html[data-subul-platform="true"] aside[class*="sidebar"]:not(.history-sidebar) a:hover {
+  background: #f1f5f9;
+}
+
+html[data-subul-platform="true"] aside[class*="sidebar"]:not(.history-sidebar) [class*="active"] {
+  color: #6d28d9;
+  background: #f5f3ff;
+  border-color: #ddd6fe;
+}
+
+html[data-theme="dark"][data-subul-platform="true"] aside[class*="sidebar"]:not(.history-sidebar) {
+  color: #e2e8f0;
+  background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
+  border-right-color: #334155;
+}
+
+html[data-theme="dark"][data-subul-platform="true"] aside[class*="sidebar"]:not(.history-sidebar) a:hover {
+  background: #1e293b;
+}
+
+html[data-theme="dark"][data-subul-platform="true"] aside[class*="sidebar"]:not(.history-sidebar) [class*="active"] {
+  color: #ddd6fe;
+  background: #312e81;
+  border-color: #4c1d95;
+}

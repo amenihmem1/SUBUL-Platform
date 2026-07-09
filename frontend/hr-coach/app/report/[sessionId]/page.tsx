@@ -914,7 +914,7 @@ export default function ReportDashboardPage() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    setBrowserOrigin(window.location.origin);
+    setBrowserOrigin(`${window.location.origin}/hr-coach-app`);
   }, []);
 
   useEffect(() => {
@@ -961,7 +961,7 @@ export default function ReportDashboardPage() {
   const tDyn = (text?: string) => translateDynamicTextV2(text, language);
   const rawDyn = (text?: string) => String(text || "").trim();
   const effectiveTheme: Theme = theme;
-  const shareOrigin = QR_SHARE_BASE_URL || browserOrigin;
+  const shareOrigin = browserOrigin || QR_SHARE_BASE_URL;
   const qrNeedsPublicOrigin = !QR_SHARE_BASE_URL && isLocalOnlyOrigin(browserOrigin);
   const reportUnlocked = payload?.interview_status === "finalized" && Boolean(finalReport);
   const insightsViewUnlocked = Boolean(payload);
