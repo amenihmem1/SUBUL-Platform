@@ -323,7 +323,6 @@ export class MailService {
     const c = copyFor(locale);
     const verifyUrl = `${this.frontendUrl}/${locale}/auth/verify-email?token=${encodeURIComponent(token)}`;
 
-    this.logger.log(`[Mail] Verification URL: ${verifyUrl}`);
 
     const titleMap: Record<string, string> = {
       en: 'Confirm Your Email',
@@ -369,7 +368,6 @@ export class MailService {
     const c = copyFor(locale);
     const resetUrl = `${this.frontendUrl}/${locale}/auth/reset-password/${encodeURIComponent(token)}`;
 
-    this.logger.log(`[Mail] Reset URL: ${resetUrl}`);
 
     const titleMap: Record<string, string> = {
       en: 'Reset Your Password',
