@@ -31,34 +31,34 @@ server {
     }
 
     location /rh/interviews {
-        proxy_set_header Host rh-calendar-service.azurewebsites.net;
-        proxy_ssl_name rh-calendar-service.azurewebsites.net;
+        proxy_set_header Host $proxy_host;
+        proxy_ssl_name $proxy_host;
         proxy_pass ${CALENDAR_SERVICE_URL};
     }
 
     location /rh/dashboard {
-        proxy_set_header Host rh-analytics-service.azurewebsites.net;
-        proxy_ssl_name rh-analytics-service.azurewebsites.net;
+        proxy_set_header Host $proxy_host;
+        proxy_ssl_name $proxy_host;
         proxy_pass ${ANALYTICS_SERVICE_URL};
     }
 
     location /rh/stt {
         proxy_request_buffering off;
         proxy_buffering off;
-        proxy_set_header Host rh-media-service.azurewebsites.net;
-        proxy_ssl_name rh-media-service.azurewebsites.net;
+        proxy_set_header Host $proxy_host;
+        proxy_ssl_name $proxy_host;
         proxy_pass ${MEDIA_SERVICE_URL};
     }
 
     location /rh/tts {
-        proxy_set_header Host rh-media-service.azurewebsites.net;
-        proxy_ssl_name rh-media-service.azurewebsites.net;
+        proxy_set_header Host $proxy_host;
+        proxy_ssl_name $proxy_host;
         proxy_pass ${MEDIA_SERVICE_URL};
     }
 
     location /rh/vision/config {
-        proxy_set_header Host rh-media-service.azurewebsites.net;
-        proxy_ssl_name rh-media-service.azurewebsites.net;
+        proxy_set_header Host $proxy_host;
+        proxy_ssl_name $proxy_host;
         proxy_pass ${MEDIA_SERVICE_URL};
     }
 
@@ -66,20 +66,20 @@ server {
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
-        proxy_set_header Host rh-media-service.azurewebsites.net;
-        proxy_ssl_name rh-media-service.azurewebsites.net;
+        proxy_set_header Host $proxy_host;
+        proxy_ssl_name $proxy_host;
         proxy_pass ${MEDIA_SERVICE_URL};
     }
 
     location ~ ^/rh/sessions/[^/]+/(vision|audio|proctoring)$ {
-        proxy_set_header Host rh-media-service.azurewebsites.net;
-        proxy_ssl_name rh-media-service.azurewebsites.net;
+        proxy_set_header Host $proxy_host;
+        proxy_ssl_name $proxy_host;
         proxy_pass ${MEDIA_SERVICE_URL};
     }
 
     location ~ ^/rh/sessions/[^/]+/(report\.pdf|insights-report\.pdf)$ {
-        proxy_set_header Host rh-reporting-service.azurewebsites.net;
-        proxy_ssl_name rh-reporting-service.azurewebsites.net;
+        proxy_set_header Host $proxy_host;
+        proxy_ssl_name $proxy_host;
         proxy_pass ${REPORTING_SERVICE_URL};
     }
 
@@ -87,20 +87,20 @@ server {
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
-        proxy_set_header Host rh-interview-service.azurewebsites.net;
-        proxy_ssl_name rh-interview-service.azurewebsites.net;
+        proxy_set_header Host $proxy_host;
+        proxy_ssl_name $proxy_host;
         proxy_pass ${INTERVIEW_SERVICE_URL};
     }
 
     location /rh/sessions {
-        proxy_set_header Host rh-interview-service.azurewebsites.net;
-        proxy_ssl_name rh-interview-service.azurewebsites.net;
+        proxy_set_header Host $proxy_host;
+        proxy_ssl_name $proxy_host;
         proxy_pass ${INTERVIEW_SERVICE_URL};
     }
 
     location / {
-        proxy_set_header Host rh-interview-service.azurewebsites.net;
-        proxy_ssl_name rh-interview-service.azurewebsites.net;
+        proxy_set_header Host $proxy_host;
+        proxy_ssl_name $proxy_host;
         proxy_pass ${INTERVIEW_SERVICE_URL};
     }
 }
