@@ -151,7 +151,12 @@
     "azureAz900": "Azure AZ-900",
     "myGoals": "Mes Objectifs",
     "subulHrCoach": "Subul HR Coach",
-    "subulTechnicalCoach": "Subul Technical Coach"
+    "subulTechnicalCoach": "Subul Technical Coach",
+    "coachInterview": "Interview",
+    "coachAnalytics": "Analytiques",
+    "coachHistory": "Historique",
+    "coachCalendar": "Calendrier",
+    "coachHelp": "Aide"
   },
   "navbar": {
     "adminTitle": "Tableau de Bord Administrateur",

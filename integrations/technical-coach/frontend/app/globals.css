@@ -6688,3 +6688,17 @@ html[data-theme="dark"][data-subul-platform="true"] .subul-sidebar-toggle {
     gap: 16px;
   }
 }
+
+html[data-subul-platform="true"] aside[class*="sidebar"]:not(.history-sidebar),
+html[data-subul-platform="true"] .subul-sidebar-toggle {
+  display: none !important;
+}
+
+html[data-subul-platform="true"] [class*="shell"] {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+html[data-subul-platform="true"] [class*="main"] {
+  margin-left: 0 !important;
+  padding-top: 10px !important;
+}

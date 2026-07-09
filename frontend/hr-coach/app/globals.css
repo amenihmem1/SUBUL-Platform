@@ -6811,3 +6811,18 @@ html[data-theme="dark"][data-subul-platform="true"] aside[class*="sidebar"]:not(
     gap: 16px;
   }
 }
+
+html[data-subul-platform="true"] aside[class*="sidebar"]:not(.history-sidebar),
+html[data-subul-platform="true"] [class*="sidebarToggle"],
+html[data-subul-platform="true"] [class*="sidebarBackdrop"] {
+  display: none !important;
+}
+
+html[data-subul-platform="true"] [class*="shell"] {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+html[data-subul-platform="true"] [class*="main"] {
+  margin-left: 0 !important;
+  padding-top: 10px !important;
+}

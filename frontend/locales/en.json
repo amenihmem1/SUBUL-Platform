@@ -149,7 +149,12 @@
     "awsEc2": "AWS EC2",
     "azureAz900": "Azure AZ-900",
     "subulHrCoach": "Subul HR Coach",
-    "subulTechnicalCoach": "Subul Technical Coach"
+    "subulTechnicalCoach": "Subul Technical Coach",
+    "coachInterview": "Interview",
+    "coachAnalytics": "Analytics",
+    "coachHistory": "History",
+    "coachCalendar": "Calendar",
+    "coachHelp": "Help"
   },
   "navbar": {
     "adminTitle": "Admin Dashboard",

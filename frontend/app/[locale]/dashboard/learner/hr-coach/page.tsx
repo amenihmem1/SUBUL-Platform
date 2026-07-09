@@ -33,14 +33,19 @@ function LearnerHrCoachFrame() {
   const hrCoachUrl = useMemo(() => {
     const url = withPlatformLanguageParams(HR_COACH_URL, locale);
     const parsed = new URL(url, "http://subul.local");
+    const requestedPath = searchParams.get("path");
     const sessionId = searchParams.get("session");
     const reportSessionId = searchParams.get("reportSession") || searchParams.get("sessionId");
     const reportView = searchParams.get("view");
+    const basePath = parsed.pathname.replace(/\/$/, "");
 
     if (reportSessionId) {
-      parsed.pathname = `${parsed.pathname.replace(/\/$/, "")}/report/${encodeURIComponent(reportSessionId)}`;
+      parsed.pathname = `${basePath}/report/${encodeURIComponent(reportSessionId)}`;
       parsed.searchParams.delete("session");
       parsed.searchParams.set("view", reportView === "insights" ? "insights" : "rh");
+    } else if (requestedPath && requestedPath.startsWith("/") && !requestedPath.startsWith("//")) {
+      parsed.pathname = requestedPath === "/" ? basePath || "/" : `${basePath}${requestedPath}`;
+      parsed.searchParams.delete("session");
     } else if (sessionId) {
       parsed.searchParams.set("session", sessionId);
     }

@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const TECHNICAL_COACH_URL =
@@ -23,6 +24,7 @@ function withPlatformParams(rawUrl: string, locale: string) {
 
 function LearnerTechnicalCoachFrame() {
   const { locale } = useLanguage();
+  const searchParams = useSearchParams();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [loaded, setLoaded] = useState(false);
@@ -32,10 +34,14 @@ function LearnerTechnicalCoachFrame() {
   const technicalCoachUrl = useMemo(() => {
     const url = withPlatformParams(TECHNICAL_COACH_URL, locale);
     const parsed = new URL(url, "http://subul.local");
+    const requestedPath = searchParams.get("path");
+    if (requestedPath && requestedPath.startsWith("/") && !requestedPath.startsWith("//")) {
+      parsed.pathname = requestedPath;
+    }
     parsed.searchParams.set("theme", theme);
     parsed.searchParams.set("hideThemeSwitcher", "1");
     return url.startsWith("/") ? `${parsed.pathname}${parsed.search}${parsed.hash}` : parsed.toString();
-  }, [locale, theme]);
+  }, [locale, searchParams, theme]);
 
   const syncPlatformState = useCallback(() => {
     iframeRef.current?.contentWindow?.postMessage(

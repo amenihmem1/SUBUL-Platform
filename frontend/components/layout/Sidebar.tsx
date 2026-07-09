@@ -34,6 +34,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useTranslation } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
@@ -56,6 +57,7 @@ type SidebarNavItem = {
   href?: string;
   externalHref?: string;
   section?: string;
+  children?: SidebarNavItem[];
 };
 
 interface SidebarProps {
@@ -67,6 +69,7 @@ interface SidebarProps {
 export default function Sidebar({ role, open, toggle }: SidebarProps) {
   const { t } = useTranslation();
   const pathname = usePathname();
+  const [currentSearch, setCurrentSearch] = useState('');
   const { logout } = useAuth();
 
   const locale = localeFromPathname(pathname);
@@ -88,6 +91,19 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
   const isRTL = dir === 'rtl';
 
   const createLocalizedUrl = (path: string) => `/${locale}${path}`;
+  const createCoachUrl = (basePath: string, coachPath: string) =>
+    `${createLocalizedUrl(basePath)}?path=${encodeURIComponent(coachPath)}`;
+
+  useEffect(() => {
+    const syncSearch = () => setCurrentSearch(window.location.search);
+    syncSearch();
+    window.addEventListener('popstate', syncSearch);
+    return () => window.removeEventListener('popstate', syncSearch);
+  }, [pathname]);
+
+  const syncSearchAfterNavigation = () => {
+    window.setTimeout(() => setCurrentSearch(window.location.search), 80);
+  };
 
   const navConfig: Record<Role, SidebarNavItem[]> = {
     admin: [
@@ -126,8 +142,33 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
       { id: 'roadmap', icon: Target, labelKey: 'navigation.roadmap', href: createLocalizedUrl('/dashboard/learner/roadmap'), section: 'learning' },
       { id: 'cours', icon: GraduationCap, labelKey: 'navigation.courses', href: createLocalizedUrl('/dashboard/learner/cours'), section: 'learning' },
       { id: 'labs', icon: Terminal, labelKey: 'navigation.labs', href: createLocalizedUrl('/dashboard/learner/labs'), section: 'learning' },
-      { id: 'subul-hr-coach', icon: Bot, labelKey: 'navigation.subulHrCoach', href: createLocalizedUrl('/dashboard/learner/hr-coach'), section: 'career' },
-      { id: 'subul-technical-coach', icon: Terminal, labelKey: 'navigation.subulTechnicalCoach', href: createLocalizedUrl('/dashboard/learner/technical-coach'), section: 'career' },
+      {
+        id: 'subul-hr-coach',
+        icon: Bot,
+        labelKey: 'navigation.subulHrCoach',
+        href: createLocalizedUrl('/dashboard/learner/hr-coach'),
+        section: 'career',
+        children: [
+          { id: 'hr-interview', icon: Bot, labelKey: 'navigation.coachInterview', href: createCoachUrl('/dashboard/learner/hr-coach', '/') },
+          { id: 'hr-analytics', icon: BarChart3, labelKey: 'navigation.coachAnalytics', href: createCoachUrl('/dashboard/learner/hr-coach', '/dashboard') },
+          { id: 'hr-history', icon: FileText, labelKey: 'navigation.coachHistory', href: createCoachUrl('/dashboard/learner/hr-coach', '/history') },
+          { id: 'hr-calendar', icon: CalendarCheck, labelKey: 'navigation.coachCalendar', href: createCoachUrl('/dashboard/learner/hr-coach', '/calendar') },
+          { id: 'hr-help', icon: MessageSquare, labelKey: 'navigation.coachHelp', href: createCoachUrl('/dashboard/learner/hr-coach', '/help') },
+        ],
+      },
+      {
+        id: 'subul-technical-coach',
+        icon: Terminal,
+        labelKey: 'navigation.subulTechnicalCoach',
+        href: createLocalizedUrl('/dashboard/learner/technical-coach'),
+        section: 'career',
+        children: [
+          { id: 'technical-interview', icon: Terminal, labelKey: 'navigation.coachInterview', href: createCoachUrl('/dashboard/learner/technical-coach', '/') },
+          { id: 'technical-analytics', icon: BarChart3, labelKey: 'navigation.coachAnalytics', href: createCoachUrl('/dashboard/learner/technical-coach', '/dashboard') },
+          { id: 'technical-history', icon: FileText, labelKey: 'navigation.coachHistory', href: createCoachUrl('/dashboard/learner/technical-coach', '/history') },
+          { id: 'technical-help', icon: MessageSquare, labelKey: 'navigation.coachHelp', href: createCoachUrl('/dashboard/learner/technical-coach', '/help') },
+        ],
+      },
       { id: 'subul-in', icon: ExternalLink, labelKey: 'navigation.subulIn', externalHref: SUBUL_IN_EXTENSION_URL, section: 'career' },
       { id: 'certifications', icon: Award, labelKey: 'navigation.myCertifications', href: createLocalizedUrl('/dashboard/learner/certifications'), section: 'career' },
       { id: 'emploi', icon: Briefcase, labelKey: 'navigation.jobs', href: createLocalizedUrl('/dashboard/learner/emploi'), section: 'career' },
@@ -175,10 +216,19 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
   };
 
   const isActive = (item: SidebarNavItem) => {
+    if (item.children?.some(isActive)) return true;
     if (item.externalHref || !item.href) return false;
-    return item.id === 'dashboard'
-      ? pathname === item.href
-      : pathname === item.href || pathname.startsWith(item.href + '/');
+    const itemUrl = new URL(item.href, 'http://subul.local');
+    const itemPath = itemUrl.pathname;
+    const itemCoachPath = itemUrl.searchParams.get('path');
+    const currentCoachPath = new URLSearchParams(currentSearch).get('path');
+    const pathMatches = item.id === 'dashboard'
+      ? pathname === itemPath
+      : pathname === itemPath || pathname.startsWith(itemPath + '/');
+
+    if (!pathMatches) return false;
+    if (itemCoachPath === null) return true;
+    return (currentCoachPath || '/') === itemCoachPath;
   };
 
   const renderItem = (item: SidebarNavItem) => {
@@ -310,9 +360,91 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
     }
 
     return (
-      <Link key={item.id} href={item.href!} className={baseClasses} title={!open ? label : undefined}>
+      <Link key={item.id} href={item.href!} className={baseClasses} title={!open ? label : undefined} onClick={syncSearchAfterNavigation}>
         {itemContent}
       </Link>
+    );
+  };
+
+  const renderCoachGroup = (item: SidebarNavItem) => {
+    if (!item.children?.length) return renderItem(item);
+
+    const Icon = item.icon;
+    const active = isActive(item);
+    const label = t(item.labelKey) as string;
+
+    if (!open) {
+      return (
+        <Link
+          key={item.id}
+          href={item.href!}
+          onClick={syncSearchAfterNavigation}
+          className={cn(
+            'group relative flex w-full items-center justify-center rounded-xl p-1.5 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-violet-500',
+            active ? 'bg-gradient-to-r from-violet-50 to-rose-50/40' : 'hover:bg-muted/50',
+          )}
+          title={label}
+        >
+          <span
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-all duration-200"
+            style={
+              active
+                ? { background: 'linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(244,63,94,0.10) 100%)' }
+                : undefined
+            }
+          >
+            <Icon className={cn('h-[18px] w-[18px]', active ? 'text-violet-600' : 'text-muted-foreground group-hover:text-violet-600')} />
+          </span>
+        </Link>
+      );
+    }
+
+    return (
+      <div key={item.id} className="rounded-2xl border border-violet-100/70 bg-white/60 p-1.5 shadow-sm">
+        <Link
+          href={item.href!}
+          onClick={syncSearchAfterNavigation}
+          className={cn(
+            'group relative flex w-full items-center gap-2.5 rounded-xl px-2 py-1.5 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-violet-500',
+            active ? 'bg-gradient-to-r from-violet-50 to-rose-50/40' : 'hover:bg-muted/50',
+            isRTL && 'flex-row-reverse',
+          )}
+        >
+          <span
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg shadow-sm"
+            style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(244,63,94,0.10) 100%)' }}
+          >
+            <Icon className="h-[17px] w-[17px] text-violet-600" />
+          </span>
+          <span className="flex-1 truncate text-[13.5px] font-semibold leading-none tracking-[-0.01em] text-violet-800">
+            {label}
+          </span>
+        </Link>
+        <div className={cn('mt-1.5 space-y-0.5', isRTL ? 'pr-0' : 'pl-3')}>
+          {item.children.map((child) => {
+            const ChildIcon = child.icon;
+            const childActive = isActive(child);
+            const childLabel = t(child.labelKey) as string;
+            return (
+              <Link
+                key={child.id}
+                href={child.href!}
+                onClick={syncSearchAfterNavigation}
+                className={cn(
+                  'group flex min-h-8 items-center gap-2 rounded-lg px-2 text-[12.5px] font-medium transition-all duration-200',
+                  childActive
+                    ? 'bg-violet-100/80 text-violet-700'
+                    : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground',
+                  isRTL && 'flex-row-reverse',
+                )}
+              >
+                <ChildIcon className="h-3.5 w-3.5 shrink-0" />
+                <span className="truncate">{childLabel}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
     );
   };
 
@@ -351,7 +483,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
                 )}
               </div>
             )}
-            <div className="space-y-0.5">{group.items.map(renderItem)}</div>
+            <div className="space-y-1">{group.items.map((item) => (item.children?.length ? renderCoachGroup(item) : renderItem(item)))}</div>
           </div>
         ))}
       </div>
