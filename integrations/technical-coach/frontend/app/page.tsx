@@ -1953,7 +1953,13 @@ function HomePageContent() {
         method: "POST",
         body,
       });
-      const data = await res.json();
+      const raw = await res.text();
+      let data: any = {};
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch {
+        data = { error: raw || "Backend returned a non-JSON response." };
+      }
       if (!res.ok) {
         pushFeed("system", `Resume upload failed: ${data?.detail || data?.error || "unknown error"}`);
         return;

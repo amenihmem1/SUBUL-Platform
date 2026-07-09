@@ -27,8 +27,10 @@ export async function POST(
 
     console.log("[api/tech/session/[id]/cv] Backend status:", res.status);
 
+    const responseText = await res.text();
+
     if (!res.ok) {
-      const errorText = await res.text();
+      const errorText = responseText || res.statusText || "Unknown backend error";
       console.error("[api/tech/session/[id]/cv] Backend error response:", errorText);
       return NextResponse.json(
         { error: `Backend returned ${res.status}: ${errorText}` },
@@ -36,7 +38,15 @@ export async function POST(
       );
     }
 
-    const data = await res.json();
+    let data: unknown;
+    try {
+      data = responseText ? JSON.parse(responseText) : {};
+    } catch {
+      return NextResponse.json(
+        { error: responseText || "Backend returned a non-JSON response." },
+        { status: 502 }
+      );
+    }
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : String(error);

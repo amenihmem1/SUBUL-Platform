@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import logging
+import os
 import re
+import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import TYPE_CHECKING, Any
@@ -21,6 +23,12 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 SessionId = str
+
+def _read_bool_env(name: str, default: bool) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
 
 @dataclass(frozen=True)
 class SearchCandidate:
@@ -99,6 +107,7 @@ class CVRAGStore:
         self.model_name = model_name
         self.model: "SentenceTransformer | None" = None
         self.dim = 384
+        self.semantic_embeddings_enabled = _read_bool_env("CV_SEMANTIC_EMBEDDINGS_ENABLED", False)
 
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
@@ -197,6 +206,7 @@ class CVRAGStore:
         logger.info("Session supprimee : %s", sid)
 
     def ingest_cv(self, session_id: SessionId, filename: str, content: bytes) -> dict[str, Any]:
+        start = time.perf_counter()
         self.expire_old_sessions()
         clean_text, chunks = self._extract_chunks(filename, content)
 
@@ -214,7 +224,13 @@ class CVRAGStore:
             documents=existing_documents,
         )
 
-        logger.info("CV ingere - session=%s | chunks=%d", session_id, len(chunks))
+        logger.info(
+            "CV ingere - session=%s | chunks=%d | embeddings=%s | duration_ms=%.1f",
+            session_id,
+            len(chunks),
+            bool(cv_embeddings.size),
+            (time.perf_counter() - start) * 1000,
+        )
 
         return {
             "filename": filename,
@@ -280,6 +296,9 @@ class CVRAGStore:
         chunks = session["chunks"]
         top_k = max(1, min(top_k, len(chunks)))
         pool_size = min(len(chunks), top_k * self.retrieval_multiplier)
+        embeddings = session.get("embeddings")
+        if not isinstance(embeddings, np.ndarray) or not embeddings.size:
+            return self._lexical_search(chunks, query, top_k)
 
         query_emb = self._encode(query)
         semantic_hits = self._semantic_search(session, query_emb, pool_size)
@@ -304,7 +323,7 @@ class CVRAGStore:
         chunks = list(session.get("document_chunks", []) or [])
         embeddings = session.get("document_embeddings")
         if not chunks or not isinstance(embeddings, np.ndarray) or not embeddings.size:
-            return []
+            return self._lexical_search(chunks, query, top_k) if chunks else []
 
         top_k = max(1, min(top_k, len(chunks)))
         pool_size = min(len(chunks), top_k * self.retrieval_multiplier)
@@ -340,10 +359,15 @@ class CVRAGStore:
         return [dict(item) for item in documents if isinstance(item, dict)]
 
     def _encode(self, text: str) -> np.ndarray:
+        if not self.semantic_embeddings_enabled:
+            return np.empty((0, self.dim), dtype=np.float32)
         embedding = self._get_model().encode(text, normalize_embeddings=True)
         return np.asarray(embedding, dtype=np.float32).reshape(1, -1)
 
     def _embed_chunks(self, chunks: list[str]) -> np.ndarray:
+        if not self.semantic_embeddings_enabled:
+            logger.info("Semantic CV embeddings disabled; using lexical retrieval fallback.")
+            return np.empty((0, self.dim), dtype=np.float32)
         embeddings = self._get_model().encode(
             chunks,
             batch_size=self.embed_batch_size,
@@ -351,6 +375,27 @@ class CVRAGStore:
             show_progress_bar=False,
         )
         return np.asarray(embeddings, dtype=np.float32)
+
+    def _lexical_search(self, chunks: list[str], query: str, top_k: int) -> list[str]:
+        if not chunks:
+            return []
+
+        query_tokens = self._tokenize(query)
+        query_lower = query.lower()
+        scored: list[tuple[float, int]] = []
+
+        for idx, chunk in enumerate(chunks):
+            chunk_lower = chunk.lower()
+            score = (
+                self._lexical_score(query_tokens, chunk) * 0.58
+                + self._phrase_score(query, chunk) * 0.28
+                + self._domain_bonus(query_lower, chunk_lower) * 0.14
+            )
+            scored.append((score, idx))
+
+        scored.sort(key=lambda item: item[0], reverse=True)
+        selected = [chunks[idx] for _, idx in scored[: max(1, min(top_k, len(chunks)))]]
+        return selected
 
     def _build_index(self, embeddings: np.ndarray) -> faiss.Index:
         index = faiss.IndexFlatIP(self.dim)
