@@ -668,7 +668,7 @@ export default function QuizFlowManager({ open, onClose, onRoadmapGenerated, onC
     setStreaming(true);
     setRoadmapText('');
     try {
-      const raw = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+      const raw = process.env.NEXT_PUBLIC_BACKEND_URL || '';
       const backendUrl = raw.replace(/\/$/, '').replace(/\/api\/?$/, '');
       const token = typeof window !== 'undefined' ? (await import('@/lib/auth/token')).getToken() : null;
       const res = await fetch(`${backendUrl}/api/roadmap/agent/generate`, {

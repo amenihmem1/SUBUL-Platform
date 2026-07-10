@@ -135,7 +135,7 @@ export class AuthService {
    * Get logout URL
    */
   static getLogoutUrl(): string {
-    const raw = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+    const raw = process.env.NEXT_PUBLIC_BACKEND_URL || '';
     const backendUrl = raw.replace(/\/$/, '').replace(/\/api\/?$/, '');
     return `${backendUrl}/api/auth/logout`;
   }

@@ -5,7 +5,7 @@ function normalizeBackendBase(url: string): string {
 
 export const ENV = {
   API_BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
-  BACKEND_URL: normalizeBackendBase(process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'),
+  BACKEND_URL: normalizeBackendBase(process.env.NEXT_PUBLIC_BACKEND_URL || ''),
   
   APP_NAME: process.env.NEXT_PUBLIC_APP_NAME || 'Smartovate',
   APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION || '1.0.0',

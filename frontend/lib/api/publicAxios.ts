@@ -11,7 +11,7 @@ function normalizeBackendUrl(url: string): string {
 const baseURL =
   typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_BACKEND_URL
     ? normalizeBackendUrl(process.env.NEXT_PUBLIC_BACKEND_URL)
-    : 'http://localhost:3001';
+    : '';
 
 const publicApi: AxiosInstance = axios.create({
   baseURL,

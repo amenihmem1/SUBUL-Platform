@@ -1,6 +1,6 @@
 /**
  * Axios instance for NestJS API (backend).
- * Base URL: NEXT_PUBLIC_BACKEND_URL or http://localhost:3001
+ * Base URL: NEXT_PUBLIC_BACKEND_URL, otherwise same-origin /api rewrites.
  * Attaches JWT from lib/auth/token to requests.
  */
 import axios, { type AxiosInstance } from 'axios';
@@ -15,8 +15,7 @@ function normalizeBackendUrl(url: string): string {
  const baseURL =
    typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_BACKEND_URL
      ? normalizeBackendUrl(process.env.NEXT_PUBLIC_BACKEND_URL)
-    : 'http://localhost:3001';
-//const baseURL = 'http://localhost:3001';
+    : '';
 
 function sleepMs(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
