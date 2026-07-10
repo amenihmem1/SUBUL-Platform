@@ -7,7 +7,11 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
+  AlertCircle,
   UserPlus,
+  UserRound,
+  Mail,
+  Lock,
   Loader2,
   Eye,
   EyeOff,
@@ -254,7 +258,7 @@ export default function RegisterPage() {
         <div className="w-full max-w-[420px]">
           {/* Header */}
           <div className="mb-8">
-            <h2 className="text-2xl font-extrabold text-slate-900">Créer votre compte ✨</h2>
+            <h2 className="text-2xl font-extrabold text-slate-900">Créer votre compte</h2>
             <p className="text-slate-500 text-sm mt-1">
               Commencez votre parcours d&apos;apprentissage dès maintenant
             </p>
@@ -263,7 +267,7 @@ export default function RegisterPage() {
           {/* Error */}
           {error && (
             <div className="mb-4 flex items-start gap-2 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
-              <span className="mt-0.5">⚠</span>
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
               <span>{error}</span>
             </div>
           )}
@@ -277,12 +281,15 @@ export default function RegisterPage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-slate-700 text-sm font-semibold">Nom complet</FormLabel>
-                    <Input
-                      placeholder="Jean Dupont"
-                      autoComplete="name"
-                      className="h-11 pl-4 pr-4 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all"
-                      {...field}
-                    />
+                    <div className="relative">
+                      <UserRound className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                      <Input
+                        placeholder="Jean Dupont"
+                        autoComplete="name"
+                        className="h-11 pl-10 pr-4 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all"
+                        {...field}
+                      />
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -295,13 +302,16 @@ export default function RegisterPage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-slate-700 text-sm font-semibold">Adresse e-mail</FormLabel>
-                    <Input
-                      placeholder="vous@exemple.com"
-                      type="email"
-                      autoComplete="email"
-                      className="h-11 pl-4 pr-4 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all"
-                      {...field}
-                    />
+                    <div className="relative">
+                      <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                      <Input
+                        placeholder="vous@exemple.com"
+                        type="email"
+                        autoComplete="email"
+                        className="h-11 pl-10 pr-4 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all"
+                        {...field}
+                      />
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -315,11 +325,12 @@ export default function RegisterPage() {
                   <FormItem>
                     <FormLabel className="text-slate-700 text-sm font-semibold">Mot de passe</FormLabel>
                     <div className="relative">
+                      <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       <Input
                         placeholder="••••••••"
                         type={showPass ? 'text' : 'password'}
                         autoComplete="new-password"
-                        className="h-11 pl-4 pr-10 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all"
+                        className="h-11 pl-10 pr-10 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all"
                         {...field}
                       />
                       <button

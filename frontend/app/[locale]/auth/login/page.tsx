@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Lock, Loader2, Eye, EyeOff, ArrowLeft, Zap, Shield, TrendingUp, MailWarning, X } from 'lucide-react';
+import { AlertCircle, Lock, Loader2, Eye, EyeOff, ArrowLeft, Zap, Shield, TrendingUp, Mail, MailWarning, X } from 'lucide-react';
 import { api, API_PATHS } from '@/lib/api/client';
 import { setToken } from '@/lib/auth/token';
 import { loginSchema, getRoleFromResponse, type LoginFormValues } from '@/lib/auth/schemas';
@@ -254,7 +254,7 @@ export default function LoginPage() {
 
           {/* Header */}
           <div className="mb-8">
-            <h2 className="text-2xl font-extrabold text-slate-900">Bon retour 👋</h2>
+            <h2 className="text-2xl font-extrabold text-slate-900">Bon retour</h2>
             <p className="text-slate-500 text-sm mt-1">Connectez-vous à votre espace Subul</p>
           </div>
 
@@ -316,7 +316,7 @@ export default function LoginPage() {
           {/* Error */}
           {error && (
             <div className="mb-4 flex items-start gap-2 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
-              <span className="mt-0.5">⚠</span>
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
               <span>{error}</span>
             </div>
           )}
@@ -331,11 +331,12 @@ export default function LoginPage() {
                   <FormItem>
                     <FormLabel className="text-slate-700 text-sm font-semibold">Adresse e-mail</FormLabel>
                     <div className="relative">
+                      <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       <Input
                         placeholder="vous@exemple.com"
                         type="email"
                         autoComplete="email"
-                        className="h-11 pl-4 pr-4 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all"
+                        className="h-11 pl-10 pr-4 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all"
                         {...field}
                       />
                     </div>
@@ -359,11 +360,12 @@ export default function LoginPage() {
                       </Link>
                     </div>
                     <div className="relative">
+                      <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       <Input
                         placeholder="••••••••"
                         type={showPass ? 'text' : 'password'}
                         autoComplete="current-password"
-                        className="h-11 pl-4 pr-10 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all"
+                        className="h-11 pl-10 pr-10 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all"
                         {...field}
                       />
                       <button
