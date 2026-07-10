@@ -744,6 +744,214 @@ export class AgentsService {
     };
   }
 
+  private normalizeFallbackRoadmapProfile(profile: unknown): RoadmapDomain {
+    const value = String(profile ?? '').toLowerCase();
+    if (value === 'ai' || value.includes('intelligence') || value.includes('data')) return 'ai';
+    if (value === 'cyber' || value.includes('security') || value.includes('secur')) return 'cyber';
+    return 'cloud';
+  }
+
+  private normalizeFallbackRoadmapTier(niveau: unknown): 'Fondamental' | 'Associ\u00e9' | 'Expert' {
+    const value = String(niveau ?? '').toLowerCase();
+    if (value.includes('expert') || value.includes('advanced')) return 'Expert';
+    if (value.includes('inter') || value.includes('associate') || value.includes('assoc')) return 'Associ\u00e9';
+    return 'Fondamental';
+  }
+
+  private getFallbackRoadmapPayload(body: Record<string, unknown>) {
+    const profile = this.normalizeFallbackRoadmapProfile(body.profile ?? body.domain);
+    const userLevel = String(body.niveau ?? body.level ?? this.normalizeFallbackRoadmapTier(body.niveau));
+    const currentTier = this.normalizeFallbackRoadmapTier(userLevel);
+
+    const tracks = {
+      cloud: {
+        title: 'Roadmap Cloud & DevOps Azure/AWS',
+        summary:
+          'Parcours pratique pour consolider les bases cloud, manipuler les services essentiels et progresser vers une certification reconnue.',
+        advice:
+          'Commencez par une certification fondamentale, pratiquez chaque semaine avec un lab court, puis passez vers Kubernetes, Terraform et CI/CD.',
+        phases: [
+          {
+            phase_number: 1,
+            phase_name: 'Bases Cloud',
+            phase_description: 'Comprendre les modeles cloud, les couts, la securite de base et les services essentiels.',
+            duration_weeks: 4,
+            level_tier: 'Fondamental',
+            certifications: [
+              {
+                ordre: 1,
+                nom: 'Microsoft Azure Fundamentals',
+                code: 'AZ-900',
+                provider: 'Microsoft',
+                niveau_certif: 'Fondamental',
+                duree_preparation_semaines: 4,
+                heures_etude: 28,
+                prerequis: ['Bases reseau', 'Notions systeme', 'Compte Azure gratuit'],
+                pourquoi_cette_certif: 'Elle valide les fondamentaux Azure et correspond aux cours et labs AZ-900 disponibles.',
+                competences_acquises: ['Cloud concepts', 'Azure core services', 'Pricing', 'Identity basics'],
+                statut: currentTier === 'Fondamental' ? 'current' : 'upcoming',
+                xp_reward: 250,
+              },
+              {
+                ordre: 2,
+                nom: 'AWS Certified Cloud Practitioner',
+                code: 'CLF-C02',
+                provider: 'AWS',
+                niveau_certif: 'Fondamental',
+                duree_preparation_semaines: 4,
+                heures_etude: 30,
+                prerequis: ['Bases cloud', 'Compte AWS Free Tier'],
+                pourquoi_cette_certif: 'Elle complete Azure avec une vision AWS et prepare les labs EC2, S3, IAM et RDS.',
+                competences_acquises: ['AWS global infrastructure', 'IAM', 'EC2 basics', 'Cost management'],
+                statut: 'upcoming',
+                xp_reward: 250,
+              },
+            ],
+          },
+          {
+            phase_number: 2,
+            phase_name: 'Infrastructure et deploiement',
+            phase_description: 'Passer des bases aux deploiements reproductibles avec conteneurs, IaC et pipelines.',
+            duration_weeks: 8,
+            level_tier: 'Associ\u00e9',
+            certifications: [
+              {
+                ordre: 3,
+                nom: 'HashiCorp Certified: Terraform Associate',
+                code: '003',
+                provider: 'AWS',
+                niveau_certif: 'Associ\u00e9',
+                duree_preparation_semaines: 6,
+                heures_etude: 45,
+                prerequis: ['Bases cloud', 'Git', 'CLI'],
+                pourquoi_cette_certif: 'Terraform structure les deploiements multi-cloud et relie directement les labs IaC.',
+                competences_acquises: ['Infrastructure as Code', 'State management', 'Modules', 'Plan/apply workflow'],
+                statut: currentTier === 'Associ\u00e9' ? 'current' : 'locked',
+                xp_reward: 420,
+              },
+            ],
+          },
+        ],
+      },
+      cyber: {
+        title: 'Roadmap Cybersecurite Azure/AWS',
+        summary:
+          'Parcours securite pour comprendre identite, gouvernance, supervision et protection des workloads cloud.',
+        advice:
+          'Validez les fondamentaux securite, puis pratiquez IAM, monitoring, Sentinel/Defender et durcissement cloud.',
+        phases: [
+          {
+            phase_number: 1,
+            phase_name: 'Fondamentaux securite',
+            phase_description: 'Installer les bases: identite, controles d acces, risque, conformite et monitoring.',
+            duration_weeks: 5,
+            level_tier: 'Fondamental',
+            certifications: [
+              {
+                ordre: 1,
+                nom: 'Microsoft Security, Compliance, and Identity Fundamentals',
+                code: 'SC-900',
+                provider: 'Microsoft',
+                niveau_certif: 'Fondamental',
+                duree_preparation_semaines: 5,
+                heures_etude: 32,
+                prerequis: ['Bases cloud', 'Notions IAM'],
+                pourquoi_cette_certif: 'Elle pose les bases securite Microsoft avant Defender, Sentinel et Entra ID.',
+                competences_acquises: ['Zero Trust', 'Identity', 'Compliance', 'Security operations'],
+                statut: currentTier === 'Fondamental' ? 'current' : 'upcoming',
+                xp_reward: 280,
+              },
+              {
+                ordre: 2,
+                nom: 'AWS Certified Security - Specialty',
+                code: 'SCS-C02',
+                provider: 'AWS',
+                niveau_certif: 'Sp\u00e9cialit\u00e9',
+                duree_preparation_semaines: 10,
+                heures_etude: 70,
+                prerequis: ['IAM', 'Networking', 'CloudTrail', 'KMS'],
+                pourquoi_cette_certif: 'Elle cible la securite AWS avancee apres les labs IAM, monitoring et reseau.',
+                competences_acquises: ['IAM advanced', 'Incident response', 'KMS', 'Logging'],
+                statut: 'locked',
+                xp_reward: 650,
+              },
+            ],
+          },
+        ],
+      },
+      ai: {
+        title: 'Roadmap IA & Cloud AI',
+        summary:
+          'Parcours IA pour progresser des services cognitifs et de l IA generative vers MLOps et deploiement cloud.',
+        advice:
+          'Travaillez les bases IA, pratiquez prompt engineering et evaluation, puis reliez vos projets aux services cloud.',
+        phases: [
+          {
+            phase_number: 1,
+            phase_name: 'Fondamentaux IA',
+            phase_description: 'Comprendre ML, IA generative, donnees, evaluation et services AI cloud.',
+            duration_weeks: 5,
+            level_tier: 'Fondamental',
+            certifications: [
+              {
+                ordre: 1,
+                nom: 'Microsoft Azure AI Fundamentals',
+                code: 'AI-900',
+                provider: 'Microsoft',
+                niveau_certif: 'Fondamental',
+                duree_preparation_semaines: 5,
+                heures_etude: 35,
+                prerequis: ['Bases Python utiles', 'Notions donnees'],
+                pourquoi_cette_certif: 'Elle valide les concepts IA et services Azure AI avant les projets pratiques.',
+                competences_acquises: ['ML basics', 'Computer vision', 'NLP', 'Generative AI'],
+                statut: currentTier === 'Fondamental' ? 'current' : 'upcoming',
+                xp_reward: 300,
+              },
+              {
+                ordre: 2,
+                nom: 'AWS Certified AI Practitioner',
+                code: 'AIF-C01',
+                provider: 'AWS',
+                niveau_certif: 'Fondamental',
+                duree_preparation_semaines: 5,
+                heures_etude: 35,
+                prerequis: ['Bases cloud', 'Concepts IA'],
+                pourquoi_cette_certif: 'Elle complete AI-900 avec les services IA AWS et une vision multi-cloud.',
+                competences_acquises: ['AWS AI services', 'Responsible AI', 'Foundation models', 'Prompting'],
+                statut: 'upcoming',
+                xp_reward: 300,
+              },
+            ],
+          },
+        ],
+      },
+    } as const;
+
+    const track = tracks[profile];
+    const totalCertifications = track.phases.reduce((sum, phase) => sum + phase.certifications.length, 0);
+    const totalWeeks = track.phases.reduce((sum, phase) => sum + phase.duration_weeks, 0);
+
+    return {
+      roadmap_title: track.title,
+      roadmap_summary: track.summary,
+      total_estimated_weeks: totalWeeks,
+      total_certifications: totalCertifications,
+      user_level: userLevel,
+      phases: track.phases,
+      conseil_final: track.advice,
+      source: 'local-fallback',
+    };
+  }
+
+  private createRoadmapFallbackStream(body: Record<string, unknown>): ReadableStream<Uint8Array> {
+    const payload = JSON.stringify(this.getFallbackRoadmapPayload(body));
+    const lines = [
+      `${JSON.stringify({ chunk: payload })}\n`,
+      `${JSON.stringify({ status: 'completed', source: 'local-fallback' })}\n`,
+    ];
+    return Readable.toWeb(Readable.from(lines)) as ReadableStream<Uint8Array>;
+  }
+
 
 
   async proxyQuizGenerate(userId: number, body: Record<string, unknown>) {
@@ -995,6 +1203,11 @@ export class AgentsService {
       return Readable.toWeb(res.data as Readable) as ReadableStream<Uint8Array>;
 
     } catch (err) {
+
+      if (this.shouldUseRoadmapFallback(err)) {
+        this.logger.warn('Roadmap agent unavailable; using local roadmap generation fallback');
+        return this.createRoadmapFallbackStream(body);
+      }
 
       this.handleAxiosError(err, 'Roadmap agent error');
 
