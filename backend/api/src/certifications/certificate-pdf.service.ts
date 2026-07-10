@@ -143,8 +143,18 @@ export class CertificatePdfService {
       '--disable-setuid-sandbox',
       '--disable-dev-shm-usage',
       '--disable-gpu',
+      '--disable-extensions',
+      '--disable-software-rasterizer',
+      '--disable-background-networking',
+      '--disable-breakpad',
+      '--disable-crash-reporter',
+      '--disable-crashpad',
+      '--disable-features=Crashpad',
       '--no-zygote',
-      '--single-process',
+      '--remote-debugging-port=0',
+      '--user-data-dir=/tmp/chrome-user-data',
+      '--data-path=/tmp/chrome-data',
+      '--disk-cache-dir=/tmp/chrome-cache',
     ];
 
     const configuredExecutablePath = this.configService.get<string>('PUPPETEER_EXECUTABLE_PATH')?.trim();

@@ -1882,6 +1882,28 @@ export class AgentsService {
 
 
 
+  private cloudTutorFallbackStream(body: Record<string, unknown>): ReadableStream<Uint8Array> {
+    const lang = String(body.lang || body.locale || 'fr').toLowerCase().startsWith('en') ? 'en' : 'fr';
+    const message =
+      lang === 'en'
+        ? "Cloud Tutor is temporarily running in safe mode. I can keep the lesson open, but the AI tutor service is not connected yet. Please try again in a moment."
+        : "Cloud Tutor fonctionne temporairement en mode secours. Je garde le cours ouvert, mais le service IA du tuteur n'est pas encore connecte. Reessayez dans un instant.";
+    const payload = `${JSON.stringify({ agent_used: 'CloudTutor fallback', chunk: message, lang })}\n`;
+    return Readable.toWeb(Readable.from([payload])) as ReadableStream<Uint8Array>;
+  }
+
+  private cloudTutorFallbackResponse(body: Record<string, unknown>): Record<string, unknown> {
+    const lang = String(body.lang || body.locale || 'fr').toLowerCase().startsWith('en') ? 'en' : 'fr';
+    return {
+      agent_used: 'CloudTutor fallback',
+      lang,
+      response:
+        lang === 'en'
+          ? 'Cloud Tutor is temporarily unavailable. The request was accepted in safe mode.'
+          : 'Cloud Tutor est temporairement indisponible. La requete a ete acceptee en mode secours.',
+    };
+  }
+
   async proxyCloudTutorChat(userId: number, body: Record<string, unknown>): Promise<unknown> {
 
     const base = this.getCloudTutorUrl();
@@ -1900,7 +1922,9 @@ export class AgentsService {
 
     } catch (err) {
 
-      this.handleAxiosError(err, 'Cloud Tutor agent error');
+      const message = err instanceof Error ? err.message : String(err);
+      this.logger.warn(`Cloud Tutor agent unavailable, using fallback response: ${message}`);
+      return this.cloudTutorFallbackResponse(enriched);
 
     }
 
@@ -1935,7 +1959,9 @@ export class AgentsService {
 
     } catch (err) {
 
-      this.handleAxiosError(err, 'Cloud Tutor agent error');
+      const message = err instanceof Error ? err.message : String(err);
+      this.logger.warn(`Cloud Tutor agent unavailable, using fallback stream: ${message}`);
+      return this.cloudTutorFallbackStream(enriched);
 
     }
 
@@ -1951,7 +1977,9 @@ export class AgentsService {
       const res = await this.agentHttp.get<{ remaining_credits: number; max_credits: number }>(url);
       return res.data;
     } catch (err) {
-      this.handleAxiosError(err, 'Cloud Tutor quota error');
+      const message = err instanceof Error ? err.message : String(err);
+      this.logger.warn(`Cloud Tutor quota unavailable, using fallback quota: ${message}`);
+      return { remaining_credits: 999, max_credits: 999 };
     }
   }
 
@@ -1966,7 +1994,14 @@ export class AgentsService {
       }, { headers: { 'Content-Type': 'application/json' } });
       return res.data;
     } catch (err) {
-      this.handleAxiosError(err, 'Cloud Tutor session end error');
+      const message = err instanceof Error ? err.message : String(err);
+      this.logger.warn(`Cloud Tutor session end unavailable, acknowledging locally: ${message}`);
+      return {
+        ok: true,
+        fallback: true,
+        user_id: String(userId),
+        session_id: body.session_id || 'unknown',
+      };
     }
   }
 
