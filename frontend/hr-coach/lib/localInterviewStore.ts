@@ -93,11 +93,22 @@ function remindersPayload() {
   return { enabled: false, provider: "local", reason: "calendar-service-unavailable" };
 }
 
+function emailsPayload() {
+  return {
+    confirmation: {
+      enabled: false,
+      sent: false,
+      error: "calendar-service-unavailable",
+    },
+  };
+}
+
 export async function listLocalInterviews() {
   return {
     status: "ok",
     interviews: await readInterviews(),
     reminders: remindersPayload(),
+    emails: emailsPayload(),
   };
 }
 
@@ -128,6 +139,7 @@ export async function createLocalInterview(payload: InterviewPayload) {
     candidateCancelUrl: "",
     interviews: nextInterviews,
     reminders: remindersPayload(),
+    emails: emailsPayload(),
   };
 }
 

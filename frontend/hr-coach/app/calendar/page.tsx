@@ -18,6 +18,11 @@ type ScheduleFormState = {
   time: string;
 };
 
+type PlatformProfile = {
+  name: string;
+  email: string;
+};
+
 type CalendarCell = {
   key: string;
   dateKey: string;
@@ -198,8 +203,9 @@ const calendarTranslations = {
     deleteInterviewSubtitle: "Consultez les details de l'entretien avant de supprimer definitivement ce rendez-vous.",
     deleteInterviewConfirm: "Supprimer cet entretien",
     candidateFallback: "Candidat",
-    successSaved: "Entretien ajoute au calendrier. Un rappel email sera envoye 1 heure avant.",
+    successSaved: "Entretien ajoute au calendrier. L'email de confirmation est envoye et un rappel sera envoye 1 heure avant.",
     successSavedNoReminder: "Entretien ajoute au calendrier. Configurez SMTP dans le backend pour activer le rappel email.",
+    successSavedEmailFailed: "Entretien ajoute au calendrier, mais l'email de confirmation n'a pas pu etre envoye. Verifiez SMTP et les logs du service calendar.",
     successTitle: "Entretien planifie",
     successUpdated: "L'entretien a ete modifie avec succes.",
     successUpdatedTitle: "Entretien modifie",
@@ -267,8 +273,9 @@ const calendarTranslations = {
     deleteInterviewSubtitle: "Review the interview details before permanently deleting this appointment.",
     deleteInterviewConfirm: "Delete this interview",
     candidateFallback: "Candidate",
-    successSaved: "Interview added to the calendar. An email reminder will be sent 1 hour before.",
+    successSaved: "Interview added to the calendar. The confirmation email was sent and a reminder will be sent 1 hour before.",
     successSavedNoReminder: "Interview added to the calendar. Configure SMTP in the backend to enable email reminders.",
+    successSavedEmailFailed: "Interview added to the calendar, but the confirmation email could not be sent. Check SMTP and the calendar service logs.",
     successTitle: "Interview planned",
     successUpdated: "The interview was updated successfully.",
     successUpdatedTitle: "Interview updated",
@@ -360,15 +367,61 @@ function buildCalendarCells(monthDate: Date, interviews: ScheduledInterview[]) {
   return cells;
 }
 
-function getDefaultFormState() {
+function normalizePlatformProfile(value: unknown): PlatformProfile | null {
+  if (!value || typeof value !== "object") return null;
+  const profile = value as { name?: unknown; fullName?: unknown; email?: unknown };
+  const name = String(profile.name || profile.fullName || "").trim();
+  const email = String(profile.email || "").trim();
+  if (!name && !email) return null;
+  return { name, email };
+}
+
+function buildProfileFormPatch(profile: PlatformProfile | null) {
+  return {
+    candidateName: profile?.name || "",
+    candidateEmail: profile?.email || "",
+  };
+}
+
+function getDefaultFormState(profile: PlatformProfile | null = null) {
   const now = new Date();
   now.setHours(now.getHours() + 1, 0, 0, 0);
+  const profileFields = buildProfileFormPatch(profile);
   return {
-    candidateName: "",
-    candidateEmail: "",
+    candidateName: profileFields.candidateName,
+    candidateEmail: profileFields.candidateEmail,
     date: `${now.getFullYear()}-${padNumber(now.getMonth() + 1)}-${padNumber(now.getDate())}`,
     time: `${padNumber(now.getHours())}:00`,
   } satisfies ScheduleFormState;
+}
+
+function readStoredPlatformProfile() {
+  if (typeof window === "undefined") return null;
+
+  const params = new URLSearchParams(window.location.search);
+  const queryProfile = normalizePlatformProfile({
+    name: params.get("profileName"),
+    email: params.get("profileEmail"),
+  });
+  if (queryProfile) return queryProfile;
+
+  const readStorageProfile = (storage: Storage) => {
+    const rawProfile = storage.getItem("subul-profile");
+    if (rawProfile) {
+      try {
+        const parsed = normalizePlatformProfile(JSON.parse(rawProfile));
+        if (parsed) return parsed;
+      } catch {
+        // Fall back to split keys below.
+      }
+    }
+    return normalizePlatformProfile({
+      name: storage.getItem("subul-profile-name"),
+      email: storage.getItem("subul-profile-email"),
+    });
+  };
+
+  return readStorageProfile(window.localStorage) || readStorageProfile(window.sessionStorage);
 }
 
 function buildFormStateForDate(dateKey: string, current: ScheduleFormState) {
@@ -453,6 +506,7 @@ export default function CalendarPage() {
     week: 0,
     month: 0,
   });
+  const [platformProfile, setPlatformProfile] = useState<PlatformProfile | null>(null);
   const [form, setForm] = useState<ScheduleFormState>(() => getDefaultFormState());
   const [calendarMonth, setCalendarMonth] = useState(() => startOfMonth(new Date()));
   const [selectedDateKey, setSelectedDateKey] = useState<string | null>(null);
@@ -478,6 +532,36 @@ export default function CalendarPage() {
     if (storedLanguage === "fr" || storedLanguage === "en") {
       setLanguage(storedLanguage);
     }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const applyProfile = (profile: PlatformProfile | null) => {
+      if (!profile) return;
+      setPlatformProfile(profile);
+      setForm((current) => {
+        const shouldFillName = !current.candidateName.trim();
+        const shouldFillEmail = !current.candidateEmail.trim();
+        if (!shouldFillName && !shouldFillEmail) return current;
+        return {
+          ...current,
+          candidateName: shouldFillName ? profile.name : current.candidateName,
+          candidateEmail: shouldFillEmail ? profile.email : current.candidateEmail,
+        };
+      });
+    };
+
+    applyProfile(readStoredPlatformProfile());
+
+    const handlePlatformMessage = (event: MessageEvent) => {
+      const data = event.data || {};
+      const profile = normalizePlatformProfile(data.profile || data.user || data.currentUser);
+      applyProfile(profile);
+    };
+
+    window.addEventListener("message", handlePlatformMessage);
+    return () => window.removeEventListener("message", handlePlatformMessage);
   }, []);
 
   useEffect(() => {
@@ -647,13 +731,19 @@ export default function CalendarPage() {
 
       setInterviews(Array.isArray(payload?.interviews) ? payload.interviews : []);
       const nextRemindersEnabled = Boolean(payload?.reminders?.enabled);
+      const confirmationEmail = payload?.emails?.confirmation;
+      const confirmationEmailFailed = Boolean(confirmationEmail?.enabled) && !Boolean(confirmationEmail?.sent);
       setRemindersEnabled(nextRemindersEnabled);
-      setForm(getDefaultFormState());
+      setForm(getDefaultFormState(platformProfile));
       setCalendarMonth(startOfMonth(scheduledAt));
       setSelectedDateKey(buildDateKey(scheduledAt));
       setSuccessNotice({
         title: copy.successTitle,
-        message: nextRemindersEnabled ? copy.successSaved : copy.successSavedNoReminder,
+        message: confirmationEmailFailed
+          ? copy.successSavedEmailFailed
+          : nextRemindersEnabled
+            ? copy.successSaved
+            : copy.successSavedNoReminder,
       });
       setCreateModalOpen(false);
     } catch (error) {

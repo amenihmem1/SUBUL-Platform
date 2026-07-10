@@ -25,6 +25,16 @@ param(
   [string]$AzureStorageConnectionString = "",
   [string]$AzureStorageCvContainer = "cv-files",
   [string]$AzureStorageReportsContainer = "reports",
+  [string]$SmtpHost = "",
+  [string]$SmtpPort = "587",
+  [string]$SmtpUsername = "",
+  [string]$SmtpPassword = "",
+  [string]$SmtpFromEmail = "",
+  [string]$SmtpFromName = "SUBUL RH",
+  [string]$SmtpUseTls = "true",
+  [string]$SmtpUseSsl = "false",
+  [string]$InterviewReminderMinutesBefore = "60",
+  [string]$InterviewReminderPollIntervalS = "30",
   [switch]$SkipFrontend
 )
 
@@ -238,6 +248,16 @@ foreach ($name in @("rh-interview-service", "rh-media-service", "rh-analytics-se
 
 Set-AppSettings -Name "rh-calendar-service" -Settings @{
   INTERVIEW_CALENDAR_REQUIRE_POSTGRES = "true"
+  SMTP_HOST = $SmtpHost
+  SMTP_PORT = $SmtpPort
+  SMTP_USERNAME = $SmtpUsername
+  SMTP_PASSWORD = $SmtpPassword
+  SMTP_FROM_EMAIL = $SmtpFromEmail
+  SMTP_FROM_NAME = $SmtpFromName
+  SMTP_USE_TLS = $SmtpUseTls
+  SMTP_USE_SSL = $SmtpUseSsl
+  INTERVIEW_REMINDER_MINUTES_BEFORE = $InterviewReminderMinutesBefore
+  INTERVIEW_REMINDER_POLL_INTERVAL_S = $InterviewReminderPollIntervalS
 }
 
 Write-Host ""
@@ -258,3 +278,5 @@ Write-Host "Set rh-frontend app settings:"
 Write-Host "RH_API_BASE_URL=https://rh-api-gateway.azurewebsites.net"
 Write-Host "NEXT_PUBLIC_APP_URL=$FrontendUrl"
 Write-Host "NEXT_PUBLIC_REPORT_SHARE_BASE_URL=$FrontendUrl"
+Write-Host ""
+Write-Host "Calendar email reminders are enabled only when rh-calendar-service has SMTP_HOST and SMTP_FROM_EMAIL or SMTP_USERNAME set."

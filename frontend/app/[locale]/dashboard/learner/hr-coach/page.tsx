@@ -2,6 +2,7 @@
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const HR_COACH_URL = process.env.NEXT_PUBLIC_HR_COACH_URL || "/hr-coach-app";
@@ -23,6 +24,7 @@ function withPlatformLanguageParams(rawUrl: string, locale: string) {
 
 function LearnerHrCoachFrame() {
   const { locale } = useLanguage();
+  const { session } = useAuth();
   const searchParams = useSearchParams();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -52,8 +54,10 @@ function LearnerHrCoachFrame() {
 
     parsed.searchParams.set("theme", theme);
     parsed.searchParams.set("hideThemeSwitcher", "1");
+    if (session?.user?.fullName) parsed.searchParams.set("profileName", session.user.fullName);
+    if (session?.user?.email) parsed.searchParams.set("profileEmail", session.user.email);
     return url.startsWith("/") ? `${parsed.pathname}${parsed.search}${parsed.hash}` : parsed.toString();
-  }, [locale, searchParams, theme]);
+  }, [locale, searchParams, session?.user?.email, session?.user?.fullName, theme]);
 
   const syncPlatformLanguage = useCallback(() => {
     iframeRef.current?.contentWindow?.postMessage(
@@ -61,12 +65,16 @@ function LearnerHrCoachFrame() {
         type: "SUBUL_PLATFORM_LANGUAGE",
         locale,
         theme,
+        profile: {
+          name: session?.user?.fullName || "",
+          email: session?.user?.email || "",
+        },
         hideLanguageSwitcher: true,
         hideThemeSwitcher: true,
       },
       "*",
     );
-  }, [locale, theme]);
+  }, [locale, session?.user?.email, session?.user?.fullName, theme]);
 
   useEffect(() => {
     syncPlatformLanguage();

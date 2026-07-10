@@ -120,10 +120,17 @@ def build_calendar_app() -> FastAPI:
         if candidate_cancel_url:
             created_payload["candidateCancelUrl"] = candidate_cancel_url
 
+        confirmation_email = {
+            "enabled": interview_reminders.enabled,
+            "sent": False,
+            "error": "",
+        }
         if interview_reminders.enabled:
             try:
                 interview_reminders.send_confirmation_email(created)
+                confirmation_email["sent"] = True
             except Exception:
+                confirmation_email["error"] = "Failed to send interview confirmation email."
                 logger.exception("Failed to send interview confirmation email for %s", created.id)
 
         return {
@@ -132,6 +139,9 @@ def build_calendar_app() -> FastAPI:
             "candidateCancelUrl": candidate_cancel_url,
             "interviews": [item.to_payload() for item in interview_store.list()],
             "reminders": interview_reminders.describe(),
+            "emails": {
+                "confirmation": confirmation_email,
+            },
         }
 
     @app.patch("/rh/interviews/{interview_id}")

@@ -16,7 +16,21 @@ export const platformBridgeScript = `
   const store = (key, value) => {
     try { localStorage.setItem(key, value); } catch {}
   };
-  const apply = (language, theme) => {
+  const normalizeProfile = (value) => {
+    if (!value || typeof value !== "object") return null;
+    const name = String(value.name || value.fullName || "").trim();
+    const email = String(value.email || "").trim();
+    if (!name && !email) return null;
+    return { name, email };
+  };
+  const applyProfile = (profile) => {
+    const nextProfile = normalizeProfile(profile);
+    if (!nextProfile) return;
+    store("subul-profile", JSON.stringify(nextProfile));
+    if (nextProfile.name) store("subul-profile-name", nextProfile.name);
+    if (nextProfile.email) store("subul-profile-email", nextProfile.email);
+  };
+  const apply = (language, theme, profile) => {
     if (language) {
       store("subul-locale", language);
       store("dashboard-language", language);
@@ -29,6 +43,7 @@ export const platformBridgeScript = `
       document.documentElement.dataset.theme = theme;
       document.documentElement.style.colorScheme = theme;
     }
+    applyProfile(profile);
     document.documentElement.dataset.subulPlatform = "true";
   };
 
@@ -36,17 +51,26 @@ export const platformBridgeScript = `
   apply(
     normalizeLanguage(params.get("locale") || params.get("lang")),
     normalizeTheme(params.get("theme")),
+    {
+      name: params.get("profileName"),
+      email: params.get("profileEmail"),
+    },
   );
 
   addEventListener("message", (event) => {
     const data = event.data || {};
     const language = normalizeLanguage(data.locale || data.lang || data.language);
     const theme = normalizeTheme(data.theme);
+    const profile = normalizeProfile(data.profile || data.user || data.currentUser);
     const languageChanged = language && language !== readStored("dashboard-language");
     const themeChanged = theme && theme !== readStored("dashboard-theme");
-    if (!languageChanged && !themeChanged) return;
+    const profileChanged = profile && (
+      profile.name !== readStored("subul-profile-name") ||
+      profile.email !== readStored("subul-profile-email")
+    );
+    if (!languageChanged && !themeChanged && !profileChanged) return;
 
-    apply(language, theme);
+    apply(language, theme, profile);
     const nextUrl = new URL(location.href);
     if (language) {
       nextUrl.searchParams.set("locale", language);

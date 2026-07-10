@@ -115,6 +115,30 @@ CARTESIA_API_KEY
 AZURE_STORAGE_CONNECTION_STRING
 ```
 
+## Calendar email app settings
+
+Set these additional app settings on `rh-calendar-service` to enable interview
+confirmation emails and reminder emails in Azure:
+
+```text
+INTERVIEW_CALENDAR_REQUIRE_POSTGRES=true
+SMTP_HOST=<smtp host>
+SMTP_PORT=587
+SMTP_USERNAME=<smtp username>
+SMTP_PASSWORD=<smtp password>
+SMTP_FROM_EMAIL=<sender email>
+SMTP_FROM_NAME=SUBUL RH
+SMTP_USE_TLS=true
+SMTP_USE_SSL=false
+INTERVIEW_REMINDER_MINUTES_BEFORE=60
+INTERVIEW_REMINDER_POLL_INTERVAL_S=30
+```
+
+The calendar service reports `reminders.enabled=false` until `SMTP_HOST` and
+either `SMTP_FROM_EMAIL` or `SMTP_USERNAME` are configured. Confirmation email
+delivery is returned by the create interview API as
+`emails.confirmation.sent`.
+
 ## Frontend app settings
 
 Set the frontend backend base URL to the public gateway:

@@ -78,5 +78,13 @@ Required frontend variables:
 - `NEXT_PUBLIC_APP_URL=https://rh-frontend-gsbqdfgncrhdewcn.centralus-01.azurewebsites.net`
 - `NEXT_PUBLIC_REPORT_SHARE_BASE_URL=https://rh-frontend-gsbqdfgncrhdewcn.centralus-01.azurewebsites.net`
 
+Required calendar email variables on `rh-calendar-service`:
+
+- `SMTP_HOST`, `SMTP_PORT`
+- `SMTP_USERNAME`, `SMTP_PASSWORD`
+- `SMTP_FROM_EMAIL`, `SMTP_FROM_NAME`
+- `SMTP_USE_TLS`, `SMTP_USE_SSL`
+- `INTERVIEW_REMINDER_MINUTES_BEFORE`
+
 Keep `.env` and `frontend/.env.local` out of GitHub; configure secrets in Azure
 App Service and GitHub repository secrets.
