@@ -222,6 +222,12 @@ export class SubscriptionsService implements OnModuleInit {
     };
   }
 
+  public isSubscriptionGatingDisabled(): boolean {
+    return ['true', '1', 'yes', 'on'].includes(
+      String(process.env.DISABLE_SUBSCRIPTION_GATING ?? '').trim().toLowerCase(),
+    );
+  }
+
   private canUsePersonalSubscriptionFlow(roleContext: AccessRoleContext, accessSource: AccessSource): boolean {
     return roleContext === 'learner' && accessSource !== 'institutional';
   }
@@ -233,15 +239,18 @@ export class SubscriptionsService implements OnModuleInit {
         ? 'none'
         : 'personal';
 
-    const tier = effectivePublicPlanSlug(dto.kind, dto.planSlug);
-    const entitlements = entitlementsForSubscriptionState(dto.kind, dto.planSlug);
+    const subscriptionGatingDisabled = this.isSubscriptionGatingDisabled();
+    const tier = subscriptionGatingDisabled ? 'premium' : effectivePublicPlanSlug(dto.kind, dto.planSlug);
+    const entitlements = subscriptionGatingDisabled
+      ? entitlementsForSubscriptionState('paid_active', 'premium')
+      : entitlementsForSubscriptionState(dto.kind, dto.planSlug);
 
     dto.accessSource = accessSource;
     dto.roleContext = roleContext;
     dto.effectivePlanSlug = tier;
     dto.entitlements = entitlements;
     dto.contentLimits = this.toContentLimits(entitlements);
-    dto.premiumEquivalent = isPremiumEquivalentSlug(tier);
+    dto.premiumEquivalent = subscriptionGatingDisabled || isPremiumEquivalentSlug(tier);
     dto.canUsePersonalSubscriptionFlow = this.canUsePersonalSubscriptionFlow(roleContext, accessSource);
     return dto;
   }
@@ -360,6 +369,7 @@ export class SubscriptionsService implements OnModuleInit {
    * (personal Premium or B2B2C institutional) plus non-zero certification entitlement from the plan config.
    */
   hasCertificationAccess(access: SubscriptionAccessDto): boolean {
+    if (this.isSubscriptionGatingDisabled()) return true;
     if (!this.hasPremiumEquivalentLearningAccess(access)) return false;
     return access.entitlements.maxCertifications === -1 || access.entitlements.maxCertifications > 0;
   }
