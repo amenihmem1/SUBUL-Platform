@@ -62,7 +62,11 @@ class SearchIndexManager:
         t_embed = time.time()
         print(f"      -> [Search] 🟢 Embedding généré en {t_embed - t_start:.2f} secondes")
 
-        vector_query = VectorizedQuery(vector=embedded_question, k=top_k * 2, fields="vecteur")
+        vector_query = VectorizedQuery(
+            vector=embedded_question,
+            k_nearest_neighbors=top_k * 2,
+            fields="vecteur",
+        )
         filtre = f"cloud_provider eq '{cloud_filter.upper()}'" if cloud_filter else None
 
         response_search = await self._get_client().search(
@@ -99,7 +103,11 @@ class SearchIndexManager:
         t_embed = time.time()
         print(f"      -> [Search Roadmap] 🟢 Embedding généré en {t_embed - t_start:.2f} secondes")
 
-        vector_query = VectorizedQuery(vector=embedded_question, k=top_k * 2, fields="vecteur")
+        vector_query = VectorizedQuery(
+            vector=embedded_question,
+            k_nearest_neighbors=top_k * 2,
+            fields="vecteur",
+        )
         filtre = f"cloud_provider eq '{cloud_filter.upper()}'" if cloud_filter else None
 
         response_search = await self._get_client().search(
