@@ -411,21 +411,6 @@ export default function RegisterPage() {
             </form>
           </Form>
 
-          {/* Divider */}
-          <div className="flex items-center gap-3 my-5">
-            <div className="flex-1 h-px bg-slate-100" />
-            <span className="text-xs text-slate-400">ou</span>
-            <div className="flex-1 h-px bg-slate-100" />
-          </div>
-
-          {/* Recruiter / Partner CTA */}
-          <a
-            href="mailto:contact@subul.uk?subject=Accès%20recruteur%20ou%20partenaire"
-            className="flex items-center justify-center gap-2 w-full h-10 rounded-xl border border-slate-200 text-sm text-slate-500 hover:border-violet-300 hover:text-violet-600 hover:bg-violet-50 transition-all"
-          >
-            Recruteur ou partenaire ? Demandez un accès
-          </a>
-
           {/* Sign in link */}
           <p className="text-center text-sm text-slate-500 mt-6">
             Déjà un compte ?{' '}

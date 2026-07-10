@@ -71,6 +71,20 @@ function collectCorsAllowedOrigins(): string[] {
   return [...set];
 }
 
+function isAllowedAzureFrontendOrigin(origin: string): boolean {
+  try {
+    const url = new URL(origin);
+    const host = url.hostname.toLowerCase();
+    return (
+      url.protocol === 'https:' &&
+      host.endsWith('.francecentral.azurecontainerapps.io') &&
+      (host.startsWith('subul-frontend.') || host.startsWith('subul-frontend--'))
+    );
+  } catch {
+    return false;
+  }
+}
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { bodyParser: false });
 
@@ -112,6 +126,10 @@ async function bootstrap() {
         return;
       }
       if (corsAllowedOrigins.has(requestOrigin)) {
+        callback(null, true);
+        return;
+      }
+      if (isAllowedAzureFrontendOrigin(requestOrigin)) {
         callback(null, true);
         return;
       }
