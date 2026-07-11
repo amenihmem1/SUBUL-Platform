@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useParams } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { useAdminUsers } from '@/hooks/api/useAdmin';
 import {
   createAdminHrInterview,
@@ -259,25 +260,33 @@ export default function AdminHrCalendarPage() {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-xs font-semibold text-violet-700">
-              <CalendarCheck className="h-3.5 w-3.5" />
-              HR Coach
+      <motion.section
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35 }}
+        className="rounded-2xl border border-border bg-card p-5 shadow-sm"
+      >
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-500/10 text-violet-600">
+              <CalendarCheck className="h-5 w-5" />
             </div>
-            <h1 className="mt-3 text-2xl font-bold text-foreground">Calendrier des entretiens HR Coach</h1>
-            <p className="mt-1 max-w-3xl text-sm text-muted-foreground">
-              Consultez les entretiens planifies, ajoutez un rendez-vous pour un utilisateur Subul, puis modifiez ou supprimez les sessions.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <div className="rounded-2xl border border-border bg-muted/40 px-4 py-3 text-sm">
-              <p className="text-muted-foreground">Prochain entretien</p>
-              <p className="mt-1 font-semibold text-foreground">
-                {nextInterview ? formatDate(nextInterview.scheduledAt, locale) : 'Aucun entretien a venir'}
+            <div className="min-w-0">
+              <p className="text-xs font-semibold uppercase tracking-wide text-violet-600">HR Coach</p>
+              <p className="truncate text-sm text-muted-foreground">
+                {nextInterview ? `Prochain entretien: ${formatDate(nextInterview.scheduledAt, locale)}` : 'Aucun entretien a venir'}
               </p>
             </div>
+          </div>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+            <button
+              type="button"
+              onClick={() => interviewsQuery.refetch()}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border px-4 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground"
+            >
+              <RefreshCw className={`h-4 w-4 ${interviewsQuery.isFetching ? 'animate-spin' : ''}`} />
+              Actualiser
+            </button>
             <button
               type="button"
               onClick={openCreateDialog}
@@ -288,16 +297,21 @@ export default function AdminHrCalendarPage() {
             </button>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       <section className="grid gap-4 md:grid-cols-4">
-        <StatCard label="Tous les entretiens" value={interviews.length} icon={<Users className="h-5 w-5" />} />
-        <StatCard label="Planifies" value={planned.length} icon={<CalendarCheck className="h-5 w-5" />} />
-        <StatCard label="A venir" value={upcoming.length} icon={<Clock className="h-5 w-5" />} />
-        <StatCard label="Annules" value={cancelled.length} icon={<X className="h-5 w-5" />} />
+        <StatCard index={0} label="Tous les entretiens" value={interviews.length} icon={<Users className="h-5 w-5" />} tone="violet" />
+        <StatCard index={1} label="Planifies" value={planned.length} icon={<CalendarCheck className="h-5 w-5" />} tone="blue" />
+        <StatCard index={2} label="A venir" value={upcoming.length} icon={<Clock className="h-5 w-5" />} tone="emerald" />
+        <StatCard index={3} label="Annules" value={cancelled.length} icon={<X className="h-5 w-5" />} tone="rose" />
       </section>
 
-      <section className="rounded-2xl border border-border bg-card shadow-sm">
+      <motion.section
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, delay: 0.12 }}
+        className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
+      >
         <div className="flex flex-col gap-4 border-b border-border p-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 className="text-lg font-bold text-foreground">Entretiens planifies</h2>
@@ -316,7 +330,7 @@ export default function AdminHrCalendarPage() {
             <button
               type="button"
               onClick={() => interviewsQuery.refetch()}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border px-4 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border px-4 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground lg:hidden"
             >
               <RefreshCw className={`h-4 w-4 ${interviewsQuery.isFetching ? 'animate-spin' : ''}`} />
               Actualiser
@@ -350,8 +364,14 @@ export default function AdminHrCalendarPage() {
                   </td>
                 </tr>
               ) : (
-                filteredInterviews.map((item) => (
-                  <tr key={item.id} className="border-b border-border/50 transition last:border-b-0 hover:bg-muted/30">
+                filteredInterviews.map((item, index) => (
+                  <motion.tr
+                    key={item.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.28, delay: Math.min(index * 0.045, 0.35) }}
+                    className="border-b border-border/50 transition last:border-b-0 hover:bg-violet-50/45"
+                  >
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-500/10 text-sm font-bold text-violet-700">
@@ -394,13 +414,13 @@ export default function AdminHrCalendarPage() {
                         </button>
                       </div>
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))
               )}
             </tbody>
           </table>
         </div>
-      </section>
+      </motion.section>
 
       {formOpen ? (
         <InterviewFormDialog
@@ -615,18 +635,52 @@ function DeleteInterviewDialog({
   );
 }
 
-function StatCard({ label, value, icon }: { label: string; value: number; icon: ReactNode }) {
+function StatCard({
+  label,
+  value,
+  icon,
+  index,
+  tone,
+}: {
+  label: string;
+  value: number;
+  icon: ReactNode;
+  index: number;
+  tone: 'violet' | 'blue' | 'emerald' | 'rose';
+}) {
+  const toneClasses = {
+    violet: 'bg-violet-500/10 text-violet-600 ring-violet-200/60',
+    blue: 'bg-blue-500/10 text-blue-600 ring-blue-200/60',
+    emerald: 'bg-emerald-500/10 text-emerald-600 ring-emerald-200/60',
+    rose: 'bg-rose-500/10 text-rose-600 ring-rose-200/60',
+  }[tone];
+
   return (
-    <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+    <motion.div
+      initial={{ opacity: 0, y: 18, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.34, delay: index * 0.08 }}
+      whileHover={{ y: -3, transition: { duration: 0.18 } }}
+      className="group relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm"
+    >
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-rose-500 opacity-0 transition-opacity group-hover:opacity-100" />
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-sm text-muted-foreground">{label}</p>
-          <p className="mt-1 text-3xl font-bold text-foreground">{value}</p>
+          <motion.p
+            key={value}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.22 }}
+            className="mt-1 text-3xl font-bold text-foreground"
+          >
+            {value}
+          </motion.p>
         </div>
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-500/10 text-violet-600">
+        <div className={`flex h-11 w-11 items-center justify-center rounded-xl ring-1 ${toneClasses}`}>
           {icon}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

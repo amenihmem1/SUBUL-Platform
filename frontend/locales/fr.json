@@ -1234,6 +1234,10 @@
     "special": "Caractère spécial",
     "noMatch": "Les mots de passe ne correspondent pas"
   },
+  "adminHrCalendar": {
+    "title": "Calendrier des entretiens HR Coach",
+    "subtitle": "Consultez les entretiens planifi\u00e9s, ajoutez un rendez-vous pour un utilisateur Subul, puis modifiez ou supprimez les sessions."
+  },
   "adminDashboardPremium": {
     "welcomeBack": "Bienvenue !",
     "today": "Aujourd'hui",

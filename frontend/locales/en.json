@@ -2619,6 +2619,10 @@
       "quizDeNiveau": "Level Quiz"
     }
   },
+  "adminHrCalendar": {
+    "title": "HR Coach interview calendar",
+    "subtitle": "View planned interviews, add an appointment for a Subul user, then edit or delete sessions."
+  },
   "adminDashboardPremium": {
     "welcomeBack": "Welcome back!",
     "today": "Today",
