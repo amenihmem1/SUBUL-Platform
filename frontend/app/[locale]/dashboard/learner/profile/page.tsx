@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useId, useState, type ChangeEvent, type ElementType } from 'react';
 import {
   Building2,
   Camera,
@@ -101,31 +101,37 @@ function ScoreBar({ label, value, color, Icon }: { label: string; value: number;
 }
 
 function InputField({
-  id, label, type = 'text', value, onChange, placeholder, disabled, error, autoComplete,
+  id, label, type = 'text', value, onChange, placeholder, disabled, error, autoComplete, icon: Icon,
 }: {
   id: string; label: string; type?: string; value: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string; disabled?: boolean; error?: string | null; autoComplete?: string;
+  icon?: ElementType;
 }) {
   return (
     <div>
       <label htmlFor={id} className="block text-sm font-medium text-slate-700">{label}</label>
-      <input
-        id={id}
-        type={type}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        disabled={disabled}
-        autoComplete={autoComplete}
-        className={`mt-1.5 h-11 w-full rounded-xl border px-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 ${
-          disabled
-            ? 'cursor-not-allowed border-slate-200 bg-slate-50 text-slate-400'
-            : error
-              ? 'border-rose-400 bg-white focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20'
-              : 'border-slate-200 bg-white focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20'
-        }`}
-      />
+      <div className="relative mt-1.5">
+        {Icon && (
+          <Icon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+        )}
+        <input
+          id={id}
+          type={type}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          disabled={disabled}
+          autoComplete={autoComplete}
+          className={`h-11 w-full rounded-xl border ${Icon ? 'pl-10' : 'pl-3.5'} pr-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 ${
+            disabled
+              ? 'cursor-not-allowed border-slate-200 bg-slate-50 text-slate-400'
+              : error
+                ? 'border-rose-400 bg-white focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20'
+                : 'border-slate-200 bg-white focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20'
+          }`}
+        />
+      </div>
       {error && <p className="mt-1 text-xs text-rose-600">{error}</p>}
     </div>
   );
@@ -450,6 +456,7 @@ export default function LearnerProfilePage() {
                   onChange={onChange('fullName')}
                   placeholder="Enter your full name"
                   autoComplete="name"
+                  icon={UserIcon}
                 />
                 <InputField
                   id="email"
@@ -458,6 +465,7 @@ export default function LearnerProfilePage() {
                   value={form.email}
                   disabled
                   autoComplete="email"
+                  icon={Mail}
                 />
               </div>
             </div>
@@ -482,6 +490,7 @@ export default function LearnerProfilePage() {
                   placeholder="+216 12 345 678"
                   error={phoneError}
                   autoComplete="tel"
+                  icon={Phone}
                 />
                 <InputField
                   id="companyName"
@@ -490,16 +499,18 @@ export default function LearnerProfilePage() {
                   onChange={onChange('companyName')}
                   placeholder="Your company"
                   autoComplete="organization"
+                  icon={Building2}
                 />
                 <div className="sm:col-span-2">
                   <InputField
                     id="address"
                     label={t('common.address') || 'Address'}
-                    value={form.address}
-                    onChange={onChange('address')}
-                    placeholder="Your location"
-                    autoComplete="street-address"
-                  />
+                  value={form.address}
+                  onChange={onChange('address')}
+                  placeholder="Your location"
+                  autoComplete="street-address"
+                  icon={MapPin}
+                />
                 </div>
               </div>
             </div>
@@ -518,14 +529,17 @@ export default function LearnerProfilePage() {
                 <label htmlFor="bio" className="block text-sm font-medium text-slate-700">
                   {t('profile.bio')}
                 </label>
-                <textarea
-                  id="bio"
-                  value={form.bio}
-                  onChange={onChange('bio')}
-                  placeholder="Tell us about yourself, your goals, your experience..."
-                  className="mt-1.5 w-full resize-none rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"
-                  rows={4}
-                />
+                <div className="relative mt-1.5">
+                  <Cpu className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-slate-400" />
+                  <textarea
+                    id="bio"
+                    value={form.bio}
+                    onChange={onChange('bio')}
+                    placeholder="Tell us about yourself, your goals, your experience..."
+                    className="w-full resize-none rounded-xl border border-slate-200 bg-white py-3 pl-10 pr-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"
+                    rows={4}
+                  />
+                </div>
               </div>
             </div>
 

@@ -1,8 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
-import { useRouter, useParams } from 'next/navigation';
-import Link from 'next/link';
+import { useState, useEffect, useMemo, type ElementType, type FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import {
   Search,
@@ -24,7 +22,11 @@ import {
   Crown,
   Mail,
   MailCheck,
-  MailWarning,
+  UserRound,
+  Phone,
+  LockKeyhole,
+  ShieldCheck,
+  X,
 } from 'lucide-react';
 import { Badge, Button, useToast } from '@/components/ui';
 import { cn } from '@/lib/utils';
@@ -37,7 +39,9 @@ import ManageSubscriptionModal from '@/components/modals/Admin/users/ManageSubsc
 import {
   useAdminUsers,
   useAdminStats,
+  useCreateAdminUser,
   useDeleteAdminUser,
+  useUpdateAdminUser,
   useUpdateAdminUserStatus,
   useVerifyAdminUserEmail,
 } from '@/hooks/api/useAdmin';
@@ -70,9 +74,38 @@ export interface UserData {
 
 const ITEMS_PER_PAGE = 10;
 
+type UserFormMode = 'create' | 'edit';
+
+type UserFormState = {
+  fullName: string;
+  email: string;
+  phone: string;
+  role: string;
+  password: string;
+  confirmPassword: string;
+};
+
+const emptyUserForm: UserFormState = {
+  fullName: '',
+  email: '',
+  phone: '',
+  role: 'learner',
+  password: '',
+  confirmPassword: '',
+};
+
+const userRoleOptions = [
+  { value: 'learner', labelKey: 'users.learner', fallback: 'Apprenant' },
+  { value: 'student', labelKey: 'users.student', fallback: 'Etudiant' },
+  { value: 'instructor', labelKey: 'users.instructor', fallback: 'Instructeur' },
+  { value: 'employer', labelKey: 'users.employer', fallback: 'Employeur' },
+  { value: 'university', labelKey: 'roles.university', fallback: 'Universite' },
+  { value: 'admin', labelKey: 'users.admin', fallback: 'Administrateur' },
+  { value: 'commercial', labelKey: 'users.commercial', fallback: 'Commercial' },
+];
+
 export default function AdminUsers() {
   const { t } = useTranslation();
-  const { locale } = useParams();
   const { showToast } = useToast();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterRole, setFilterRole] = useState<string>('all');
@@ -83,9 +116,11 @@ export default function AdminUsers() {
   const [showViewModal, setShowViewModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const [showUserFormModal, setShowUserFormModal] = useState(false);
+  const [userFormMode, setUserFormMode] = useState<UserFormMode>('create');
+  const [userForm, setUserForm] = useState<UserFormState>(emptyUserForm);
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
   const [statusPendingUserId, setStatusPendingUserId] = useState<number | null>(null);
-  const router = useRouter();
 
   const queryParams = useMemo(() => ({
     page: currentPage,
@@ -108,6 +143,8 @@ export default function AdminUsers() {
   }, [searchQuery, filterRole, filterStatus]);
 
   const deleteUser = useDeleteAdminUser();
+  const createUser = useCreateAdminUser();
+  const updateUser = useUpdateAdminUser();
   const updateStatus = useUpdateAdminUserStatus();
   const verifyEmail = useVerifyAdminUserEmail();
   const [verifyPendingUserId, setVerifyPendingUserId] = useState<number | null>(null);
@@ -164,6 +201,80 @@ export default function AdminUsers() {
       showToast(t(key), 'error');
     } finally {
       setVerifyPendingUserId(null);
+    }
+  };
+
+  const openCreateUserModal = () => {
+    setSelectedUser(null);
+    setUserForm(emptyUserForm);
+    setUserFormMode('create');
+    setShowUserFormModal(true);
+  };
+
+  const openEditUserModal = (user: UserData) => {
+    setSelectedUser(user);
+    setUserForm({
+      fullName: user.name,
+      email: user.email,
+      phone: user.phone || '',
+      role: user.role || 'learner',
+      password: '',
+      confirmPassword: '',
+    });
+    setUserFormMode('edit');
+    setShowUserFormModal(true);
+  };
+
+  const handleUserFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const fullName = userForm.fullName.trim();
+    const email = userForm.email.trim();
+    const phone = userForm.phone.trim();
+
+    if (!fullName || !email || !userForm.role) {
+      showToast('Nom, email et role sont obligatoires.', 'error');
+      return;
+    }
+
+    if (userFormMode === 'create') {
+      if (userForm.password.length < 8) {
+        showToast('Le mot de passe doit contenir au moins 8 caracteres.', 'error');
+        return;
+      }
+      if (userForm.password !== userForm.confirmPassword) {
+        showToast('Les mots de passe ne correspondent pas.', 'error');
+        return;
+      }
+    }
+
+    try {
+      if (userFormMode === 'create') {
+        await createUser.mutateAsync({
+          fullName,
+          email,
+          phone: phone || undefined,
+          role: userForm.role,
+          password: userForm.password,
+        });
+        showToast(t('users.userCreated'), 'success');
+      } else if (selectedUser) {
+        await updateUser.mutateAsync({
+          id: selectedUser.id,
+          data: {
+            fullName,
+            email,
+            phone: phone || undefined,
+            role: userForm.role,
+          },
+        });
+        showToast(t('users.userUpdated'), 'success');
+      }
+      setShowUserFormModal(false);
+      setSelectedUser(null);
+      setUserForm(emptyUserForm);
+    } catch (err) {
+      const { key } = normalizeApiError(err);
+      showToast(t(key), 'error');
     }
   };
 
@@ -318,10 +429,8 @@ export default function AdminUsers() {
               </div>
             )}
           </div>
-          <Button asChild className="bg-primary hover:bg-primary/90">
-            <Link href={`/${locale}/dashboard/admin/users/new`}>
-              <Plus className="w-4 h-4 mr-2" /> {String(t('users.addUser'))}
-            </Link>
+          <Button className="bg-primary hover:bg-primary/90" onClick={openCreateUserModal}>
+            <Plus className="w-4 h-4 mr-2" /> {String(t('users.addUser'))}
           </Button>
         </div>
       </div>
@@ -455,13 +564,13 @@ export default function AdminUsers() {
                         >
                           <Eye className="w-4 h-4 text-slate-600" />
                         </button>
-                        <Link
-                          href={`/${locale}/dashboard/admin/users/${user.id}/edit`}
+                        <button
+                          onClick={() => openEditUserModal(user)}
                           className="p-2 hover:bg-slate-100 rounded-lg inline-flex items-center justify-center"
                           title={String(t('common.edit'))}
                         >
                           <Edit2 className="w-4 h-4 text-slate-500" />
-                        </Link>
+                        </button>
                         <button
                           onClick={() => handleToggleStatus(user.id, user.status)}
                           className="p-2 hover:bg-amber-100 rounded-lg"
@@ -557,7 +666,7 @@ export default function AdminUsers() {
         onEdit={() => {
           if (selectedUser) {
             setShowViewModal(false);
-            router.push(`/${locale}/dashboard/admin/users/${selectedUser.id}/edit`);
+            openEditUserModal(selectedUser);
           }
         }}
         isOpen={showViewModal}
@@ -569,6 +678,21 @@ export default function AdminUsers() {
         onClose={() => setShowDeleteModal(false)}
         isOpen={showDeleteModal}
         isDeleting={deleteUser.isPending}
+      />
+
+      <UserFormModal
+        isOpen={showUserFormModal}
+        mode={userFormMode}
+        form={userForm}
+        t={t}
+        isSaving={createUser.isPending || updateUser.isPending}
+        onClose={() => {
+          setShowUserFormModal(false);
+          setSelectedUser(null);
+          setUserForm(emptyUserForm);
+        }}
+        onSubmit={handleUserFormSubmit}
+        onChange={(key, value) => setUserForm((prev) => ({ ...prev, [key]: value }))}
       />
 
       <ManageSubscriptionModal
@@ -589,5 +713,185 @@ export default function AdminUsers() {
         }
       />
     </div>
+  );
+}
+
+function UserFormModal({
+  isOpen,
+  mode,
+  form,
+  t,
+  isSaving,
+  onClose,
+  onSubmit,
+  onChange,
+}: {
+  isOpen: boolean;
+  mode: UserFormMode;
+  form: UserFormState;
+  t: (key: string) => unknown;
+  isSaving: boolean;
+  onClose: () => void;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  onChange: (key: keyof UserFormState, value: string) => void;
+}) {
+  if (!isOpen) return null;
+
+  const isCreate = mode === 'create';
+  const labelFor = (key: string, fallback: string) => String(t(key) || fallback);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/45 p-4 backdrop-blur-sm">
+      <motion.div
+        initial={{ opacity: 0, y: 18, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 18, scale: 0.98 }}
+        transition={{ duration: 0.18 }}
+        className="w-full max-w-2xl overflow-hidden rounded-2xl border border-border bg-background shadow-2xl"
+      >
+        <div className="flex items-start justify-between border-b border-border px-6 py-5">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
+              {isCreate ? 'Nouvel utilisateur' : 'Modifier utilisateur'}
+            </p>
+            <h3 className="mt-1 text-xl font-black text-foreground">
+              {isCreate ? String(t('users.addUser') || 'Ajouter utilisateur') : String(t('common.edit') || 'Modifier')}
+            </h3>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition hover:bg-muted hover:text-foreground"
+            aria-label={String(t('common.close') || 'Fermer')}
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+
+        <form onSubmit={onSubmit} className="space-y-5 px-6 py-5">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <IconFormField
+              icon={UserRound}
+              label="Nom complet"
+              value={form.fullName}
+              onChange={(value) => onChange('fullName', value)}
+              placeholder="Ameni Hmem"
+              required
+            />
+            <IconFormField
+              icon={Mail}
+              label={labelFor('auth.email', 'Email')}
+              type="email"
+              value={form.email}
+              onChange={(value) => onChange('email', value)}
+              placeholder="ameni@example.com"
+              required
+            />
+            <IconFormField
+              icon={Phone}
+              label={labelFor('common.phone', 'Telephone')}
+              type="tel"
+              value={form.phone}
+              onChange={(value) => onChange('phone', value)}
+              placeholder="+216 00 000 000"
+            />
+            <label className="block">
+              <span className="mb-1.5 block text-sm font-semibold text-foreground">Role</span>
+              <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15">
+                <ShieldCheck className="h-4 w-4 shrink-0 text-muted-foreground" />
+                <select
+                  value={form.role}
+                  onChange={(event) => onChange('role', event.target.value)}
+                  className="h-full min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none"
+                  required
+                >
+                  {userRoleOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {String(t(option.labelKey) || option.fallback)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </label>
+
+            {isCreate && (
+              <>
+                <IconFormField
+                  icon={LockKeyhole}
+                  label="Mot de passe"
+                  type="password"
+                  value={form.password}
+                  onChange={(value) => onChange('password', value)}
+                  placeholder="********"
+                  required
+                />
+                <IconFormField
+                  icon={LockKeyhole}
+                  label="Confirmer le mot de passe"
+                  type="password"
+                  value={form.confirmPassword}
+                  onChange={(value) => onChange('confirmPassword', value)}
+                  placeholder="********"
+                  required
+                />
+              </>
+            )}
+          </div>
+
+          <div className="flex flex-col-reverse gap-3 border-t border-border pt-5 sm:flex-row sm:justify-end">
+            <button
+              type="button"
+              onClick={onClose}
+              className="inline-flex h-11 items-center justify-center rounded-xl border border-border px-5 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground"
+            >
+              {String(t('common.cancel') || 'Annuler')}
+            </button>
+            <button
+              type="submit"
+              disabled={isSaving}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-primary px-5 text-sm font-bold text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle className="h-4 w-4" />}
+              {isCreate ? String(t('users.addUser') || 'Ajouter') : String(t('common.save') || 'Enregistrer')}
+            </button>
+          </div>
+        </form>
+      </motion.div>
+    </div>
+  );
+}
+
+function IconFormField({
+  icon: Icon,
+  label,
+  value,
+  onChange,
+  type = 'text',
+  placeholder,
+  required = false,
+}: {
+  icon: ElementType;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  type?: string;
+  placeholder?: string;
+  required?: boolean;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-sm font-semibold text-foreground">{label}</span>
+      <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15">
+        <Icon className="h-4 w-4 shrink-0 text-muted-foreground" />
+        <input
+          type={type}
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          placeholder={placeholder}
+          required={required}
+          className="h-full min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
+        />
+      </div>
+    </label>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useId, useState, type ChangeEvent, type ElementType } from 'react';
 import {
   Building2, Mail, MapPin, Phone, User as UserIcon,
   Shield, Save, RotateCcw, Camera
@@ -29,6 +29,43 @@ const buildForm = (user: User): ProfileForm => ({
   address: (user as unknown as Record<string, unknown>).address as string || '',
   bio: (user as unknown as Record<string, unknown>).bio as string || '',
 });
+
+function AdminProfileInput({
+  icon: Icon,
+  label,
+  value,
+  onChange,
+  type = 'text',
+  placeholder,
+  disabled = false,
+}: {
+  icon: ElementType;
+  label: string;
+  value: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  type?: string;
+  placeholder?: string;
+  disabled?: boolean;
+}) {
+  return (
+    <div>
+      <label className="mb-1.5 block text-sm font-medium text-slate-700">{label}</label>
+      <div className={`flex h-10 items-center gap-2 rounded-lg border border-slate-200 px-3 transition focus-within:ring-2 focus-within:ring-blue-500 ${
+        disabled ? 'bg-slate-50 text-slate-400' : 'bg-white'
+      }`}>
+        <Icon className="h-4 w-4 shrink-0 text-slate-400" />
+        <input
+          type={type}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          disabled={disabled}
+          className="h-full min-w-0 flex-1 bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 disabled:text-slate-400"
+        />
+      </div>
+    </div>
+  );
+}
 
 export default function AdminProfilePage() {
   const { t } = useTranslation();
@@ -240,65 +277,60 @@ export default function AdminProfilePage() {
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Full name</label>
-                <input
-                  value={form.fullName}
-                  onChange={onChange('fullName')}
-                  placeholder="Enter your full name"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                />
-              </div>
+              <AdminProfileInput
+                icon={UserIcon}
+                label="Full name"
+                value={form.fullName}
+                onChange={onChange('fullName')}
+                placeholder="Enter your full name"
+              />
 
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
-                <input
-                  type="email"
-                  value={form.email}
-                  disabled
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 bg-slate-50 text-slate-400 text-sm"
-                />
-              </div>
+              <AdminProfileInput
+                icon={Mail}
+                label="Email"
+                type="email"
+                value={form.email}
+                disabled
+              />
 
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Company</label>
-                <input
-                  value={form.companyName}
-                  onChange={onChange('companyName')}
-                  placeholder="Your organization"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                />
-              </div>
+              <AdminProfileInput
+                icon={Building2}
+                label="Company"
+                value={form.companyName}
+                onChange={onChange('companyName')}
+                placeholder="Your organization"
+              />
 
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Phone</label>
-                <input
-                  value={form.phone}
-                  onChange={onChange('phone')}
-                  placeholder="+00 000 000 000"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                />
-              </div>
+              <AdminProfileInput
+                icon={Phone}
+                label="Phone"
+                value={form.phone}
+                onChange={onChange('phone')}
+                placeholder="+00 000 000 000"
+              />
 
               <div className="sm:col-span-2">
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Address</label>
-                <input
+                <AdminProfileInput
+                  icon={MapPin}
+                  label="Address"
                   value={form.address}
                   onChange={onChange('address')}
                   placeholder="Your address"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                 />
               </div>
 
               <div className="sm:col-span-2">
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">Bio</label>
-                <textarea
-                  value={form.bio}
-                  onChange={onChange('bio')}
-                  rows={4}
-                  placeholder="A short description about yourself"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm resize-none"
-                />
+                <div className="relative">
+                  <Shield className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-slate-400" />
+                  <textarea
+                    value={form.bio}
+                    onChange={onChange('bio')}
+                    rows={4}
+                    placeholder="A short description about yourself"
+                    className="w-full resize-none rounded-lg border border-slate-200 py-2 pl-10 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
               </div>
             </div>
           </div>

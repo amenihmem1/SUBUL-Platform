@@ -229,7 +229,7 @@ export default function DashboardHeader({ userName, role }: DashboardHeaderProps
     .toUpperCase();
 
   return (
-    <header className="sticky top-0 z-30 border-b border-violet-100/70 bg-white/90 backdrop-blur-md">
+    <header className="sticky top-0 z-30 border-b border-border bg-background/90 backdrop-blur-md">
       <div className="flex flex-col items-start justify-between gap-2 px-4 py-2.5 sm:flex-row sm:items-center sm:gap-3 sm:px-5 lg:px-6">
         {showDynamicTitle && (
           <div className="flex-1 min-w-0">
@@ -246,7 +246,7 @@ export default function DashboardHeader({ userName, role }: DashboardHeaderProps
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-xl border border-slate-200 bg-white hover:bg-violet-50"
+            className="rounded-xl border border-border bg-background hover:bg-muted"
             onClick={toggleTheme}
             aria-label={theme === 'dark' ? t('common.lightMode') : t('common.darkMode')}
             title={theme === 'dark' ? t('common.lightMode') : t('common.darkMode')}
@@ -261,7 +261,7 @@ export default function DashboardHeader({ userName, role }: DashboardHeaderProps
           <Button
             variant="ghost"
             size="icon"
-            className="relative rounded-xl border border-slate-200 bg-white hover:bg-violet-50"
+            className="relative rounded-xl border border-border bg-background hover:bg-muted"
             onClick={() => setHasUnread(false)}
             aria-label={t('notifications.markAsRead')}
             aria-pressed={hasUnread}
@@ -276,7 +276,7 @@ export default function DashboardHeader({ userName, role }: DashboardHeaderProps
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="h-auto rounded-xl border border-slate-200 bg-white p-1.5 sm:p-2"
+                className="h-auto rounded-xl border border-border bg-background p-1.5 sm:p-2 hover:bg-muted"
               >
                 <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-xs sm:text-sm font-medium shrink-0">
                   {initials}

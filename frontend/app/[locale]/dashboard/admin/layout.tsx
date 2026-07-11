@@ -8,6 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api/client';
 import { toast } from 'sonner';
 import { CreditCard } from 'lucide-react';
+import '@/app/styles/admin-dashboard.css';
 
 const POLL_INTERVAL_MS = 30_000;
 
@@ -85,7 +86,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [sidebarOpen, isInitialized]);
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="admin-dashboard min-h-screen bg-background flex">
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"

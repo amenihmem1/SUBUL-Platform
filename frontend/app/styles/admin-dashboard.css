@@ -248,6 +248,45 @@
   opacity: 0.2;
 }
 
+.admin-dashboard table {
+  border-collapse: collapse;
+  background: hsl(var(--background));
+}
+
+.admin-dashboard table thead {
+  background: hsl(var(--background));
+}
+
+.admin-dashboard table th {
+  border-bottom: 1px solid hsl(var(--border));
+  border-right: 1px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+  font-weight: 700;
+}
+
+.admin-dashboard table th:last-child,
+.admin-dashboard table td:last-child {
+  border-right: 0;
+}
+
+.admin-dashboard table tbody tr {
+  background: hsl(var(--background));
+  transition: background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.admin-dashboard table tbody tr:nth-child(even) {
+  background: hsl(var(--muted) / 0.28);
+}
+
+.admin-dashboard table tbody tr:hover {
+  background: hsl(var(--muted) / 0.58);
+}
+
+.admin-dashboard table td {
+  border-bottom: 1px solid hsl(var(--border) / 0.72);
+  border-right: 1px solid hsl(var(--border) / 0.72);
+}
+
 .revenue-breakdown {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
