@@ -114,6 +114,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
       { id: 'quiz-feedback', labelKey: 'navigation.quizFeedback', icon: Flag, href: createLocalizedUrl('/dashboard/admin/quiz-feedback') },
       { id: 'certifications', labelKey: 'navigation.certifications', icon: Award, href: createLocalizedUrl('/dashboard/admin/certifications') },
       { id: 'users', labelKey: 'navigation.users', icon: Users, href: createLocalizedUrl('/dashboard/admin/users') },
+      { id: 'hrCalendar', labelKey: 'navigation.hrCoachCalendar', icon: CalendarCheck, href: createLocalizedUrl('/dashboard/admin/hr-calendar') },
       { id: 'recruiters', labelKey: 'navigation.candidates', icon: Briefcase, href: createLocalizedUrl('/dashboard/admin/recruiters') },
       { id: 'universities', labelKey: 'navigation.universities', icon: Building2, href: createLocalizedUrl('/dashboard/admin/universities') },
       { id: 'agentUsage', labelKey: 'navigation.agentUsage', icon: BarChart3, href: createLocalizedUrl('/dashboard/admin/agent-usage') },

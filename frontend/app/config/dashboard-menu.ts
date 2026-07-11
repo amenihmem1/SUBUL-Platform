@@ -74,6 +74,7 @@ const adminMenu: MenuItem[] = [
   { id: 'progression', icon: BarChart3, labelKey: 'navigation.progression', href: '/dashboard/admin/progression' },
   { id: 'certifications', icon: Award, labelKey: 'navigation.certifications', href: '/dashboard/admin/certifications' },
   { id: 'users', icon: Users, labelKey: 'navigation.users', href: '/dashboard/admin/users' },
+  { id: 'hrCalendar', icon: CalendarCheck, labelKey: 'navigation.hrCoachCalendar', href: '/dashboard/admin/hr-calendar' },
   { id: 'entreprises', icon: Building2, labelKey: 'navigation.companies', href: '/dashboard/admin/companies' },
   { id: 'jobs', icon: Briefcase, labelKey: 'navigation.jobs', href: '/dashboard/admin/jobs' },
   { id: 'payments', icon: CreditCard, labelKey: 'navigation.payments', href: '/dashboard/admin/payments' },
