@@ -285,6 +285,7 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
     config.accent === 'violet'
       ? 'from-violet-600 via-fuchsia-600 to-rose-500'
       : 'from-cyan-600 via-blue-600 to-violet-600';
+  const accentText = config.accent === 'violet' ? 'text-violet-700' : 'text-cyan-700';
   const accentSoft = config.accent === 'violet' ? 'bg-violet-500/10' : 'bg-cyan-500/10';
 
   return (
