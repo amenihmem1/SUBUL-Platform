@@ -14,6 +14,7 @@ import {
   ExternalLink,
   FileText,
   Gauge,
+  Layers,
   Pin,
   PinOff,
   RefreshCw,
@@ -199,6 +200,7 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<FilterKey>('active');
   const [deleteTarget, setDeleteTarget] = useState<CoachSession | null>(null);
+  const [reportTarget, setReportTarget] = useState<CoachSession | null>(null);
 
   const queryKey = ['admin', 'coach-results', kind];
   const sessionsQuery = useQuery({
@@ -393,16 +395,16 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[1050px] border-collapse">
+          <table className="w-full min-w-[1050px] border-collapse border border-border">
             <thead>
-              <tr className="border-b border-border bg-muted/40 text-left text-xs uppercase tracking-wide text-muted-foreground">
-                <th className="px-5 py-3 font-semibold">Candidat</th>
-                <th className="px-5 py-3 font-semibold">Rapport</th>
-                <th className="px-5 py-3 font-semibold">Score</th>
-                <th className="px-5 py-3 font-semibold">Statut</th>
-                <th className="px-5 py-3 font-semibold">Activite</th>
-                <th className="px-5 py-3 font-semibold">Alertes</th>
-                <th className="px-5 py-3 text-right font-semibold">Actions</th>
+              <tr className="bg-muted/45 text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Candidat</th>
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Rapport</th>
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Score</th>
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Statut</th>
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Activite</th>
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Alertes</th>
+                <th className="border-b border-border px-5 py-3 text-right font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -451,9 +453,9 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.24, delay: Math.min(index * 0.035, 0.45) }}
-                    className="border-b border-border/50 transition last:border-b-0 hover:bg-muted/45"
+                    className="transition hover:bg-muted/45"
                   >
-                    <td className="px-5 py-4">
+                    <td className="border-b border-r border-border/70 px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${accentSoft} text-sm font-bold ${accentText}`}>
                           {(session.candidate_name || session.title || 'C').slice(0, 2).toUpperCase()}
@@ -467,7 +469,7 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                         </div>
                       </div>
                     </td>
-                    <td className="px-5 py-4">
+                    <td className="border-b border-r border-border/70 px-5 py-4">
                       <p className="max-w-[280px] truncate font-medium text-foreground">
                         {session.title || session.preview || 'Rapport candidat'}
                       </p>
@@ -475,7 +477,7 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                         {session.preview || `${session.turns_count || 0} message(s)`}
                       </p>
                     </td>
-                    <td className="px-5 py-4">
+                    <td className="border-b border-r border-border/70 px-5 py-4">
                       <div className="flex items-center gap-2">
                         <div className="h-2 w-24 overflow-hidden rounded-full bg-muted">
                           <div
@@ -486,13 +488,13 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                         <span className="text-sm font-bold text-foreground">{scoreLabel(session.score_total)}</span>
                       </div>
                     </td>
-                    <td className="px-5 py-4">
+                    <td className="border-b border-r border-border/70 px-5 py-4">
                       <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${statusClasses(session.status)}`}>
                         {statusLabel(session.status)}
                       </span>
                     </td>
-                    <td className="px-5 py-4 text-sm text-muted-foreground">{formatDate(getSessionDate(session))}</td>
-                    <td className="px-5 py-4">
+                    <td className="border-b border-r border-border/70 px-5 py-4 text-sm text-muted-foreground">{formatDate(getSessionDate(session))}</td>
+                    <td className="border-b border-r border-border/70 px-5 py-4">
                       {kind === 'technical' ? (
                         <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${
                           Number(session.proctoring_alerts_count || 0) > 0
@@ -505,16 +507,16 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                         <span className="text-sm text-muted-foreground">-</span>
                       )}
                     </td>
-                    <td className="px-5 py-4">
+                    <td className="border-b border-border/70 px-5 py-4">
                       <div className="flex justify-end gap-2">
-                        <Link
-                          href={`${config.reportBase}/${encodeURIComponent(session.session_id)}`}
-                          target="_blank"
+                        <button
+                          type="button"
+                          onClick={() => setReportTarget(session)}
                           className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-border px-3 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground"
                         >
-                          <ExternalLink className="h-4 w-4" />
+                          <Layers className="h-4 w-4" />
                           Rapport
-                        </Link>
+                        </button>
                         <IconAction
                           label={session.pinned ? 'Desepingler' : 'Epingler'}
                           disabled={metaMutation.isPending}
@@ -564,6 +566,14 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
           isDeleting={deleteMutation.isPending}
           onClose={() => setDeleteTarget(null)}
           onConfirm={() => deleteMutation.mutate(deleteTarget.session_id)}
+        />
+      ) : null}
+
+      {reportTarget ? (
+        <ReportChoiceDialog
+          config={config}
+          session={reportTarget}
+          onClose={() => setReportTarget(null)}
         />
       ) : null}
     </div>
@@ -642,6 +652,110 @@ function DeleteSessionDialog({
         </div>
       </div>
     </div>
+  );
+}
+
+function ReportChoiceDialog({
+  config,
+  session,
+  onClose,
+}: {
+  config: CoachConfig;
+  session: CoachSession;
+  onClose: () => void;
+}) {
+  const encodedSessionId = encodeURIComponent(session.session_id);
+  const mainLabel = config.kind === 'hr' ? 'Rapport RH' : 'Rapport technique';
+  const mainDescription =
+    config.kind === 'hr'
+      ? 'Evaluation RH, score candidat et synthese entretien.'
+      : 'Evaluation technique, score et synthese des reponses.';
+  const insightsUrl = `${config.apiBase}/session/${encodedSessionId}/insights-report/view?language=fr`;
+
+  return (
+    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
+      <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label="Fermer" />
+      <div className="relative w-full max-w-lg rounded-2xl border border-border bg-card p-6 shadow-2xl">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-500/10 text-violet-600">
+              <Layers className="h-5 w-5" />
+            </div>
+            <h2 className="mt-4 text-xl font-bold text-foreground">Choisir le rapport</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {session.candidate_name || 'Candidat'} - {session.title || session.session_id}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-muted hover:text-foreground"
+            aria-label="Fermer"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+
+        <div className="mt-6 grid gap-3">
+          <ReportOption
+            href={`${config.reportBase}/${encodedSessionId}`}
+            title={mainLabel}
+            description={mainDescription}
+            icon={<FileText className="h-5 w-5" />}
+            onClick={onClose}
+          />
+          <ReportOption
+            href={insightsUrl}
+            title="Rapport Insights"
+            description="Analyse visuelle et vocale en PDF, ouverte dans un nouvel onglet."
+            icon={<Gauge className="h-5 w-5" />}
+            onClick={onClose}
+          />
+        </div>
+
+        <div className="mt-6 flex justify-end">
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex h-10 items-center justify-center rounded-xl border border-border px-5 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground"
+          >
+            Annuler
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ReportOption({
+  href,
+  title,
+  description,
+  icon,
+  onClick,
+}: {
+  href: string;
+  title: string;
+  description: string;
+  icon: ReactNode;
+  onClick: () => void;
+}) {
+  return (
+    <Link
+      href={href}
+      target="_blank"
+      onClick={onClick}
+      className="group flex items-center gap-4 rounded-xl border border-border bg-background p-4 transition hover:border-violet-200 hover:bg-violet-50/60"
+    >
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-muted text-muted-foreground transition group-hover:bg-violet-500/10 group-hover:text-violet-700">
+        {icon}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block font-bold text-foreground">{title}</span>
+        <span className="mt-1 block text-sm text-muted-foreground">{description}</span>
+      </span>
+      <ExternalLink className="h-4 w-4 shrink-0 text-muted-foreground transition group-hover:text-violet-700" />
+    </Link>
   );
 }
 
