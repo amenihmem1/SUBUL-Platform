@@ -344,29 +344,29 @@ export default function AdminUsers() {
               {String(t('common.loading'))}
             </div>
           ) : (
-            <table className="w-full">
-              <thead className="bg-slate-50">
+            <table className="w-full min-w-[1120px] border-collapse border border-border">
+              <thead className="bg-muted/40">
                 <tr>
-                  <th className="text-left p-4 text-sm font-medium text-slate-600">{String(t('users.userName'))}</th>
-                  <th className="text-left p-4 text-sm font-medium text-slate-600">{String(t('common.role'))}</th>
-                  <th className="text-left p-4 text-sm font-medium text-slate-600">{String(t('common.status'))}</th>
-                  <th className="text-left p-4 text-sm font-medium text-slate-600">Abonnement</th>
-                  <th className="text-left p-4 text-sm font-medium text-slate-600">{String(t('progression.courses'))}</th>
-                  <th className="text-left p-4 text-sm font-medium text-slate-600">{String(t('progression.progressLabel'))}</th>
-                  <th className="text-left p-4 text-sm font-medium text-slate-600">{String(t('users.lastActivity'))}</th>
-                  <th className="text-left p-4 text-sm font-medium text-slate-600">{String(t('common.actions'))}</th>
+                  <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">{String(t('users.userName'))}</th>
+                  <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">{String(t('common.role'))}</th>
+                  <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">{String(t('common.status'))}</th>
+                  <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">Abonnement</th>
+                  <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">{String(t('progression.courses'))}</th>
+                  <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">{String(t('progression.progressLabel'))}</th>
+                  <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">{String(t('users.lastActivity'))}</th>
+                  <th className="border-b border-border p-4 text-center text-sm font-medium text-muted-foreground">{String(t('common.actions'))}</th>
                 </tr>
               </thead>
               <tbody>
                 {users.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="text-center py-10 text-slate-400">
+                    <td colSpan={8} className="text-center py-10 text-slate-400">
                       {String(t('users.noUsers'))}
                     </td>
                   </tr>
                 ) : users.map((user) => (
-                  <tr key={user.id} className="border-t border-slate-100 hover:bg-slate-50">
-                    <td className="p-4">
+                  <tr key={user.id} className="bg-background transition even:bg-muted/20 hover:bg-muted/40">
+                    <td className="border-b border-r border-border/70 p-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-primary-foreground font-semibold text-sm">
                           {user.avatar}
@@ -377,13 +377,13 @@ export default function AdminUsers() {
                         </div>
                       </div>
                     </td>
-                    <td className="p-4">
+                    <td className="border-b border-r border-border/70 p-4">
                       <Badge variant="secondary" className={getRoleColor(user.role)}>{getRoleLabel(user.role)}</Badge>
                     </td>
-                    <td className="p-4">
+                    <td className="border-b border-r border-border/70 p-4">
                       <Badge variant="secondary" className={getStatusColor(user.status)}>{user.status}</Badge>
                     </td>
-                    <td className="p-4">
+                    <td className="border-b border-r border-border/70 p-4">
                       {(() => {
                         if (isUniversityCampusAccountRole(user.role)) {
                           return (
@@ -428,8 +428,8 @@ export default function AdminUsers() {
                         );
                       })()}
                     </td>
-                    <td className="p-4 font-medium text-slate-900">{user.courses}</td>
-                    <td className="p-4">
+                    <td className="border-b border-r border-border/70 p-4 font-medium text-slate-900">{user.courses}</td>
+                    <td className="border-b border-r border-border/70 p-4">
                       <div className="flex items-center gap-2">
                         <div className="w-20 bg-slate-200 rounded-full h-2">
                           <div
@@ -440,14 +440,14 @@ export default function AdminUsers() {
                         <span className="text-sm font-medium text-slate-700">{user.progress}%</span>
                       </div>
                     </td>
-                    <td className="p-4">
+                    <td className="border-b border-r border-border/70 p-4">
                       <div className="flex items-center gap-1 text-sm text-slate-600">
                         <Clock className="w-3.5 h-3.5" />
                         {formatLastActive(user.lastActivity, t)}
                       </div>
                     </td>
-                    <td className="p-4">
-                      <div className="flex items-center gap-1">
+                    <td className="border-b border-border/70 p-4">
+                      <div className="flex items-center justify-center gap-1">
                         <button
                           onClick={() => { setSelectedUser(user); setShowViewModal(true); }}
                           className="p-2 hover:bg-slate-100 rounded-lg"

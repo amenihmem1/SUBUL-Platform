@@ -4,6 +4,8 @@ import { useMemo, useState, type FormEvent, type ReactNode } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   CalendarCheck,
+  ChevronLeft,
+  ChevronRight,
   Clock,
   Edit3,
   Mail,
@@ -27,6 +29,8 @@ import {
   type HrCalendarPayload,
 } from '@/services/adminHrCalendar';
 import type { ScheduledInterview } from '@/hr-coach/lib/interviewCalendar';
+
+const ROWS_PER_PAGE = 5;
 
 type AdminUserOption = {
   id: number;
@@ -136,6 +140,7 @@ export default function AdminHrCalendarPage() {
   const [formOpen, setFormOpen] = useState(false);
   const [editingInterview, setEditingInterview] = useState<ScheduledInterview | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<ScheduledInterview | null>(null);
+  const [page, setPage] = useState(1);
   const [form, setForm] = useState<FormState>(() => getDefaultForm());
 
   const { data: usersPage } = useAdminUsers({ page: 1, limit: 250 });
@@ -167,6 +172,11 @@ export default function AdminHrCalendarPage() {
   const upcoming = planned.filter((item) => new Date(item.scheduledAt).getTime() >= now);
   const cancelled = interviews.filter((item) => item.status === 'cancelled');
   const nextInterview = upcoming[0];
+  const totalPages = Math.max(1, Math.ceil(filteredInterviews.length / ROWS_PER_PAGE));
+  const currentPage = Math.min(page, totalPages);
+  const firstItem = filteredInterviews.length ? (currentPage - 1) * ROWS_PER_PAGE + 1 : 0;
+  const lastItem = Math.min(currentPage * ROWS_PER_PAGE, filteredInterviews.length);
+  const paginatedInterviews = filteredInterviews.slice((currentPage - 1) * ROWS_PER_PAGE, currentPage * ROWS_PER_PAGE);
 
   const invalidateCalendar = () => queryClient.invalidateQueries({ queryKey: ['admin', 'hr-calendar', 'interviews'] });
 
@@ -322,7 +332,10 @@ export default function AdminHrCalendarPage() {
               <Search className="h-4 w-4 text-muted-foreground" />
               <input
                 value={search}
-                onChange={(event) => setSearch(event.target.value)}
+                onChange={(event) => {
+                  setSearch(event.target.value);
+                  setPage(1);
+                }}
                 className="min-w-0 flex-1 bg-transparent text-sm outline-none"
                 placeholder="Rechercher nom, email, statut..."
               />
@@ -339,15 +352,15 @@ export default function AdminHrCalendarPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[860px] border-collapse">
+          <table className="w-full min-w-[860px] border-collapse border border-border">
             <thead>
-              <tr className="border-b border-border bg-muted/40 text-left text-xs uppercase tracking-wide text-muted-foreground">
-                <th className="px-5 py-3 font-semibold">Candidat</th>
-                <th className="px-5 py-3 font-semibold">Jour</th>
-                <th className="px-5 py-3 font-semibold">Heure</th>
-                <th className="px-5 py-3 font-semibold">Statut</th>
-                <th className="px-5 py-3 font-semibold">Rappel</th>
-                <th className="px-5 py-3 text-right font-semibold">Actions</th>
+              <tr className="bg-muted/40 text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Candidat</th>
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Jour</th>
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Heure</th>
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Statut</th>
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Rappel</th>
+                <th className="border-b border-border px-5 py-3 text-center font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -364,15 +377,15 @@ export default function AdminHrCalendarPage() {
                   </td>
                 </tr>
               ) : (
-                filteredInterviews.map((item, index) => (
+                paginatedInterviews.map((item, index) => (
                   <motion.tr
                     key={item.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.28, delay: Math.min(index * 0.045, 0.35) }}
-                    className="border-b border-border/50 transition last:border-b-0 hover:bg-violet-50/45"
+                    className="bg-background transition even:bg-muted/20 hover:bg-muted/40"
                   >
-                    <td className="px-5 py-4">
+                    <td className="border-b border-r border-border/70 px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-500/10 text-sm font-bold text-violet-700">
                           {(item.candidateName || item.candidateEmail || 'C').slice(0, 2).toUpperCase()}
@@ -383,34 +396,36 @@ export default function AdminHrCalendarPage() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-5 py-4 text-sm font-medium text-foreground">{formatDay(item.scheduledAt, locale)}</td>
-                    <td className="px-5 py-4 text-sm text-muted-foreground">{formatTime(item.scheduledAt, locale)}</td>
-                    <td className="px-5 py-4">
+                    <td className="border-b border-r border-border/70 px-5 py-4 text-sm font-medium text-foreground">{formatDay(item.scheduledAt, locale)}</td>
+                    <td className="border-b border-r border-border/70 px-5 py-4 text-sm text-muted-foreground">{formatTime(item.scheduledAt, locale)}</td>
+                    <td className="border-b border-r border-border/70 px-5 py-4">
                       <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${statusClasses(item.status)}`}>
                         {statusLabel(item.status)}
                       </span>
                     </td>
-                    <td className="px-5 py-4 text-sm text-muted-foreground">
+                    <td className="border-b border-r border-border/70 px-5 py-4 text-sm text-muted-foreground">
                       {item.reminderSentAt ? 'Envoye' : `${item.reminderMinutesBefore || 60} min avant`}
                     </td>
-                    <td className="px-5 py-4">
-                      <div className="flex justify-end gap-2">
+                    <td className="border-b border-border/70 px-5 py-4">
+                      <div className="flex justify-center gap-2">
                         <button
                           type="button"
                           onClick={() => openEditDialog(item)}
-                          className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-border px-3 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                          className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                          aria-label="Modifier"
+                          title="Modifier"
                         >
                           <Edit3 className="h-4 w-4" />
-                          Modifier
                         </button>
                         <button
                           type="button"
                           onClick={() => setDeleteTarget(item)}
                           disabled={deleteMutation.isPending}
-                          className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-rose-200 px-3 text-sm font-semibold text-rose-600 transition hover:bg-rose-50 disabled:opacity-50"
+                          className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-rose-200 text-rose-600 transition hover:bg-rose-50 disabled:opacity-50"
+                          aria-label="Supprimer"
+                          title="Supprimer"
                         >
                           <Trash2 className="h-4 w-4" />
-                          Supprimer
                         </button>
                       </div>
                     </td>
@@ -419,6 +434,32 @@ export default function AdminHrCalendarPage() {
               )}
             </tbody>
           </table>
+        </div>
+        <div className="flex flex-col gap-3 border-t border-border bg-background px-5 py-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <span>Affichage {firstItem}-{lastItem} de {filteredInterviews.length} entretiens</span>
+          <div className="flex items-center justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => setPage((current) => Math.max(1, current - 1))}
+              disabled={currentPage <= 1}
+              className="inline-flex h-9 items-center justify-center gap-1 rounded-lg border border-border px-3 text-xs font-semibold transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-45"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Previous
+            </button>
+            <span className="inline-flex h-9 items-center rounded-lg border border-border bg-muted/40 px-4 font-semibold text-foreground">
+              Page {currentPage} / {totalPages}
+            </span>
+            <button
+              type="button"
+              onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
+              disabled={currentPage >= totalPages}
+              className="inline-flex h-9 items-center justify-center gap-1 rounded-lg border border-border px-3 text-xs font-semibold transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-45"
+            >
+              Next
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       </motion.section>
 

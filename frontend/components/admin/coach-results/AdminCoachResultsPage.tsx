@@ -8,7 +8,6 @@ import { toast } from 'sonner';
 import {
   Archive,
   ArchiveRestore,
-  Bot,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
@@ -22,7 +21,6 @@ import {
   RefreshCw,
   Search,
   ShieldAlert,
-  Terminal,
   Trash2,
   Users,
   X,
@@ -63,7 +61,6 @@ type CoachConfig = {
   apiBase: string;
   reportBase: string;
   accent: 'violet' | 'cyan';
-  icon: ReactNode;
   emptyTitle: string;
   emptyDescription: string;
 };
@@ -79,7 +76,6 @@ const configs: Record<CoachKind, CoachConfig> = {
     apiBase: '/hr-coach-app/api/rh',
     reportBase: '/hr-coach-app/report',
     accent: 'violet',
-    icon: <Bot className="h-5 w-5" />,
     emptyTitle: 'Aucun resultat HR',
     emptyDescription: 'Les rapports candidats apparaitront ici apres les entretiens HR Coach.',
   },
@@ -89,7 +85,6 @@ const configs: Record<CoachKind, CoachConfig> = {
     apiBase: '/technical-coach-app/api/tech',
     reportBase: '/technical-coach-app/report',
     accent: 'cyan',
-    icon: <Terminal className="h-5 w-5" />,
     emptyTitle: 'Aucun resultat technique',
     emptyDescription: 'Les rapports techniques apparaitront ici apres les sessions Technical Coach.',
   },
@@ -290,52 +285,10 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
     config.accent === 'violet'
       ? 'from-violet-600 via-fuchsia-600 to-rose-500'
       : 'from-cyan-600 via-blue-600 to-violet-600';
-  const accentText = config.accent === 'violet' ? 'text-violet-700' : 'text-cyan-700';
   const accentSoft = config.accent === 'violet' ? 'bg-violet-500/10' : 'bg-cyan-500/10';
 
   return (
     <div className="space-y-6">
-      <motion.section
-        initial={{ opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.32 }}
-        className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
-      >
-        <div className={`h-1 bg-gradient-to-r ${accentGradient}`} />
-        <div className="flex flex-col gap-4 p-5 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex min-w-0 items-center gap-3">
-            <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${accentSoft} ${accentText}`}>
-              {config.icon}
-            </div>
-            <div className="min-w-0">
-              <p className={`text-xs font-bold uppercase tracking-wide ${accentText}`}>{config.label}</p>
-              <h2 className="mt-1 truncate text-xl font-bold text-foreground">Resultats candidats et rapports</h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Consultation, archivage, epinglage et suppression des sessions.
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-            <button
-              type="button"
-              onClick={() => sessionsQuery.refetch()}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border px-4 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground"
-            >
-              <RefreshCw className={`h-4 w-4 ${sessionsQuery.isFetching ? 'animate-spin' : ''}`} />
-              Actualiser
-            </button>
-            <Link
-              href={kind === 'hr' ? '/hr-coach-app/dashboard' : '/technical-coach-app/dashboard'}
-              target="_blank"
-              className={`inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-gradient-to-r ${accentGradient} px-5 text-sm font-bold text-white shadow-sm transition hover:brightness-95`}
-            >
-              <Gauge className="h-4 w-4" />
-              Dashboard coach
-            </Link>
-          </div>
-        </div>
-      </motion.section>
-
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         <StatCard index={0} label="Sessions actives" value={stats.active} icon={<Clock3 className="h-5 w-5" />} tone="blue" />
         <StatCard index={1} label="Rapports termines" value={stats.completed} icon={<CheckCircle2 className="h-5 w-5" />} tone="emerald" />
@@ -362,36 +315,27 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
             <p className="text-sm text-muted-foreground">{visibleSessions.length} resultat(s) affiche(s)</p>
           </div>
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-            <div className="grid grid-cols-2 gap-2 rounded-xl border border-border bg-muted/35 p-1 sm:grid-cols-4">
-              {[
-                ['active', 'Actifs'],
-                ['completed', 'Termines'],
-                ['pinned', 'Epingles'],
-                ['archived', 'Archives'],
-              ].map(([key, label]) => (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={() => {
-                    setFilter(key as FilterKey);
-                    setPage(1);
-                  }}
-                  className={`h-9 rounded-lg px-3 text-sm font-semibold transition ${
-                    filter === key
-                      ? 'bg-background text-foreground shadow-sm'
-                      : 'text-muted-foreground hover:bg-background/60 hover:text-foreground'
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
+            <select
+              value={filter}
+              onChange={(event) => {
+                setFilter(event.target.value as FilterKey);
+                setPage(1);
+              }}
+              className="h-11 rounded-xl border border-border bg-background px-3 text-sm font-semibold text-foreground outline-none transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100 lg:w-48"
+            >
+              <option value="active">Actifs</option>
+              <option value="completed">Termines</option>
+              <option value="pinned">Epingles</option>
+              <option value="archived">Archives</option>
+            </select>
             <div className="flex h-11 min-w-0 items-center gap-2 rounded-xl border border-border bg-background px-3 lg:w-80">
               <Search className="h-4 w-4 text-muted-foreground" />
               <input
                 value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                onInput={() => setPage(1)}
+                onChange={(event) => {
+                  setSearch(event.target.value);
+                  setPage(1);
+                }}
                 className="min-w-0 flex-1 bg-transparent text-sm outline-none"
                 placeholder="Rechercher candidat, rapport, session..."
               />
@@ -413,16 +357,16 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[1050px] border-collapse border border-slate-200 bg-background">
+          <table className="w-full min-w-[1050px] border-collapse border border-border bg-background">
             <thead>
-              <tr className="bg-slate-700 text-left text-xs uppercase tracking-wide text-white">
-                <th className="border-b border-r border-slate-300 px-5 py-3 font-semibold">Candidat</th>
-                <th className="border-b border-r border-slate-300 px-5 py-3 font-semibold">Rapport</th>
-                <th className="border-b border-r border-slate-300 px-5 py-3 font-semibold">Score</th>
-                <th className="border-b border-r border-slate-300 px-5 py-3 font-semibold">Statut</th>
-                <th className="border-b border-r border-slate-300 px-5 py-3 font-semibold">Activite</th>
-                <th className="border-b border-r border-slate-300 px-5 py-3 font-semibold">Alertes</th>
-                <th className="border-b border-slate-300 px-5 py-3 text-center font-semibold">Actions</th>
+              <tr className="bg-muted/40 text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Candidat</th>
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Rapport</th>
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Score</th>
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Statut</th>
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Activite</th>
+                <th className="border-b border-r border-border px-5 py-3 font-semibold">Alertes</th>
+                <th className="border-b border-border px-5 py-3 text-center font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -471,9 +415,9 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.24, delay: Math.min(index * 0.035, 0.45) }}
-                    className="bg-background transition even:bg-slate-50/55 hover:bg-blue-50/70"
+                    className="bg-background transition even:bg-muted/20 hover:bg-muted/40"
                   >
-                    <td className="border-b border-r border-slate-200 px-5 py-4">
+                    <td className="border-b border-r border-border/70 px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${accentSoft} text-sm font-bold ${accentText}`}>
                           {(session.candidate_name || session.title || 'C').slice(0, 2).toUpperCase()}
@@ -487,7 +431,7 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                         </div>
                       </div>
                     </td>
-                    <td className="border-b border-r border-slate-200 px-5 py-4">
+                    <td className="border-b border-r border-border/70 px-5 py-4">
                       <p className="max-w-[280px] truncate font-medium text-foreground">
                         {session.title || session.preview || 'Rapport candidat'}
                       </p>
@@ -495,7 +439,7 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                         {session.preview || `${session.turns_count || 0} message(s)`}
                       </p>
                     </td>
-                    <td className="border-b border-r border-slate-200 px-5 py-4">
+                    <td className="border-b border-r border-border/70 px-5 py-4">
                       <div className="flex items-center gap-2">
                         <div className="h-2 w-24 overflow-hidden rounded-full bg-muted">
                           <div
@@ -506,13 +450,13 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                         <span className="text-sm font-bold text-foreground">{scoreLabel(session.score_total)}</span>
                       </div>
                     </td>
-                    <td className="border-b border-r border-slate-200 px-5 py-4">
+                    <td className="border-b border-r border-border/70 px-5 py-4">
                       <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${statusClasses(session.status)}`}>
                         {statusLabel(session.status)}
                       </span>
                     </td>
-                    <td className="border-b border-r border-slate-200 px-5 py-4 text-sm text-muted-foreground">{formatDate(getSessionDate(session))}</td>
-                    <td className="border-b border-r border-slate-200 px-5 py-4">
+                    <td className="border-b border-r border-border/70 px-5 py-4 text-sm text-muted-foreground">{formatDate(getSessionDate(session))}</td>
+                    <td className="border-b border-r border-border/70 px-5 py-4">
                       {kind === 'technical' ? (
                         <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${
                           Number(session.proctoring_alerts_count || 0) > 0
@@ -525,7 +469,7 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                         <span className="text-sm text-muted-foreground">-</span>
                       )}
                     </td>
-                    <td className="border-b border-slate-200 px-5 py-4">
+                    <td className="border-b border-border/70 px-5 py-4">
                       <div className="flex justify-center gap-2">
                         <button
                           type="button"
