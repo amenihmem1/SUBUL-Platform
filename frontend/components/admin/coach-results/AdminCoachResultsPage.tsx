@@ -10,6 +10,8 @@ import {
   ArchiveRestore,
   Bot,
   CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
   Clock3,
   ExternalLink,
   FileText,
@@ -67,6 +69,8 @@ type CoachConfig = {
 };
 
 type FilterKey = 'active' | 'archived' | 'completed' | 'pinned';
+
+const ROWS_PER_PAGE = 5;
 
 const configs: Record<CoachKind, CoachConfig> = {
   hr: {
@@ -201,6 +205,7 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
   const [filter, setFilter] = useState<FilterKey>('active');
   const [deleteTarget, setDeleteTarget] = useState<CoachSession | null>(null);
   const [reportTarget, setReportTarget] = useState<CoachSession | null>(null);
+  const [page, setPage] = useState(1);
 
   const queryKey = ['admin', 'coach-results', kind];
   const sessionsQuery = useQuery({
@@ -252,6 +257,12 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
     ).size;
     return { active, completed, pinned, archived, averageScore, candidates };
   }, [sessions]);
+
+  const totalPages = Math.max(1, Math.ceil(visibleSessions.length / ROWS_PER_PAGE));
+  const currentPage = Math.min(page, totalPages);
+  const firstItem = visibleSessions.length ? (currentPage - 1) * ROWS_PER_PAGE + 1 : 0;
+  const lastItem = Math.min(currentPage * ROWS_PER_PAGE, visibleSessions.length);
+  const paginatedSessions = visibleSessions.slice((currentPage - 1) * ROWS_PER_PAGE, currentPage * ROWS_PER_PAGE);
 
   const invalidate = () => queryClient.invalidateQueries({ queryKey });
 
@@ -361,7 +372,10 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                 <button
                   key={key}
                   type="button"
-                  onClick={() => setFilter(key as FilterKey)}
+                  onClick={() => {
+                    setFilter(key as FilterKey);
+                    setPage(1);
+                  }}
                   className={`h-9 rounded-lg px-3 text-sm font-semibold transition ${
                     filter === key
                       ? 'bg-background text-foreground shadow-sm'
@@ -377,13 +391,17 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
               <input
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
+                onInput={() => setPage(1)}
                 className="min-w-0 flex-1 bg-transparent text-sm outline-none"
                 placeholder="Rechercher candidat, rapport, session..."
               />
               {search ? (
                 <button
                   type="button"
-                  onClick={() => setSearch('')}
+                  onClick={() => {
+                    setSearch('');
+                    setPage(1);
+                  }}
                   className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
                   aria-label="Effacer la recherche"
                 >
@@ -395,16 +413,16 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[1050px] border-collapse border border-border">
+          <table className="w-full min-w-[1050px] border-collapse border border-slate-200 bg-background">
             <thead>
-              <tr className="bg-muted/45 text-left text-xs uppercase tracking-wide text-muted-foreground">
-                <th className="border-b border-r border-border px-5 py-3 font-semibold">Candidat</th>
-                <th className="border-b border-r border-border px-5 py-3 font-semibold">Rapport</th>
-                <th className="border-b border-r border-border px-5 py-3 font-semibold">Score</th>
-                <th className="border-b border-r border-border px-5 py-3 font-semibold">Statut</th>
-                <th className="border-b border-r border-border px-5 py-3 font-semibold">Activite</th>
-                <th className="border-b border-r border-border px-5 py-3 font-semibold">Alertes</th>
-                <th className="border-b border-border px-5 py-3 text-right font-semibold">Actions</th>
+              <tr className="bg-slate-700 text-left text-xs uppercase tracking-wide text-white">
+                <th className="border-b border-r border-slate-300 px-5 py-3 font-semibold">Candidat</th>
+                <th className="border-b border-r border-slate-300 px-5 py-3 font-semibold">Rapport</th>
+                <th className="border-b border-r border-slate-300 px-5 py-3 font-semibold">Score</th>
+                <th className="border-b border-r border-slate-300 px-5 py-3 font-semibold">Statut</th>
+                <th className="border-b border-r border-slate-300 px-5 py-3 font-semibold">Activite</th>
+                <th className="border-b border-r border-slate-300 px-5 py-3 font-semibold">Alertes</th>
+                <th className="border-b border-slate-300 px-5 py-3 text-center font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -447,15 +465,15 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                   </td>
                 </tr>
               ) : (
-                visibleSessions.map((session, index) => (
+                paginatedSessions.map((session, index) => (
                   <motion.tr
                     key={session.session_id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.24, delay: Math.min(index * 0.035, 0.45) }}
-                    className="transition hover:bg-muted/45"
+                    className="bg-background transition even:bg-slate-50/55 hover:bg-blue-50/70"
                   >
-                    <td className="border-b border-r border-border/70 px-5 py-4">
+                    <td className="border-b border-r border-slate-200 px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${accentSoft} text-sm font-bold ${accentText}`}>
                           {(session.candidate_name || session.title || 'C').slice(0, 2).toUpperCase()}
@@ -469,7 +487,7 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                         </div>
                       </div>
                     </td>
-                    <td className="border-b border-r border-border/70 px-5 py-4">
+                    <td className="border-b border-r border-slate-200 px-5 py-4">
                       <p className="max-w-[280px] truncate font-medium text-foreground">
                         {session.title || session.preview || 'Rapport candidat'}
                       </p>
@@ -477,7 +495,7 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                         {session.preview || `${session.turns_count || 0} message(s)`}
                       </p>
                     </td>
-                    <td className="border-b border-r border-border/70 px-5 py-4">
+                    <td className="border-b border-r border-slate-200 px-5 py-4">
                       <div className="flex items-center gap-2">
                         <div className="h-2 w-24 overflow-hidden rounded-full bg-muted">
                           <div
@@ -488,13 +506,13 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                         <span className="text-sm font-bold text-foreground">{scoreLabel(session.score_total)}</span>
                       </div>
                     </td>
-                    <td className="border-b border-r border-border/70 px-5 py-4">
+                    <td className="border-b border-r border-slate-200 px-5 py-4">
                       <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${statusClasses(session.status)}`}>
                         {statusLabel(session.status)}
                       </span>
                     </td>
-                    <td className="border-b border-r border-border/70 px-5 py-4 text-sm text-muted-foreground">{formatDate(getSessionDate(session))}</td>
-                    <td className="border-b border-r border-border/70 px-5 py-4">
+                    <td className="border-b border-r border-slate-200 px-5 py-4 text-sm text-muted-foreground">{formatDate(getSessionDate(session))}</td>
+                    <td className="border-b border-r border-slate-200 px-5 py-4">
                       {kind === 'technical' ? (
                         <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${
                           Number(session.proctoring_alerts_count || 0) > 0
@@ -507,15 +525,16 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                         <span className="text-sm text-muted-foreground">-</span>
                       )}
                     </td>
-                    <td className="border-b border-border/70 px-5 py-4">
-                      <div className="flex justify-end gap-2">
+                    <td className="border-b border-slate-200 px-5 py-4">
+                      <div className="flex justify-center gap-2">
                         <button
                           type="button"
                           onClick={() => setReportTarget(session)}
-                          className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-border px-3 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                          className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                          aria-label="Choisir un rapport"
+                          title="Rapports"
                         >
                           <Layers className="h-4 w-4" />
-                          Rapport
                         </button>
                         <IconAction
                           label={session.pinned ? 'Desepingler' : 'Epingler'}
@@ -557,6 +576,32 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
               )}
             </tbody>
           </table>
+        </div>
+        <div className="flex flex-col gap-3 border-t border-border bg-background px-5 py-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <span>Affichage {firstItem}-{lastItem} de {visibleSessions.length} utilisateurs</span>
+          <div className="flex items-center justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => setPage((current) => Math.max(1, current - 1))}
+              disabled={currentPage <= 1}
+              className="inline-flex h-9 items-center justify-center gap-1 rounded-lg border border-border px-3 text-xs font-semibold transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-45"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Previous
+            </button>
+            <span className="inline-flex h-9 items-center rounded-lg border border-border bg-muted/40 px-4 font-semibold text-foreground">
+              Page {currentPage} / {totalPages}
+            </span>
+            <button
+              type="button"
+              onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
+              disabled={currentPage >= totalPages}
+              className="inline-flex h-9 items-center justify-center gap-1 rounded-lg border border-border px-3 text-xs font-semibold transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-45"
+            >
+              Next
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       </motion.section>
 
@@ -665,12 +710,13 @@ function ReportChoiceDialog({
   onClose: () => void;
 }) {
   const encodedSessionId = encodeURIComponent(session.session_id);
-  const mainLabel = config.kind === 'hr' ? 'Rapport RH' : 'Rapport technique';
+  const mainLabel = config.kind === 'hr' ? 'RH' : 'Technique';
   const mainDescription =
     config.kind === 'hr'
-      ? 'Evaluation RH, score candidat et synthese entretien.'
-      : 'Evaluation technique, score et synthese des reponses.';
-  const insightsUrl = `${config.apiBase}/session/${encodedSessionId}/insights-report/view?language=fr`;
+      ? 'Dashboard RH avec score candidat et synthese entretien.'
+      : 'Dashboard technique avec score et synthese des reponses.';
+  const reportView = config.kind === 'hr' ? 'rh' : 'report';
+  const insightsUrl = `${config.reportBase}/${encodedSessionId}?view=insights`;
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
@@ -698,7 +744,7 @@ function ReportChoiceDialog({
 
         <div className="mt-6 grid gap-3">
           <ReportOption
-            href={`${config.reportBase}/${encodedSessionId}`}
+            href={`${config.reportBase}/${encodedSessionId}?view=${reportView}`}
             title={mainLabel}
             description={mainDescription}
             icon={<FileText className="h-5 w-5" />}
@@ -706,8 +752,8 @@ function ReportChoiceDialog({
           />
           <ReportOption
             href={insightsUrl}
-            title="Rapport Insights"
-            description="Analyse visuelle et vocale en PDF, ouverte dans un nouvel onglet."
+            title="Insight"
+            description="Dashboard insights visuels, vocaux et stress dans un nouvel onglet."
             icon={<Gauge className="h-5 w-5" />}
             onClick={onClose}
           />
