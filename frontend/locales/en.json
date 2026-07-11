@@ -140,6 +140,8 @@
     "certifiedLearners": "Certified Learners",
     "candidates": "Candidates Management",
     "hrCoachCalendar": "HR Coach Calendar",
+    "hrCoachResults": "HR Coach Results",
+    "technicalCoachResults": "Technical Coach Results",
     "interviews": "Interviews",
     "employees": "My Employees",
     "companies": "Companies",
@@ -2622,6 +2624,12 @@
   "adminHrCalendar": {
     "title": "HR Coach interview calendar",
     "subtitle": "View planned interviews, add an appointment for a Subul user, then edit or delete sessions."
+  },
+  "adminCoachResults": {
+    "hrTitle": "HR Coach Results",
+    "hrSubtitle": "Review candidate reports, scores, and HR Coach sessions.",
+    "technicalTitle": "Technical Coach Results",
+    "technicalSubtitle": "Review technical reports, scores, and proctoring alerts."
   },
   "adminDashboardPremium": {
     "welcomeBack": "Welcome back!",

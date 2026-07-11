@@ -21,6 +21,8 @@ import {
   Tag,
   Terminal,
   ExternalLink,
+  ClipboardCheck,
+  Bot,
 } from 'lucide-react';
 
 const SUBUL_IN_EXTENSION_URL =
@@ -75,6 +77,8 @@ const adminMenu: MenuItem[] = [
   { id: 'certifications', icon: Award, labelKey: 'navigation.certifications', href: '/dashboard/admin/certifications' },
   { id: 'users', icon: Users, labelKey: 'navigation.users', href: '/dashboard/admin/users' },
   { id: 'hrCalendar', icon: CalendarCheck, labelKey: 'navigation.hrCoachCalendar', href: '/dashboard/admin/hr-calendar' },
+  { id: 'hrResults', icon: Bot, labelKey: 'navigation.hrCoachResults', href: '/dashboard/admin/hr-results' },
+  { id: 'technicalResults', icon: ClipboardCheck, labelKey: 'navigation.technicalCoachResults', href: '/dashboard/admin/technical-results' },
   { id: 'entreprises', icon: Building2, labelKey: 'navigation.companies', href: '/dashboard/admin/companies' },
   { id: 'jobs', icon: Briefcase, labelKey: 'navigation.jobs', href: '/dashboard/admin/jobs' },
   { id: 'payments', icon: CreditCard, labelKey: 'navigation.payments', href: '/dashboard/admin/payments' },

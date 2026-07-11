@@ -141,6 +141,8 @@
     "certifiedLearners": "Apprenants certifiés",
     "candidates": "Gestion des candidats",
     "hrCoachCalendar": "Calendrier HR Coach",
+    "hrCoachResults": "Resultats HR Coach",
+    "technicalCoachResults": "Resultats Technical Coach",
     "interviews": "Entretiens",
     "employees": "Mes employés",
     "companies": "Entreprises",
@@ -1237,6 +1239,12 @@
   "adminHrCalendar": {
     "title": "Calendrier des entretiens HR Coach",
     "subtitle": "Consultez les entretiens planifi\u00e9s, ajoutez un rendez-vous pour un utilisateur Subul, puis modifiez ou supprimez les sessions."
+  },
+  "adminCoachResults": {
+    "hrTitle": "Resultats HR Coach",
+    "hrSubtitle": "Consultez les rapports candidats, suivez les scores et gerez les sessions HR Coach.",
+    "technicalTitle": "Resultats Technical Coach",
+    "technicalSubtitle": "Consultez les rapports techniques, les scores et les alertes de proctoring."
   },
   "adminDashboardPremium": {
     "welcomeBack": "Bienvenue !",

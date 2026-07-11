@@ -66,6 +66,14 @@ const pageTitles: Record<string, { titleKey: string; subtitleKey: string }> = {
     titleKey: 'adminHrCalendar.title',
     subtitleKey: 'adminHrCalendar.subtitle',
   },
+  '/dashboard/admin/hr-results': {
+    titleKey: 'adminCoachResults.hrTitle',
+    subtitleKey: 'adminCoachResults.hrSubtitle',
+  },
+  '/dashboard/admin/technical-results': {
+    titleKey: 'adminCoachResults.technicalTitle',
+    subtitleKey: 'adminCoachResults.technicalSubtitle',
+  },
   '/dashboard/admin/analytics': {
     titleKey: 'analytics.title',
     subtitleKey: 'analytics.subtitle',
