@@ -240,7 +240,7 @@ def load_settings() -> AppSettings:
         ),
         cartesia=CartesiaSettings(
             api_key=_read_str("CARTESIA_API_KEY"),
-            model=_read_str("CARTESIA_MODEL", _read_str("TTS_MODEL", "sonic")),
+            model=_read_str("CARTESIA_MODEL", _read_str("TTS_MODEL", "sonic-3")),
             voice_id=_read_str("CARTESIA_VOICE_ID", "694f9389-aac1-45b6-b726-9d9369183238"),
             language=_read_str("CARTESIA_LANGUAGE", "fr"),
             mode=_read_str("TTS_MODE", "tts").lower(),
