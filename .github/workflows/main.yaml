@@ -27,8 +27,22 @@ env:
   TECHNICAL_COACH_URL: https://technical-coach-frontend.bravesand-e5d986f3.francecentral.azurecontainerapps.io
 
 jobs:
+  validate-repository:
+    name: Validate repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Repository ready
+        run: |
+          test -f frontend/Dockerfile
+          echo "Repository is ready. Azure deployment is available from Run workflow."
+
   deploy-frontend:
     name: Build and Deploy Frontend to Azure Container Apps
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
 
     steps:
