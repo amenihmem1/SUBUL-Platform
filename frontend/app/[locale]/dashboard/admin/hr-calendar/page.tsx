@@ -141,6 +141,7 @@ export default function AdminHrCalendarPage() {
   const [editingInterview, setEditingInterview] = useState<ScheduledInterview | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<ScheduledInterview | null>(null);
   const [selectedInterviewIds, setSelectedInterviewIds] = useState<Set<string>>(() => new Set());
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
   const [bulkDeleting, setBulkDeleting] = useState(false);
   const [page, setPage] = useState(1);
   const [form, setForm] = useState<FormState>(() => getDefaultForm());
@@ -248,11 +249,11 @@ export default function AdminHrCalendarPage() {
   const handleBulkDelete = async () => {
     const ids = Array.from(selectedInterviewIds);
     if (!ids.length) return;
-    if (!confirm('Supprimer les entretiens selectionnes ?')) return;
     setBulkDeleting(true);
     try {
       await Promise.all(ids.map((id) => deleteAdminHrInterview(id)));
       setSelectedInterviewIds(new Set());
+      setShowBulkDeleteModal(false);
       toast.success('Entretiens supprimes');
       await invalidateCalendar();
     } catch (error) {
@@ -350,7 +351,7 @@ export default function AdminHrCalendarPage() {
             </button>
             <button
               type="button"
-              onClick={handleBulkDelete}
+              onClick={() => setShowBulkDeleteModal(true)}
               disabled={bulkDeleteDisabled}
               className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-rose-200 px-4 text-sm font-semibold text-rose-600 transition hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
@@ -380,7 +381,7 @@ export default function AdminHrCalendarPage() {
             <p className="text-sm text-muted-foreground">{filteredInterviews.length} resultat(s) affiches</p>
           </div>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-            <div className="flex h-11 min-w-0 items-center gap-2 rounded-xl border border-border bg-background px-3 sm:w-80">
+            <div className="flex h-11 min-w-0 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 sm:w-80 focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-100">
               <Search className="h-4 w-4 text-muted-foreground" />
               <input
                 value={search}
@@ -404,10 +405,10 @@ export default function AdminHrCalendarPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[920px] border-collapse border border-border">
+          <table className="w-full min-w-[920px] border-collapse border border-slate-200">
             <thead>
-              <tr className="bg-muted/40 text-left text-xs uppercase tracking-wide text-muted-foreground">
-                <th className="w-12 border-b border-r border-border px-4 py-3 text-center">
+              <tr className="bg-slate-100 text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th className="w-12 border-b border-r border-slate-200 px-4 py-3 text-center">
                   <input
                     type="checkbox"
                     checked={allInterviewsOnPageSelected}
@@ -416,12 +417,12 @@ export default function AdminHrCalendarPage() {
                     className="h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500"
                   />
                 </th>
-                <th className="border-b border-r border-border px-5 py-3 font-semibold">Candidat</th>
-                <th className="border-b border-r border-border px-5 py-3 font-semibold">Jour</th>
-                <th className="border-b border-r border-border px-5 py-3 font-semibold">Heure</th>
-                <th className="border-b border-r border-border px-5 py-3 font-semibold">Statut</th>
-                <th className="border-b border-r border-border px-5 py-3 font-semibold">Rappel</th>
-                <th className="border-b border-border px-5 py-3 text-center font-semibold">Actions</th>
+                <th className="border-b border-r border-slate-200 px-5 py-3 font-semibold">Candidat</th>
+                <th className="border-b border-r border-slate-200 px-5 py-3 font-semibold">Jour</th>
+                <th className="border-b border-r border-slate-200 px-5 py-3 font-semibold">Heure</th>
+                <th className="border-b border-r border-slate-200 px-5 py-3 font-semibold">Statut</th>
+                <th className="border-b border-r border-slate-200 px-5 py-3 font-semibold">Rappel</th>
+                <th className="border-b border-slate-200 px-5 py-3 text-center font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -444,9 +445,9 @@ export default function AdminHrCalendarPage() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.28, delay: Math.min(index * 0.045, 0.35) }}
-                    className="bg-background transition even:bg-muted/20 hover:bg-muted/40"
+                    className="bg-white transition even:bg-slate-50 hover:bg-violet-50"
                   >
-                    <td className="border-b border-r border-border/70 px-4 py-4 text-center">
+                    <td className="border-b border-r border-slate-200 px-4 py-4 text-center">
                       <input
                         type="checkbox"
                         checked={selectedInterviewIds.has(item.id)}
@@ -455,7 +456,7 @@ export default function AdminHrCalendarPage() {
                         className="h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500"
                       />
                     </td>
-                    <td className="border-b border-r border-border/70 px-5 py-4">
+                    <td className="border-b border-r border-slate-200 px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-500/10 text-sm font-bold text-violet-700">
                           {(item.candidateName || item.candidateEmail || 'C').slice(0, 2).toUpperCase()}
@@ -466,17 +467,17 @@ export default function AdminHrCalendarPage() {
                         </div>
                       </div>
                     </td>
-                    <td className="border-b border-r border-border/70 px-5 py-4 text-sm font-medium text-foreground">{formatDay(item.scheduledAt, locale)}</td>
-                    <td className="border-b border-r border-border/70 px-5 py-4 text-sm text-muted-foreground">{formatTime(item.scheduledAt, locale)}</td>
-                    <td className="border-b border-r border-border/70 px-5 py-4">
+                    <td className="border-b border-r border-slate-200 px-5 py-4 text-sm font-medium text-foreground">{formatDay(item.scheduledAt, locale)}</td>
+                    <td className="border-b border-r border-slate-200 px-5 py-4 text-sm text-muted-foreground">{formatTime(item.scheduledAt, locale)}</td>
+                    <td className="border-b border-r border-slate-200 px-5 py-4">
                       <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${statusClasses(item.status)}`}>
                         {statusLabel(item.status)}
                       </span>
                     </td>
-                    <td className="border-b border-r border-border/70 px-5 py-4 text-sm text-muted-foreground">
+                    <td className="border-b border-r border-slate-200 px-5 py-4 text-sm text-muted-foreground">
                       {item.reminderSentAt ? 'Envoye' : `${item.reminderMinutesBefore || 60} min avant`}
                     </td>
-                    <td className="border-b border-border/70 px-5 py-4">
+                    <td className="border-b border-slate-200 px-5 py-4">
                       <div className="flex justify-center gap-2">
                         <button
                           type="button"
@@ -505,7 +506,7 @@ export default function AdminHrCalendarPage() {
             </tbody>
           </table>
         </div>
-        <div className="flex flex-col gap-3 border-t border-border bg-background px-5 py-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 border-t border-slate-200 bg-white px-5 py-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <span>Affichage {firstItem}-{lastItem} de {filteredInterviews.length} entretiens</span>
           <div className="flex items-center justify-end gap-2">
             <button
@@ -556,6 +557,15 @@ export default function AdminHrCalendarPage() {
           onConfirm={() => deleteMutation.mutate(deleteTarget.id)}
         />
       ) : null}
+
+      {showBulkDeleteModal ? (
+        <BulkDeleteInterviewsDialog
+          count={selectedInterviewIds.size}
+          isDeleting={bulkDeleting}
+          onClose={() => setShowBulkDeleteModal(false)}
+          onConfirm={handleBulkDelete}
+        />
+      ) : null}
     </div>
   );
 }
@@ -584,36 +594,36 @@ function InterviewFormDialog({
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
       <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label="Fermer" />
-      <form onSubmit={onSubmit} className="relative w-full max-w-2xl rounded-2xl border border-border bg-card p-6 shadow-2xl">
-        <div className="flex items-start justify-between gap-4">
+      <form onSubmit={onSubmit} className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+        <div className="flex items-start justify-between gap-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-5 text-white">
           <div>
-            <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10 text-violet-600">
-              {editing ? <Edit3 className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
-            </div>
-            <h2 className="mt-3 text-xl font-bold text-foreground">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/75">
+              {editing ? 'Modification' : 'Nouveau rendez-vous'}
+            </p>
+            <h2 className="mt-1 text-xl font-black text-white">
               {editing ? "Modifier l'entretien" : "Ajouter un entretien"}
             </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1 text-sm text-white/75">
               Choisissez un utilisateur Subul ou renseignez les informations du candidat.
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-muted hover:text-foreground"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/25 text-white transition hover:bg-white/15"
             aria-label="Fermer"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4 px-6 py-5 md:grid-cols-2">
           <label className="block md:col-span-2">
             <span className="mb-1.5 block text-sm font-semibold text-foreground">Utilisateur Subul</span>
             <select
               value={selectedUserId}
               onChange={(event) => onSelectUser(event.target.value)}
-              className="h-11 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100"
+              className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100"
             >
               <option value="">Saisie manuelle</option>
               {users.map((user) => (
@@ -626,7 +636,7 @@ function InterviewFormDialog({
 
           <label className="block">
             <span className="mb-1.5 block text-sm font-semibold text-foreground">Nom candidat</span>
-            <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3 focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-100">
+            <div className="flex h-11 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-100">
               <UserRound className="h-4 w-4 text-muted-foreground" />
               <input
                 value={form.candidateName}
@@ -639,7 +649,7 @@ function InterviewFormDialog({
 
           <label className="block">
             <span className="mb-1.5 block text-sm font-semibold text-foreground">Email candidat</span>
-            <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3 focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-100">
+            <div className="flex h-11 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-100">
               <Mail className="h-4 w-4 text-muted-foreground" />
               <input
                 type="email"
@@ -657,7 +667,7 @@ function InterviewFormDialog({
               type="date"
               value={form.date}
               onChange={(event) => onChange({ ...form, date: event.target.value })}
-              className="h-11 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100"
+              className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100"
             />
           </label>
 
@@ -667,12 +677,12 @@ function InterviewFormDialog({
               type="time"
               value={form.time}
               onChange={(event) => onChange({ ...form, time: event.target.value })}
-              className="h-11 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100"
+              className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100"
             />
           </label>
         </div>
 
-        <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+        <div className="flex flex-col-reverse gap-2 border-t border-slate-200 px-6 py-5 sm:flex-row sm:justify-end">
           <button
             type="button"
             onClick={onClose}
@@ -710,19 +720,20 @@ function DeleteInterviewDialog({
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
       <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label="Fermer" />
-      <div className="relative w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-2xl">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600">
-          <Trash2 className="h-5 w-5" />
+      <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+        <div className="bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-5 text-white">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/75">Suppression</p>
+          <h2 className="mt-1 text-xl font-black text-white">Supprimer cet entretien ?</h2>
         </div>
-        <h2 className="mt-4 text-xl font-bold text-foreground">Supprimer cet entretien ?</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Cette action supprimera le rendez-vous HR Coach du calendrier.
-        </p>
-        <div className="mt-4 rounded-xl border border-border bg-muted/40 p-4">
-          <p className="font-semibold text-foreground">{interview.candidateName || 'Candidat'}</p>
-          <p className="text-sm text-muted-foreground">{interview.candidateEmail}</p>
-          <p className="mt-2 text-sm font-medium text-foreground">{formatDate(interview.scheduledAt, locale)}</p>
-        </div>
+        <div className="p-6">
+          <p className="text-sm text-muted-foreground">
+            Cette action supprimera le rendez-vous HR Coach du calendrier.
+          </p>
+          <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <p className="font-semibold text-foreground">{interview.candidateName || 'Candidat'}</p>
+            <p className="text-sm text-muted-foreground">{interview.candidateEmail}</p>
+            <p className="mt-2 text-sm font-medium text-foreground">{formatDate(interview.scheduledAt, locale)}</p>
+          </div>
         <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <button
             type="button"
@@ -740,6 +751,55 @@ function DeleteInterviewDialog({
             <Trash2 className="h-4 w-4" />
             {isDeleting ? 'Suppression...' : 'Supprimer'}
           </button>
+        </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BulkDeleteInterviewsDialog({
+  count,
+  isDeleting,
+  onClose,
+  onConfirm,
+}: {
+  count: number;
+  isDeleting: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
+      <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label="Fermer" />
+      <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+        <div className="bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-5 text-white">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/75">Suppression</p>
+          <h2 className="mt-1 text-xl font-black text-white">Supprimer les entretiens selectionnes ?</h2>
+        </div>
+        <div className="p-6">
+          <p className="text-sm text-slate-600">
+            {count} entretien(s) seront supprimés du calendrier.
+          </p>
+          <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={isDeleting}
+              className="inline-flex h-11 items-center justify-center rounded-xl border border-slate-200 px-5 text-sm font-semibold text-muted-foreground transition hover:bg-slate-50 hover:text-foreground disabled:opacity-50"
+            >
+              Annuler
+            </button>
+            <button
+              type="button"
+              onClick={onConfirm}
+              disabled={isDeleting}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-rose-600 px-5 text-sm font-bold text-white transition hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isDeleting ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+              Supprimer
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -185,6 +185,7 @@ export default function AdminUsers() {
   const [userForm, setUserForm] = useState<UserFormState>(emptyUserForm);
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
   const [selectedUserIds, setSelectedUserIds] = useState<Set<number>>(() => new Set());
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
   const [bulkDeleting, setBulkDeleting] = useState(false);
   const [statusPendingUserId, setStatusPendingUserId] = useState<number | null>(null);
 
@@ -278,11 +279,11 @@ export default function AdminUsers() {
   const handleBulkDelete = async () => {
     const ids = Array.from(selectedUserIds);
     if (!ids.length) return;
-    if (!confirm(copy.deleteSelectedConfirm)) return;
     setBulkDeleting(true);
     try {
       await Promise.all(ids.map((id) => deleteUser.mutateAsync(id)));
       setSelectedUserIds(new Set());
+      setShowBulkDeleteModal(false);
       showToast(copy.bulkDeleteSuccess, 'success');
     } catch (err) {
       const { key } = normalizeApiError(err);
@@ -497,7 +498,7 @@ export default function AdminUsers() {
             placeholder={String(t('users.searchPlaceholder') || copy.searchUser)}
             value={searchQuery}
             onChange={(e) => { setSearchQuery(e.target.value); }}
-            className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full rounded-lg border border-slate-200 bg-white py-2.5 pl-10 pr-4 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100"
           />
         </div>
         <div className="flex gap-2 flex-wrap">
@@ -513,7 +514,7 @@ export default function AdminUsers() {
                     <select
                       value={filterRole}
                       onChange={(e) => { setFilterRole(e.target.value); }}
-                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"
+                      className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100"
                     >
                       <option value="all">{t('common.all')}</option>
                       <option value="learner">{t('users.learner')}</option>
@@ -530,7 +531,7 @@ export default function AdminUsers() {
                     <select
                       value={filterStatus}
                       onChange={(e) => { setFilterStatus(e.target.value); }}
-                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"
+                      className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100"
                     >
                       <option value="all">{t('common.all')}</option>
                       <option value="active">{t('common.active')}</option>
@@ -549,7 +550,7 @@ export default function AdminUsers() {
           </Button>
           <Button
             variant="outline"
-            onClick={handleBulkDelete}
+            onClick={() => setShowBulkDeleteModal(true)}
             disabled={bulkDeleteDisabled}
             className="border-rose-200 text-rose-600 hover:bg-rose-50 hover:text-rose-700"
           >
@@ -577,10 +578,10 @@ export default function AdminUsers() {
               {String(t('common.loading'))}
             </div>
           ) : (
-            <table className="w-full min-w-[1120px] border-collapse border border-border">
-              <thead className="bg-muted/40">
+            <table className="w-full min-w-[1120px] border-collapse border border-slate-200">
+              <thead className="bg-slate-100">
                 <tr>
-                  <th className="w-12 border-b border-r border-border p-4 text-center">
+                  <th className="w-12 border-b border-r border-slate-200 p-4 text-center">
                     <input
                       type="checkbox"
                       checked={allUsersOnPageSelected}
@@ -589,14 +590,14 @@ export default function AdminUsers() {
                       className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary"
                     />
                   </th>
-                  <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">{String(t('users.userName'))}</th>
-                  <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">{String(t('common.role'))}</th>
-                  <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">{String(t('common.status'))}</th>
-                  <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">Abonnement</th>
-                  <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">{String(t('progression.courses'))}</th>
-                  <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">{String(t('progression.progressLabel'))}</th>
-                  <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">{String(t('users.lastActivity'))}</th>
-                  <th className="border-b border-border p-4 text-center text-sm font-medium text-muted-foreground">{String(t('common.actions'))}</th>
+                  <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('users.userName'))}</th>
+                  <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('common.role'))}</th>
+                  <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('common.status'))}</th>
+                  <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">Abonnement</th>
+                  <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('progression.courses'))}</th>
+                  <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('progression.progressLabel'))}</th>
+                  <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('users.lastActivity'))}</th>
+                  <th className="border-b border-slate-200 p-4 text-center text-sm font-medium text-muted-foreground">{String(t('common.actions'))}</th>
                 </tr>
               </thead>
               <tbody>
@@ -607,8 +608,8 @@ export default function AdminUsers() {
                     </td>
                   </tr>
                 ) : users.map((user) => (
-                  <tr key={user.id} className="bg-background transition even:bg-muted/20 hover:bg-muted/40">
-                    <td className="border-b border-r border-border/70 p-4 text-center">
+                  <tr key={user.id} className="bg-white transition even:bg-slate-50 hover:bg-violet-50">
+                    <td className="border-b border-r border-slate-200 p-4 text-center">
                       <input
                         type="checkbox"
                         checked={selectedUserIds.has(user.id)}
@@ -617,7 +618,7 @@ export default function AdminUsers() {
                         className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary"
                       />
                     </td>
-                    <td className="border-b border-r border-border/70 p-4">
+                    <td className="border-b border-r border-slate-200 p-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-primary-foreground font-semibold text-sm">
                           {user.avatar}
@@ -628,13 +629,13 @@ export default function AdminUsers() {
                         </div>
                       </div>
                     </td>
-                    <td className="border-b border-r border-border/70 p-4">
+                    <td className="border-b border-r border-slate-200 p-4">
                       <Badge variant="secondary" className={getRoleColor(user.role)}>{getRoleLabel(user.role)}</Badge>
                     </td>
-                    <td className="border-b border-r border-border/70 p-4">
+                    <td className="border-b border-r border-slate-200 p-4">
                       <Badge variant="secondary" className={getStatusColor(user.status)}>{user.status}</Badge>
                     </td>
-                    <td className="border-b border-r border-border/70 p-4">
+                    <td className="border-b border-r border-slate-200 p-4">
                       {(() => {
                         if (isUniversityCampusAccountRole(user.role)) {
                           return (
@@ -679,8 +680,8 @@ export default function AdminUsers() {
                         );
                       })()}
                     </td>
-                    <td className="border-b border-r border-border/70 p-4 font-medium text-slate-900">{user.courses}</td>
-                    <td className="border-b border-r border-border/70 p-4">
+                    <td className="border-b border-r border-slate-200 p-4 font-medium text-slate-900">{user.courses}</td>
+                    <td className="border-b border-r border-slate-200 p-4">
                       <div className="flex items-center gap-2">
                         <div className="w-20 bg-slate-200 rounded-full h-2">
                           <div
@@ -691,13 +692,13 @@ export default function AdminUsers() {
                         <span className="text-sm font-medium text-slate-700">{user.progress}%</span>
                       </div>
                     </td>
-                    <td className="border-b border-r border-border/70 p-4">
+                    <td className="border-b border-r border-slate-200 p-4">
                       <div className="flex items-center gap-1 text-sm text-slate-600">
                         <Clock className="w-3.5 h-3.5" />
                         {formatLastActive(user.lastActivity, t)}
                       </div>
                     </td>
-                    <td className="border-b border-border/70 p-4">
+                    <td className="border-b border-slate-200 p-4">
                       <div className="flex items-center justify-center gap-1">
                         <button
                           onClick={() => { setSelectedUser(user); setShowViewModal(true); }}
@@ -822,6 +823,15 @@ export default function AdminUsers() {
         isDeleting={deleteUser.isPending}
       />
 
+      <BulkDeleteUsersDialog
+        isOpen={showBulkDeleteModal}
+        count={selectedUserIds.size}
+        isDeleting={bulkDeleting}
+        title={copy.deleteSelectedConfirm}
+        onClose={() => setShowBulkDeleteModal(false)}
+        onConfirm={handleBulkDelete}
+      />
+
       <UserFormModal
         isOpen={showUserFormModal}
         mode={userFormMode}
@@ -892,21 +902,21 @@ function UserFormModal({
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 18, scale: 0.98 }}
         transition={{ duration: 0.18 }}
-        className="w-full max-w-2xl overflow-hidden rounded-2xl border border-border bg-background shadow-2xl"
+        className="w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
       >
-        <div className="flex items-start justify-between border-b border-border px-6 py-5">
+        <div className="flex items-start justify-between bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-5 text-white">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/75">
               {isCreate ? copy.modalCreateEyebrow : copy.modalEditEyebrow}
             </p>
-            <h3 className="mt-1 text-xl font-black text-foreground">
+            <h3 className="mt-1 text-xl font-black text-white">
               {isCreate ? String(t('users.addUser') || copy.modalCreateTitle) : String(t('common.edit') || copy.modalEditTitle)}
             </h3>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition hover:bg-muted hover:text-foreground"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/25 text-white transition hover:bg-white/15"
             aria-label={String(t('common.close') || copy.close)}
           >
             <X className="h-4 w-4" />
@@ -942,7 +952,7 @@ function UserFormModal({
             />
             <label className="block">
               <span className="mb-1.5 block text-sm font-semibold text-foreground">{copy.role}</span>
-              <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15">
+              <div className="flex h-11 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-100">
                 <ShieldCheck className="h-4 w-4 shrink-0 text-muted-foreground" />
                 <select
                   value={form.role}
@@ -994,13 +1004,72 @@ function UserFormModal({
             <button
               type="submit"
               disabled={isSaving}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-primary px-5 text-sm font-bold text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 text-sm font-bold text-white transition hover:from-violet-700 hover:to-fuchsia-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle className="h-4 w-4" />}
               {isCreate ? String(t('users.addUser') || copy.modalCreateTitle) : String(t('common.save') || copy.save)}
             </button>
           </div>
         </form>
+      </motion.div>
+    </div>
+  );
+}
+
+function BulkDeleteUsersDialog({
+  isOpen,
+  count,
+  title,
+  isDeleting,
+  onClose,
+  onConfirm,
+}: {
+  isOpen: boolean;
+  count: number;
+  title: string;
+  isDeleting: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+}) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/45 p-4 backdrop-blur-sm">
+      <motion.div
+        initial={{ opacity: 0, y: 18, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.18 }}
+        className="w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
+      >
+        <div className="flex items-start justify-between bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-5 text-white">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/75">Suppression</p>
+            <h3 className="mt-1 text-xl font-black text-white">{title}</h3>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            disabled={isDeleting}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/25 text-white transition hover:bg-white/15 disabled:opacity-50"
+            aria-label="Fermer"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+        <div className="space-y-5 px-6 py-5">
+          <p className="text-sm text-slate-600">
+            {count} utilisateur(s) seront supprimés. Cette action est definitive.
+          </p>
+          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+            <Button variant="outline" onClick={onClose} disabled={isDeleting}>
+              Annuler
+            </Button>
+            <Button onClick={onConfirm} disabled={isDeleting} className="bg-rose-600 hover:bg-rose-700">
+              {isDeleting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
+              Supprimer
+            </Button>
+          </div>
+        </div>
       </motion.div>
     </div>
   );
@@ -1026,7 +1095,7 @@ function IconFormField({
   return (
     <label className="block">
       <span className="mb-1.5 block text-sm font-semibold text-foreground">{label}</span>
-      <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15">
+      <div className="flex h-11 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-100">
         <Icon className="h-4 w-4 shrink-0 text-muted-foreground" />
         <input
           type={type}
