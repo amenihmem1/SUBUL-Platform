@@ -213,7 +213,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen w-full">
 
       {/* ── LEFT BRAND PANEL ── */}
-      <div className="hidden lg:flex lg:w-[52%] xl:w-[55%] relative flex-col items-center justify-start overflow-hidden py-8 xl:py-10"
+      <div className="hidden lg:flex lg:w-[52%] xl:w-[55%] relative flex-col items-center justify-start overflow-hidden py-6 xl:py-8"
            style={{ background: 'linear-gradient(135deg, #1a0533 0%, #3b0764 30%, #7c1fa2 65%, #c2185b 100%)' }}>
 
         {/* Decorative blobs */}
@@ -230,31 +230,31 @@ export default function LoginPage() {
 
         <div className="relative z-10 flex flex-col items-center text-center px-12 max-w-lg">
           {/* Logo */}
-          <div className="mb-7 drop-shadow-2xl">
+          <div className="mb-3 drop-shadow-2xl">
             <Image
               src="/subul-logo-transparent.png"
               alt="Subul"
-              width={310}
-              height={160}
+              width={245}
+              height={125}
               className="object-contain"
               priority
             />
           </div>
 
-          <h1 className="text-3xl xl:text-4xl font-extrabold text-white leading-tight mb-3">
+          <h1 className="text-3xl xl:text-4xl font-extrabold text-white leading-tight mb-2">
             {copy.titleLine1}<br />
             <span style={{ background: 'linear-gradient(90deg,#ff9de2,#ffcb77)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               {copy.titleLine2}
             </span>
           </h1>
-          <p className="text-white/60 text-sm leading-relaxed mb-10">
+          <p className="text-white/60 text-sm leading-relaxed mb-7">
             {copy.subtitle}
           </p>
 
           {/* Feature pills */}
           <div className="w-full space-y-3">
             {copy.features.map(({ icon: Icon, text }, i) => (
-              <div key={i} className="flex items-center gap-3 px-4 py-3 rounded-2xl"
+              <div key={i} className="flex items-center gap-3 px-4 py-2.5 rounded-2xl"
                    style={{ background: 'rgba(255,255,255,0.07)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.12)' }}>
                 <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
                      style={{ background: 'linear-gradient(135deg,#ff2d78,#7c3aed)' }}>
@@ -266,7 +266,7 @@ export default function LoginPage() {
           </div>
 
           {/* Stats row */}
-          <div className="mt-10 grid grid-cols-3 gap-4 w-full">
+          <div className="mt-7 grid grid-cols-3 gap-4 w-full">
             {copy.stats.map(([val, label]) => (
               <div key={label} className="flex flex-col items-center">
                 <span className="text-2xl font-extrabold text-white">{val}</span>
@@ -278,7 +278,7 @@ export default function LoginPage() {
       </div>
 
       {/* ── RIGHT FORM PANEL ── */}
-      <div className="flex-1 flex flex-col items-center justify-start bg-white relative px-6 pb-10 pt-24 lg:pt-20">
+      <div className="flex-1 flex flex-col items-center justify-start bg-white relative px-6 pb-10 pt-20 lg:pt-14">
 
         {/* Back to localized home (e.g. /fr) */}
         <Button
@@ -294,14 +294,14 @@ export default function LoginPage() {
         </Button>
 
         {/* Mobile logo */}
-        <div className="lg:hidden mb-8">
-          <Image src="/subul-logo-transparent.png" alt="Subul" width={180} height={95} className="object-contain" />
+        <div className="lg:hidden mb-5">
+          <Image src="/subul-logo-transparent.png" alt="Subul" width={150} height={80} className="object-contain" />
         </div>
 
         <div className="w-full max-w-[400px]">
 
           {/* Header */}
-          <div className="mb-8">
+          <div className="mb-7">
             <h2 className="text-2xl font-extrabold text-slate-900">{copy.welcome}</h2>
             <p className="text-slate-500 text-sm mt-1">{copy.welcomeSubtitle}</p>
           </div>
