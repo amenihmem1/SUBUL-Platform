@@ -6,7 +6,14 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const TECHNICAL_COACH_URL =
   process.env.NEXT_PUBLIC_TECHNICAL_COACH_URL || "http://localhost:8082";
+const TECHNICAL_COACH_PUBLIC_URL =
+  process.env.NEXT_PUBLIC_TECHNICAL_COACH_PUBLIC_URL ||
+  "https://technical-coach-frontend.bravesand-e5d986f3.francecentral.azurecontainerapps.io";
 const START_COMMAND = "docker compose -f docker-compose.technical-coach.yml up --build";
+
+function getTechnicalCoachBaseUrl() {
+  return TECHNICAL_COACH_URL.startsWith("/") ? TECHNICAL_COACH_PUBLIC_URL : TECHNICAL_COACH_URL;
+}
 
 function withPlatformParams(rawUrl: string, locale: string) {
   const fallbackBase = "http://subul.local";
@@ -34,13 +41,15 @@ function LearnerTechnicalCoachFrame() {
   const [allowIframeScroll, setAllowIframeScroll] = useState(false);
 
   const technicalCoachUrl = useMemo(() => {
-    const url = withPlatformParams(TECHNICAL_COACH_URL, locale);
+    const url = withPlatformParams(getTechnicalCoachBaseUrl(), locale);
     const parsed = new URL(url, "http://subul.local");
     const requestedPath = searchParams.get("path");
     const basePath = parsed.pathname.replace(/\/$/, "");
-    const targetPath = !requestedPath || requestedPath === "/" ? "/interview" : requestedPath;
+    const targetPath = requestedPath && requestedPath !== "/" ? requestedPath : "/";
 
-    if (targetPath.startsWith("/") && !targetPath.startsWith("//")) {
+    if (targetPath === "/") {
+      parsed.pathname = basePath || "/";
+    } else if (targetPath.startsWith("/") && !targetPath.startsWith("//")) {
       parsed.pathname = targetPath.startsWith(basePath)
         ? targetPath
         : `${basePath}${targetPath}`;
@@ -89,8 +98,8 @@ function LearnerTechnicalCoachFrame() {
       setAllowIframeScroll(false);
       setFrameHeight((current) => (Math.abs(current - nextHeight) > 8 ? nextHeight : current));
     } catch {
-      setAllowIframeScroll(true);
-      setFrameHeight(Math.max(640, window.innerHeight - 96));
+      setAllowIframeScroll(false);
+      setFrameHeight(Math.max(2200, window.innerHeight - 96));
     }
   }, []);
 
@@ -173,7 +182,7 @@ function LearnerTechnicalCoachFrame() {
             <h2 className="text-lg font-bold text-slate-900">Subul Technical Coach n'est pas lance</h2>
             <p className="mt-2 text-sm text-slate-600">
               Le menu est integre, mais l'application technique doit tourner sur{" "}
-              <span className="font-semibold text-slate-900">{TECHNICAL_COACH_URL}</span>.
+              <span className="font-semibold text-slate-900">{getTechnicalCoachBaseUrl()}</span>.
             </p>
             <code className="mt-4 block rounded-xl bg-slate-950 px-4 py-3 text-left text-xs font-semibold text-white">
               {START_COMMAND}

@@ -167,7 +167,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
         href: createLocalizedUrl('/dashboard/learner/technical-coach'),
         section: 'career',
         children: [
-          { id: 'technical-interview', icon: Terminal, labelKey: 'navigation.coachInterview', href: createCoachUrl('/dashboard/learner/technical-coach', '/interview') },
+          { id: 'technical-interview', icon: Terminal, labelKey: 'navigation.coachInterview', href: createCoachUrl('/dashboard/learner/technical-coach', '/') },
           { id: 'technical-analytics', icon: BarChart3, labelKey: 'navigation.coachAnalytics', href: createCoachUrl('/dashboard/learner/technical-coach', '/dashboard') },
           { id: 'technical-history', icon: FileText, labelKey: 'navigation.coachHistory', href: createCoachUrl('/dashboard/learner/technical-coach', '/history') },
           { id: 'technical-help', icon: MessageSquare, labelKey: 'navigation.coachHelp', href: createCoachUrl('/dashboard/learner/technical-coach', '/help') },
