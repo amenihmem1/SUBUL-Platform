@@ -31,6 +31,8 @@ function LearnerHrCoachFrame() {
   const [loaded, setLoaded] = useState(false);
   const [showStartupHint, setShowStartupHint] = useState(false);
   const [reloadToken, setReloadToken] = useState(0);
+  const [frameHeight, setFrameHeight] = useState(720);
+  const [allowIframeScroll, setAllowIframeScroll] = useState(false);
 
   const hrCoachUrl = useMemo(() => {
     const url = withPlatformLanguageParams(HR_COACH_URL, locale);
@@ -54,6 +56,7 @@ function LearnerHrCoachFrame() {
 
     parsed.searchParams.set("theme", theme);
     parsed.searchParams.set("hideThemeSwitcher", "1");
+    parsed.searchParams.set("embedded", "1");
     if (session?.user?.fullName) parsed.searchParams.set("profileName", session.user.fullName);
     if (session?.user?.email) parsed.searchParams.set("profileEmail", session.user.email);
     return url.startsWith("/") ? `${parsed.pathname}${parsed.search}${parsed.hash}` : parsed.toString();
@@ -71,14 +74,54 @@ function LearnerHrCoachFrame() {
         },
         hideLanguageSwitcher: true,
         hideThemeSwitcher: true,
+        embedded: true,
       },
       "*",
     );
   }, [locale, session?.user?.email, session?.user?.fullName, theme]);
 
+  const resizeFrame = useCallback(() => {
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+    try {
+      const doc = iframe.contentDocument || iframe.contentWindow?.document;
+      const body = doc?.body;
+      const html = doc?.documentElement;
+      if (!body || !html) return;
+      const nextHeight = Math.max(
+        640,
+        Math.ceil(
+          Math.max(
+            body.scrollHeight,
+            html.scrollHeight,
+            body.offsetHeight,
+            html.offsetHeight,
+            body.clientHeight,
+            html.clientHeight,
+          ),
+        ),
+      );
+      setAllowIframeScroll(false);
+      setFrameHeight((current) => (Math.abs(current - nextHeight) > 8 ? nextHeight : current));
+    } catch {
+      setAllowIframeScroll(true);
+      setFrameHeight(Math.max(640, window.innerHeight - 96));
+    }
+  }, []);
+
   useEffect(() => {
     syncPlatformLanguage();
   }, [syncPlatformLanguage]);
+
+  useEffect(() => {
+    resizeFrame();
+    const interval = window.setInterval(resizeFrame, 700);
+    window.addEventListener("resize", resizeFrame);
+    return () => {
+      window.clearInterval(interval);
+      window.removeEventListener("resize", resizeFrame);
+    };
+  }, [hrCoachUrl, reloadToken, resizeFrame]);
 
   useEffect(() => {
     setLoaded(false);
@@ -122,7 +165,7 @@ function LearnerHrCoachFrame() {
   }, []);
 
   return (
-    <section className="relative flex h-[calc(100vh-6rem)] min-h-[640px] flex-col overflow-hidden">
+    <section className="relative flex min-h-[640px] w-full min-w-0 flex-col overflow-visible">
       <iframe
         key={reloadToken}
         ref={iframeRef}
@@ -132,8 +175,13 @@ function LearnerHrCoachFrame() {
           setLoaded(true);
           setShowStartupHint(false);
           syncPlatformLanguage();
+          resizeFrame();
+          window.setTimeout(resizeFrame, 250);
+          window.setTimeout(resizeFrame, 900);
         }}
-        className="min-h-0 flex-1 border-0 bg-white"
+        className="block w-full min-w-0 border-0 bg-white"
+        style={{ height: frameHeight }}
+        scrolling={allowIframeScroll ? "auto" : "no"}
         allow="camera; microphone; clipboard-read; clipboard-write"
       />
       {showStartupHint && !loaded && (

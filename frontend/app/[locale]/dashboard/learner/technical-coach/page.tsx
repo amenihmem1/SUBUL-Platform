@@ -30,6 +30,8 @@ function LearnerTechnicalCoachFrame() {
   const [loaded, setLoaded] = useState(false);
   const [showStartupHint, setShowStartupHint] = useState(false);
   const [reloadToken, setReloadToken] = useState(0);
+  const [frameHeight, setFrameHeight] = useState(720);
+  const [allowIframeScroll, setAllowIframeScroll] = useState(false);
 
   const technicalCoachUrl = useMemo(() => {
     const url = withPlatformParams(TECHNICAL_COACH_URL, locale);
@@ -40,6 +42,7 @@ function LearnerTechnicalCoachFrame() {
     }
     parsed.searchParams.set("theme", theme);
     parsed.searchParams.set("hideThemeSwitcher", "1");
+    parsed.searchParams.set("embedded", "1");
     return url.startsWith("/") ? `${parsed.pathname}${parsed.search}${parsed.hash}` : parsed.toString();
   }, [locale, searchParams, theme]);
 
@@ -51,14 +54,54 @@ function LearnerTechnicalCoachFrame() {
         theme,
         hideLanguageSwitcher: true,
         hideThemeSwitcher: true,
+        embedded: true,
       },
       "*",
     );
   }, [locale, theme]);
 
+  const resizeFrame = useCallback(() => {
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+    try {
+      const doc = iframe.contentDocument || iframe.contentWindow?.document;
+      const body = doc?.body;
+      const html = doc?.documentElement;
+      if (!body || !html) return;
+      const nextHeight = Math.max(
+        640,
+        Math.ceil(
+          Math.max(
+            body.scrollHeight,
+            html.scrollHeight,
+            body.offsetHeight,
+            html.offsetHeight,
+            body.clientHeight,
+            html.clientHeight,
+          ),
+        ),
+      );
+      setAllowIframeScroll(false);
+      setFrameHeight((current) => (Math.abs(current - nextHeight) > 8 ? nextHeight : current));
+    } catch {
+      setAllowIframeScroll(true);
+      setFrameHeight(Math.max(640, window.innerHeight - 96));
+    }
+  }, []);
+
   useEffect(() => {
     syncPlatformState();
   }, [syncPlatformState]);
+
+  useEffect(() => {
+    resizeFrame();
+    const interval = window.setInterval(resizeFrame, 700);
+    window.addEventListener("resize", resizeFrame);
+    return () => {
+      window.clearInterval(interval);
+      window.removeEventListener("resize", resizeFrame);
+    };
+  }, [reloadToken, resizeFrame, technicalCoachUrl]);
 
   useEffect(() => {
     setLoaded(false);
@@ -100,7 +143,7 @@ function LearnerTechnicalCoachFrame() {
   }, []);
 
   return (
-    <section className="relative flex h-[calc(100vh-6rem)] min-h-[640px] flex-col overflow-hidden">
+    <section className="relative flex min-h-[640px] w-full min-w-0 flex-col overflow-visible">
       <iframe
         key={reloadToken}
         ref={iframeRef}
@@ -110,8 +153,13 @@ function LearnerTechnicalCoachFrame() {
           setLoaded(true);
           setShowStartupHint(false);
           syncPlatformState();
+          resizeFrame();
+          window.setTimeout(resizeFrame, 250);
+          window.setTimeout(resizeFrame, 900);
         }}
-        className="min-h-0 flex-1 border-0 bg-white"
+        className="block w-full min-w-0 border-0 bg-white"
+        style={{ height: frameHeight }}
+        scrolling={allowIframeScroll ? "auto" : "no"}
         allow="camera; microphone; clipboard-read; clipboard-write"
       />
       {showStartupHint && !loaded && (
