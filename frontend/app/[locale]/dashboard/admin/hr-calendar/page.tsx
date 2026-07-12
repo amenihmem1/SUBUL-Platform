@@ -32,6 +32,19 @@ import type { ScheduledInterview } from '@/hr-coach/lib/interviewCalendar';
 
 const ROWS_PER_PAGE = 5;
 
+type AdminLocale = 'fr' | 'en';
+
+const adminHrCalendarCopy = {
+  fr: {
+    nextInterview: 'Prochain entretien', noUpcoming: 'Aucun entretien a venir', add: 'Ajouter', delete: 'Supprimer', allInterviews: 'Tous les entretiens', planned: 'Planifies', upcoming: 'A venir', cancelled: 'Annules', scheduledInterviews: 'Entretiens planifies', resultsShown: 'resultat(s) affiches', searchPlaceholder: 'Rechercher nom, email, statut...', selectAll: 'Selectionner tous les entretiens affiches', selectOne: 'Selectionner cet entretien', candidate: 'Candidat', day: 'Jour', time: 'Heure', status: 'Statut', reminder: 'Rappel', actions: 'Actions', loading: 'Chargement des entretiens...', empty: 'Aucun entretien trouve.', sent: 'Envoye', minutesBefore: 'min avant', showing: 'Affichage', of: 'de', interviews: 'entretiens', page: 'Page', previous: 'Precedent', next: 'Suivant', edit: 'Modifier', close: 'Fermer', statusCompleted: 'Termine', statusCancelled: 'Annule', statusPlanned: 'Planifie', createSuccess: 'Entretien HR Coach ajoute', createError: "Impossible d'ajouter l'entretien", updateSuccess: 'Entretien modifie', updateError: "Impossible de modifier l'entretien", deleteSuccess: 'Entretien supprime', deleteError: "Impossible de supprimer l'entretien", bulkDeleteSuccess: 'Entretiens supprimes', bulkDeleteError: 'Suppression groupee impossible', missingCandidate: 'Nom et email du candidat sont obligatoires.', invalidEmail: 'Email candidat invalide.', futureDate: 'Choisissez une date et une heure futures.', formEditEyebrow: 'Modification', formCreateEyebrow: 'Nouveau rendez-vous', formEditTitle: "Modifier l'entretien", formCreateTitle: 'Ajouter un entretien', formDescription: 'Choisissez un utilisateur Subul ou renseignez les informations du candidat.', subulUser: 'Utilisateur Subul', manualEntry: 'Saisie manuelle', candidateName: 'Nom candidat', fullNamePlaceholder: 'Nom complet', candidateEmail: 'Email candidat', date: 'Date', saving: 'Enregistrement...', deleteTitle: 'Supprimer cet entretien ?', deleteDescription: 'Cette action supprimera le rendez-vous HR Coach du calendrier.', deleting: 'Suppression...', bulkDeleteTitle: 'Supprimer les entretiens selectionnes ?', bulkDeleteBody: 'entretien(s) seront supprimes du calendrier.', cancel: 'Annuler'
+  },
+  en: {
+    nextInterview: 'Next interview', noUpcoming: 'No upcoming interview', add: 'Add', delete: 'Delete', allInterviews: 'All interviews', planned: 'Planned', upcoming: 'Upcoming', cancelled: 'Cancelled', scheduledInterviews: 'Scheduled interviews', resultsShown: 'result(s) shown', searchPlaceholder: 'Search name, email, status...', selectAll: 'Select all visible interviews', selectOne: 'Select this interview', candidate: 'Candidate', day: 'Day', time: 'Time', status: 'Status', reminder: 'Reminder', actions: 'Actions', loading: 'Loading interviews...', empty: 'No interview found.', sent: 'Sent', minutesBefore: 'min before', showing: 'Showing', of: 'of', interviews: 'interviews', page: 'Page', previous: 'Previous', next: 'Next', edit: 'Edit', close: 'Close', statusCompleted: 'Completed', statusCancelled: 'Cancelled', statusPlanned: 'Planned', createSuccess: 'HR Coach interview added', createError: 'Unable to add the interview', updateSuccess: 'Interview updated', updateError: 'Unable to update the interview', deleteSuccess: 'Interview deleted', deleteError: 'Unable to delete the interview', bulkDeleteSuccess: 'Interviews deleted', bulkDeleteError: 'Bulk delete failed', missingCandidate: 'Candidate name and email are required.', invalidEmail: 'Invalid candidate email.', futureDate: 'Choose a future date and time.', formEditEyebrow: 'Edit appointment', formCreateEyebrow: 'New appointment', formEditTitle: 'Edit interview', formCreateTitle: 'Add interview', formDescription: 'Choose a Subul user or enter candidate information manually.', subulUser: 'Subul user', manualEntry: 'Manual entry', candidateName: 'Candidate name', fullNamePlaceholder: 'Full name', candidateEmail: 'Candidate email', date: 'Date', saving: 'Saving...', deleteTitle: 'Delete this interview?', deleteDescription: 'This action will remove the HR Coach appointment from the calendar.', deleting: 'Deleting...', bulkDeleteTitle: 'Delete selected interviews?', bulkDeleteBody: 'interview(s) will be removed from the calendar.', cancel: 'Cancel'
+  },
+} as const;
+
+type AdminHrCalendarCopy = (typeof adminHrCalendarCopy)[keyof typeof adminHrCalendarCopy];
+
 type AdminUserOption = {
   id: number;
   name?: string;
@@ -119,10 +132,10 @@ function formatTime(value: string, locale: string) {
   }).format(parsed);
 }
 
-function statusLabel(status: ScheduledInterview['status']) {
-  if (status === 'completed') return 'Termine';
-  if (status === 'cancelled') return 'Annule';
-  return 'Planifie';
+function statusLabel(status: ScheduledInterview['status'], copy: AdminHrCalendarCopy) {
+  if (status === 'completed') return copy.statusCompleted;
+  if (status === 'cancelled') return copy.statusCancelled;
+  return copy.statusPlanned;
 }
 
 function statusClasses(status: ScheduledInterview['status']) {
@@ -133,7 +146,9 @@ function statusClasses(status: ScheduledInterview['status']) {
 
 export default function AdminHrCalendarPage() {
   const params = useParams();
-  const locale = params?.locale === 'en' ? 'en-US' : 'fr-FR';
+  const lang: AdminLocale = params?.locale === 'en' ? 'en' : 'fr';
+  const locale = lang === 'en' ? 'en-US' : 'fr-FR';
+  const copy = adminHrCalendarCopy[lang];
   const queryClient = useQueryClient();
   const [search, setSearch] = useState('');
   const [selectedUserId, setSelectedUserId] = useState('');
@@ -195,31 +210,31 @@ export default function AdminHrCalendarPage() {
   const createMutation = useMutation({
     mutationFn: createAdminHrInterview,
     onSuccess: async () => {
-      toast.success('Entretien HR Coach ajoute');
+      toast.success(copy.createSuccess);
       closeForm();
       await invalidateCalendar();
     },
-    onError: (error: Error) => toast.error(error.message || "Impossible d'ajouter l'entretien"),
+    onError: (error: Error) => toast.error(error.message || copy.createError),
   });
 
   const updateMutation = useMutation({
     mutationFn: ({ id, payload }: { id: string; payload: HrCalendarPayload }) => updateAdminHrInterview(id, payload),
     onSuccess: async () => {
-      toast.success('Entretien modifie');
+      toast.success(copy.updateSuccess);
       closeForm();
       await invalidateCalendar();
     },
-    onError: (error: Error) => toast.error(error.message || "Impossible de modifier l'entretien"),
+    onError: (error: Error) => toast.error(error.message || copy.updateError),
   });
 
   const deleteMutation = useMutation({
     mutationFn: deleteAdminHrInterview,
     onSuccess: async () => {
-      toast.success('Entretien supprime');
+      toast.success(copy.deleteSuccess);
       setDeleteTarget(null);
       await invalidateCalendar();
     },
-    onError: (error: Error) => toast.error(error.message || "Impossible de supprimer l'entretien"),
+    onError: (error: Error) => toast.error(error.message || copy.deleteError),
   });
 
   const isSaving = createMutation.isPending || updateMutation.isPending;
@@ -254,10 +269,10 @@ export default function AdminHrCalendarPage() {
       await Promise.all(ids.map((id) => deleteAdminHrInterview(id)));
       setSelectedInterviewIds(new Set());
       setShowBulkDeleteModal(false);
-      toast.success('Entretiens supprimes');
+      toast.success(copy.bulkDeleteSuccess);
       await invalidateCalendar();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Suppression groupée impossible');
+      toast.error(error instanceof Error ? error.message : copy.bulkDeleteError);
     } finally {
       setBulkDeleting(false);
     }
@@ -291,16 +306,16 @@ export default function AdminHrCalendarPage() {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (!form.candidateName.trim() || !form.candidateEmail.trim()) {
-      toast.error('Nom et email du candidat sont obligatoires.');
+      toast.error(copy.missingCandidate);
       return;
     }
     if (!looksLikeEmail(form.candidateEmail)) {
-      toast.error('Email candidat invalide.');
+      toast.error(copy.invalidEmail);
       return;
     }
     const scheduledAt = new Date(`${form.date}T${form.time}:00`);
     if (Number.isNaN(scheduledAt.getTime()) || scheduledAt.getTime() <= Date.now()) {
-      toast.error('Choisissez une date et une heure futures.');
+      toast.error(copy.futureDate);
       return;
     }
 
@@ -328,7 +343,7 @@ export default function AdminHrCalendarPage() {
             <div className="min-w-0">
               <p className="text-xs font-semibold uppercase tracking-wide text-violet-600">HR Coach</p>
               <p className="truncate text-sm text-muted-foreground">
-                {nextInterview ? `Prochain entretien: ${formatDate(nextInterview.scheduledAt, locale)}` : 'Aucun entretien a venir'}
+                {nextInterview ? `${copy.nextInterview}: ${formatDate(nextInterview.scheduledAt, locale)}` : copy.noUpcoming}
               </p>
             </div>
           </div>
@@ -339,7 +354,7 @@ export default function AdminHrCalendarPage() {
               className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 text-sm font-bold text-white shadow-sm transition hover:from-violet-700 hover:to-fuchsia-700"
             >
               <Plus className="h-4 w-4" />
-              Ajouter
+              {copy.add}
             </button>
             <button
               type="button"
@@ -348,17 +363,17 @@ export default function AdminHrCalendarPage() {
               className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-rose-200 px-4 text-sm font-semibold text-rose-600 transition hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {bulkDeleting ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
-              Supprimer
+              {copy.delete}
             </button>
           </div>
         </div>
       </motion.section>
 
       <section className="grid gap-4 md:grid-cols-4">
-        <StatCard index={0} label="Tous les entretiens" value={interviews.length} icon={<Users className="h-5 w-5" />} tone="violet" />
-        <StatCard index={1} label="Planifies" value={planned.length} icon={<CalendarCheck className="h-5 w-5" />} tone="blue" />
-        <StatCard index={2} label="A venir" value={upcoming.length} icon={<Clock className="h-5 w-5" />} tone="emerald" />
-        <StatCard index={3} label="Annules" value={cancelled.length} icon={<X className="h-5 w-5" />} tone="rose" />
+        <StatCard index={0} label={copy.allInterviews} value={interviews.length} icon={<Users className="h-5 w-5" />} tone="violet" />
+        <StatCard index={1} label={copy.planned} value={planned.length} icon={<CalendarCheck className="h-5 w-5" />} tone="blue" />
+        <StatCard index={2} label={copy.upcoming} value={upcoming.length} icon={<Clock className="h-5 w-5" />} tone="emerald" />
+        <StatCard index={3} label={copy.cancelled} value={cancelled.length} icon={<X className="h-5 w-5" />} tone="rose" />
       </section>
 
       <motion.section
@@ -369,8 +384,8 @@ export default function AdminHrCalendarPage() {
       >
         <div className="flex flex-col gap-4 border-b border-border p-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h2 className="text-lg font-bold text-foreground">Entretiens planifies</h2>
-            <p className="text-sm text-muted-foreground">{filteredInterviews.length} resultat(s) affiches</p>
+            <h2 className="text-lg font-bold text-foreground">{copy.scheduledInterviews}</h2>
+            <p className="text-sm text-muted-foreground">{filteredInterviews.length} {copy.resultsShown}</p>
           </div>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
             <div className="flex h-11 min-w-0 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 sm:w-80 focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-100">
@@ -382,7 +397,7 @@ export default function AdminHrCalendarPage() {
                   setPage(1);
                 }}
                 className="min-w-0 flex-1 bg-transparent text-sm outline-none"
-                placeholder="Rechercher nom, email, statut..."
+                placeholder={copy.searchPlaceholder}
               />
             </div>
           </div>
@@ -397,29 +412,29 @@ export default function AdminHrCalendarPage() {
                     type="checkbox"
                     checked={allInterviewsOnPageSelected}
                     onChange={toggleAllInterviewsOnPage}
-                    aria-label="Selectionner tous les entretiens affiches"
+                    aria-label={copy.selectAll}
                     className="h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500"
                   />
                 </th>
-                <th className="border-b border-r border-slate-200 px-5 py-3 font-semibold">Candidat</th>
-                <th className="border-b border-r border-slate-200 px-5 py-3 font-semibold">Jour</th>
-                <th className="border-b border-r border-slate-200 px-5 py-3 font-semibold">Heure</th>
-                <th className="border-b border-r border-slate-200 px-5 py-3 font-semibold">Statut</th>
-                <th className="border-b border-r border-slate-200 px-5 py-3 font-semibold">Rappel</th>
-                <th className="border-b border-slate-200 px-5 py-3 text-center font-semibold">Actions</th>
+                <th className="border-b border-r border-slate-200 px-5 py-3 font-semibold">{copy.candidate}</th>
+                <th className="border-b border-r border-slate-200 px-5 py-3 font-semibold">{copy.day}</th>
+                <th className="border-b border-r border-slate-200 px-5 py-3 font-semibold">{copy.time}</th>
+                <th className="border-b border-r border-slate-200 px-5 py-3 font-semibold">{copy.status}</th>
+                <th className="border-b border-r border-slate-200 px-5 py-3 font-semibold">{copy.reminder}</th>
+                <th className="border-b border-slate-200 px-5 py-3 text-center font-semibold">{copy.actions}</th>
               </tr>
             </thead>
             <tbody>
               {interviewsQuery.isLoading ? (
                 <tr>
                   <td colSpan={7} className="px-5 py-14 text-center text-sm text-muted-foreground">
-                    Chargement des entretiens...
+                    {copy.loading}
                   </td>
                 </tr>
               ) : filteredInterviews.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="px-5 py-14 text-center text-sm text-muted-foreground">
-                    Aucun entretien trouve.
+                    {copy.empty}
                   </td>
                 </tr>
               ) : (
@@ -436,7 +451,7 @@ export default function AdminHrCalendarPage() {
                         type="checkbox"
                         checked={selectedInterviewIds.has(item.id)}
                         onChange={() => toggleInterviewSelection(item.id)}
-                        aria-label="Selectionner cet entretien"
+                        aria-label={copy.selectOne}
                         className="h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500"
                       />
                     </td>
@@ -446,7 +461,7 @@ export default function AdminHrCalendarPage() {
                           {(item.candidateName || item.candidateEmail || 'C').slice(0, 2).toUpperCase()}
                         </div>
                         <div className="min-w-0">
-                          <div className="truncate font-semibold text-foreground">{item.candidateName || 'Candidat'}</div>
+                          <div className="truncate font-semibold text-foreground">{item.candidateName || copy.candidate}</div>
                           <div className="truncate text-sm text-muted-foreground">{item.candidateEmail}</div>
                         </div>
                       </div>
@@ -455,11 +470,11 @@ export default function AdminHrCalendarPage() {
                     <td className="border-b border-r border-slate-200 px-5 py-4 text-sm text-muted-foreground">{formatTime(item.scheduledAt, locale)}</td>
                     <td className="border-b border-r border-slate-200 px-5 py-4">
                       <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${statusClasses(item.status)}`}>
-                        {statusLabel(item.status)}
+                        {statusLabel(item.status, copy)}
                       </span>
                     </td>
                     <td className="border-b border-r border-slate-200 px-5 py-4 text-sm text-muted-foreground">
-                      {item.reminderSentAt ? 'Envoye' : `${item.reminderMinutesBefore || 60} min avant`}
+                      {item.reminderSentAt ? copy.sent : `${item.reminderMinutesBefore || 60} ${copy.minutesBefore}`}
                     </td>
                     <td className="border-b border-slate-200 px-5 py-4">
                       <div className="flex justify-center gap-2">
@@ -467,8 +482,8 @@ export default function AdminHrCalendarPage() {
                           type="button"
                           onClick={() => openEditDialog(item)}
                           className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition hover:bg-muted hover:text-foreground"
-                          aria-label="Modifier"
-                          title="Modifier"
+                          aria-label={copy.edit}
+                          title={copy.edit}
                         >
                           <Edit3 className="h-4 w-4" />
                         </button>
@@ -477,8 +492,8 @@ export default function AdminHrCalendarPage() {
                           onClick={() => setDeleteTarget(item)}
                           disabled={deleteMutation.isPending}
                           className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-rose-200 text-rose-600 transition hover:bg-rose-50 disabled:opacity-50"
-                          aria-label="Supprimer"
-                          title="Supprimer"
+                          aria-label={copy.delete}
+                          title={copy.delete}
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -491,7 +506,7 @@ export default function AdminHrCalendarPage() {
           </table>
         </div>
         <div className="flex flex-col gap-3 border-t border-slate-200 bg-white px-5 py-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <span>Affichage {firstItem}-{lastItem} de {filteredInterviews.length} entretiens</span>
+          <span>{copy.showing} {firstItem}-{lastItem} {copy.of} {filteredInterviews.length} {copy.interviews}</span>
           <div className="flex items-center justify-end gap-2">
             <button
               type="button"
@@ -500,10 +515,10 @@ export default function AdminHrCalendarPage() {
               className="inline-flex h-9 items-center justify-center gap-1 rounded-lg border border-border px-3 text-xs font-semibold transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-45"
             >
               <ChevronLeft className="h-4 w-4" />
-              Précédent
+              {copy.previous}
             </button>
             <span className="inline-flex h-9 items-center rounded-lg border border-border bg-muted/40 px-4 font-semibold text-foreground">
-              Page {currentPage} / {totalPages}
+              {copy.page} {currentPage} / {totalPages}
             </span>
             <button
               type="button"
@@ -511,7 +526,7 @@ export default function AdminHrCalendarPage() {
               disabled={currentPage >= totalPages}
               className="inline-flex h-9 items-center justify-center gap-1 rounded-lg border border-border px-3 text-xs font-semibold transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-45"
             >
-              Suivant
+              {copy.next}
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>
@@ -529,6 +544,7 @@ export default function AdminHrCalendarPage() {
           onSubmit={handleSubmit}
           onSelectUser={handleSelectUser}
           onChange={setForm}
+          copy={copy}
         />
       ) : null}
 
@@ -536,6 +552,7 @@ export default function AdminHrCalendarPage() {
         <DeleteInterviewDialog
           interview={deleteTarget}
           locale={locale}
+          copy={copy}
           isDeleting={deleteMutation.isPending}
           onClose={() => setDeleteTarget(null)}
           onConfirm={() => deleteMutation.mutate(deleteTarget.id)}
@@ -548,6 +565,7 @@ export default function AdminHrCalendarPage() {
           isDeleting={bulkDeleting}
           onClose={() => setShowBulkDeleteModal(false)}
           onConfirm={handleBulkDelete}
+          copy={copy}
         />
       ) : null}
     </div>
@@ -564,6 +582,7 @@ function InterviewFormDialog({
   onSubmit,
   onSelectUser,
   onChange,
+  copy,
 }: {
   editing: boolean;
   form: FormState;
@@ -574,28 +593,29 @@ function InterviewFormDialog({
   onSubmit: (event: FormEvent) => void;
   onSelectUser: (userId: string) => void;
   onChange: (form: FormState) => void;
+  copy: AdminHrCalendarCopy;
 }) {
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
-      <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label="Fermer" />
+      <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label={copy.close} />
       <form onSubmit={onSubmit} className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
         <div className="flex items-start justify-between gap-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-5 text-white">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/75">
-              {editing ? 'Modification' : 'Nouveau rendez-vous'}
+              {editing ? copy.formEditEyebrow : copy.formCreateEyebrow}
             </p>
             <h2 className="mt-1 text-xl font-black text-white">
-              {editing ? "Modifier l'entretien" : "Ajouter un entretien"}
+              {editing ? copy.formEditTitle : copy.formCreateTitle}
             </h2>
             <p className="mt-1 text-sm text-white/75">
-              Choisissez un utilisateur Subul ou renseignez les informations du candidat.
+              {copy.formDescription}
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
             className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/25 text-white transition hover:bg-white/15"
-            aria-label="Fermer"
+            aria-label={copy.close}
           >
             <X className="h-4 w-4" />
           </button>
@@ -603,13 +623,13 @@ function InterviewFormDialog({
 
         <div className="grid gap-4 px-6 py-5 md:grid-cols-2">
           <label className="block md:col-span-2">
-            <span className="mb-1.5 block text-sm font-semibold text-foreground">Utilisateur Subul</span>
+            <span className="mb-1.5 block text-sm font-semibold text-foreground">{copy.subulUser}</span>
             <select
               value={selectedUserId}
               onChange={(event) => onSelectUser(event.target.value)}
               className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100"
             >
-              <option value="">Saisie manuelle</option>
+              <option value="">{copy.manualEntry}</option>
               {users.map((user) => (
                 <option key={user.id} value={user.id}>
                   {user.name || user.email} - {user.email}
@@ -619,20 +639,20 @@ function InterviewFormDialog({
           </label>
 
           <label className="block">
-            <span className="mb-1.5 block text-sm font-semibold text-foreground">Nom candidat</span>
+            <span className="mb-1.5 block text-sm font-semibold text-foreground">{copy.candidateName}</span>
             <div className="flex h-11 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-100">
               <UserRound className="h-4 w-4 text-muted-foreground" />
               <input
                 value={form.candidateName}
                 onChange={(event) => onChange({ ...form, candidateName: event.target.value })}
                 className="min-w-0 flex-1 border-0 bg-transparent p-0 text-sm outline-none ring-0 focus:border-0 focus:outline-none focus:ring-0"
-                placeholder="Nom complet"
+                placeholder={copy.fullNamePlaceholder}
               />
             </div>
           </label>
 
           <label className="block">
-            <span className="mb-1.5 block text-sm font-semibold text-foreground">Email candidat</span>
+            <span className="mb-1.5 block text-sm font-semibold text-foreground">{copy.candidateEmail}</span>
             <div className="flex h-11 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-100">
               <Mail className="h-4 w-4 text-muted-foreground" />
               <input
@@ -646,7 +666,7 @@ function InterviewFormDialog({
           </label>
 
           <label className="block">
-            <span className="mb-1.5 block text-sm font-semibold text-foreground">Date</span>
+            <span className="mb-1.5 block text-sm font-semibold text-foreground">{copy.date}</span>
             <input
               type="date"
               value={form.date}
@@ -656,7 +676,7 @@ function InterviewFormDialog({
           </label>
 
           <label className="block">
-            <span className="mb-1.5 block text-sm font-semibold text-foreground">Heure</span>
+            <span className="mb-1.5 block text-sm font-semibold text-foreground">{copy.time}</span>
             <input
               type="time"
               value={form.time}
@@ -672,7 +692,7 @@ function InterviewFormDialog({
             onClick={onClose}
             className="inline-flex h-11 items-center justify-center rounded-xl border border-border px-5 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground"
           >
-            Annuler
+            {copy.cancel}
           </button>
           <button
             type="submit"
@@ -680,7 +700,7 @@ function InterviewFormDialog({
             className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 text-sm font-bold text-white shadow-sm transition hover:from-violet-700 hover:to-fuchsia-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {editing ? <Edit3 className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-            {isSaving ? 'Enregistrement...' : editing ? 'Modifier' : 'Ajouter'}
+            {isSaving ? copy.saving : editing ? copy.edit : copy.add}
           </button>
         </div>
       </form>
@@ -694,27 +714,29 @@ function DeleteInterviewDialog({
   isDeleting,
   onClose,
   onConfirm,
+  copy,
 }: {
   interview: ScheduledInterview;
   locale: string;
   isDeleting: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  copy: AdminHrCalendarCopy;
 }) {
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
-      <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label="Fermer" />
+      <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label={copy.close} />
       <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
         <div className="p-6">
           <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600">
             <Trash2 className="h-5 w-5" />
           </div>
-          <h2 className="mb-2 text-xl font-black text-slate-950">Supprimer cet entretien ?</h2>
+          <h2 className="mb-2 text-xl font-black text-slate-950">{copy.deleteTitle}</h2>
           <p className="text-sm text-muted-foreground">
-            Cette action supprimera le rendez-vous HR Coach du calendrier.
+            {copy.deleteDescription}
           </p>
           <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <p className="font-semibold text-foreground">{interview.candidateName || 'Candidat'}</p>
+            <p className="font-semibold text-foreground">{interview.candidateName || copy.candidate}</p>
             <p className="text-sm text-muted-foreground">{interview.candidateEmail}</p>
             <p className="mt-2 text-sm font-medium text-foreground">{formatDate(interview.scheduledAt, locale)}</p>
           </div>
@@ -724,7 +746,7 @@ function DeleteInterviewDialog({
             onClick={onClose}
             className="inline-flex h-11 items-center justify-center rounded-xl border border-border px-5 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground"
           >
-            Annuler
+            {copy.cancel}
           </button>
           <button
             type="button"
@@ -733,7 +755,7 @@ function DeleteInterviewDialog({
             className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-rose-600 px-5 text-sm font-bold text-white transition hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <Trash2 className="h-4 w-4" />
-            {isDeleting ? 'Suppression...' : 'Supprimer'}
+            {isDeleting ? copy.deleting : copy.delete}
           </button>
         </div>
         </div>
@@ -747,23 +769,25 @@ function BulkDeleteInterviewsDialog({
   isDeleting,
   onClose,
   onConfirm,
+  copy,
 }: {
   count: number;
   isDeleting: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  copy: AdminHrCalendarCopy;
 }) {
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
-      <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label="Fermer" />
+      <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label={copy.close} />
       <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
         <div className="p-6">
           <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600">
             <Trash2 className="h-5 w-5" />
           </div>
-          <h2 className="mb-2 text-xl font-black text-slate-950">Supprimer les entretiens selectionnes ?</h2>
+          <h2 className="mb-2 text-xl font-black text-slate-950">{copy.bulkDeleteTitle}</h2>
           <p className="text-sm text-slate-600">
-            {count} entretien(s) seront supprimés du calendrier.
+            {count} {copy.bulkDeleteBody}
           </p>
           <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
             <button
@@ -772,7 +796,7 @@ function BulkDeleteInterviewsDialog({
               disabled={isDeleting}
               className="inline-flex h-11 items-center justify-center rounded-xl border border-slate-200 px-5 text-sm font-semibold text-muted-foreground transition hover:bg-slate-50 hover:text-foreground disabled:opacity-50"
             >
-              Annuler
+              {copy.cancel}
             </button>
             <button
               type="button"
@@ -781,7 +805,7 @@ function BulkDeleteInterviewsDialog({
               className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-rose-600 px-5 text-sm font-bold text-white transition hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isDeleting ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
-              Supprimer
+              {copy.delete}
             </button>
           </div>
         </div>

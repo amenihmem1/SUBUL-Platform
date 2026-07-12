@@ -109,10 +109,10 @@ const usersPageCopy = {
     emailVerified: 'Email verifie avec succes',
     searchUser: 'Rechercher un utilisateur...',
     unknownRole: 'Role inconnu',
-    modalCreateEyebrow: '',
+    modalCreateEyebrow: 'Nouvel utilisateur',
     modalEditEyebrow: 'Modifier utilisateur',
     modalCreateTitle: 'Ajouter utilisateur',
-    modalEditTitle: '',
+    modalEditTitle: 'Modifier',
     close: 'Fermer',
     fullName: 'Nom complet',
     fullNamePlaceholder: 'Ameni Hmem',
@@ -131,9 +131,17 @@ const usersPageCopy = {
     deleteSelected: 'Supprimer',
     deleteSelectedConfirm: 'Supprimer les utilisateurs selectionnes ?',
     bulkDeleteSuccess: 'Utilisateurs supprimes avec succes.',
-    bulkDeleteError: 'Suppression groupée impossible.',
+    bulkDeleteError: 'Suppression groupee impossible.',
     selectAll: 'Selectionner tous les utilisateurs affiches',
     selectUser: 'Selectionner cet utilisateur',
+    refreshing: '{copy.refreshing}',
+    subscription: 'Abonnement',
+    none: 'Aucun',
+    active: 'ACTIF',
+    expired: 'EXPIRE',
+    manageSubscription: "Gerer l'abonnement",
+    verifyEmail: "Verifier l'email",
+    bulkDeleteBody: 'utilisateur(s) seront supprimes. Cette action est definitive.',
   },
   en: {
     emailVerified: 'Email verified successfully',
@@ -164,6 +172,14 @@ const usersPageCopy = {
     bulkDeleteError: 'Bulk delete failed.',
     selectAll: 'Select all visible users',
     selectUser: 'Select this user',
+    refreshing: 'Refreshing...',
+    subscription: 'Subscription',
+    none: 'None',
+    active: 'ACTIVE',
+    expired: 'EXPIRED',
+    manageSubscription: 'Manage subscription',
+    verifyEmail: 'Verify email',
+    bulkDeleteBody: 'user(s) will be deleted. This action is final.',
   },
 } as const;
 
@@ -566,7 +582,7 @@ export default function AdminUsers() {
           {isFetching && !isLoading && (
             <div className="flex items-center gap-2 text-xs text-slate-500">
               <Loader2 className="w-3.5 h-3.5 animate-spin" />
-              Actualisation...
+              {copy.refreshing}
             </div>
           )}
         </div>
@@ -593,7 +609,7 @@ export default function AdminUsers() {
                   <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('users.userName'))}</th>
                   <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('common.role'))}</th>
                   <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('common.status'))}</th>
-                  <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">Abonnement</th>
+                  <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{copy.subscription}</th>
                   <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('progression.courses'))}</th>
                   <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('progression.progressLabel'))}</th>
                   <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('users.lastActivity'))}</th>
@@ -654,10 +670,10 @@ export default function AdminUsers() {
                           );
                         }
                         const userSub = pickLatestUserSubscriptionForUser(subsData, user.id);
-                        if (!userSub) return <Badge variant="secondary" className="bg-slate-100 text-slate-400 font-normal italic">Aucun</Badge>;
+                        if (!userSub) return <Badge variant="secondary" className="bg-slate-100 text-slate-400 font-normal italic">{copy.none}</Badge>;
 
                         const ui = adminSubscriptionUiStatus(userSub);
-                        const displayStatus = ui === 'active' ? 'ACTIF' : 'EXPIRÉ';
+                        const displayStatus = ui === 'active' ? copy.active : copy.expired;
                         const endDisp = adminSubscriptionEndDate(userSub);
 
                         return (
@@ -673,7 +689,7 @@ export default function AdminUsers() {
                             {endDisp && (
                               <span className="text-[10px] text-slate-400 flex items-center gap-1 ml-1">
                                 <Clock className="w-2.5 h-2.5" />
-                                {new Date(endDisp).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
+                                {new Date(endDisp).toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', { day: 'numeric', month: 'short' })}
                               </span>
                             )}
                           </div>
@@ -744,7 +760,7 @@ export default function AdminUsers() {
                         <button
                           onClick={() => { setSelectedUser(user); setShowSubscriptionModal(true); }}
                           className="p-2 hover:bg-purple-100 rounded-lg ml-1"
-                          title="Gérer l'abonnement"
+                          title={copy.manageSubscription}
                         >
                           <Crown className="w-4 h-4 text-purple-600" />
                         </button>
@@ -757,7 +773,7 @@ export default function AdminUsers() {
                               ? "bg-blue-100"
                               : "hover:bg-blue-100"
                           )}
-                          title="Vérifier l'email"
+                          title={copy.verifyEmail}
                           disabled={verifyPendingUserId === user.id || verifyEmail.isPending}
                         >
                           {verifyPendingUserId === user.id ? (
@@ -777,7 +793,7 @@ export default function AdminUsers() {
 
         <div className="px-6 py-4 border-t border-slate-200 flex items-center justify-between">
           <p className="text-sm text-slate-600">
-            Affichage {totalUsers === 0 ? 0 : ((currentPage - 1) * ITEMS_PER_PAGE) + 1}-{Math.min(currentPage * ITEMS_PER_PAGE, totalUsers)} de {totalUsers} utilisateurs
+            {locale === 'fr' ? 'Affichage' : 'Showing'} {totalUsers === 0 ? 0 : ((currentPage - 1) * ITEMS_PER_PAGE) + 1}-{Math.min(currentPage * ITEMS_PER_PAGE, totalUsers)} {locale === 'fr' ? 'de' : 'of'} {totalUsers} {locale === 'fr' ? 'utilisateurs' : 'users'}
           </p>
           <div className="flex items-center gap-2">
             <Button
@@ -789,7 +805,7 @@ export default function AdminUsers() {
               <ChevronLeft className="w-4 h-4" />
             </Button>
             <span className="text-sm font-medium text-slate-700 px-2">
-              Page {currentPage} / {Math.max(1, totalPages)}
+              {locale === 'fr' ? 'Page' : 'Page'} {currentPage} / {Math.max(1, totalPages)}
             </span>
             <Button
               variant="outline"
@@ -830,6 +846,7 @@ export default function AdminUsers() {
         title={copy.deleteSelectedConfirm}
         onClose={() => setShowBulkDeleteModal(false)}
         onConfirm={handleBulkDelete}
+        copy={copy}
       />
 
       <UserFormModal
@@ -1023,6 +1040,7 @@ function BulkDeleteUsersDialog({
   isDeleting,
   onClose,
   onConfirm,
+  copy,
 }: {
   isOpen: boolean;
   count: number;
@@ -1030,6 +1048,7 @@ function BulkDeleteUsersDialog({
   isDeleting: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  copy: typeof usersPageCopy.fr | typeof usersPageCopy.en;
 }) {
   if (!isOpen) return null;
 
@@ -1051,22 +1070,22 @@ function BulkDeleteUsersDialog({
             onClick={onClose}
             disabled={isDeleting}
             className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition hover:bg-slate-50 hover:text-slate-900 disabled:opacity-50"
-            aria-label="Fermer"
+            aria-label={copy.close}
           >
             <X className="h-4 w-4" />
           </button>
         </div>
         <div className="space-y-5 px-6 py-5">
           <p className="text-sm text-slate-600">
-            {count} utilisateur(s) seront supprimés. Cette action est definitive.
+            {count} {copy.bulkDeleteBody}
           </p>
           <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
             <Button variant="outline" onClick={onClose} disabled={isDeleting}>
-              Annuler
+              {copy.cancel}
             </Button>
             <Button onClick={onConfirm} disabled={isDeleting} className="bg-rose-600 hover:bg-rose-700">
               {isDeleting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
-              Supprimer
+              {copy.deleteSelected}
             </Button>
           </div>
         </div>
