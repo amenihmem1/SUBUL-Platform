@@ -200,6 +200,8 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
   const [filter, setFilter] = useState<FilterKey>('active');
   const [deleteTarget, setDeleteTarget] = useState<CoachSession | null>(null);
   const [reportTarget, setReportTarget] = useState<CoachSession | null>(null);
+  const [selectedSessionIds, setSelectedSessionIds] = useState<Set<string>>(() => new Set());
+  const [bulkDeleting, setBulkDeleting] = useState(false);
   const [page, setPage] = useState(1);
 
   const queryKey = ['admin', 'coach-results', kind];
@@ -258,6 +260,8 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
   const firstItem = visibleSessions.length ? (currentPage - 1) * ROWS_PER_PAGE + 1 : 0;
   const lastItem = Math.min(currentPage * ROWS_PER_PAGE, visibleSessions.length);
   const paginatedSessions = visibleSessions.slice((currentPage - 1) * ROWS_PER_PAGE, currentPage * ROWS_PER_PAGE);
+  const allSessionsOnPageSelected =
+    paginatedSessions.length > 0 && paginatedSessions.every((session) => selectedSessionIds.has(session.session_id));
 
   const invalidate = () => queryClient.invalidateQueries({ queryKey });
 
@@ -280,6 +284,46 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
     },
     onError: (error) => toast.error(getErrorMessage(error, 'Suppression impossible')),
   });
+
+  const bulkDeleteDisabled = bulkDeleting || deleteMutation.isPending || selectedSessionIds.size === 0;
+
+  const toggleSessionSelection = (sessionId: string) => {
+    setSelectedSessionIds((current) => {
+      const next = new Set(current);
+      if (next.has(sessionId)) next.delete(sessionId);
+      else next.add(sessionId);
+      return next;
+    });
+  };
+
+  const toggleAllSessionsOnPage = () => {
+    setSelectedSessionIds((current) => {
+      const next = new Set(current);
+      if (allSessionsOnPageSelected) {
+        paginatedSessions.forEach((session) => next.delete(session.session_id));
+      } else {
+        paginatedSessions.forEach((session) => next.add(session.session_id));
+      }
+      return next;
+    });
+  };
+
+  const handleBulkDelete = async () => {
+    const ids = Array.from(selectedSessionIds);
+    if (!ids.length) return;
+    if (!confirm('Supprimer les sessions selectionnees ?')) return;
+    setBulkDeleting(true);
+    try {
+      await Promise.all(ids.map((sessionId) => deleteSession(config, sessionId)));
+      setSelectedSessionIds(new Set());
+      toast.success('Sessions supprimees');
+      await invalidate();
+    } catch (error) {
+      toast.error(getErrorMessage(error, 'Suppression groupée impossible'));
+    } finally {
+      setBulkDeleting(false);
+    }
+  };
 
   const accentGradient =
     config.accent === 'violet'
@@ -316,6 +360,15 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
             <p className="text-sm text-muted-foreground">{visibleSessions.length} resultat(s) affiche(s)</p>
           </div>
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+            <button
+              type="button"
+              onClick={handleBulkDelete}
+              disabled={bulkDeleteDisabled}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-rose-200 px-4 text-sm font-semibold text-rose-600 transition hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {bulkDeleting ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+              Supprimer
+            </button>
             <select
               value={filter}
               onChange={(event) => {
@@ -361,12 +414,20 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
           <table className="w-full min-w-[1050px] border-collapse border border-border bg-background">
             <thead>
               <tr className="bg-muted/40 text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th className="w-12 border-b border-r border-border px-4 py-3 text-center">
+                  <input
+                    type="checkbox"
+                    checked={allSessionsOnPageSelected}
+                    onChange={toggleAllSessionsOnPage}
+                    aria-label="Selectionner toutes les sessions affichees"
+                    className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary"
+                  />
+                </th>
                 <th className="border-b border-r border-border px-5 py-3 font-semibold">Candidat</th>
                 <th className="border-b border-r border-border px-5 py-3 font-semibold">Rapport</th>
                 <th className="border-b border-r border-border px-5 py-3 font-semibold">Score</th>
                 <th className="border-b border-r border-border px-5 py-3 font-semibold">Statut</th>
                 <th className="border-b border-r border-border px-5 py-3 font-semibold">Activite</th>
-                <th className="border-b border-r border-border px-5 py-3 font-semibold">Alertes</th>
                 <th className="border-b border-border px-5 py-3 text-center font-semibold">Actions</th>
               </tr>
             </thead>
@@ -418,6 +479,15 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                     transition={{ duration: 0.24, delay: Math.min(index * 0.035, 0.45) }}
                     className="bg-background transition even:bg-muted/20 hover:bg-muted/40"
                   >
+                    <td className="border-b border-r border-border/70 px-4 py-4 text-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedSessionIds.has(session.session_id)}
+                        onChange={() => toggleSessionSelection(session.session_id)}
+                        aria-label="Selectionner cette session"
+                        className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary"
+                      />
+                    </td>
                     <td className="border-b border-r border-border/70 px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${accentSoft} text-sm font-bold ${accentText}`}>
@@ -457,19 +527,6 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
                       </span>
                     </td>
                     <td className="border-b border-r border-border/70 px-5 py-4 text-sm text-muted-foreground">{formatDate(getSessionDate(session))}</td>
-                    <td className="border-b border-r border-border/70 px-5 py-4">
-                      {kind === 'technical' ? (
-                        <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${
-                          Number(session.proctoring_alerts_count || 0) > 0
-                            ? 'border-amber-200 bg-amber-500/10 text-amber-700'
-                            : 'border-emerald-200 bg-emerald-500/10 text-emerald-700'
-                        }`}>
-                          {Number(session.proctoring_alerts_count || 0)} alerte(s)
-                        </span>
-                      ) : (
-                        <span className="text-sm text-muted-foreground">-</span>
-                      )}
-                    </td>
                     <td className="border-b border-border/70 px-5 py-4">
                       <div className="flex justify-center gap-2">
                         <button

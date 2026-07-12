@@ -128,6 +128,12 @@ const usersPageCopy = {
     missingRequired: 'Nom, email et role sont obligatoires.',
     passwordTooShort: 'Le mot de passe doit contenir au moins 8 caracteres.',
     passwordMismatch: 'Les mots de passe ne correspondent pas.',
+    deleteSelected: 'Supprimer',
+    deleteSelectedConfirm: 'Supprimer les utilisateurs selectionnes ?',
+    bulkDeleteSuccess: 'Utilisateurs supprimes avec succes.',
+    bulkDeleteError: 'Suppression groupée impossible.',
+    selectAll: 'Selectionner tous les utilisateurs affiches',
+    selectUser: 'Selectionner cet utilisateur',
   },
   en: {
     emailVerified: 'Email verified successfully',
@@ -152,6 +158,12 @@ const usersPageCopy = {
     missingRequired: 'Name, email and role are required.',
     passwordTooShort: 'Password must contain at least 8 characters.',
     passwordMismatch: 'Passwords do not match.',
+    deleteSelected: 'Delete',
+    deleteSelectedConfirm: 'Delete selected users?',
+    bulkDeleteSuccess: 'Selected users deleted successfully.',
+    bulkDeleteError: 'Bulk delete failed.',
+    selectAll: 'Select all visible users',
+    selectUser: 'Select this user',
   },
 } as const;
 
@@ -172,6 +184,8 @@ export default function AdminUsers() {
   const [userFormMode, setUserFormMode] = useState<UserFormMode>('create');
   const [userForm, setUserForm] = useState<UserFormState>(emptyUserForm);
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
+  const [selectedUserIds, setSelectedUserIds] = useState<Set<number>>(() => new Set());
+  const [bulkDeleting, setBulkDeleting] = useState(false);
   const [statusPendingUserId, setStatusPendingUserId] = useState<number | null>(null);
 
   const queryParams = useMemo(() => ({
@@ -193,6 +207,14 @@ export default function AdminUsers() {
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery, filterRole, filterStatus]);
+
+  useEffect(() => {
+    setSelectedUserIds((current) => {
+      const visibleIds = new Set(users.map((user) => user.id));
+      const next = new Set(Array.from(current).filter((id) => visibleIds.has(id)));
+      return next.size === current.size ? current : next;
+    });
+  }, [users]);
 
   const deleteUser = useDeleteAdminUser();
   const createUser = useCreateAdminUser();
@@ -226,6 +248,47 @@ export default function AdminUsers() {
     } catch (err) {
       const { key } = normalizeApiError(err);
       showToast(t(key), 'error');
+    }
+  };
+
+  const allUsersOnPageSelected = users.length > 0 && users.every((user) => selectedUserIds.has(user.id));
+  const bulkDeleteDisabled = bulkDeleting || deleteUser.isPending || selectedUserIds.size === 0;
+
+  const toggleUserSelection = (id: number) => {
+    setSelectedUserIds((current) => {
+      const next = new Set(current);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleAllUsersOnPage = () => {
+    setSelectedUserIds((current) => {
+      const next = new Set(current);
+      if (allUsersOnPageSelected) {
+        users.forEach((user) => next.delete(user.id));
+      } else {
+        users.forEach((user) => next.add(user.id));
+      }
+      return next;
+    });
+  };
+
+  const handleBulkDelete = async () => {
+    const ids = Array.from(selectedUserIds);
+    if (!ids.length) return;
+    if (!confirm(copy.deleteSelectedConfirm)) return;
+    setBulkDeleting(true);
+    try {
+      await Promise.all(ids.map((id) => deleteUser.mutateAsync(id)));
+      setSelectedUserIds(new Set());
+      showToast(copy.bulkDeleteSuccess, 'success');
+    } catch (err) {
+      const { key } = normalizeApiError(err);
+      showToast(String(t(key) || copy.bulkDeleteError), 'error');
+    } finally {
+      setBulkDeleting(false);
     }
   };
 
@@ -484,6 +547,15 @@ export default function AdminUsers() {
           <Button className="bg-primary hover:bg-primary/90" onClick={openCreateUserModal}>
             <Plus className="w-4 h-4 mr-2" /> {String(t('users.addUser'))}
           </Button>
+          <Button
+            variant="outline"
+            onClick={handleBulkDelete}
+            disabled={bulkDeleteDisabled}
+            className="border-rose-200 text-rose-600 hover:bg-rose-50 hover:text-rose-700"
+          >
+            {bulkDeleting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Trash2 className="w-4 h-4 mr-2" />}
+            {copy.deleteSelected}
+          </Button>
         </div>
       </div>
 
@@ -508,6 +580,15 @@ export default function AdminUsers() {
             <table className="w-full min-w-[1120px] border-collapse border border-border">
               <thead className="bg-muted/40">
                 <tr>
+                  <th className="w-12 border-b border-r border-border p-4 text-center">
+                    <input
+                      type="checkbox"
+                      checked={allUsersOnPageSelected}
+                      onChange={toggleAllUsersOnPage}
+                      aria-label={copy.selectAll}
+                      className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary"
+                    />
+                  </th>
                   <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">{String(t('users.userName'))}</th>
                   <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">{String(t('common.role'))}</th>
                   <th className="border-b border-r border-border p-4 text-left text-sm font-medium text-muted-foreground">{String(t('common.status'))}</th>
@@ -521,12 +602,21 @@ export default function AdminUsers() {
               <tbody>
                 {users.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="text-center py-10 text-slate-400">
+                    <td colSpan={9} className="text-center py-10 text-slate-400">
                       {String(t('users.noUsers'))}
                     </td>
                   </tr>
                 ) : users.map((user) => (
                   <tr key={user.id} className="bg-background transition even:bg-muted/20 hover:bg-muted/40">
+                    <td className="border-b border-r border-border/70 p-4 text-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedUserIds.has(user.id)}
+                        onChange={() => toggleUserSelection(user.id)}
+                        aria-label={copy.selectUser}
+                        className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary"
+                      />
+                    </td>
                     <td className="border-b border-r border-border/70 p-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-primary-foreground font-semibold text-sm">

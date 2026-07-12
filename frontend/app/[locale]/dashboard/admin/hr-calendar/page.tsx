@@ -140,6 +140,8 @@ export default function AdminHrCalendarPage() {
   const [formOpen, setFormOpen] = useState(false);
   const [editingInterview, setEditingInterview] = useState<ScheduledInterview | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<ScheduledInterview | null>(null);
+  const [selectedInterviewIds, setSelectedInterviewIds] = useState<Set<string>>(() => new Set());
+  const [bulkDeleting, setBulkDeleting] = useState(false);
   const [page, setPage] = useState(1);
   const [form, setForm] = useState<FormState>(() => getDefaultForm());
 
@@ -177,6 +179,8 @@ export default function AdminHrCalendarPage() {
   const firstItem = filteredInterviews.length ? (currentPage - 1) * ROWS_PER_PAGE + 1 : 0;
   const lastItem = Math.min(currentPage * ROWS_PER_PAGE, filteredInterviews.length);
   const paginatedInterviews = filteredInterviews.slice((currentPage - 1) * ROWS_PER_PAGE, currentPage * ROWS_PER_PAGE);
+  const allInterviewsOnPageSelected =
+    paginatedInterviews.length > 0 && paginatedInterviews.every((item) => selectedInterviewIds.has(item.id));
 
   const invalidateCalendar = () => queryClient.invalidateQueries({ queryKey: ['admin', 'hr-calendar', 'interviews'] });
 
@@ -218,6 +222,45 @@ export default function AdminHrCalendarPage() {
   });
 
   const isSaving = createMutation.isPending || updateMutation.isPending;
+  const bulkDeleteDisabled = bulkDeleting || deleteMutation.isPending || selectedInterviewIds.size === 0;
+
+  const toggleInterviewSelection = (id: string) => {
+    setSelectedInterviewIds((current) => {
+      const next = new Set(current);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleAllInterviewsOnPage = () => {
+    setSelectedInterviewIds((current) => {
+      const next = new Set(current);
+      if (allInterviewsOnPageSelected) {
+        paginatedInterviews.forEach((item) => next.delete(item.id));
+      } else {
+        paginatedInterviews.forEach((item) => next.add(item.id));
+      }
+      return next;
+    });
+  };
+
+  const handleBulkDelete = async () => {
+    const ids = Array.from(selectedInterviewIds);
+    if (!ids.length) return;
+    if (!confirm('Supprimer les entretiens selectionnes ?')) return;
+    setBulkDeleting(true);
+    try {
+      await Promise.all(ids.map((id) => deleteAdminHrInterview(id)));
+      setSelectedInterviewIds(new Set());
+      toast.success('Entretiens supprimes');
+      await invalidateCalendar();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Suppression groupée impossible');
+    } finally {
+      setBulkDeleting(false);
+    }
+  };
 
   const openCreateDialog = () => {
     setEditingInterview(null);
@@ -305,6 +348,15 @@ export default function AdminHrCalendarPage() {
               <Plus className="h-4 w-4" />
               Ajouter
             </button>
+            <button
+              type="button"
+              onClick={handleBulkDelete}
+              disabled={bulkDeleteDisabled}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-rose-200 px-4 text-sm font-semibold text-rose-600 transition hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {bulkDeleting ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+              Supprimer
+            </button>
           </div>
         </div>
       </motion.section>
@@ -352,9 +404,18 @@ export default function AdminHrCalendarPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[860px] border-collapse border border-border">
+          <table className="w-full min-w-[920px] border-collapse border border-border">
             <thead>
               <tr className="bg-muted/40 text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th className="w-12 border-b border-r border-border px-4 py-3 text-center">
+                  <input
+                    type="checkbox"
+                    checked={allInterviewsOnPageSelected}
+                    onChange={toggleAllInterviewsOnPage}
+                    aria-label="Selectionner tous les entretiens affiches"
+                    className="h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500"
+                  />
+                </th>
                 <th className="border-b border-r border-border px-5 py-3 font-semibold">Candidat</th>
                 <th className="border-b border-r border-border px-5 py-3 font-semibold">Jour</th>
                 <th className="border-b border-r border-border px-5 py-3 font-semibold">Heure</th>
@@ -366,13 +427,13 @@ export default function AdminHrCalendarPage() {
             <tbody>
               {interviewsQuery.isLoading ? (
                 <tr>
-                  <td colSpan={6} className="px-5 py-14 text-center text-sm text-muted-foreground">
+                  <td colSpan={7} className="px-5 py-14 text-center text-sm text-muted-foreground">
                     Chargement des entretiens...
                   </td>
                 </tr>
               ) : filteredInterviews.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-5 py-14 text-center text-sm text-muted-foreground">
+                  <td colSpan={7} className="px-5 py-14 text-center text-sm text-muted-foreground">
                     Aucun entretien trouve.
                   </td>
                 </tr>
@@ -385,6 +446,15 @@ export default function AdminHrCalendarPage() {
                     transition={{ duration: 0.28, delay: Math.min(index * 0.045, 0.35) }}
                     className="bg-background transition even:bg-muted/20 hover:bg-muted/40"
                   >
+                    <td className="border-b border-r border-border/70 px-4 py-4 text-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedInterviewIds.has(item.id)}
+                        onChange={() => toggleInterviewSelection(item.id)}
+                        aria-label="Selectionner cet entretien"
+                        className="h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500"
+                      />
+                    </td>
                     <td className="border-b border-r border-border/70 px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-500/10 text-sm font-bold text-violet-700">
