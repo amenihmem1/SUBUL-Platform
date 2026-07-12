@@ -42,11 +42,58 @@ function isRoleCompatibleReturnUrl(url: string | null, role: string | null | und
   return true;
 }
 
-const FEATURES = [
-  { icon: Zap,        text: 'Coaching IA personnalisé pour votre carrière' },
-  { icon: TrendingUp, text: 'Certifications reconnues mondialement' },
-  { icon: Shield,     text: 'Plateforme sécurisée et certifiée' },
-];
+const loginPageCopy = {
+  fr: {
+    features: [
+      { icon: Zap, text: 'Coaching IA personnalise pour votre carriere' },
+      { icon: TrendingUp, text: 'Certifications reconnues mondialement' },
+      { icon: Shield, text: 'Plateforme securisee et certifiee' },
+    ],
+    titleLine1: 'Votre carriere,',
+    titleLine2: "propulsee par l'IA",
+    subtitle: "La plateforme d'apprentissage nouvelle generation pour les professionnels tech du monde arabe.",
+    stats: [['5k+', 'Apprenants'], ['98%', 'Satisfaction'], ['50+', 'Certifications']],
+    welcome: 'Bon retour',
+    welcomeSubtitle: 'Connectez-vous a votre espace Subul',
+    email: 'Adresse e-mail',
+    emailPlaceholder: 'vous@exemple.com',
+    password: 'Mot de passe',
+    forgot: 'Oublie ?',
+    login: 'Se connecter',
+    loading: 'Connexion...',
+    or: 'ou',
+    resend: 'Email non verifie ? Renvoyer',
+    noAccount: 'Pas encore de compte ?',
+    createAccount: 'Creer un compte',
+    termsPrefix: 'En vous connectant, vous acceptez nos',
+    terms: "conditions d'utilisation",
+  },
+  en: {
+    features: [
+      { icon: Zap, text: 'Personalized AI coaching for your career' },
+      { icon: TrendingUp, text: 'Globally recognized certifications' },
+      { icon: Shield, text: 'Secure and certified platform' },
+    ],
+    titleLine1: 'Your career,',
+    titleLine2: 'powered by AI',
+    subtitle: 'The next-generation learning platform for tech professionals in the Arab world.',
+    stats: [['5k+', 'Learners'], ['98%', 'Satisfaction'], ['50+', 'Certifications']],
+    welcome: 'Welcome back',
+    welcomeSubtitle: 'Sign in to your Subul workspace',
+    email: 'Email address',
+    emailPlaceholder: 'you@example.com',
+    password: 'Password',
+    forgot: 'Forgot?',
+    login: 'Sign in',
+    loading: 'Signing in...',
+    or: 'or',
+    resend: 'Email not verified? Resend',
+    noAccount: "Don't have an account?",
+    createAccount: 'Create an account',
+    termsPrefix: 'By signing in, you agree to our',
+    terms: 'terms of use',
+  },
+} as const;
 
 export default function LoginPage() {
   const router          = useRouter();
@@ -59,6 +106,7 @@ export default function LoginPage() {
   const queryClient     = useQueryClient();
   const { session, isLoading: isSessionLoading } = useAuth();
   const { t }           = useTranslation();
+  const copy            = loginPageCopy[locale === 'fr' ? 'fr' : 'en'];
 
   const [error,       setError]       = useState('');
   const [isLoading,   setIsLoading]   = useState(false);
@@ -165,7 +213,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen w-full">
 
       {/* ── LEFT BRAND PANEL ── */}
-      <div className="hidden lg:flex lg:w-[52%] xl:w-[55%] relative flex-col items-center justify-center overflow-hidden"
+      <div className="hidden lg:flex lg:w-[52%] xl:w-[55%] relative flex-col items-center justify-start overflow-hidden py-8 xl:py-10"
            style={{ background: 'linear-gradient(135deg, #1a0533 0%, #3b0764 30%, #7c1fa2 65%, #c2185b 100%)' }}>
 
         {/* Decorative blobs */}
@@ -182,30 +230,30 @@ export default function LoginPage() {
 
         <div className="relative z-10 flex flex-col items-center text-center px-12 max-w-lg">
           {/* Logo */}
-          <div className="mb-10 drop-shadow-2xl">
+          <div className="mb-7 drop-shadow-2xl">
             <Image
-              src="/logo_subul_nav-side.png"
+              src="/subul-logo-transparent.png"
               alt="Subul"
-              width={220}
-              height={110}
+              width={310}
+              height={160}
               className="object-contain"
               priority
             />
           </div>
 
           <h1 className="text-3xl xl:text-4xl font-extrabold text-white leading-tight mb-3">
-            Votre carrière,<br />
+            {copy.titleLine1}<br />
             <span style={{ background: 'linear-gradient(90deg,#ff9de2,#ffcb77)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              propulsée par l&apos;IA
+              {copy.titleLine2}
             </span>
           </h1>
           <p className="text-white/60 text-sm leading-relaxed mb-10">
-            La plateforme d&apos;apprentissage nouvelle génération pour les professionnels tech du monde arabe.
+            {copy.subtitle}
           </p>
 
           {/* Feature pills */}
           <div className="w-full space-y-3">
-            {FEATURES.map(({ icon: Icon, text }, i) => (
+            {copy.features.map(({ icon: Icon, text }, i) => (
               <div key={i} className="flex items-center gap-3 px-4 py-3 rounded-2xl"
                    style={{ background: 'rgba(255,255,255,0.07)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.12)' }}>
                 <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -219,7 +267,7 @@ export default function LoginPage() {
 
           {/* Stats row */}
           <div className="mt-10 grid grid-cols-3 gap-4 w-full">
-            {[['5k+', 'Apprenants'], ['98%', 'Satisfaction'], ['50+', 'Certifications']].map(([val, label]) => (
+            {copy.stats.map(([val, label]) => (
               <div key={label} className="flex flex-col items-center">
                 <span className="text-2xl font-extrabold text-white">{val}</span>
                 <span className="text-xs text-white/50 mt-0.5">{label}</span>
@@ -230,7 +278,7 @@ export default function LoginPage() {
       </div>
 
       {/* ── RIGHT FORM PANEL ── */}
-      <div className="flex-1 flex flex-col items-center justify-center bg-white relative px-6 py-12">
+      <div className="flex-1 flex flex-col items-center justify-start bg-white relative px-6 pb-10 pt-24 lg:pt-20">
 
         {/* Back to localized home (e.g. /fr) */}
         <Button
@@ -247,15 +295,15 @@ export default function LoginPage() {
 
         {/* Mobile logo */}
         <div className="lg:hidden mb-8">
-          <Image src="/logo_subul_nav-side.png" alt="Subul" width={140} height={70} className="object-contain" />
+          <Image src="/subul-logo-transparent.png" alt="Subul" width={180} height={95} className="object-contain" />
         </div>
 
         <div className="w-full max-w-[400px]">
 
           {/* Header */}
           <div className="mb-8">
-            <h2 className="text-2xl font-extrabold text-slate-900">Bon retour</h2>
-            <p className="text-slate-500 text-sm mt-1">Connectez-vous à votre espace Subul</p>
+            <h2 className="text-2xl font-extrabold text-slate-900">{copy.welcome}</h2>
+            <p className="text-slate-500 text-sm mt-1">{copy.welcomeSubtitle}</p>
           </div>
 
           {unverifiedNotice && (
@@ -329,11 +377,11 @@ export default function LoginPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-slate-700 text-sm font-semibold">Adresse e-mail</FormLabel>
+                    <FormLabel className="text-slate-700 text-sm font-semibold">{copy.email}</FormLabel>
                     <div className="relative">
                       <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       <Input
-                        placeholder="vous@exemple.com"
+                        placeholder={copy.emailPlaceholder}
                         type="email"
                         autoComplete="email"
                         className="h-11 pl-10 pr-4 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all"
@@ -351,12 +399,12 @@ export default function LoginPage() {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center justify-between">
-                      <FormLabel className="text-slate-700 text-sm font-semibold">Mot de passe</FormLabel>
+                      <FormLabel className="text-slate-700 text-sm font-semibold">{copy.password}</FormLabel>
                       <Link
                         href={`/${locale}/auth/forgot-password`}
                         className="text-xs text-violet-600 hover:text-violet-800 font-medium"
                       >
-                        Oublié ?
+                        {copy.forgot}
                       </Link>
                     </div>
                     <div className="relative">
@@ -391,12 +439,12 @@ export default function LoginPage() {
                 {isLoading ? (
                   <span className="flex items-center gap-2">
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    Connexion…
+                    {copy.loading}
                   </span>
                 ) : (
                   <span className="flex items-center gap-2">
                     <Lock className="w-4 h-4" />
-                    Se connecter
+                    {copy.login}
                   </span>
                 )}
               </Button>
@@ -406,7 +454,7 @@ export default function LoginPage() {
           {/* Divider */}
           <div className="flex items-center gap-3 my-5">
             <div className="flex-1 h-px bg-slate-100" />
-            <span className="text-xs text-slate-400">ou</span>
+            <span className="text-xs text-slate-400">{copy.or}</span>
             <div className="flex-1 h-px bg-slate-100" />
           </div>
 
@@ -415,25 +463,25 @@ export default function LoginPage() {
             href={`/${locale}/auth/resend-verification`}
             className="flex items-center justify-center gap-2 w-full h-10 rounded-xl border border-slate-200 text-sm text-slate-500 hover:border-violet-300 hover:text-violet-600 hover:bg-violet-50 transition-all"
           >
-            Email non vérifié ? Renvoyer
+            {copy.resend}
           </Link>
 
           {/* Sign up link */}
           <p className="text-center text-sm text-slate-500 mt-6">
-            Pas encore de compte ?{' '}
+            {copy.noAccount}{' '}
             <Link
               href={`/${locale}/auth/register${returnUrl ? `?returnUrl=${encodeURIComponent(returnUrl)}` : ''}`}
               className="font-semibold"
               style={{ color: '#c2185b' }}
             >
-              Créer un compte
+              {copy.createAccount}
             </Link>
           </p>
 
           <p className="mt-4 text-center text-xs text-slate-400">
-            En vous connectant, vous acceptez nos{' '}
+            {copy.termsPrefix}{' '}
             <Link href={`/${locale}/terms`} className="underline hover:text-violet-600">
-              conditions d&apos;utilisation
+              {copy.terms}
             </Link>
           </p>
         </div>

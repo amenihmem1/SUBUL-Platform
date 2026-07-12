@@ -38,34 +38,95 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
-/* ── Password strength helpers ── */
-const PASSWORD_RULES = [
-  { label: '8 caractères minimum', test: (p: string) => p.length >= 8 },
-  { label: 'Une majuscule',        test: (p: string) => /[A-Z]/.test(p) },
-  { label: 'Un chiffre',           test: (p: string) => /\d/.test(p) },
-  { label: 'Un caractère spécial', test: (p: string) => /[^A-Za-z0-9]/.test(p) },
-];
+const registerPageCopy = {
+  fr: {
+    passwordRules: ['8 caracteres minimum', 'Une majuscule', 'Un chiffre', 'Un caractere special'],
+    strength: { weak: 'Faible', medium: 'Moyen', good: 'Bon', strong: 'Fort' },
+    features: [
+      { icon: Sparkles, text: 'IA personnalisee pour booster votre apprentissage' },
+      { icon: GraduationCap, text: "Certifications reconnues a l'international" },
+      { icon: Globe, text: 'Communaute de professionnels dans le monde arabe' },
+    ],
+    titleLine1: 'Rejoignez la',
+    titleLine2: 'revolution du savoir',
+    subtitle: 'Creez votre compte et accedez a des milliers de ressources, certifications et un coaching IA personnalise.',
+    stats: [['5k+', 'Apprenants'], ['98%', 'Satisfaction'], ['50+', 'Certifications']],
+    backHome: '{copy.backHome}',
+    heading: 'Creer votre compte',
+    headingSubtitle: "Commencez votre parcours d'apprentissage des maintenant",
+    fullName: 'Nom complet',
+    fullNamePlaceholder: 'Jean Dupont',
+    email: 'Adresse e-mail',
+    emailPlaceholder: 'vous@exemple.com',
+    password: 'Mot de passe',
+    createLoading: 'Creation du compte...',
+    createButton: 'Creer mon compte',
+    alreadyAccount: 'Deja un compte ?',
+    signIn: 'Se connecter',
+    termsPrefix: 'En vous inscrivant, vous acceptez nos',
+    terms: "conditions d'utilisation",
+    andPrivacy: 'et notre',
+    privacy: 'politique de confidentialite',
+    registerError: 'Inscription impossible',
+  },
+  en: {
+    passwordRules: ['8 characters minimum', 'One uppercase letter', 'One number', 'One special character'],
+    strength: { weak: 'Weak', medium: 'Medium', good: 'Good', strong: 'Strong' },
+    features: [
+      { icon: Sparkles, text: 'Personalized AI to boost your learning' },
+      { icon: GraduationCap, text: 'Internationally recognized certifications' },
+      { icon: Globe, text: 'A community of professionals across the Arab world' },
+    ],
+    titleLine1: 'Join the',
+    titleLine2: 'knowledge revolution',
+    subtitle: 'Create your account and access thousands of resources, certifications and personalized AI coaching.',
+    stats: [['5k+', 'Learners'], ['98%', 'Satisfaction'], ['50+', 'Certifications']],
+    backHome: 'Home',
+    heading: 'Create your account',
+    headingSubtitle: 'Start your learning journey now',
+    fullName: 'Full name',
+    fullNamePlaceholder: 'Jane Doe',
+    email: 'Email address',
+    emailPlaceholder: 'you@example.com',
+    password: 'Password',
+    createLoading: 'Creating account...',
+    createButton: 'Create my account',
+    alreadyAccount: 'Already have an account?',
+    signIn: 'Sign in',
+    termsPrefix: 'By signing up, you agree to our',
+    terms: 'terms of use',
+    andPrivacy: 'and our',
+    privacy: 'privacy policy',
+    registerError: 'Registration failed',
+  },
+} as const;
 
-function getStrength(password: string) {
-  const passed = PASSWORD_RULES.filter(r => r.test(password)).length;
-  if (passed <= 1) return { pct: 25,  color: '#ef4444', label: 'Faible' };
-  if (passed === 2) return { pct: 50,  color: '#f97316', label: 'Moyen' };
-  if (passed === 3) return { pct: 75,  color: '#eab308', label: 'Bon' };
-  return                    { pct: 100, color: '#22c55e', label: 'Fort' };
+type RegisterCopy = (typeof registerPageCopy)[keyof typeof registerPageCopy];
+
+function getPasswordRules(copy: RegisterCopy) {
+  return [
+    { label: copy.passwordRules[0], test: (p: string) => p.length >= 8 },
+    { label: copy.passwordRules[1], test: (p: string) => /[A-Z]/.test(p) },
+    { label: copy.passwordRules[2], test: (p: string) => /\d/.test(p) },
+    { label: copy.passwordRules[3], test: (p: string) => /[^A-Za-z0-9]/.test(p) },
+  ];
 }
 
-/* ── Feature list for left panel ── */
-const FEATURES = [
-  { icon: Sparkles,      text: 'IA personnalisée pour booster votre apprentissage' },
-  { icon: GraduationCap, text: 'Certifications reconnues à l\'international' },
-  { icon: Globe,         text: 'Communauté de professionnels dans le monde arabe' },
-];
+function getStrength(password: string, copy: RegisterCopy) {
+  const passed = getPasswordRules(copy).filter(r => r.test(password)).length;
+  if (passed <= 1) return { pct: 25, color: '#ef4444', label: copy.strength.weak };
+  if (passed === 2) return { pct: 50, color: '#f97316', label: copy.strength.medium };
+  if (passed === 3) return { pct: 75, color: '#eab308', label: copy.strength.good };
+  return { pct: 100, color: '#22c55e', label: copy.strength.strong };
+}
 
 export default function RegisterPage() {
   const searchParams = useSearchParams();
   const params = useParams();
   const router = useRouter();
   const locale = normalizeLocale(params?.locale as string);
+  const copy = registerPageCopy[locale === 'fr' ? 'fr' : 'en'];
+  const passwordRules = useMemo(() => getPasswordRules(copy), [copy]);
   const refCodeFromUrl = searchParams?.get('ref') ?? '';
   const returnUrl = searchParams?.get('returnUrl') ?? '';
   const shouldStartTrial = searchParams?.get('startTrial') === '1';
@@ -84,7 +145,7 @@ export default function RegisterPage() {
   });
 
   const watchedPassword = form.watch('password');
-  const strength = useMemo(() => getStrength(watchedPassword || ''), [watchedPassword]);
+  const strength = useMemo(() => getStrength(watchedPassword || '', copy), [copy, watchedPassword]);
 
   const onSubmit = async (data: RegisterFormValues) => {
     setError('');
@@ -134,7 +195,7 @@ export default function RegisterPage() {
           ? msg
           : Array.isArray(msg)
             ? msg.join(', ')
-            : 'Inscription impossible',
+            : copy.registerError,
       );
     } finally {
       setIsLoading(false);
@@ -146,7 +207,7 @@ export default function RegisterPage() {
 
       {/* ── LEFT BRAND PANEL ── */}
       <div
-        className="hidden lg:flex lg:w-[52%] xl:w-[55%] relative flex-col items-center justify-center overflow-hidden"
+        className="hidden lg:flex lg:w-[52%] xl:w-[55%] relative flex-col items-center justify-start overflow-hidden py-8 xl:py-10"
         style={{ background: 'linear-gradient(135deg, #1a0533 0%, #3b0764 30%, #7c1fa2 65%, #c2185b 100%)' }}
       >
         {/* Decorative blobs */}
@@ -175,19 +236,19 @@ export default function RegisterPage() {
 
         <div className="relative z-10 flex flex-col items-center text-center px-12 max-w-lg">
           {/* Logo */}
-          <div className="mb-10 drop-shadow-2xl">
+          <div className="mb-7 drop-shadow-2xl">
             <Image
-              src="/logo_subul_nav-side.png"
+              src="/subul-logo-transparent.png"
               alt="Subul"
-              width={220}
-              height={110}
+              width={310}
+              height={160}
               className="object-contain"
               priority
             />
           </div>
 
           <h1 className="text-3xl xl:text-4xl font-extrabold text-white leading-tight mb-3">
-            Rejoignez la<br />
+            {copy.titleLine1}<br />
             <span
               style={{
                 background: 'linear-gradient(90deg,#ff9de2,#ffcb77)',
@@ -195,16 +256,16 @@ export default function RegisterPage() {
                 WebkitTextFillColor: 'transparent',
               }}
             >
-              révolution du savoir
+              {copy.titleLine2}
             </span>
           </h1>
           <p className="text-white/60 text-sm leading-relaxed mb-10">
-            Créez votre compte et accédez à des milliers de ressources, certifications et un coaching IA personnalisé.
+            {copy.subtitle}
           </p>
 
           {/* Feature pills */}
           <div className="w-full space-y-3">
-            {FEATURES.map(({ icon: Icon, text }, i) => (
+            {copy.features.map(({ icon: Icon, text }, i) => (
               <div
                 key={i}
                 className="flex items-center gap-3 px-4 py-3 rounded-2xl"
@@ -227,7 +288,7 @@ export default function RegisterPage() {
 
           {/* Stats row */}
           <div className="mt-10 grid grid-cols-3 gap-4 w-full">
-            {([['5k+', 'Apprenants'], ['98%', 'Satisfaction'], ['50+', 'Certifications']] as const).map(
+            {copy.stats.map(
               ([val, label]) => (
                 <div key={label} className="flex flex-col items-center">
                   <span className="text-2xl font-extrabold text-white">{val}</span>
@@ -240,27 +301,27 @@ export default function RegisterPage() {
       </div>
 
       {/* ── RIGHT FORM PANEL ── */}
-      <div className="flex-1 flex flex-col items-center justify-center bg-white relative px-6 py-12">
+      <div className="flex-1 flex flex-col items-center justify-start bg-white relative px-6 pb-10 pt-24 lg:pt-20">
         {/* Back link */}
         <Link
           href={`/${locale}`}
           className="absolute top-6 left-6 flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-700 transition-colors group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-          Accueil
+          {copy.backHome}
         </Link>
 
         {/* Mobile logo */}
         <div className="lg:hidden mb-8">
-          <Image src="/logo_subul_nav-side.png" alt="Subul" width={140} height={70} className="object-contain" />
+          <Image src="/subul-logo-transparent.png" alt="Subul" width={180} height={95} className="object-contain" />
         </div>
 
         <div className="w-full max-w-[420px]">
           {/* Header */}
           <div className="mb-8">
-            <h2 className="text-2xl font-extrabold text-slate-900">Créer votre compte</h2>
+            <h2 className="text-2xl font-extrabold text-slate-900">{copy.heading}</h2>
             <p className="text-slate-500 text-sm mt-1">
-              Commencez votre parcours d&apos;apprentissage dès maintenant
+              {copy.headingSubtitle}
             </p>
           </div>
 
@@ -280,11 +341,11 @@ export default function RegisterPage() {
                 name="fullName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-slate-700 text-sm font-semibold">Nom complet</FormLabel>
+                    <FormLabel className="text-slate-700 text-sm font-semibold">{copy.fullName}</FormLabel>
                     <div className="relative">
                       <UserRound className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       <Input
-                        placeholder="Jean Dupont"
+                        placeholder={copy.fullNamePlaceholder}
                         autoComplete="name"
                         className="h-11 pl-10 pr-4 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all"
                         {...field}
@@ -301,11 +362,11 @@ export default function RegisterPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-slate-700 text-sm font-semibold">Adresse e-mail</FormLabel>
+                    <FormLabel className="text-slate-700 text-sm font-semibold">{copy.email}</FormLabel>
                     <div className="relative">
                       <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       <Input
-                        placeholder="vous@exemple.com"
+                        placeholder={copy.emailPlaceholder}
                         type="email"
                         autoComplete="email"
                         className="h-11 pl-10 pr-4 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all"
@@ -323,7 +384,7 @@ export default function RegisterPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-slate-700 text-sm font-semibold">Mot de passe</FormLabel>
+                    <FormLabel className="text-slate-700 text-sm font-semibold">{copy.password}</FormLabel>
                     <div className="relative">
                       <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       <Input
@@ -365,7 +426,7 @@ export default function RegisterPage() {
 
                         {/* Rules checklist */}
                         <div className="grid grid-cols-2 gap-x-3 gap-y-1">
-                          {PASSWORD_RULES.map((rule, i) => {
+                          {passwordRules.map((rule, i) => {
                             const passed = rule.test(watchedPassword);
                             return (
                               <div key={i} className="flex items-center gap-1.5">
@@ -399,12 +460,12 @@ export default function RegisterPage() {
                 {isLoading ? (
                   <span className="flex items-center gap-2">
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    Création du compte…
+                    {copy.createLoading}
                   </span>
                 ) : (
                   <span className="flex items-center gap-2">
                     <UserPlus className="w-4 h-4" />
-                    Créer mon compte
+                    {copy.createButton}
                   </span>
                 )}
               </Button>
@@ -413,24 +474,24 @@ export default function RegisterPage() {
 
           {/* Sign in link */}
           <p className="text-center text-sm text-slate-500 mt-6">
-            Déjà un compte ?{' '}
+            {copy.alreadyAccount}{' '}
             <Link
               href={`/${locale}/auth/login${returnUrl ? `?returnUrl=${encodeURIComponent(returnUrl)}` : ''}`}
               className="font-semibold"
               style={{ color: '#c2185b' }}
             >
-              Se connecter
+              {copy.signIn}
             </Link>
           </p>
 
           <p className="mt-4 text-center text-xs text-slate-400">
-            En vous inscrivant, vous acceptez nos{' '}
+            {copy.termsPrefix}{' '}
             <Link href={`/${locale}/terms`} className="underline hover:text-violet-600">
-              conditions d&apos;utilisation
+              {copy.terms}
             </Link>
             {' '}et notre{' '}
             <Link href={`/${locale}/privacy`} className="underline hover:text-violet-600">
-              politique de confidentialité
+              {copy.privacy}
             </Link>
           </p>
         </div>
