@@ -335,14 +335,6 @@ export default function AdminHrCalendarPage() {
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
             <button
               type="button"
-              onClick={() => interviewsQuery.refetch()}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border px-4 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground"
-            >
-              <RefreshCw className={`h-4 w-4 ${interviewsQuery.isFetching ? 'animate-spin' : ''}`} />
-              Actualiser
-            </button>
-            <button
-              type="button"
               onClick={openCreateDialog}
               className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 text-sm font-bold text-white shadow-sm transition hover:from-violet-700 hover:to-fuchsia-700"
             >
@@ -393,14 +385,6 @@ export default function AdminHrCalendarPage() {
                 placeholder="Rechercher nom, email, statut..."
               />
             </div>
-            <button
-              type="button"
-              onClick={() => interviewsQuery.refetch()}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border px-4 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground lg:hidden"
-            >
-              <RefreshCw className={`h-4 w-4 ${interviewsQuery.isFetching ? 'animate-spin' : ''}`} />
-              Actualiser
-            </button>
           </div>
         </div>
 
@@ -834,7 +818,6 @@ function StatCard({
       whileHover={{ y: -3, transition: { duration: 0.18 } }}
       className="group relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm"
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-rose-500 opacity-0 transition-opacity group-hover:opacity-100" />
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-sm text-muted-foreground">{label}</p>

@@ -119,7 +119,7 @@ function AdminProfileInput({
   return (
     <div>
       <label className="mb-1.5 block text-sm font-medium text-slate-700">{label}</label>
-      <div className={`flex h-10 items-center gap-2 rounded-lg border border-slate-200 px-3 transition focus-within:ring-2 focus-within:ring-blue-500 ${
+      <div className={`flex h-10 items-center gap-2 rounded-lg border border-slate-200 px-3 transition focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-100 ${
         disabled ? 'bg-slate-50 text-slate-400' : 'bg-white'
       }`}>
         <Icon className="h-4 w-4 shrink-0 text-slate-400" />
@@ -129,7 +129,7 @@ function AdminProfileInput({
           onChange={onChange}
           placeholder={placeholder}
           disabled={disabled}
-          className="h-full min-w-0 flex-1 bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 disabled:text-slate-400"
+          className="h-full min-w-0 flex-1 border-0 bg-transparent p-0 text-sm text-slate-900 outline-none ring-0 placeholder:text-slate-400 disabled:text-slate-400 focus:border-0 focus:outline-none focus:ring-0"
         />
       </div>
     </div>
@@ -398,7 +398,7 @@ export default function AdminProfilePage() {
                     onChange={onChange('bio')}
                     rows={4}
                     placeholder={copy.bioPlaceholder}
-                    className="w-full resize-none rounded-lg border border-slate-200 py-2 pl-10 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full resize-none rounded-lg border border-slate-200 py-2 pl-10 pr-3 text-sm outline-none ring-0 focus:border-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-100"
                   />
                 </div>
               </div>

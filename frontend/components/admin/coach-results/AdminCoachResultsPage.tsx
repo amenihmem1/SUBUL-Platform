@@ -894,7 +894,6 @@ function StatCard({
       whileHover={{ y: -3, transition: { duration: 0.16 } }}
       className="group relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm"
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-cyan-500 to-emerald-500 opacity-0 transition-opacity group-hover:opacity-100" />
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-sm text-muted-foreground">{label}</p>
