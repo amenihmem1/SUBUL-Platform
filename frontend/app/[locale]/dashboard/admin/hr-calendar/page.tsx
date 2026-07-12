@@ -641,7 +641,7 @@ function InterviewFormDialog({
               <input
                 value={form.candidateName}
                 onChange={(event) => onChange({ ...form, candidateName: event.target.value })}
-                className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+                className="min-w-0 flex-1 border-0 bg-transparent p-0 text-sm outline-none ring-0 focus:border-0 focus:outline-none focus:ring-0"
                 placeholder="Nom complet"
               />
             </div>
@@ -655,7 +655,7 @@ function InterviewFormDialog({
                 type="email"
                 value={form.candidateEmail}
                 onChange={(event) => onChange({ ...form, candidateEmail: event.target.value })}
-                className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+                className="min-w-0 flex-1 border-0 bg-transparent p-0 text-sm outline-none ring-0 focus:border-0 focus:outline-none focus:ring-0"
                 placeholder="email@subul.uk"
               />
             </div>
@@ -721,11 +721,11 @@ function DeleteInterviewDialog({
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
       <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label="Fermer" />
       <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
-        <div className="bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-5 text-white">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/75">Suppression</p>
-          <h2 className="mt-1 text-xl font-black text-white">Supprimer cet entretien ?</h2>
-        </div>
         <div className="p-6">
+          <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600">
+            <Trash2 className="h-5 w-5" />
+          </div>
+          <h2 className="mb-2 text-xl font-black text-slate-950">Supprimer cet entretien ?</h2>
           <p className="text-sm text-muted-foreground">
             Cette action supprimera le rendez-vous HR Coach du calendrier.
           </p>
@@ -773,11 +773,11 @@ function BulkDeleteInterviewsDialog({
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
       <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label="Fermer" />
       <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
-        <div className="bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-5 text-white">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/75">Suppression</p>
-          <h2 className="mt-1 text-xl font-black text-white">Supprimer les entretiens selectionnes ?</h2>
-        </div>
         <div className="p-6">
+          <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600">
+            <Trash2 className="h-5 w-5" />
+          </div>
+          <h2 className="mb-2 text-xl font-black text-slate-950">Supprimer les entretiens selectionnes ?</h2>
           <p className="text-sm text-slate-600">
             {count} entretien(s) seront supprimés du calendrier.
           </p>

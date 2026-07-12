@@ -109,10 +109,10 @@ const usersPageCopy = {
     emailVerified: 'Email verifie avec succes',
     searchUser: 'Rechercher un utilisateur...',
     unknownRole: 'Role inconnu',
-    modalCreateEyebrow: 'Nouvel utilisateur',
+    modalCreateEyebrow: '',
     modalEditEyebrow: 'Modifier utilisateur',
     modalCreateTitle: 'Ajouter utilisateur',
-    modalEditTitle: 'Modifier',
+    modalEditTitle: '',
     close: 'Fermer',
     fullName: 'Nom complet',
     fullNamePlaceholder: 'Ameni Hmem',
@@ -957,7 +957,7 @@ function UserFormModal({
                 <select
                   value={form.role}
                   onChange={(event) => onChange('role', event.target.value)}
-                  className="h-full min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none"
+                  className="h-full min-w-0 flex-1 border-0 bg-transparent text-sm text-foreground outline-none ring-0 focus:border-0 focus:outline-none focus:ring-0"
                   required
                 >
                   {userRoleOptions.map((option) => (
@@ -1039,18 +1039,18 @@ function BulkDeleteUsersDialog({
         initial={{ opacity: 0, y: 18, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.18 }}
-        className="w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
+        className="relative w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
       >
-        <div className="flex items-start justify-between bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-5 text-white">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/75">Suppression</p>
-            <h3 className="mt-1 text-xl font-black text-white">{title}</h3>
+        <div className="px-6 pt-6">
+          <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600">
+            <Trash2 className="h-5 w-5" />
           </div>
+          <h3 className="text-xl font-black text-slate-950">{title}</h3>
           <button
             type="button"
             onClick={onClose}
             disabled={isDeleting}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/25 text-white transition hover:bg-white/15 disabled:opacity-50"
+            className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition hover:bg-slate-50 hover:text-slate-900 disabled:opacity-50"
             aria-label="Fermer"
           >
             <X className="h-4 w-4" />
@@ -1103,7 +1103,7 @@ function IconFormField({
           onChange={(event) => onChange(event.target.value)}
           placeholder={placeholder}
           required={required}
-          className="h-full min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
+          className="h-full min-w-0 flex-1 border-0 bg-transparent p-0 text-sm text-foreground outline-none ring-0 placeholder:text-muted-foreground focus:border-0 focus:outline-none focus:ring-0"
         />
       </div>
     </label>

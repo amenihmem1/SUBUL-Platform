@@ -677,11 +677,11 @@ function DeleteSessionDialog({
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
       <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label="Fermer" />
       <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
-        <div className="bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-5 text-white">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/75">Suppression</p>
-          <h2 className="mt-1 text-xl font-black text-white">Supprimer cette session ?</h2>
-        </div>
         <div className="p-6">
+          <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600">
+            <Trash2 className="h-5 w-5" />
+          </div>
+          <h2 className="mb-2 text-xl font-black text-slate-950">Supprimer cette session ?</h2>
           <p className="text-sm text-muted-foreground">
             La session et son historique seront retires de la liste admin.
           </p>
@@ -729,11 +729,11 @@ function BulkDeleteSessionsDialog({
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
       <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label="Fermer" />
       <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
-        <div className="bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-5 text-white">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/75">Suppression</p>
-          <h2 className="mt-1 text-xl font-black text-white">Supprimer les sessions selectionnees ?</h2>
-        </div>
         <div className="p-6">
+          <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600">
+            <Trash2 className="h-5 w-5" />
+          </div>
+          <h2 className="mb-2 text-xl font-black text-slate-950">Supprimer les sessions selectionnees ?</h2>
           <p className="text-sm text-slate-600">
             {count} session(s) seront supprimées de la liste admin.
           </p>
