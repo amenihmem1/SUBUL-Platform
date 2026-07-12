@@ -23,11 +23,83 @@ import { COURSES_TEMPLATE, downloadJson } from '@/components/admin/import/import
 
 const ITEMS_PER_PAGE = 10;
 
+const coursesCopy = {
+  fr: {
+    courses: 'Cours',
+    newCourse: 'Nouveau cours',
+    totalCourses: 'Total des cours',
+    deleteConfirm: 'Supprimer ce cours ? Tous les modules, lecons et labs associes seront supprimes.',
+    chooseJson: 'Choisissez d abord un fichier JSON.',
+    invalidJson: 'Fichier JSON invalide',
+    parseError: 'Erreur de lecture JSON',
+    validationOk: 'Validation OK - la structure JSON est valide.',
+    validationIssues: 'probleme(s) de validation trouve(s).',
+    validationFailed: 'La validation a echoue',
+    previewGenerated: 'Apercu genere - verifiez les compteurs et erreurs ci-dessous.',
+    importCommitted: 'Import effectue avec succes.',
+    importFailed: 'Import echoue',
+    templateDownloaded: 'Modele JSON des cours telecharge.',
+    loadingError: 'Erreur lors du chargement des cours.',
+    importTitle: 'Importer les cours / certifications JSON',
+    importHelp: 'Meme structure imbriquee que certif_courses.json. Importez, validez, previsualisez, puis appliquez. Reimporter le meme fichier met a jour les elements existants sans duplication.',
+    downloadTemplate: 'Telecharger le modele',
+    validate: 'Valider',
+    preview: 'Apercu (simulation)',
+    import: 'Importer',
+    noCourses: 'Aucun cours pour le moment',
+    noCoursesHelp: 'Creez un cours pour le proposer aux apprenants. Vous pouvez ajouter modules, lecons et labs en une seule fois.',
+    createCourse: 'Creer un cours',
+    certifications: 'Certifications',
+    course: 'Cours',
+    level: 'Niveau',
+    certificationId: 'ID certification',
+    actions: 'Actions',
+    showing: 'Affichage',
+    of: 'sur',
+    page: 'Page',
+  },
+  en: {
+    courses: 'Courses',
+    newCourse: 'New course',
+    totalCourses: 'Total courses',
+    deleteConfirm: 'Delete this course? All associated modules, lessons and labs will be removed.',
+    chooseJson: 'Choose a JSON file first.',
+    invalidJson: 'Invalid JSON file',
+    parseError: 'JSON parse error',
+    validationOk: 'Validation OK - JSON shape is valid.',
+    validationIssues: 'validation issue(s) found.',
+    validationFailed: 'Validation request failed',
+    previewGenerated: 'Preview generated - review the counts and errors below.',
+    importCommitted: 'Import committed successfully.',
+    importFailed: 'Import failed',
+    templateDownloaded: 'Courses JSON template downloaded.',
+    loadingError: 'Error loading courses.',
+    importTitle: 'Import Courses / Certifications JSON',
+    importHelp: 'Same nested shape as certif_courses.json. Upload, validate, preview, then import. Re-importing the same file will update existing items, not duplicate them.',
+    downloadTemplate: 'Download template',
+    validate: 'Validate',
+    preview: 'Preview (dry-run)',
+    import: 'Import',
+    noCourses: 'No courses yet',
+    noCoursesHelp: 'Create a course to offer it to learners. You can add modules, lessons and labs in one go.',
+    createCourse: 'Create course',
+    certifications: 'Certifications',
+    course: 'Course',
+    level: 'Level',
+    certificationId: 'Certification ID',
+    actions: 'Actions',
+    showing: 'Showing',
+    of: 'of',
+    page: 'Page',
+  },
+} as const;
+
 export default function AdminCoursesPage() {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const pathname = usePathname();
   const locale = pathname.split('/')[1] || 'fr';
+  const copy = coursesCopy[locale === 'fr' ? 'fr' : 'en'];
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data: paginatedData, isLoading, isError } = useAdminCourses(undefined, currentPage, ITEMS_PER_PAGE);
@@ -44,7 +116,7 @@ export default function AdminCoursesPage() {
   const totalPages = paginatedData?.totalPages ?? 1;
 
   const handleDelete = async (id: number | string) => {
-    if (!confirm('Delete this course? All associated modules, lessons and labs will be removed.')) return;
+    if (!confirm(copy.deleteConfirm)) return;
     setDeletingId(id);
     try {
       await deleteCourse.mutateAsync(id);
@@ -56,15 +128,15 @@ export default function AdminCoursesPage() {
   const readPayload = async (): Promise<Record<string, unknown> | null> => {
     const file = fileInputRef.current?.files?.[0];
     if (!file) {
-      showToast('Choose a JSON file first.', 'error');
+      showToast(copy.chooseJson, 'error');
       return null;
     }
     try {
       const text = await file.text();
       return JSON.parse(text) as Record<string, unknown>;
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Invalid JSON file';
-      showToast(`JSON parse error: ${msg}`, 'error');
+      const msg = err instanceof Error ? err.message : copy.invalidJson;
+      showToast(`${copy.parseError}: ${msg}`, 'error');
       return null;
     }
   };
@@ -89,14 +161,14 @@ export default function AdminCoursesPage() {
         },
       });
       if (res.valid) {
-        showToast('Validation OK — JSON shape is valid.', 'success');
+        showToast(copy.validationOk, 'success');
       } else {
-        showToast(`Found ${res.errors.length} validation issue${res.errors.length === 1 ? '' : 's'}.`, 'error');
+        showToast(`${res.errors.length} ${copy.validationIssues}`, 'error');
       }
     } catch (err: any) {
       const status = err?.response?.status;
-      const detail = err?.response?.data?.message ?? err?.message ?? 'Validation request failed';
-      showToast(status ? `${status} — ${detail}` : detail, 'error');
+      const detail = err?.response?.data?.message ?? err?.message ?? copy.validationFailed;
+      showToast(status ? `${status} - ${detail}` : detail, 'error');
     } finally {
       setValidating(false);
     }
@@ -109,22 +181,22 @@ export default function AdminCoursesPage() {
       const result = await importCourses.mutateAsync({ payload, dryRun });
       setImportResult(result as ImportResultLike);
       if (dryRun) {
-        showToast('Preview generated — review the counts and errors below.', 'success');
+        showToast(copy.previewGenerated, 'success');
       } else {
-        showToast('Import committed successfully.', 'success');
+        showToast(copy.importCommitted, 'success');
         setShowIndexingBanner(true);
       }
     } catch (err: any) {
       const status = err?.response?.status;
       const data = err?.response?.data;
-      const detail = (Array.isArray(data?.message) ? data.message.join(', ') : data?.message) ?? err?.message ?? 'Import failed';
-      showToast(status ? `${status} — ${detail}` : detail, 'error');
+      const detail = (Array.isArray(data?.message) ? data.message.join(', ') : data?.message) ?? err?.message ?? copy.importFailed;
+      showToast(status ? `${status} - ${detail}` : detail, 'error');
     }
   };
 
   const handleDownloadTemplate = () => {
     downloadJson('subul-courses-template.json', COURSES_TEMPLATE);
-    showToast('Courses JSON template downloaded.', 'success');
+    showToast(copy.templateDownloaded, 'success');
   };
 
   if (isLoading) {

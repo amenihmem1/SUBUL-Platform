@@ -30,6 +30,75 @@ const buildForm = (user: User): ProfileForm => ({
   bio: (user as unknown as Record<string, unknown>).bio as string || '',
 });
 
+const copyByLocale = {
+  fr: {
+    manageAccount: 'Gerez les informations de votre compte administrateur',
+    reset: 'Reinitialiser',
+    saving: 'Enregistrement...',
+    saveChanges: 'Enregistrer',
+    updated: 'Profil mis a jour avec succes.',
+    updateFailed: 'Echec de la mise a jour du profil. Veuillez reessayer.',
+    loginRequired: 'Connectez-vous pour consulter votre profil.',
+    photoTooLarge: 'La photo doit etre inferieure ou egale a {size}.',
+    profileAlt: 'Profil',
+    changePhoto: 'Changer la photo',
+    memberSince: 'Membre depuis',
+    lastLogin: 'Derniere connexion',
+    personalInformation: 'Informations personnelles',
+    fullName: 'Nom complet',
+    fullNamePlaceholder: 'Saisissez votre nom complet',
+    email: 'Email',
+    company: 'Organisation',
+    companyPlaceholder: 'Votre organisation',
+    phone: 'Telephone',
+    phonePlaceholder: '+00 000 000 000',
+    address: 'Adresse',
+    addressPlaceholder: 'Votre adresse',
+    bio: 'Bio',
+    bioPlaceholder: 'Une courte description de votre profil',
+    accountDetails: 'Details du compte',
+    role: 'Role',
+    status: 'Statut',
+    emailVerified: 'Email verifie',
+    yes: 'Oui',
+    no: 'Non',
+    admin: 'admin',
+  },
+  en: {
+    manageAccount: 'Manage your admin account information',
+    reset: 'Reset',
+    saving: 'Saving...',
+    saveChanges: 'Save changes',
+    updated: 'Profile updated successfully.',
+    updateFailed: 'Failed to update profile. Please try again.',
+    loginRequired: 'Please log in to view your profile.',
+    photoTooLarge: 'Photo must be {size} or smaller.',
+    profileAlt: 'Profile',
+    changePhoto: 'Change photo',
+    memberSince: 'Member since',
+    lastLogin: 'Last login',
+    personalInformation: 'Personal information',
+    fullName: 'Full name',
+    fullNamePlaceholder: 'Enter your full name',
+    email: 'Email',
+    company: 'Company',
+    companyPlaceholder: 'Your organization',
+    phone: 'Phone',
+    phonePlaceholder: '+00 000 000 000',
+    address: 'Address',
+    addressPlaceholder: 'Your address',
+    bio: 'Bio',
+    bioPlaceholder: 'A short description about yourself',
+    accountDetails: 'Account details',
+    role: 'Role',
+    status: 'Status',
+    emailVerified: 'Email verified',
+    yes: 'Yes',
+    no: 'No',
+    admin: 'admin',
+  },
+} as const;
+
 function AdminProfileInput({
   icon: Icon,
   label,
@@ -68,7 +137,8 @@ function AdminProfileInput({
 }
 
 export default function AdminProfilePage() {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
+  const copy = copyByLocale[locale === 'fr' ? 'fr' : 'en'];
   const photoInputId = useId();
 
   const { data: currentUser = null, isLoading: loading } = useCurrentUser();
@@ -122,9 +192,9 @@ export default function AdminProfilePage() {
         address: form.address,
         bio: form.bio,
       });
-      showToast('Profile updated successfully!', 'success');
+      showToast(copy.updated, 'success');
     } catch {
-      showToast('Failed to update profile. Please try again.', 'error');
+      showToast(copy.updateFailed, 'error');
     }
   };
 
@@ -146,7 +216,7 @@ export default function AdminProfilePage() {
   if (!currentUser) {
     return (
       <div className="flex items-center justify-center h-64 text-slate-500">
-        Please log in to view your profile.
+        {copy.loginRequired}
       </div>
     );
   }
@@ -163,14 +233,14 @@ export default function AdminProfilePage() {
             <Shield className="w-6 h-6 text-blue-600" />
             {t('common.profile')}
           </h1>
-          <p className="text-slate-500 text-sm mt-1">Manage your admin account information</p>
+          <p className="text-slate-500 text-sm mt-1">{copy.manageAccount}</p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={handleReset}
             className="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-lg text-sm text-slate-700 hover:bg-slate-50 transition-colors"
           >
-            <RotateCcw className="w-4 h-4" /> Reset
+            <RotateCcw className="w-4 h-4" /> {copy.reset}
           </button>
           <button
             onClick={handleSave}
@@ -178,7 +248,7 @@ export default function AdminProfilePage() {
             className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 disabled:opacity-50 transition-colors"
           >
             <Save className="w-4 h-4" />
-            {updateProfileMutation.isPending || uploadPictureMutation.isPending ? 'Saving…' : 'Save changes'}
+            {updateProfileMutation.isPending || uploadPictureMutation.isPending ? copy.saving : copy.saveChanges}
           </button>
         </div>
       </div>
@@ -194,7 +264,7 @@ export default function AdminProfilePage() {
                 {(photoPreviewUrl || currentUser.profilePicture) ? (
                   <Image
                     src={photoPreviewUrl || currentUser.profilePicture || ''}
-                    alt="Profile"
+                    alt={copy.profileAlt}
                     width={96}
                     height={96}
                     className="w-full h-full object-cover"
@@ -207,7 +277,7 @@ export default function AdminProfilePage() {
               <label
                 htmlFor={photoInputId}
                 className="absolute -bottom-2 -right-2 w-8 h-8 bg-primary rounded-full flex items-center justify-center cursor-pointer hover:bg-primary/90 transition-colors shadow-md"
-                title="Change photo"
+                title={copy.changePhoto}
               >
                 <Camera className="w-4 h-4 text-white" />
               </label>
@@ -219,7 +289,7 @@ export default function AdminProfilePage() {
                 onChange={(e) => {
                   const file = e.target.files?.[0] ?? null;
                   if (file && file.size > MAX_UPLOAD_FILE_SIZE_BYTES) {
-                    showToast(`Photo must be ${MAX_UPLOAD_FILE_SIZE_LABEL} or smaller.`, 'error');
+                    showToast(copy.photoTooLarge.replace('{size}', MAX_UPLOAD_FILE_SIZE_LABEL), 'error');
                     e.target.value = '';
                     return;
                   }
@@ -231,7 +301,7 @@ export default function AdminProfilePage() {
             <div>
               <p className="font-semibold text-slate-900 text-lg">{currentUser.fullName || currentUser.email}</p>
               <span className="inline-block mt-1 px-2.5 py-0.5 bg-primary/10 text-primary text-xs font-medium rounded-full capitalize">
-                {currentUser.role || 'admin'}
+                {currentUser.role || copy.admin}
               </span>
             </div>
 
@@ -261,9 +331,9 @@ export default function AdminProfilePage() {
             </div>
 
             <div className="w-full text-xs text-slate-400 text-left border-t border-slate-100 pt-2">
-              <p>Member since {new Date(currentUser.createdAt).toLocaleDateString()}</p>
+              <p>{copy.memberSince} {new Date(currentUser.createdAt).toLocaleDateString()}</p>
               {currentUser.lastLogin && (
-                <p className="mt-1">Last login: {new Date(currentUser.lastLogin).toLocaleDateString()}</p>
+                <p className="mt-1">{copy.lastLogin}: {new Date(currentUser.lastLogin).toLocaleDateString()}</p>
               )}
             </div>
           </div>
@@ -273,21 +343,21 @@ export default function AdminProfilePage() {
         <div className="lg:col-span-2 space-y-4">
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
             <h2 className="font-semibold text-slate-900 mb-5 flex items-center gap-2">
-              <UserIcon className="w-4 h-4 text-slate-500" /> Personal information
+              <UserIcon className="w-4 h-4 text-slate-500" /> {copy.personalInformation}
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <AdminProfileInput
                 icon={UserIcon}
-                label="Full name"
+                label={copy.fullName}
                 value={form.fullName}
                 onChange={onChange('fullName')}
-                placeholder="Enter your full name"
+                placeholder={copy.fullNamePlaceholder}
               />
 
               <AdminProfileInput
                 icon={Mail}
-                label="Email"
+                label={copy.email}
                 type="email"
                 value={form.email}
                 disabled
@@ -295,39 +365,39 @@ export default function AdminProfilePage() {
 
               <AdminProfileInput
                 icon={Building2}
-                label="Company"
+                label={copy.company}
                 value={form.companyName}
                 onChange={onChange('companyName')}
-                placeholder="Your organization"
+                placeholder={copy.companyPlaceholder}
               />
 
               <AdminProfileInput
                 icon={Phone}
-                label="Phone"
+                label={copy.phone}
                 value={form.phone}
                 onChange={onChange('phone')}
-                placeholder="+00 000 000 000"
+                placeholder={copy.phonePlaceholder}
               />
 
               <div className="sm:col-span-2">
                 <AdminProfileInput
                   icon={MapPin}
-                  label="Address"
+                  label={copy.address}
                   value={form.address}
                   onChange={onChange('address')}
-                  placeholder="Your address"
+                  placeholder={copy.addressPlaceholder}
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Bio</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">{copy.bio}</label>
                 <div className="relative">
                   <Shield className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-slate-400" />
                   <textarea
                     value={form.bio}
                     onChange={onChange('bio')}
                     rows={4}
-                    placeholder="A short description about yourself"
+                    placeholder={copy.bioPlaceholder}
                     className="w-full resize-none rounded-lg border border-slate-200 py-2 pl-10 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -338,15 +408,15 @@ export default function AdminProfilePage() {
           {/* Account info (read-only) */}
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
             <h2 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
-              <Shield className="w-4 h-4 text-slate-500" /> Account details
+              <Shield className="w-4 h-4 text-slate-500" /> {copy.accountDetails}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
               <div className="bg-slate-50 rounded-xl p-4">
-                <p className="text-slate-500 text-xs uppercase tracking-wide mb-1">Role</p>
-                <p className="font-semibold text-slate-900 capitalize">{currentUser.role || 'admin'}</p>
+                <p className="text-slate-500 text-xs uppercase tracking-wide mb-1">{copy.role}</p>
+                <p className="font-semibold text-slate-900 capitalize">{currentUser.role || copy.admin}</p>
               </div>
               <div className="bg-slate-50 rounded-xl p-4">
-                <p className="text-slate-500 text-xs uppercase tracking-wide mb-1">Status</p>
+                <p className="text-slate-500 text-xs uppercase tracking-wide mb-1">{copy.status}</p>
                 <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${
                   currentUser.status === 'active' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-700'
                 }`}>
@@ -354,8 +424,8 @@ export default function AdminProfilePage() {
                 </span>
               </div>
               <div className="bg-slate-50 rounded-xl p-4">
-                <p className="text-slate-500 text-xs uppercase tracking-wide mb-1">Email verified</p>
-                <p className="font-semibold text-slate-900">{currentUser.isEmailVerified ? 'Yes' : 'No'}</p>
+                <p className="text-slate-500 text-xs uppercase tracking-wide mb-1">{copy.emailVerified}</p>
+                <p className="font-semibold text-slate-900">{currentUser.isEmailVerified ? copy.yes : copy.no}</p>
               </div>
             </div>
           </div>

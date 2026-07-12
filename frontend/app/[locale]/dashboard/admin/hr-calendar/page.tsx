@@ -445,7 +445,7 @@ export default function AdminHrCalendarPage() {
               className="inline-flex h-9 items-center justify-center gap-1 rounded-lg border border-border px-3 text-xs font-semibold transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-45"
             >
               <ChevronLeft className="h-4 w-4" />
-              Previous
+              Précédent
             </button>
             <span className="inline-flex h-9 items-center rounded-lg border border-border bg-muted/40 px-4 font-semibold text-foreground">
               Page {currentPage} / {totalPages}
@@ -456,7 +456,7 @@ export default function AdminHrCalendarPage() {
               disabled={currentPage >= totalPages}
               className="inline-flex h-9 items-center justify-center gap-1 rounded-lg border border-border px-3 text-xs font-semibold transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-45"
             >
-              Next
+              Suivant
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>

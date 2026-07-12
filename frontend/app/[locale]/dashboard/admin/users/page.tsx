@@ -104,8 +104,60 @@ const userRoleOptions = [
   { value: 'commercial', labelKey: 'users.commercial', fallback: 'Commercial' },
 ];
 
+const usersPageCopy = {
+  fr: {
+    emailVerified: 'Email verifie avec succes',
+    searchUser: 'Rechercher un utilisateur...',
+    unknownRole: 'Role inconnu',
+    modalCreateEyebrow: 'Nouvel utilisateur',
+    modalEditEyebrow: 'Modifier utilisateur',
+    modalCreateTitle: 'Ajouter utilisateur',
+    modalEditTitle: 'Modifier',
+    close: 'Fermer',
+    fullName: 'Nom complet',
+    fullNamePlaceholder: 'Ameni Hmem',
+    email: 'Email',
+    emailPlaceholder: 'ameni@example.com',
+    phone: 'Telephone',
+    phonePlaceholder: '+216 00 000 000',
+    role: 'Role',
+    password: 'Mot de passe',
+    confirmPassword: 'Confirmer le mot de passe',
+    cancel: 'Annuler',
+    save: 'Enregistrer',
+    missingRequired: 'Nom, email et role sont obligatoires.',
+    passwordTooShort: 'Le mot de passe doit contenir au moins 8 caracteres.',
+    passwordMismatch: 'Les mots de passe ne correspondent pas.',
+  },
+  en: {
+    emailVerified: 'Email verified successfully',
+    searchUser: 'Search user...',
+    unknownRole: 'Unknown role',
+    modalCreateEyebrow: 'New user',
+    modalEditEyebrow: 'Edit user',
+    modalCreateTitle: 'Add user',
+    modalEditTitle: 'Edit',
+    close: 'Close',
+    fullName: 'Full name',
+    fullNamePlaceholder: 'Ameni Hmem',
+    email: 'Email',
+    emailPlaceholder: 'ameni@example.com',
+    phone: 'Phone',
+    phonePlaceholder: '+216 00 000 000',
+    role: 'Role',
+    password: 'Password',
+    confirmPassword: 'Confirm password',
+    cancel: 'Cancel',
+    save: 'Save',
+    missingRequired: 'Name, email and role are required.',
+    passwordTooShort: 'Password must contain at least 8 characters.',
+    passwordMismatch: 'Passwords do not match.',
+  },
+} as const;
+
 export default function AdminUsers() {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
+  const copy = usersPageCopy[locale === 'fr' ? 'fr' : 'en'];
   const { showToast } = useToast();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterRole, setFilterRole] = useState<string>('all');
@@ -195,7 +247,7 @@ export default function AdminUsers() {
     setVerifyPendingUserId(id);
     try {
       await verifyEmail.mutateAsync(id);
-      showToast('Email vérifié avec succès', 'success');
+      showToast(copy.emailVerified, 'success');
     } catch (err) {
       const { key } = normalizeApiError(err);
       showToast(t(key), 'error');
@@ -232,17 +284,17 @@ export default function AdminUsers() {
     const phone = userForm.phone.trim();
 
     if (!fullName || !email || !userForm.role) {
-      showToast('Nom, email et role sont obligatoires.', 'error');
+      showToast(copy.missingRequired, 'error');
       return;
     }
 
     if (userFormMode === 'create') {
       if (userForm.password.length < 8) {
-        showToast('Le mot de passe doit contenir au moins 8 caracteres.', 'error');
+        showToast(copy.passwordTooShort, 'error');
         return;
       }
       if (userForm.password !== userForm.confirmPassword) {
-        showToast('Les mots de passe ne correspondent pas.', 'error');
+        showToast(copy.passwordMismatch, 'error');
         return;
       }
     }
@@ -324,7 +376,7 @@ export default function AdminUsers() {
       case 'university_owner':
         return String(t('roles.university') || 'University');
       case 'commercial': return String(t('users.commercial') || 'Commercial');
-      default: return role || String(t('users.unknownRole') || 'Unknown role');
+      default: return role || String(t('users.unknownRole') || copy.unknownRole);
     }
   };
 
@@ -379,7 +431,7 @@ export default function AdminUsers() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
-            placeholder={String(t('users.searchPlaceholder') || 'Search user...')}
+            placeholder={String(t('users.searchPlaceholder') || copy.searchUser)}
             value={searchQuery}
             onChange={(e) => { setSearchQuery(e.target.value); }}
             className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -693,6 +745,7 @@ export default function AdminUsers() {
         }}
         onSubmit={handleUserFormSubmit}
         onChange={(key, value) => setUserForm((prev) => ({ ...prev, [key]: value }))}
+        copy={copy}
       />
 
       <ManageSubscriptionModal
@@ -721,6 +774,7 @@ function UserFormModal({
   mode,
   form,
   t,
+  copy,
   isSaving,
   onClose,
   onSubmit,
@@ -730,6 +784,7 @@ function UserFormModal({
   mode: UserFormMode;
   form: UserFormState;
   t: (key: string) => unknown;
+  copy: typeof usersPageCopy.fr | typeof usersPageCopy.en;
   isSaving: boolean;
   onClose: () => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -752,17 +807,17 @@ function UserFormModal({
         <div className="flex items-start justify-between border-b border-border px-6 py-5">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
-              {isCreate ? 'Nouvel utilisateur' : 'Modifier utilisateur'}
+              {isCreate ? copy.modalCreateEyebrow : copy.modalEditEyebrow}
             </p>
             <h3 className="mt-1 text-xl font-black text-foreground">
-              {isCreate ? String(t('users.addUser') || 'Ajouter utilisateur') : String(t('common.edit') || 'Modifier')}
+              {isCreate ? String(t('users.addUser') || copy.modalCreateTitle) : String(t('common.edit') || copy.modalEditTitle)}
             </h3>
           </div>
           <button
             type="button"
             onClick={onClose}
             className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition hover:bg-muted hover:text-foreground"
-            aria-label={String(t('common.close') || 'Fermer')}
+            aria-label={String(t('common.close') || copy.close)}
           >
             <X className="h-4 w-4" />
           </button>
@@ -772,31 +827,31 @@ function UserFormModal({
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <IconFormField
               icon={UserRound}
-              label="Nom complet"
+              label={copy.fullName}
               value={form.fullName}
               onChange={(value) => onChange('fullName', value)}
-              placeholder="Ameni Hmem"
+              placeholder={copy.fullNamePlaceholder}
               required
             />
             <IconFormField
               icon={Mail}
-              label={labelFor('auth.email', 'Email')}
+              label={labelFor('auth.email', copy.email)}
               type="email"
               value={form.email}
               onChange={(value) => onChange('email', value)}
-              placeholder="ameni@example.com"
+              placeholder={copy.emailPlaceholder}
               required
             />
             <IconFormField
               icon={Phone}
-              label={labelFor('common.phone', 'Telephone')}
+              label={labelFor('common.phone', copy.phone)}
               type="tel"
               value={form.phone}
               onChange={(value) => onChange('phone', value)}
-              placeholder="+216 00 000 000"
+              placeholder={copy.phonePlaceholder}
             />
             <label className="block">
-              <span className="mb-1.5 block text-sm font-semibold text-foreground">Role</span>
+              <span className="mb-1.5 block text-sm font-semibold text-foreground">{copy.role}</span>
               <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15">
                 <ShieldCheck className="h-4 w-4 shrink-0 text-muted-foreground" />
                 <select
@@ -818,7 +873,7 @@ function UserFormModal({
               <>
                 <IconFormField
                   icon={LockKeyhole}
-                  label="Mot de passe"
+                  label={copy.password}
                   type="password"
                   value={form.password}
                   onChange={(value) => onChange('password', value)}
@@ -827,7 +882,7 @@ function UserFormModal({
                 />
                 <IconFormField
                   icon={LockKeyhole}
-                  label="Confirmer le mot de passe"
+                  label={copy.confirmPassword}
                   type="password"
                   value={form.confirmPassword}
                   onChange={(value) => onChange('confirmPassword', value)}
@@ -844,7 +899,7 @@ function UserFormModal({
               onClick={onClose}
               className="inline-flex h-11 items-center justify-center rounded-xl border border-border px-5 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground"
             >
-              {String(t('common.cancel') || 'Annuler')}
+              {String(t('common.cancel') || copy.cancel)}
             </button>
             <button
               type="submit"
@@ -852,7 +907,7 @@ function UserFormModal({
               className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-primary px-5 text-sm font-bold text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle className="h-4 w-4" />}
-              {isCreate ? String(t('users.addUser') || 'Ajouter') : String(t('common.save') || 'Enregistrer')}
+              {isCreate ? String(t('users.addUser') || copy.modalCreateTitle) : String(t('common.save') || copy.save)}
             </button>
           </div>
         </form>

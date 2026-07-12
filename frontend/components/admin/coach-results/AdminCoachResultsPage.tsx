@@ -81,12 +81,12 @@ const configs: Record<CoachKind, CoachConfig> = {
   },
   technical: {
     kind: 'technical',
-    label: 'Technical Coach',
+    label: 'coach technique',
     apiBase: '/technical-coach-app/api/tech',
     reportBase: '/technical-coach-app/report',
     accent: 'cyan',
     emptyTitle: 'Aucun resultat technique',
-    emptyDescription: 'Les rapports techniques apparaitront ici apres les sessions Technical Coach.',
+    emptyDescription: 'Les rapports techniques apparaitront ici apres les sessions du coach technique.',
   },
 };
 
@@ -532,7 +532,7 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
               className="inline-flex h-9 items-center justify-center gap-1 rounded-lg border border-border px-3 text-xs font-semibold transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-45"
             >
               <ChevronLeft className="h-4 w-4" />
-              Previous
+              Précédent
             </button>
             <span className="inline-flex h-9 items-center rounded-lg border border-border bg-muted/40 px-4 font-semibold text-foreground">
               Page {currentPage} / {totalPages}
@@ -543,7 +543,7 @@ export default function AdminCoachResultsPage({ kind }: { kind: CoachKind }) {
               disabled={currentPage >= totalPages}
               className="inline-flex h-9 items-center justify-center gap-1 rounded-lg border border-border px-3 text-xs font-semibold transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-45"
             >
-              Next
+              Suivant
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>
@@ -658,8 +658,8 @@ function ReportChoiceDialog({
   const mainLabel = config.kind === 'hr' ? 'RH' : 'Technique';
   const mainDescription =
     config.kind === 'hr'
-      ? 'Dashboard RH avec score candidat et synthese entretien.'
-      : 'Dashboard technique avec score et synthese des reponses.';
+      ? 'Tableau de bord RH avec score candidat et synthese entretien.'
+      : 'Tableau de bord technique avec score et synthese des reponses.';
   const reportView = config.kind === 'hr' ? 'rh' : 'report';
   const insightsUrl = `${config.reportBase}/${encodedSessionId}?view=insights`;
 
@@ -698,7 +698,7 @@ function ReportChoiceDialog({
           <ReportOption
             href={insightsUrl}
             title="Insight"
-            description="Dashboard insights visuels, vocaux et stress dans un nouvel onglet."
+            description="Tableau de bord des insights visuels, vocaux et stress dans un nouvel onglet."
             icon={<Gauge className="h-5 w-5" />}
             onClick={onClose}
           />
