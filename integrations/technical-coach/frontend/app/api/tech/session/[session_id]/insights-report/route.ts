@@ -9,6 +9,7 @@ export async function GET(
   request: Request,
   { params }: RouteParams
 ) {
+  const { session_id } = await params;
   const requestUrl = new URL(request.url);
   const language = requestUrl.searchParams.get("language");
   const querySuffix = language ? `?language=${encodeURIComponent(language)}` : "";
