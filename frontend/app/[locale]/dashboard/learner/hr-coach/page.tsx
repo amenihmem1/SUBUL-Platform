@@ -83,6 +83,40 @@ function LearnerHrCoachFrame() {
     );
   }, [locale, session?.user?.email, session?.user?.fullName, theme]);
 
+
+  const syncSelectedReportFromFrame = useCallback(() => {
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+
+    try {
+      const frameLocation = iframe.contentWindow?.location;
+      if (!frameLocation) return;
+
+      const reportMatch = frameLocation.pathname.match(/\/report\/([^/?#]+)/);
+      if (!reportMatch?.[1]) return;
+
+      const nextParams = new URLSearchParams(window.location.search);
+      const frameParams = new URLSearchParams(frameLocation.search);
+      const reportView = frameParams.get("view") === "insights" ? "insights" : "rh";
+      nextParams.delete("path");
+      nextParams.delete("session");
+      nextParams.delete("sessionId");
+      nextParams.set("reportSession", decodeURIComponent(reportMatch[1]));
+      nextParams.set("view", reportView);
+
+      const nextQuery = nextParams.toString();
+      const nextUrl = window.location.pathname + (nextQuery ? `?${nextQuery}` : "");
+      const currentUrl = window.location.pathname + window.location.search;
+
+      if (nextUrl !== currentUrl) {
+        window.history.replaceState(null, "", nextUrl);
+        window.dispatchEvent(new PopStateEvent("popstate"));
+      }
+    } catch {
+      // The iframe can be cross-origin in local setups; in that case the selected session cannot be inferred here.
+    }
+  }, []);
+
   const resizeFrame = useCallback(() => {
     const iframe = iframeRef.current;
     if (!iframe) return;
@@ -115,6 +149,11 @@ function LearnerHrCoachFrame() {
   useEffect(() => {
     syncPlatformLanguage();
   }, [syncPlatformLanguage]);
+  useEffect(() => {
+    syncSelectedReportFromFrame();
+    const interval = window.setInterval(syncSelectedReportFromFrame, 700);
+    return () => window.clearInterval(interval);
+  }, [hrCoachUrl, reloadToken, syncSelectedReportFromFrame]);
 
   useEffect(() => {
     resizeFrame();
@@ -179,8 +218,11 @@ function LearnerHrCoachFrame() {
           setShowStartupHint(false);
           syncPlatformLanguage();
           resizeFrame();
+          syncSelectedReportFromFrame();
           window.setTimeout(resizeFrame, 250);
           window.setTimeout(resizeFrame, 900);
+          window.setTimeout(syncSelectedReportFromFrame, 250);
+          window.setTimeout(syncSelectedReportFromFrame, 900);
         }}
         className="block w-full min-w-0 border-0 bg-white"
         style={{ height: frameHeight }}

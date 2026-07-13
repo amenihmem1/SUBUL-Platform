@@ -72,8 +72,6 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
   const { t } = useTranslation();
   const pathname = usePathname();
   const [currentSearch, setCurrentSearch] = useState('');
-  const [latestHrCompletedSessionId, setLatestHrCompletedSessionId] = useState('');
-  const [latestTechnicalCompletedSessionId, setLatestTechnicalCompletedSessionId] = useState('');
   const { logout } = useAuth();
 
   const locale = localeFromPathname(pathname);
@@ -106,52 +104,6 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
   };
 
   useEffect(() => {
-    if (role !== 'student') return;
-
-    type CoachSession = {
-      session_id?: string;
-      status?: string;
-      updated_at?: string;
-      finalized_at?: string;
-      history_at?: string;
-      created_at?: string;
-    };
-
-    const newestCompletedSessionId = (sessions: CoachSession[]) =>
-      [...sessions]
-        .filter((session) => session.status === 'completed' && session.session_id)
-        .sort((left, right) => {
-          const leftDate = left.finalized_at || left.history_at || left.updated_at || left.created_at || '';
-          const rightDate = right.finalized_at || right.history_at || right.updated_at || right.created_at || '';
-          return String(rightDate).localeCompare(String(leftDate));
-        })[0]?.session_id || '';
-
-    const loadCoachResults = async () => {
-      try {
-        const [hrRes, technicalRes] = await Promise.allSettled([
-          fetch('/hr-coach-app/api/rh/sessions?limit=80', { cache: 'no-store' }),
-          fetch('/technical-coach-app/api/tech/sessions?limit=80', { cache: 'no-store' }),
-        ]);
-
-        if (hrRes.status === 'fulfilled' && hrRes.value.ok) {
-          const data = (await hrRes.value.json()) as { sessions?: CoachSession[] };
-          setLatestHrCompletedSessionId(newestCompletedSessionId(Array.isArray(data.sessions) ? data.sessions : []));
-        }
-
-        if (technicalRes.status === 'fulfilled' && technicalRes.value.ok) {
-          const data = (await technicalRes.value.json()) as { sessions?: CoachSession[] };
-          setLatestTechnicalCompletedSessionId(newestCompletedSessionId(Array.isArray(data.sessions) ? data.sessions : []));
-        }
-      } catch {
-        setLatestHrCompletedSessionId('');
-        setLatestTechnicalCompletedSessionId('');
-      }
-    };
-
-    void loadCoachResults();
-  }, [role]);
-
-  useEffect(() => {
     const syncSearch = () => setCurrentSearch(window.location.search);
     syncSearch();
     window.addEventListener('popstate', syncSearch);
@@ -161,6 +113,11 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
   const syncSearchAfterNavigation = () => {
     window.setTimeout(() => setCurrentSearch(window.location.search), 80);
   };
+
+  const currentSearchParams = new URLSearchParams(currentSearch);
+  const selectedCoachSessionId = currentSearchParams.get('reportSession') || currentSearchParams.get('sessionId') || '';
+  const selectedHrCoachSessionId = pathname.includes('/dashboard/learner/hr-coach') ? selectedCoachSessionId : '';
+  const selectedTechnicalCoachSessionId = pathname.includes('/dashboard/learner/technical-coach') ? selectedCoachSessionId : '';
 
   const navConfig: Record<Role, SidebarNavItem[]> = {
     admin: [
@@ -215,15 +172,15 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
             id: 'hr-dashboard-rh',
             icon: LayoutDashboard,
             labelKey: 'navigation.hrDashboardRh',
-            href: latestHrCompletedSessionId ? createCoachReportUrl('/dashboard/learner/hr-coach', latestHrCompletedSessionId, 'rh') : undefined,
-            disabled: !latestHrCompletedSessionId,
+            href: selectedHrCoachSessionId ? createCoachReportUrl('/dashboard/learner/hr-coach', selectedHrCoachSessionId, 'rh') : undefined,
+            disabled: !selectedHrCoachSessionId,
           },
           {
             id: 'hr-dashboard-insight',
             icon: BarChart3,
             labelKey: 'navigation.hrDashboardInsight',
-            href: latestHrCompletedSessionId ? createCoachReportUrl('/dashboard/learner/hr-coach', latestHrCompletedSessionId, 'insights') : undefined,
-            disabled: !latestHrCompletedSessionId,
+            href: selectedHrCoachSessionId ? createCoachReportUrl('/dashboard/learner/hr-coach', selectedHrCoachSessionId, 'insights') : undefined,
+            disabled: !selectedHrCoachSessionId,
           },
           { id: 'hr-history', icon: FileText, labelKey: 'navigation.coachHistory', href: createCoachUrl('/dashboard/learner/hr-coach', '/history') },
           { id: 'hr-calendar', icon: CalendarCheck, labelKey: 'navigation.coachCalendar', href: createCoachUrl('/dashboard/learner/hr-coach', '/calendar') },
@@ -243,15 +200,15 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
             id: 'technical-dashboard-report',
             icon: LayoutDashboard,
             labelKey: 'navigation.technicalDashboard',
-            href: latestTechnicalCompletedSessionId ? createCoachReportUrl('/dashboard/learner/technical-coach', latestTechnicalCompletedSessionId, 'report') : undefined,
-            disabled: !latestTechnicalCompletedSessionId,
+            href: selectedTechnicalCoachSessionId ? createCoachReportUrl('/dashboard/learner/technical-coach', selectedTechnicalCoachSessionId, 'report') : undefined,
+            disabled: !selectedTechnicalCoachSessionId,
           },
           {
             id: 'technical-dashboard-insight',
             icon: BarChart3,
             labelKey: 'navigation.technicalDashboardInsight',
-            href: latestTechnicalCompletedSessionId ? createCoachReportUrl('/dashboard/learner/technical-coach', latestTechnicalCompletedSessionId, 'insights') : undefined,
-            disabled: !latestTechnicalCompletedSessionId,
+            href: selectedTechnicalCoachSessionId ? createCoachReportUrl('/dashboard/learner/technical-coach', selectedTechnicalCoachSessionId, 'insights') : undefined,
+            disabled: !selectedTechnicalCoachSessionId,
           },
           { id: 'technical-history', icon: FileText, labelKey: 'navigation.coachHistory', href: createCoachUrl('/dashboard/learner/technical-coach', '/history') },
           { id: 'technical-help', icon: MessageSquare, labelKey: 'navigation.coachHelp', href: createCoachUrl('/dashboard/learner/technical-coach', '/help') },
@@ -344,7 +301,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
 
     const itemContent = (
       <>
-        {/* Active left bar — gradient */}
+        {/* Active left bar */}
         {active && open && (
           <span
             className={cn(
@@ -621,7 +578,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
         open ? 'w-[250px] translate-x-0 shadow-[0_24px_65px_-55px_rgba(15,23,42,0.35)]' : 'w-[78px] -translate-x-full lg:translate-x-0',
       )}
     >
-      {/* ── Header ── */}
+      {/* Header */}
       <div
         className={cn(
           'flex h-14 shrink-0 items-center border-b border-border/50',
@@ -649,7 +606,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
           )}
         </Link>
 
-        {/* Collapse toggle — visible when open */}
+        {/* Collapse toggle */}
         {open && (
           <button
             onClick={toggle}
@@ -660,7 +617,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
           </button>
         )}
 
-        {/* Expand toggle — visible when collapsed */}
+        {/* Expand toggle */}
         {!open && (
           <button
             onClick={toggle}
@@ -672,7 +629,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
         )}
       </div>
 
-      {/* ── Navigation ── */}
+      {/* Navigation */}
       <nav
         id="sidebar-nav"
         role="navigation"
@@ -752,7 +709,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
         )}
       </nav>
 
-      {/* ── Footer ── */}
+      {/* Footer */}
       <div
         className={cn(
           'shrink-0 border-t border-border/50',
