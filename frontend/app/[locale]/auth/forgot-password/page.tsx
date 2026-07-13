@@ -92,8 +92,21 @@ export default function ForgotPasswordPage() {
   if (status === 'success') {
     return (
       <div className="flex min-h-screen w-full">
+      <style jsx global>{`
+        @keyframes authStatRise {
+          from { opacity: 0; transform: translateY(14px) scale(0.96); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .auth-stat-card {
+          opacity: 0;
+          animation: authStatRise 560ms cubic-bezier(.22, 1, .36, 1) both;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .auth-stat-card { opacity: 1; animation: none; }
+        }
+      `}</style>
         <div
-          className="hidden lg:flex lg:w-[52%] xl:w-[55%] relative flex-col items-center justify-center overflow-hidden"
+          className="hidden lg:flex lg:w-[52%] xl:w-[55%] relative flex-col items-center justify-start overflow-hidden py-5 xl:py-6"
           style={{
             background:
               'linear-gradient(135deg, #1a0533 0%, #3b0764 30%, #7c1fa2 65%, #c2185b 100%)',
@@ -108,19 +121,24 @@ export default function ForgotPasswordPage() {
             }}
           />
           <div className="relative z-10 flex flex-col items-center text-center px-12 max-w-lg">
-            <Image
-              src="/logo_subul_nav-side.png"
-              alt="Subul"
-              width={200}
-              height={100}
-              className="object-contain mb-8 drop-shadow-2xl"
-              priority
-            />
-            <p className="text-white/80 text-sm">{t('auth.forgotPasswordFlow.brandTagline')}</p>
+            <div className="mb-2 drop-shadow-2xl">
+              <Image
+                src="/subul-logo-transparent.png"
+                alt="Subul"
+                width={165}
+                height={85}
+                className="object-contain"
+                priority
+              />
+            </div>
+            <h1 className="text-3xl xl:text-4xl font-extrabold text-white leading-tight mb-2">
+              {t('auth.forgotPasswordFlow.successTitle')}
+            </h1>
+            <p className="text-white/60 text-sm leading-relaxed">{t('auth.forgotPasswordFlow.brandTagline')}</p>
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-center bg-white px-6 py-12">
+        <div className="flex-1 flex flex-col items-center justify-start lg:justify-center bg-white relative px-6 pb-10 pt-16 lg:py-8">
           <Link
             href={`/${locale}`}
             className="absolute top-6 left-6 flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-700 transition-colors group"
@@ -188,8 +206,21 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="flex min-h-screen w-full">
+      <style jsx global>{`
+        @keyframes authStatRise {
+          from { opacity: 0; transform: translateY(14px) scale(0.96); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .auth-stat-card {
+          opacity: 0;
+          animation: authStatRise 560ms cubic-bezier(.22, 1, .36, 1) both;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .auth-stat-card { opacity: 1; animation: none; }
+        }
+      `}</style>
       <div
-        className="hidden lg:flex lg:w-[52%] xl:w-[55%] relative flex-col items-center justify-center overflow-hidden"
+        className="hidden lg:flex lg:w-[52%] xl:w-[55%] relative flex-col items-center justify-start overflow-hidden py-5 xl:py-6"
         style={{
           background: 'linear-gradient(135deg, #1a0533 0%, #3b0764 30%, #7c1fa2 65%, #c2185b 100%)',
         }}
@@ -212,26 +243,29 @@ export default function ForgotPasswordPage() {
         />
 
         <div className="relative z-10 flex flex-col items-center text-center px-12 max-w-lg">
-          <div className="mb-10 drop-shadow-2xl">
+          <div className="mb-2 drop-shadow-2xl">
             <Image
-              src="/logo_subul_nav-side.png"
+              src="/subul-logo-transparent.png"
               alt="Subul"
-              width={220}
-              height={110}
+              width={165}
+              height={85}
               className="object-contain"
               priority
             />
           </div>
-          <p className="text-white/75 text-sm mb-10 max-w-md">{t('auth.forgotPasswordFlow.brandTagline')}</p>
+          <h1 className="text-3xl xl:text-4xl font-extrabold text-white leading-tight mb-2">
+            {t('auth.forgotPasswordFlow.title')}
+          </h1>
+          <p className="text-white/60 text-sm leading-relaxed mb-5 max-w-md">{t('auth.forgotPasswordFlow.brandTagline')}</p>
 
-          <div className="grid w-full gap-3 text-left mb-10">
+          <div className="grid w-full gap-3 text-left mb-5">
             {FEATURE_ICONS.map((Icon, i) => (
               <div
                 key={i}
-                className="flex items-center gap-3 rounded-xl bg-white/5 border border-white/10 px-4 py-3 backdrop-blur-sm"
+                className="flex items-center gap-3 rounded-2xl bg-white/5 border border-white/10 px-4 py-2 backdrop-blur-sm"
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/10">
-                  <Icon className="h-5 w-5 text-white/90" />
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-white/10">
+                  <Icon className="h-4 w-4 text-white/90" />
                 </div>
                 <span className="text-sm text-white/85">{leftFeatures[i]}</span>
               </div>
@@ -239,8 +273,10 @@ export default function ForgotPasswordPage() {
           </div>
 
           <div className="grid grid-cols-3 gap-4 w-full">
-            {leftStats.map(([val, label]) => (
-              <div key={String(label)} className="flex flex-col items-center">
+            {leftStats.map(([val, label], index) => (
+              <div key={String(label)} className="auth-stat-card flex flex-col items-center"
+                style={{ animationDelay: `${index * 120 + 160}ms` }}
+              >
                 <span className="text-2xl font-extrabold text-white">{val}</span>
                 <span className="text-xs text-white/50 mt-0.5">{label}</span>
               </div>
@@ -249,7 +285,7 @@ export default function ForgotPasswordPage() {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center bg-white relative px-6 py-12">
+      <div className="flex-1 flex flex-col items-center justify-start lg:justify-center bg-white relative px-6 pb-10 pt-16 lg:py-8">
         <Link
           href={`/${locale}`}
           className="absolute top-6 left-6 flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-700 transition-colors group rtl:left-auto rtl:right-6"
@@ -258,12 +294,12 @@ export default function ForgotPasswordPage() {
           {t('auth.forgotPasswordFlow.backHome')}
         </Link>
 
-        <div className="lg:hidden mb-8">
-          <Image src="/logo_subul_nav-side.png" alt="Subul" width={140} height={70} className="object-contain" />
+        <div className="lg:hidden mb-4">
+          <Image src="/subul-logo-transparent.png" alt="Subul" width={115} height={62} className="object-contain" />
         </div>
 
         <div className="w-full max-w-[400px]">
-          <div className="mb-8 text-center lg:text-left rtl:lg:text-right">
+          <div className="mb-6 text-center lg:text-left rtl:lg:text-right">
             <h2 className="text-2xl font-extrabold text-slate-900">{t('auth.forgotPasswordFlow.title')}</h2>
             <p className="text-slate-500 text-sm mt-2">{t('auth.forgotPasswordFlow.subtitle')}</p>
           </div>
@@ -291,14 +327,14 @@ export default function ForgotPasswordPage() {
                       {t('auth.forgotPasswordFlow.emailLabel')}
                     </FormLabel>
                     <div className="relative">
-                      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 rtl:left-auto rtl:right-0 rtl:pl-0 rtl:pr-3.5">
+                      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 rtl:left-auto rtl:right-0 rtl:pl-0 rtl:pr-3.5">
                         <Mail className="h-4 w-4 text-slate-400" />
                       </div>
                       <Input
                         type="email"
                         placeholder={t('auth.forgotPasswordFlow.emailPlaceholder')}
                         disabled={isLoading}
-                        className="h-11 pl-10 rtl:pl-4 rtl:pr-10 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all"
+                        className="h-14 pl-12 rtl:pl-4 rtl:pr-12 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all"
                         {...field}
                       />
                     </div>

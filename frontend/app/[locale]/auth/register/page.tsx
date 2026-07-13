@@ -204,6 +204,19 @@ export default function RegisterPage() {
 
   return (
     <div className="flex min-h-screen w-full">
+      <style jsx global>{`
+        @keyframes authStatRise {
+          from { opacity: 0; transform: translateY(14px) scale(0.96); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .auth-stat-card {
+          opacity: 0;
+          animation: authStatRise 560ms cubic-bezier(.22, 1, .36, 1) both;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .auth-stat-card { opacity: 1; animation: none; }
+        }
+      `}</style>
 
       {/* ── LEFT BRAND PANEL ── */}
       <div
@@ -289,8 +302,12 @@ export default function RegisterPage() {
           {/* Stats row */}
           <div className="mt-5 grid grid-cols-3 gap-4 w-full">
             {copy.stats.map(
-              ([val, label]) => (
-                <div key={label} className="flex flex-col items-center">
+              ([val, label], index) => (
+                <div
+                  key={label}
+                  className="auth-stat-card flex flex-col items-center"
+                  style={{ animationDelay: `${index * 120 + 160}ms` }}
+                >
                   <span className="text-2xl font-extrabold text-white">{val}</span>
                   <span className="text-xs text-white/50 mt-0.5">{label}</span>
                 </div>
