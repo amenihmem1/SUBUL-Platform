@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HistoryActionDialog } from "../components/HistoryActionDialog";
 import { SessionHistorySidebar } from "../components/SessionHistorySidebar";
@@ -287,6 +287,7 @@ const historyTranslations = {
 
 export default function HistoryPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [language, setLanguage] = useState<Language>("fr");
   const [theme, setTheme] = useState<Theme>("light");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -305,6 +306,16 @@ export default function HistoryPage() {
   const latestSession = historySessions[0] || null;
   const latestSessionCompleted = latestSession?.status === "completed";
   const copy = historyTranslations[language];
+
+  useEffect(() => {
+    if (historyLoading || !latestSessionCompleted || !latestSessionId) return;
+    const openTarget = searchParams.get("open");
+    if (openTarget === "rh") {
+      router.replace(rhHref);
+    } else if (openTarget === "insights") {
+      router.replace(insightsHref);
+    }
+  }, [historyLoading, insightsHref, latestSessionCompleted, latestSessionId, rhHref, router, searchParams]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;

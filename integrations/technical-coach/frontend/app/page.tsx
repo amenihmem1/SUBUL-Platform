@@ -639,7 +639,7 @@ const interviewTranslations = {
     roleSystem: "System",
     controlPanel: "Control panel",
     controlSubtitle: "Upload the CV, then complete the interview to generate the technical report.",
-    dragResume: "Drag your resume or a scanned image here to begin",
+    dragResume: "Drag your resume here to begin",
     fileTypes: "PDF, DOC, DOCX, TXT, PNG, JPG or WEBP",
     browseFiles: "Browse files",
     noFileSelected: "No file selected",

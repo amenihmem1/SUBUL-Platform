@@ -41,6 +41,7 @@ function LearnerHrCoachFrame() {
     const sessionId = searchParams.get("session");
     const reportSessionId = searchParams.get("reportSession") || searchParams.get("sessionId");
     const reportView = searchParams.get("view");
+    const openTarget = searchParams.get("open");
     const basePath = parsed.pathname.replace(/\/$/, "");
 
     if (reportSessionId) {
@@ -53,6 +54,8 @@ function LearnerHrCoachFrame() {
     } else if (sessionId) {
       parsed.searchParams.set("session", sessionId);
     }
+
+    if (openTarget) parsed.searchParams.set("open", openTarget);
 
     parsed.searchParams.set("theme", theme);
     parsed.searchParams.set("hideThemeSwitcher", "1");

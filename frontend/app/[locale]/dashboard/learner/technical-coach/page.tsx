@@ -44,6 +44,7 @@ function LearnerTechnicalCoachFrame() {
     const url = withPlatformParams(getTechnicalCoachBaseUrl(), locale);
     const parsed = new URL(url, "http://subul.local");
     const requestedPath = searchParams.get("path");
+    const openTarget = searchParams.get("open");
     const basePath = parsed.pathname.replace(/\/$/, "");
     const targetPath = requestedPath && requestedPath !== "/" ? requestedPath : "/";
 
@@ -54,6 +55,8 @@ function LearnerTechnicalCoachFrame() {
         ? targetPath
         : `${basePath}${targetPath}`;
     }
+    if (openTarget) parsed.searchParams.set("open", openTarget);
+
     parsed.searchParams.set("theme", theme);
     parsed.searchParams.set("hideThemeSwitcher", "1");
     parsed.searchParams.set("embedded", "1");

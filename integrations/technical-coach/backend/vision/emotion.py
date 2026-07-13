@@ -2023,7 +2023,7 @@ class CustomEmotionAnalyzer:
                 "uncertain",
                 float(calibrated_confidence),
                 metadata_updates,
-                "The custom emotion model analyzed the latest frame, but the emotion label is uncertain.",
+                "Emotion model updated.",
             )
 
         metadata_updates.update(

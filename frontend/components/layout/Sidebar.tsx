@@ -92,8 +92,11 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
   const isRTL = dir === 'rtl';
 
   const createLocalizedUrl = (path: string) => `/${locale}${path}`;
-  const createCoachUrl = (basePath: string, coachPath: string) =>
-    `${createLocalizedUrl(basePath)}?path=${encodeURIComponent(coachPath)}`;
+  const createCoachUrl = (basePath: string, coachPath: string, extraParams?: Record<string, string>) => {
+    const params = new URLSearchParams({ path: coachPath });
+    Object.entries(extraParams || {}).forEach(([key, value]) => params.set(key, value));
+    return `${createLocalizedUrl(basePath)}?${params.toString()}`;
+  };
 
   useEffect(() => {
     const syncSearch = () => setCurrentSearch(window.location.search);
@@ -154,7 +157,8 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
         section: 'career',
         children: [
           { id: 'hr-interview', icon: Bot, labelKey: 'navigation.coachInterview', href: createCoachUrl('/dashboard/learner/hr-coach', '/') },
-          { id: 'hr-analytics', icon: BarChart3, labelKey: 'navigation.coachAnalytics', href: createCoachUrl('/dashboard/learner/hr-coach', '/dashboard') },
+          { id: 'hr-dashboard-rh', icon: LayoutDashboard, labelKey: 'navigation.hrDashboardRh', href: createCoachUrl('/dashboard/learner/hr-coach', '/history', { open: 'rh' }) },
+          { id: 'hr-dashboard-insight', icon: BarChart3, labelKey: 'navigation.hrDashboardInsight', href: createCoachUrl('/dashboard/learner/hr-coach', '/history', { open: 'insights' }) },
           { id: 'hr-history', icon: FileText, labelKey: 'navigation.coachHistory', href: createCoachUrl('/dashboard/learner/hr-coach', '/history') },
           { id: 'hr-calendar', icon: CalendarCheck, labelKey: 'navigation.coachCalendar', href: createCoachUrl('/dashboard/learner/hr-coach', '/calendar') },
           { id: 'hr-help', icon: MessageSquare, labelKey: 'navigation.coachHelp', href: createCoachUrl('/dashboard/learner/hr-coach', '/help') },
@@ -168,7 +172,8 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
         section: 'career',
         children: [
           { id: 'technical-interview', icon: Terminal, labelKey: 'navigation.coachInterview', href: createCoachUrl('/dashboard/learner/technical-coach', '/') },
-          { id: 'technical-analytics', icon: BarChart3, labelKey: 'navigation.coachAnalytics', href: createCoachUrl('/dashboard/learner/technical-coach', '/dashboard') },
+          { id: 'technical-dashboard-report', icon: LayoutDashboard, labelKey: 'navigation.technicalDashboard', href: createCoachUrl('/dashboard/learner/technical-coach', '/history', { open: 'report' }) },
+          { id: 'technical-dashboard-insight', icon: BarChart3, labelKey: 'navigation.technicalDashboardInsight', href: createCoachUrl('/dashboard/learner/technical-coach', '/history', { open: 'insights' }) },
           { id: 'technical-history', icon: FileText, labelKey: 'navigation.coachHistory', href: createCoachUrl('/dashboard/learner/technical-coach', '/history') },
           { id: 'technical-help', icon: MessageSquare, labelKey: 'navigation.coachHelp', href: createCoachUrl('/dashboard/learner/technical-coach', '/help') },
         ],
@@ -225,14 +230,22 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
     const itemUrl = new URL(item.href, 'http://subul.local');
     const itemPath = itemUrl.pathname;
     const itemCoachPath = itemUrl.searchParams.get('path');
-    const currentCoachPath = new URLSearchParams(currentSearch).get('path');
+    const currentSearchParams = new URLSearchParams(currentSearch);
+    const currentCoachPath = currentSearchParams.get('path');
     const pathMatches = item.id === 'dashboard'
       ? pathname === itemPath
       : pathname === itemPath || pathname.startsWith(itemPath + '/');
 
     if (!pathMatches) return false;
     if (itemCoachPath === null) return true;
-    return (currentCoachPath || '/') === itemCoachPath;
+    if ((currentCoachPath || '/') !== itemCoachPath) return false;
+
+    const itemExtraParamKeys = Array.from(itemUrl.searchParams.keys()).filter((key) => key !== 'path');
+    for (const key of itemExtraParamKeys) {
+      if (currentSearchParams.get(key) !== itemUrl.searchParams.get(key)) return false;
+    }
+    if (!itemExtraParamKeys.length && currentSearchParams.has('open')) return false;
+    return true;
   };
 
   const renderItem = (item: SidebarNavItem) => {

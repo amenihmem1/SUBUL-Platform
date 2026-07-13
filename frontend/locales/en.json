@@ -155,6 +155,10 @@
     "subulTechnicalCoach": "Subul Technical Coach",
     "coachInterview": "Interview",
     "coachAnalytics": "Analytics",
+    "hrDashboardRh": "HR Dashboard",
+    "hrDashboardInsight": "Insight Dashboard",
+    "technicalDashboard": "Technical Dashboard",
+    "technicalDashboardInsight": "Insight Dashboard",
     "coachHistory": "History",
     "coachCalendar": "Calendar",
     "coachHelp": "Help"
