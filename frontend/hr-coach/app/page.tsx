@@ -782,7 +782,7 @@ function HomePageContent() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (searchParams.get("embedded") !== "1") return;
+    if (window.parent === window) return;
     if (!sessionId || (!finalReportReady && !interviewEnded)) return;
 
     window.parent?.postMessage(
@@ -794,7 +794,7 @@ function HomePageContent() {
       },
       "*",
     );
-  }, [finalReportReady, interviewEnded, searchParams, sessionId]);
+  }, [finalReportReady, interviewEnded, sessionId]);
   useEffect(() => {
     if (typeof window === "undefined") return;
     window.localStorage.setItem("report-dashboard-theme", theme);
