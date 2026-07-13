@@ -17,7 +17,7 @@ ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL \
     NEXT_PUBLIC_REPORT_SHARE_BASE_URL=$NEXT_PUBLIC_REPORT_SHARE_BASE_URL
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN npm run build
+RUN npm run build > /tmp/next-build.log 2>&1 || (tail -n 200 /tmp/next-build.log | tr -cd '\11\12\15\40-\176'; exit 1)
 
 FROM node:20-alpine AS runner
 WORKDIR /app
