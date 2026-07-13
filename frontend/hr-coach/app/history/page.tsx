@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { HistoryActionDialog } from "../components/HistoryActionDialog";
 import { SessionHistorySidebar } from "../components/SessionHistorySidebar";
 import { rhApiPath } from "../../lib/apiPath";
@@ -285,7 +285,7 @@ const historyTranslations = {
   },
 } as const;
 
-export default function HistoryPage() {
+function HistoryContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [language, setLanguage] = useState<Language>("fr");
@@ -760,5 +760,12 @@ export default function HistoryPage() {
         }}
       />
     </div>
+  );
+}
+export default function HistoryPage() {
+  return (
+    <Suspense fallback={null}>
+      <HistoryContent />
+    </Suspense>
   );
 }
