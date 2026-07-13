@@ -782,6 +782,21 @@ function HomePageContent() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (searchParams.get("embedded") !== "1") return;
+    if (!sessionId || (!finalReportReady && !interviewEnded)) return;
+
+    window.parent?.postMessage(
+      {
+        type: "SUBUL_COACH_SELECTED_REPORT",
+        coach: "hr",
+        sessionId,
+        view: "rh",
+      },
+      "*",
+    );
+  }, [finalReportReady, interviewEnded, searchParams, sessionId]);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
     window.localStorage.setItem("report-dashboard-theme", theme);
   }, [theme]);
 

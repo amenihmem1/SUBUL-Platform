@@ -146,6 +146,33 @@ function LearnerTechnicalCoachFrame() {
   useEffect(() => {
     syncPlatformState();
   }, [syncPlatformState]);
+
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      const data = event.data as { type?: string; coach?: string; sessionId?: string; view?: string };
+      if (data?.type !== "SUBUL_COACH_SELECTED_REPORT" || data.coach !== "technical" || !data.sessionId) return;
+
+      const nextParams = new URLSearchParams(window.location.search);
+      const reportView = data.view === "insights" ? "insights" : "report";
+      nextParams.delete("path");
+      nextParams.delete("session");
+      nextParams.delete("sessionId");
+      nextParams.set("reportSession", data.sessionId);
+      nextParams.set("view", reportView);
+
+      const nextQuery = nextParams.toString();
+      const nextUrl = window.location.pathname + (nextQuery ? `?${nextQuery}` : "");
+      const currentUrl = window.location.pathname + window.location.search;
+
+      if (nextUrl !== currentUrl) {
+        window.history.replaceState(null, "", nextUrl);
+        window.dispatchEvent(new PopStateEvent("popstate"));
+      }
+    };
+
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
   useEffect(() => {
     syncSelectedReportFromFrame();
     const interval = window.setInterval(syncSelectedReportFromFrame, 700);
