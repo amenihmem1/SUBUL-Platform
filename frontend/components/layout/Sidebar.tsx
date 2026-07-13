@@ -157,6 +157,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
         section: 'career',
         children: [
           { id: 'hr-interview', icon: Bot, labelKey: 'navigation.coachInterview', href: createCoachUrl('/dashboard/learner/hr-coach', '/') },
+          { id: 'hr-analytics', icon: BarChart3, labelKey: 'navigation.analytics', href: createCoachUrl('/dashboard/learner/hr-coach', '/dashboard') },
           { id: 'hr-dashboard-rh', icon: LayoutDashboard, labelKey: 'navigation.hrDashboardRh', href: createCoachUrl('/dashboard/learner/hr-coach', '/history', { open: 'rh' }) },
           { id: 'hr-dashboard-insight', icon: BarChart3, labelKey: 'navigation.hrDashboardInsight', href: createCoachUrl('/dashboard/learner/hr-coach', '/history', { open: 'insights' }) },
           { id: 'hr-history', icon: FileText, labelKey: 'navigation.coachHistory', href: createCoachUrl('/dashboard/learner/hr-coach', '/history') },
@@ -172,6 +173,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
         section: 'career',
         children: [
           { id: 'technical-interview', icon: Terminal, labelKey: 'navigation.coachInterview', href: createCoachUrl('/dashboard/learner/technical-coach', '/') },
+          { id: 'technical-analytics', icon: BarChart3, labelKey: 'navigation.analytics', href: createCoachUrl('/dashboard/learner/technical-coach', '/dashboard') },
           { id: 'technical-dashboard-report', icon: LayoutDashboard, labelKey: 'navigation.technicalDashboard', href: createCoachUrl('/dashboard/learner/technical-coach', '/history', { open: 'report' }) },
           { id: 'technical-dashboard-insight', icon: BarChart3, labelKey: 'navigation.technicalDashboardInsight', href: createCoachUrl('/dashboard/learner/technical-coach', '/history', { open: 'insights' }) },
           { id: 'technical-history', icon: FileText, labelKey: 'navigation.coachHistory', href: createCoachUrl('/dashboard/learner/technical-coach', '/history') },
