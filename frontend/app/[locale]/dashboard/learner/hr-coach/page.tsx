@@ -33,6 +33,8 @@ function LearnerHrCoachFrame() {
   const [reloadToken, setReloadToken] = useState(0);
   const [frameHeight, setFrameHeight] = useState(720);
   const [allowIframeScroll, setAllowIframeScroll] = useState(false);
+  const lastSearchRef = useRef("");
+  const ignoreReportMessagesUntilRef = useRef(0);
 
   const hrCoachUrl = useMemo(() => {
     const url = withPlatformLanguageParams(HR_COACH_URL, locale);
@@ -65,6 +67,19 @@ function LearnerHrCoachFrame() {
     return url.startsWith("/") ? `${parsed.pathname}${parsed.search}${parsed.hash}` : parsed.toString();
   }, [locale, searchParams, session?.user?.email, session?.user?.fullName, theme]);
 
+
+  useEffect(() => {
+    const currentSearch = searchParams.toString();
+    if (lastSearchRef.current && currentSearch !== lastSearchRef.current) {
+      const nextParams = new URLSearchParams(currentSearch);
+      const requestedCoachPath = nextParams.get("path");
+      if (requestedCoachPath && requestedCoachPath !== "/") {
+        ignoreReportMessagesUntilRef.current = Date.now() + 1200;
+      }
+    }
+    lastSearchRef.current = currentSearch;
+  }, [searchParams]);
+
   const syncPlatformLanguage = useCallback(() => {
     iframeRef.current?.contentWindow?.postMessage(
       {
@@ -96,12 +111,16 @@ function LearnerHrCoachFrame() {
       if (!reportMatch?.[1]) return;
 
       const nextParams = new URLSearchParams(window.location.search);
+      const requestedCoachPath = nextParams.get("path");
+      if (requestedCoachPath && requestedCoachPath !== "/") return;
       const frameParams = new URLSearchParams(frameLocation.search);
+      const selectedSessionId = decodeURIComponent(reportMatch[1]);
       const reportView = frameParams.get("view") === "insights" ? "insights" : "rh";
+      if ((nextParams.get("reportSession") || nextParams.get("sessionId")) === selectedSessionId && nextParams.get("view") === "insights" && reportView === "rh") return;
       nextParams.delete("path");
       nextParams.delete("session");
       nextParams.delete("sessionId");
-      nextParams.set("reportSession", decodeURIComponent(reportMatch[1]));
+      nextParams.set("reportSession", selectedSessionId);
       nextParams.set("view", reportView);
 
       const nextQuery = nextParams.toString();
@@ -156,7 +175,11 @@ function LearnerHrCoachFrame() {
       if (data?.type !== "SUBUL_COACH_SELECTED_REPORT" || data.coach !== "hr" || !data.sessionId) return;
 
       const nextParams = new URLSearchParams(window.location.search);
+      const requestedCoachPath = nextParams.get("path");
+      if (requestedCoachPath && requestedCoachPath !== "/" && Date.now() < ignoreReportMessagesUntilRef.current) return;
+      const currentReportSession = nextParams.get("reportSession") || nextParams.get("sessionId");
       const reportView = data.view === "insights" ? "insights" : "rh";
+      if (currentReportSession === data.sessionId && nextParams.get("view") === "insights" && reportView === "rh") return;
       nextParams.delete("path");
       nextParams.delete("session");
       nextParams.delete("sessionId");
