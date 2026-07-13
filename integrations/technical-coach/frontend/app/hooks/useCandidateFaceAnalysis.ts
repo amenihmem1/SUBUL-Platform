@@ -14,7 +14,7 @@ import {
 const ANALYSIS_INTERVAL_MS = 420;
 const MAX_RECOVERY_ATTEMPTS = 2;
 
-export function useCandidateFaceAnalysis(videoRef: RefObject<HTMLVideoElement>, enabled: boolean) {
+export function useCandidateFaceAnalysis(videoRef: RefObject<HTMLVideoElement | null>, enabled: boolean) {
   const [analysis, setAnalysis] = useState<CandidateFaceAnalysis>(idleFaceAnalysis);
 
   useEffect(() => {

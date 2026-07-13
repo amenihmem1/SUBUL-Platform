@@ -205,8 +205,8 @@ function drawPresetBackground(
 }
 
 export function useCandidateBackgroundBlur(
-  videoRef: RefObject<HTMLVideoElement>,
-  canvasRef: RefObject<HTMLCanvasElement>,
+  videoRef: RefObject<HTMLVideoElement | null>,
+  canvasRef: RefObject<HTMLCanvasElement | null>,
   mode: "blur" | "background" | null,
   backgroundPreset: "office" | "meeting" | "minimal" = "office"
 ) {

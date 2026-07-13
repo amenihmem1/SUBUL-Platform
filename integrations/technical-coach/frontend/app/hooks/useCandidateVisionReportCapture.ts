@@ -313,7 +313,7 @@ function isEmotionSubmittableFrame(analysis: CandidateFaceAnalysis) {
 }
 
 export function useCandidateVisionReportCapture(
-  videoRef: RefObject<HTMLVideoElement>,
+  videoRef: RefObject<HTMLVideoElement | null>,
   enabled: boolean,
   sessionId: string,
   analysis: CandidateFaceAnalysis,
