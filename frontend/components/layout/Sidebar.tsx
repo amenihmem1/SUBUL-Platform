@@ -58,6 +58,7 @@ type SidebarNavItem = {
   href?: string;
   externalHref?: string;
   section?: string;
+  disabled?: boolean;
   children?: SidebarNavItem[];
 };
 
@@ -71,6 +72,8 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
   const { t } = useTranslation();
   const pathname = usePathname();
   const [currentSearch, setCurrentSearch] = useState('');
+  const [latestHrCompletedSessionId, setLatestHrCompletedSessionId] = useState('');
+  const [latestTechnicalCompletedSessionId, setLatestTechnicalCompletedSessionId] = useState('');
   const { logout } = useAuth();
 
   const locale = localeFromPathname(pathname);
@@ -97,6 +100,56 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
     Object.entries(extraParams || {}).forEach(([key, value]) => params.set(key, value));
     return `${createLocalizedUrl(basePath)}?${params.toString()}`;
   };
+  const createCoachReportUrl = (basePath: string, sessionId: string, view: string) => {
+    const params = new URLSearchParams({ reportSession: sessionId, view });
+    return `${createLocalizedUrl(basePath)}?${params.toString()}`;
+  };
+
+  useEffect(() => {
+    if (role !== 'student') return;
+
+    type CoachSession = {
+      session_id?: string;
+      status?: string;
+      updated_at?: string;
+      finalized_at?: string;
+      history_at?: string;
+      created_at?: string;
+    };
+
+    const newestCompletedSessionId = (sessions: CoachSession[]) =>
+      [...sessions]
+        .filter((session) => session.status === 'completed' && session.session_id)
+        .sort((left, right) => {
+          const leftDate = left.finalized_at || left.history_at || left.updated_at || left.created_at || '';
+          const rightDate = right.finalized_at || right.history_at || right.updated_at || right.created_at || '';
+          return String(rightDate).localeCompare(String(leftDate));
+        })[0]?.session_id || '';
+
+    const loadCoachResults = async () => {
+      try {
+        const [hrRes, technicalRes] = await Promise.allSettled([
+          fetch('/hr-coach-app/api/rh/sessions?limit=80', { cache: 'no-store' }),
+          fetch('/technical-coach-app/api/tech/sessions?limit=80', { cache: 'no-store' }),
+        ]);
+
+        if (hrRes.status === 'fulfilled' && hrRes.value.ok) {
+          const data = (await hrRes.value.json()) as { sessions?: CoachSession[] };
+          setLatestHrCompletedSessionId(newestCompletedSessionId(Array.isArray(data.sessions) ? data.sessions : []));
+        }
+
+        if (technicalRes.status === 'fulfilled' && technicalRes.value.ok) {
+          const data = (await technicalRes.value.json()) as { sessions?: CoachSession[] };
+          setLatestTechnicalCompletedSessionId(newestCompletedSessionId(Array.isArray(data.sessions) ? data.sessions : []));
+        }
+      } catch {
+        setLatestHrCompletedSessionId('');
+        setLatestTechnicalCompletedSessionId('');
+      }
+    };
+
+    void loadCoachResults();
+  }, [role]);
 
   useEffect(() => {
     const syncSearch = () => setCurrentSearch(window.location.search);
@@ -158,8 +211,20 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
         children: [
           { id: 'hr-interview', icon: Bot, labelKey: 'navigation.coachInterview', href: createCoachUrl('/dashboard/learner/hr-coach', '/') },
           { id: 'hr-analytics', icon: BarChart3, labelKey: 'navigation.analytics', href: createCoachUrl('/dashboard/learner/hr-coach', '/dashboard') },
-          { id: 'hr-dashboard-rh', icon: LayoutDashboard, labelKey: 'navigation.hrDashboardRh', href: createCoachUrl('/dashboard/learner/hr-coach', '/history', { open: 'rh' }) },
-          { id: 'hr-dashboard-insight', icon: BarChart3, labelKey: 'navigation.hrDashboardInsight', href: createCoachUrl('/dashboard/learner/hr-coach', '/history', { open: 'insights' }) },
+          {
+            id: 'hr-dashboard-rh',
+            icon: LayoutDashboard,
+            labelKey: 'navigation.hrDashboardRh',
+            href: latestHrCompletedSessionId ? createCoachReportUrl('/dashboard/learner/hr-coach', latestHrCompletedSessionId, 'rh') : undefined,
+            disabled: !latestHrCompletedSessionId,
+          },
+          {
+            id: 'hr-dashboard-insight',
+            icon: BarChart3,
+            labelKey: 'navigation.hrDashboardInsight',
+            href: latestHrCompletedSessionId ? createCoachReportUrl('/dashboard/learner/hr-coach', latestHrCompletedSessionId, 'insights') : undefined,
+            disabled: !latestHrCompletedSessionId,
+          },
           { id: 'hr-history', icon: FileText, labelKey: 'navigation.coachHistory', href: createCoachUrl('/dashboard/learner/hr-coach', '/history') },
           { id: 'hr-calendar', icon: CalendarCheck, labelKey: 'navigation.coachCalendar', href: createCoachUrl('/dashboard/learner/hr-coach', '/calendar') },
           { id: 'hr-help', icon: MessageSquare, labelKey: 'navigation.coachHelp', href: createCoachUrl('/dashboard/learner/hr-coach', '/help') },
@@ -174,8 +239,20 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
         children: [
           { id: 'technical-interview', icon: Terminal, labelKey: 'navigation.coachInterview', href: createCoachUrl('/dashboard/learner/technical-coach', '/') },
           { id: 'technical-analytics', icon: BarChart3, labelKey: 'navigation.analytics', href: createCoachUrl('/dashboard/learner/technical-coach', '/dashboard') },
-          { id: 'technical-dashboard-report', icon: LayoutDashboard, labelKey: 'navigation.technicalDashboard', href: createCoachUrl('/dashboard/learner/technical-coach', '/history', { open: 'report' }) },
-          { id: 'technical-dashboard-insight', icon: BarChart3, labelKey: 'navigation.technicalDashboardInsight', href: createCoachUrl('/dashboard/learner/technical-coach', '/history', { open: 'insights' }) },
+          {
+            id: 'technical-dashboard-report',
+            icon: LayoutDashboard,
+            labelKey: 'navigation.technicalDashboard',
+            href: latestTechnicalCompletedSessionId ? createCoachReportUrl('/dashboard/learner/technical-coach', latestTechnicalCompletedSessionId, 'report') : undefined,
+            disabled: !latestTechnicalCompletedSessionId,
+          },
+          {
+            id: 'technical-dashboard-insight',
+            icon: BarChart3,
+            labelKey: 'navigation.technicalDashboardInsight',
+            href: latestTechnicalCompletedSessionId ? createCoachReportUrl('/dashboard/learner/technical-coach', latestTechnicalCompletedSessionId, 'insights') : undefined,
+            disabled: !latestTechnicalCompletedSessionId,
+          },
           { id: 'technical-history', icon: FileText, labelKey: 'navigation.coachHistory', href: createCoachUrl('/dashboard/learner/technical-coach', '/history') },
           { id: 'technical-help', icon: MessageSquare, labelKey: 'navigation.coachHelp', href: createCoachUrl('/dashboard/learner/technical-coach', '/help') },
         ],
@@ -228,7 +305,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
 
   const isActive = (item: SidebarNavItem) => {
     if (item.children?.some(isActive)) return true;
-    if (item.externalHref || !item.href) return false;
+    if (item.externalHref || !item.href || item.disabled) return false;
     const itemUrl = new URL(item.href, 'http://subul.local');
     const itemPath = itemUrl.pathname;
     const itemCoachPath = itemUrl.searchParams.get('path');
@@ -239,10 +316,13 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
       : pathname === itemPath || pathname.startsWith(itemPath + '/');
 
     if (!pathMatches) return false;
-    if (itemCoachPath === null) return true;
+    const itemExtraParamKeys = Array.from(itemUrl.searchParams.keys()).filter((key) => key !== 'path');
+    if (itemCoachPath === null) {
+      if (!itemExtraParamKeys.length) return true;
+      return itemExtraParamKeys.every((key) => currentSearchParams.get(key) === itemUrl.searchParams.get(key));
+    }
     if ((currentCoachPath || '/') !== itemCoachPath) return false;
 
-    const itemExtraParamKeys = Array.from(itemUrl.searchParams.keys()).filter((key) => key !== 'path');
     for (const key of itemExtraParamKeys) {
       if (currentSearchParams.get(key) !== itemUrl.searchParams.get(key)) return false;
     }
@@ -260,6 +340,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
       role === 'student' &&
       !['dashboard', 'goals', 'roadmap', 'cours', 'labs', 'subul-hr-coach', 'subul-technical-coach', 'subul-in', 'paymentRequests'].includes(item.id);
     const isExternal = Boolean(item.externalHref);
+    const isItemDisabled = Boolean(item.disabled);
 
     const itemContent = (
       <>
@@ -293,7 +374,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
               'transition-colors duration-200',
               open ? 'h-[17px] w-[17px]' : 'h-[18px] w-[18px]',
               active ? 'text-violet-600' : 'text-muted-foreground group-hover:text-violet-600',
-              isLocked && 'text-muted-foreground/50',
+              (isLocked || isItemDisabled) && 'text-muted-foreground/50',
             )}
           />
         </span>
@@ -304,7 +385,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
             className={cn(
               'flex-1 truncate text-[13.5px] font-medium leading-none tracking-[-0.01em] transition-colors duration-200',
               active ? 'text-violet-700 font-semibold' : 'text-muted-foreground group-hover:text-foreground',
-              isLocked && 'text-muted-foreground/50',
+              (isLocked || isItemDisabled) && 'text-muted-foreground/50',
             )}
           >
             {label}
@@ -312,7 +393,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
         )}
 
         {/* Locked badge */}
-        {open && isLocked && (
+        {open && (isLocked || isItemDisabled) && (
           <Lock className="ml-auto h-3.5 w-3.5 shrink-0 text-rose-400/60" />
         )}
 
@@ -339,10 +420,18 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
       open ? 'gap-2.5 px-2 py-1.5' : 'justify-center p-1.5',
       active
         ? 'bg-gradient-to-r from-violet-50 to-rose-50/40'
-        : isLocked
+        : isLocked || isItemDisabled
           ? 'cursor-not-allowed opacity-60'
           : 'hover:bg-muted/50',
     );
+
+    if (isItemDisabled) {
+      return (
+        <button key={item.id} className={baseClasses} title={!open ? label : undefined} disabled>
+          {itemContent}
+        </button>
+      );
+    }
 
     if (isLocked) {
       const lockedToast =
@@ -444,18 +533,33 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
             const ChildIcon = child.icon;
             const childActive = isActive(child);
             const childLabel = t(child.labelKey) as string;
+            const childDisabled = Boolean(child.disabled);
+            const childClassName = cn(
+              'group flex min-h-8 items-center gap-2 rounded-lg px-2 text-[12.5px] font-medium transition-all duration-200',
+              childActive
+                ? 'bg-violet-100/80 text-violet-700'
+                : childDisabled
+                  ? 'cursor-not-allowed text-muted-foreground/45 opacity-70'
+                  : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground',
+              isRTL && 'flex-row-reverse',
+            );
+
+            if (childDisabled || !child.href) {
+              return (
+                <button key={child.id} type="button" className={childClassName} disabled>
+                  <ChildIcon className="h-3.5 w-3.5 shrink-0" />
+                  <span className="truncate">{childLabel}</span>
+                  {open && <Lock className="ml-auto h-3 w-3 shrink-0 text-rose-400/60" />}
+                </button>
+              );
+            }
+
             return (
               <Link
                 key={child.id}
                 href={child.href!}
                 onClick={syncSearchAfterNavigation}
-                className={cn(
-                  'group flex min-h-8 items-center gap-2 rounded-lg px-2 text-[12.5px] font-medium transition-all duration-200',
-                  childActive
-                    ? 'bg-violet-100/80 text-violet-700'
-                    : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground',
-                  isRTL && 'flex-row-reverse',
-                )}
+                className={childClassName}
               >
                 <ChildIcon className="h-3.5 w-3.5 shrink-0" />
                 <span className="truncate">{childLabel}</span>
