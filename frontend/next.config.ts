@@ -53,10 +53,19 @@ const nextConfig: NextConfig = {
     // Override with GRAFANA_INTERNAL_URL for local/dev or non-cluster deployments.
     const grafana = (process.env.GRAFANA_INTERNAL_URL || 'http://grafana-service').replace(/\/$/, '');
     const hrCoach = (process.env.HR_COACH_INTERNAL_URL || 'http://127.0.0.1:8083').replace(/\/$/, '');
+    const hrCoachGateway = (process.env.HR_COACH_GATEWAY_INTERNAL_URL || 'https://hr-coach-gateway.bravesand-e5d986f3.francecentral.azurecontainerapps.io').replace(/\/$/, '');
     const technicalCoach = (process.env.TECHNICAL_COACH_INTERNAL_URL || 'http://127.0.0.1:8082').replace(/\/$/, '');
     return [
+      { source: '/hr-coach-app/api/rh/sessions', destination: `${hrCoachGateway}/rh/sessions` },
+      { source: '/hr-coach-app/api/rh/sessions/:path*', destination: `${hrCoachGateway}/rh/sessions/:path*` },
+      { source: '/hr-coach-app/api/rh/session/:sessionId', destination: `${hrCoachGateway}/rh/sessions/:sessionId` },
+      { source: '/hr-coach-app/api/rh/session/:sessionId/:path*', destination: `${hrCoachGateway}/rh/sessions/:sessionId/:path*` },
       { source: '/hr-coach-app', destination: `${hrCoach}/hr-coach-app` },
       { source: '/hr-coach-app/:path*', destination: `${hrCoach}/hr-coach-app/:path*` },
+      { source: '/:locale(en|fr)/hr-coach-app/api/rh/sessions', destination: `${hrCoachGateway}/rh/sessions` },
+      { source: '/:locale(en|fr)/hr-coach-app/api/rh/sessions/:path*', destination: `${hrCoachGateway}/rh/sessions/:path*` },
+      { source: '/:locale(en|fr)/hr-coach-app/api/rh/session/:sessionId', destination: `${hrCoachGateway}/rh/sessions/:sessionId` },
+      { source: '/:locale(en|fr)/hr-coach-app/api/rh/session/:sessionId/:path*', destination: `${hrCoachGateway}/rh/sessions/:sessionId/:path*` },
       { source: '/:locale(en|fr)/hr-coach-app', destination: `${hrCoach}/hr-coach-app` },
       { source: '/:locale(en|fr)/hr-coach-app/:path*', destination: `${hrCoach}/hr-coach-app/:path*` },
       { source: '/technical-coach-app', destination: `${technicalCoach}` },
