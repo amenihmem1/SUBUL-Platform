@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
-import { CSSProperties, useEffect, useMemo, useState } from "react";
+import { Suspense, CSSProperties, useEffect, useMemo, useState } from "react";
 import { CandidateInsightsPopup, type CandidateInsightsPayload } from "../../components/CandidateInsightsPopup";
 import styles from "./report-dashboard.module.css";
 import logoImage from "../../../img/logoS-transparent.png";
@@ -910,7 +910,7 @@ function InsightToneIcon({ tone }: { tone: "visual" | "audio" | "stress" | "summ
   );
 }
 
-export default function ReportDashboardPage() {
+function ReportDashboardPageContent() {
   const params = useParams();
   const searchParams = useSearchParams();
   const rawSessionId = params?.sessionId;
@@ -2007,5 +2007,14 @@ export default function ReportDashboardPage() {
         </div>
       ) : null}
     </div>
+  );
+}
+
+
+export default function ReportDashboardPage() {
+  return (
+    <Suspense fallback={null}>
+      <ReportDashboardPageContent />
+    </Suspense>
   );
 }
