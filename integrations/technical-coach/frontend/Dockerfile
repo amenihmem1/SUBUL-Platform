@@ -6,7 +6,7 @@ RUN npm config set registry https://registry.npmjs.org/ \
     && npm config set fetch-retry-mintimeout 20000 \
     && npm config set fetch-retry-maxtimeout 120000 \
     && npm config set fetch-timeout 300000 \
-    && npm ci
+    && npm install --no-audit --no-fund
 
 FROM node:20-alpine AS builder
 WORKDIR /app
