@@ -1,11 +1,16 @@
 import { backendBaseUrl } from "@/lib/techBackend";
 export const runtime = "nodejs";
 
+type RouteParams = {
+  params: Promise<{ sessionId: string }>;
+};
+
 export async function GET(
   _request: Request,
-  { params }: { params: { sessionId: string } }
+  { params }: RouteParams
 ) {
-  const res = await fetch(`${backendBaseUrl()}/tech/sessions/${encodeURIComponent(params.sessionId)}/report.pdf`, {
+  const { sessionId } = await params;
+  const res = await fetch(`${backendBaseUrl()}/tech/sessions/${encodeURIComponent(sessionId)}/report.pdf`, {
     method: "GET",
   });
   if (!res.ok) {
@@ -17,7 +22,7 @@ export async function GET(
     status: 200,
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `inline; filename="${params.sessionId}-technical-report.pdf"`,
+      "Content-Disposition": `inline; filename="${sessionId}-technical-report.pdf"`,
       "Cache-Control": "no-store",
     },
   });

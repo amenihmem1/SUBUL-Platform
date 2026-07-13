@@ -1,14 +1,18 @@
 import { backendBaseUrl } from "@/lib/techBackend";
 export const runtime = "nodejs";
 
+type RouteParams = {
+  params: Promise<{ sessionId: string }>;
+};
+
 export async function GET(
   request: Request,
-  { params }: { params: { sessionId: string } }
+  { params }: RouteParams
 ) {
   const requestUrl = new URL(request.url);
   const language = requestUrl.searchParams.get("language");
   const querySuffix = language ? `?language=${encodeURIComponent(language)}` : "";
-  const res = await fetch(`${backendBaseUrl()}/tech/sessions/${encodeURIComponent(params.sessionId)}/insights-report.pdf${querySuffix}`, {
+  const res = await fetch(`${backendBaseUrl()}/tech/sessions/${encodeURIComponent(sessionId)}/insights-report.pdf${querySuffix}`, {
     method: "GET",
   });
   if (!res.ok) {
@@ -20,7 +24,7 @@ export async function GET(
     status: 200,
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `inline; filename="${params.sessionId}-insights-visuels-vocaux.pdf"`,
+      "Content-Disposition": `inline; filename="${sessionId}-insights-visuels-vocaux.pdf"`,
       "Cache-Control": "no-store",
     },
   });

@@ -3,13 +3,18 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
+type RouteParams = {
+  params: Promise<{ session_id: string }>;
+};
+
 export async function POST(
   request: Request,
-  { params }: { params: { session_id: string } }
+  { params }: RouteParams
 ) {
   try {
+    const { session_id } = await params;
     const payload = await request.json();
-    const backendUrl = `${backendBaseUrl()}/tech/sessions/${encodeURIComponent(params.session_id)}/message`;
+    const backendUrl = `${backendBaseUrl()}/tech/sessions/${encodeURIComponent(session_id)}/message`;
     console.log("[api/tech/session/[id]/message] Posting to:", backendUrl);
 
     const res = await fetch(backendUrl, {
@@ -42,6 +47,7 @@ export async function POST(
 
     if (res.ok && data?.say) {
       try {
+        const { session_id } = await params;
         const ttsRes = await fetch(`${backendBaseUrl()}/tech/tts`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },

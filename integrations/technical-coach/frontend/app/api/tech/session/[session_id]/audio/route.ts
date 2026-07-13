@@ -3,13 +3,18 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
+type RouteParams = {
+  params: Promise<{ session_id: string }>;
+};
+
 export async function POST(
   request: Request,
-  { params }: { params: { session_id: string } }
+  { params }: RouteParams
 ) {
   try {
+    const { session_id } = await params;
     const payload = await request.json();
-    const res = await fetch(`${backendBaseUrl()}/tech/sessions/${encodeURIComponent(params.session_id)}/audio`, {
+    const res = await fetch(`${backendBaseUrl()}/tech/sessions/${encodeURIComponent(session_id)}/audio`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
