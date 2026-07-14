@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, type ElementType, type FormEvent } from 'react';
+import { useState, useEffect, useMemo, type ChangeEvent, type ElementType, type FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import {
   Search,
@@ -26,12 +26,17 @@ import {
   Phone,
   LockKeyhole,
   ShieldCheck,
+  Upload,
+  Download,
+  FileText,
+  AlertCircle,
   X,
 } from 'lucide-react';
 import { Badge, Button, useToast } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/contexts/LanguageContext';
 import { normalizeApiError } from '@/lib/errors/normalizeApiError';
+import { getAdminUsers } from '@/services/adminUsers';
 
 import ViewUserModal from '@/components/modals/Admin/users/ViewUserModal';
 import DeleteUserModal from '@/components/modals/Admin/users/DeleteUserModal';
@@ -75,6 +80,25 @@ export interface UserData {
 const ITEMS_PER_PAGE = 10;
 
 type UserFormMode = 'create' | 'edit';
+
+type CsvUserRow = {
+  fullName: string;
+  email: string;
+  phone?: string;
+  role: string;
+  password: string;
+};
+
+type CsvImportIssue = {
+  line: number;
+  email?: string;
+  reason: string;
+};
+
+type CsvImportResult = {
+  created: number;
+  failed: CsvImportIssue[];
+};
 
 type UserFormState = {
   fullName: string;
@@ -142,6 +166,27 @@ const usersPageCopy = {
     manageSubscription: "Gerer l'abonnement",
     verifyEmail: "Verifier l'email",
     bulkDeleteBody: 'utilisateur(s) seront supprimes. Cette action est definitive.',
+    importCsv: 'Importer CSV',
+    exportCsv: 'Exporter CSV',
+    csvTemplate: 'Modele CSV',
+    csvImportEyebrow: 'Import groupe',
+    csvImportTitle: 'Importer des utilisateurs',
+    csvImportDescription: 'Importez un fichier .csv avec les colonnes fullName, email, phone, role, password.',
+    csvImportFormat: 'Colonnes acceptees : fullName, email, phone, role, password.',
+    csvChooseFile: 'Choisir un fichier CSV',
+    csvReady: 'utilisateur(s) pret(s) a importer',
+    csvNoFile: 'Aucun fichier selectionne.',
+    csvInvalidFile: 'Fichier CSV invalide.',
+    csvNoValidRows: 'Aucune ligne valide a importer.',
+    csvImporting: 'Import en cours...',
+    csvImportSuccess: 'Import termine',
+    csvImportSummary: 'utilisateur(s) cree(s)',
+    csvExportSuccess: 'Export CSV genere.',
+    csvExportError: "Impossible d'exporter les utilisateurs.",
+    csvDownloadTemplate: 'Telecharger le modele',
+    csvErrors: 'Erreurs detectees',
+    csvLine: 'Ligne',
+    csvStartImport: "Lancer l'import",
   },
   en: {
     emailVerified: 'Email verified successfully',
@@ -180,8 +225,145 @@ const usersPageCopy = {
     manageSubscription: 'Manage subscription',
     verifyEmail: 'Verify email',
     bulkDeleteBody: 'user(s) will be deleted. This action is final.',
+    importCsv: 'Import CSV',
+    exportCsv: 'Export CSV',
+    csvTemplate: 'CSV template',
+    csvImportEyebrow: 'Bulk import',
+    csvImportTitle: 'Import users',
+    csvImportDescription: 'Import a .csv file with fullName, email, phone, role, password columns.',
+    csvImportFormat: 'Accepted columns: fullName, email, phone, role, password.',
+    csvChooseFile: 'Choose a CSV file',
+    csvReady: 'user(s) ready to import',
+    csvNoFile: 'No file selected.',
+    csvInvalidFile: 'Invalid CSV file.',
+    csvNoValidRows: 'No valid row to import.',
+    csvImporting: 'Importing...',
+    csvImportSuccess: 'Import completed',
+    csvImportSummary: 'user(s) created',
+    csvExportSuccess: 'CSV export generated.',
+    csvExportError: 'Unable to export users.',
+    csvDownloadTemplate: 'Download template',
+    csvErrors: 'Detected errors',
+    csvLine: 'Line',
+    csvStartImport: 'Start import',
   },
 } as const;
+
+const CSV_HEADERS = ['fullName', 'email', 'phone', 'role', 'password'] as const;
+const VALID_CSV_ROLES = new Set(userRoleOptions.map((option) => option.value));
+
+const normalizeCsvHeader = (header: string) => header.trim().toLowerCase().replace(/[\s_-]+/g, '');
+
+const splitCsvLine = (line: string): string[] => {
+  const cells: string[] = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let index = 0; index < line.length; index += 1) {
+    const char = line[index];
+    const next = line[index + 1];
+    if (char === '"' && inQuotes && next === '"') {
+      current += '"';
+      index += 1;
+    } else if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === ',' && !inQuotes) {
+      cells.push(current.trim());
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+
+  cells.push(current.trim());
+  return cells;
+};
+
+const parseUsersCsv = (text: string): { rows: CsvUserRow[]; issues: CsvImportIssue[] } => {
+  const lines = text
+    .replace(/^\uFEFF/, '')
+    .split(/\r?\n/)
+    .filter((line) => line.trim().length > 0);
+
+  if (lines.length < 2) {
+    return { rows: [], issues: [{ line: 1, reason: 'CSV must include a header and at least one user row.' }] };
+  }
+
+  const aliases: Record<string, keyof CsvUserRow> = {
+    fullname: 'fullName',
+    name: 'fullName',
+    nom: 'fullName',
+    nomcomplet: 'fullName',
+    email: 'email',
+    mail: 'email',
+    adressemail: 'email',
+    phone: 'phone',
+    telephone: 'phone',
+    tel: 'phone',
+    role: 'role',
+    password: 'password',
+    motdepasse: 'password',
+  };
+
+  const headers = splitCsvLine(lines[0]).map((header) => aliases[normalizeCsvHeader(header)] ?? null);
+  const rows: CsvUserRow[] = [];
+  const issues: CsvImportIssue[] = [];
+
+  lines.slice(1).forEach((line, rowIndex) => {
+    const lineNumber = rowIndex + 2;
+    const cells = splitCsvLine(line);
+    const record: Partial<CsvUserRow> = {};
+
+    headers.forEach((field, index) => {
+      if (field) record[field] = cells[index]?.trim() ?? '';
+    });
+
+    const fullName = record.fullName?.trim() ?? '';
+    const email = record.email?.trim().toLowerCase() ?? '';
+    const password = record.password ?? '';
+    const role = (record.role?.trim().toLowerCase() || 'learner').replace(/\s+/g, '_');
+    const phone = record.phone?.trim() ?? '';
+
+    if (!fullName || !email || !password) {
+      issues.push({ line: lineNumber, email, reason: 'fullName, email and password are required.' });
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      issues.push({ line: lineNumber, email, reason: 'Invalid email address.' });
+      return;
+    }
+    if (password.length < 8) {
+      issues.push({ line: lineNumber, email, reason: 'Password must contain at least 8 characters.' });
+      return;
+    }
+    if (!VALID_CSV_ROLES.has(role)) {
+      issues.push({ line: lineNumber, email, reason: `Invalid role: ${role}.` });
+      return;
+    }
+
+    rows.push({ fullName, email, phone: phone || undefined, role, password });
+  });
+
+  return { rows, issues };
+};
+
+const csvEscape = (value: string | number | undefined) => {
+  const text = String(value ?? '');
+  return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+};
+
+const downloadCsvFile = (filename: string, rows: Array<Array<string | number | undefined>>) => {
+  const csv = rows.map((row) => row.map(csvEscape).join(',')).join('\n');
+  const blob = new Blob([`\uFEFF${csv}`], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
 
 export default function AdminUsers() {
   const { t, locale } = useTranslation();
@@ -204,6 +386,13 @@ export default function AdminUsers() {
   const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
   const [bulkDeleting, setBulkDeleting] = useState(false);
   const [statusPendingUserId, setStatusPendingUserId] = useState<number | null>(null);
+  const [showCsvImportModal, setShowCsvImportModal] = useState(false);
+  const [csvFileName, setCsvFileName] = useState('');
+  const [csvRows, setCsvRows] = useState<CsvUserRow[]>([]);
+  const [csvIssues, setCsvIssues] = useState<CsvImportIssue[]>([]);
+  const [csvImportResult, setCsvImportResult] = useState<CsvImportResult | null>(null);
+  const [isImportingCsv, setIsImportingCsv] = useState(false);
+  const [isExportingCsv, setIsExportingCsv] = useState(false);
 
   const queryParams = useMemo(() => ({
     page: currentPage,
@@ -307,6 +496,111 @@ export default function AdminUsers() {
     } finally {
       setBulkDeleting(false);
     }
+  };
+
+  const resetCsvImport = () => {
+    setCsvFileName('');
+    setCsvRows([]);
+    setCsvIssues([]);
+    setCsvImportResult(null);
+  };
+
+  const handleCsvFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    resetCsvImport();
+
+    if (!file) {
+      showToast(copy.csvNoFile, 'warning');
+      return;
+    }
+    if (!file.name.toLowerCase().endsWith('.csv')) {
+      showToast(copy.csvInvalidFile, 'error');
+      return;
+    }
+
+    try {
+      const parsed = parseUsersCsv(await file.text());
+      setCsvFileName(file.name);
+      setCsvRows(parsed.rows);
+      setCsvIssues(parsed.issues);
+      if (parsed.rows.length === 0) {
+        showToast(copy.csvNoValidRows, 'warning');
+      }
+    } catch {
+      showToast(copy.csvInvalidFile, 'error');
+    }
+  };
+
+  const handleImportCsvUsers = async () => {
+    if (csvRows.length === 0) {
+      showToast(copy.csvNoValidRows, 'warning');
+      return;
+    }
+
+    setIsImportingCsv(true);
+    const failed: CsvImportIssue[] = [...csvIssues];
+    let created = 0;
+
+    for (const [index, row] of csvRows.entries()) {
+      try {
+        await createUser.mutateAsync(row);
+        created += 1;
+      } catch (err) {
+        const { message, key } = normalizeApiError(err);
+        failed.push({
+          line: index + 2,
+          email: row.email,
+          reason: message || String(t(key) || key),
+        });
+      }
+    }
+
+    setCsvImportResult({ created, failed });
+    setCsvIssues(failed);
+    setCsvRows([]);
+    setIsImportingCsv(false);
+    showToast(`${copy.csvImportSuccess}: ${created} ${copy.csvImportSummary}`, created > 0 ? 'success' : 'warning');
+  };
+
+  const handleExportUsersCsv = async () => {
+    setIsExportingCsv(true);
+    try {
+      const result = await getAdminUsers({
+        page: 1,
+        limit: Math.max(totalUsers, users.length, ITEMS_PER_PAGE),
+        search: searchQuery || undefined,
+        role: filterRole !== 'all' ? filterRole : undefined,
+        status: filterStatus !== 'all' ? filterStatus : undefined,
+      });
+
+      downloadCsvFile('subul-users.csv', [
+        ['id', 'fullName', 'email', 'phone', 'role', 'status', 'joinDate', 'lastActivity'],
+        ...result.data.map((user) => [
+          user.id,
+          user.name,
+          user.email,
+          user.phone,
+          user.role,
+          user.status,
+          user.joinDate,
+          user.lastActivity || '',
+        ]),
+      ]);
+      showToast(copy.csvExportSuccess, 'success');
+    } catch {
+      showToast(copy.csvExportError, 'error');
+    } finally {
+      setIsExportingCsv(false);
+    }
+  };
+
+  const handleDownloadCsvTemplate = () => {
+    downloadCsvFile('subul-users-template.csv', [
+      [...CSV_HEADERS],
+      ['Ameni Hmem', 'ameni@example.com', '+216 00 000 000', 'learner', 'Password123'],
+      ['Admin Demo', 'admin@example.com', '+216 11 111 111', 'admin', 'Password123'],
+    ]);
   };
 
   const handleToggleStatus = async (id: number, currentStatus: string) => {
@@ -561,6 +855,13 @@ export default function AdminUsers() {
               </div>
             )}
           </div>
+          <Button variant="outline" onClick={() => { resetCsvImport(); setShowCsvImportModal(true); }}>
+            <Upload className="w-4 h-4 mr-2" /> {copy.importCsv}
+          </Button>
+          <Button variant="outline" onClick={handleExportUsersCsv} disabled={isExportingCsv}>
+            {isExportingCsv ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Download className="w-4 h-4 mr-2" />}
+            {copy.exportCsv}
+          </Button>
           <Button className="bg-primary hover:bg-primary/90" onClick={openCreateUserModal}>
             <Plus className="w-4 h-4 mr-2" /> {String(t('users.addUser'))}
           </Button>
@@ -865,6 +1166,24 @@ export default function AdminUsers() {
         copy={copy}
       />
 
+      <CsvImportUsersDialog
+        isOpen={showCsvImportModal}
+        fileName={csvFileName}
+        rowsCount={csvRows.length}
+        issues={csvIssues}
+        result={csvImportResult}
+        isImporting={isImportingCsv}
+        canImport={csvRows.length > 0 && !isImportingCsv}
+        copy={copy}
+        onClose={() => {
+          setShowCsvImportModal(false);
+          resetCsvImport();
+        }}
+        onFileChange={handleCsvFileChange}
+        onImport={handleImportCsvUsers}
+        onDownloadTemplate={handleDownloadCsvTemplate}
+      />
+
       <ManageSubscriptionModal
         user={selectedUser}
         currentSubscription={
@@ -882,6 +1201,155 @@ export default function AdminUsers() {
           })
         }
       />
+    </div>
+  );
+}
+
+function CsvImportUsersDialog({
+  isOpen,
+  fileName,
+  rowsCount,
+  issues,
+  result,
+  isImporting,
+  canImport,
+  copy,
+  onClose,
+  onFileChange,
+  onImport,
+  onDownloadTemplate,
+}: {
+  isOpen: boolean;
+  fileName: string;
+  rowsCount: number;
+  issues: CsvImportIssue[];
+  result: CsvImportResult | null;
+  isImporting: boolean;
+  canImport: boolean;
+  copy: typeof usersPageCopy.fr | typeof usersPageCopy.en;
+  onClose: () => void;
+  onFileChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onImport: () => void;
+  onDownloadTemplate: () => void;
+}) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/45 p-4 backdrop-blur-sm">
+      <motion.div
+        initial={{ opacity: 0, y: 18, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.18 }}
+        className="w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
+      >
+        <div className="flex items-start justify-between bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-5 text-white">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/75">{copy.csvImportEyebrow}</p>
+            <h3 className="mt-1 text-xl font-black text-white">{copy.csvImportTitle}</h3>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            disabled={isImporting}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/25 text-white transition hover:bg-white/15 disabled:opacity-50"
+            aria-label={copy.close}
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+
+        <div className="space-y-5 px-6 py-5">
+          <p className="text-sm text-slate-600">{copy.csvImportDescription}</p>
+
+          <div className="rounded-xl border border-dashed border-violet-200 bg-violet-50/40 p-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-start gap-3">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-violet-600 shadow-sm">
+                  <FileText className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-slate-900">{fileName || copy.csvNoFile}</p>
+                  <p className="mt-1 text-xs text-slate-500">{copy.csvImportFormat}</p>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={onDownloadTemplate}
+                  className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-violet-200 bg-white px-3 text-sm font-semibold text-violet-700 transition hover:bg-violet-50"
+                >
+                  <Download className="h-4 w-4" />
+                  {copy.csvDownloadTemplate}
+                </button>
+                <label className="inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-3 text-sm font-bold text-white transition hover:from-violet-700 hover:to-fuchsia-700">
+                  <Upload className="h-4 w-4" />
+                  {copy.csvChooseFile}
+                  <input type="file" accept=".csv,text/csv" className="hidden" onChange={onFileChange} disabled={isImporting} />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{copy.csvReady}</p>
+              <p className="mt-1 text-2xl font-black text-slate-950">{rowsCount}</p>
+            </div>
+            <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-amber-700">{copy.csvErrors}</p>
+              <p className="mt-1 text-2xl font-black text-amber-800">{issues.length}</p>
+            </div>
+            <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">{copy.csvImportSuccess}</p>
+              <p className="mt-1 text-2xl font-black text-emerald-800">{result?.created ?? 0}</p>
+            </div>
+          </div>
+
+          {result && (
+            <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">
+              {copy.csvImportSuccess}: {result.created} {copy.csvImportSummary}
+            </div>
+          )}
+
+          {issues.length > 0 && (
+            <div className="max-h-44 overflow-auto rounded-xl border border-amber-200 bg-white">
+              <div className="sticky top-0 flex items-center gap-2 border-b border-amber-100 bg-amber-50 px-4 py-2 text-sm font-bold text-amber-800">
+                <AlertCircle className="h-4 w-4" />
+                {copy.csvErrors}
+              </div>
+              <div className="divide-y divide-slate-100">
+                {issues.map((issue, index) => (
+                  <div key={`${issue.line}-${issue.email || index}`} className="px-4 py-2 text-sm text-slate-700">
+                    <span className="font-bold text-slate-950">{copy.csvLine} {issue.line}</span>
+                    {issue.email ? <span className="text-slate-500"> - {issue.email}</span> : null}
+                    <span className="text-slate-500"> - {issue.reason}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="flex flex-col-reverse gap-3 border-t border-border pt-5 sm:flex-row sm:justify-end">
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={isImporting}
+              className="inline-flex h-11 items-center justify-center rounded-xl border border-border px-5 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground disabled:opacity-50"
+            >
+              {copy.cancel}
+            </button>
+            <button
+              type="button"
+              onClick={onImport}
+              disabled={!canImport}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 text-sm font-bold text-white transition hover:from-violet-700 hover:to-fuchsia-700 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isImporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+              {isImporting ? copy.csvImporting : copy.csvStartImport}
+            </button>
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 }
