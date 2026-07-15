@@ -128,7 +128,7 @@ const copy = {
     unable: "Impossible de charger le dashboard technique.",
     noData: "Aucune session disponible pour le moment.",
     proctoringAlerts: "Alertes surveillance",
-    proctoringNote: "Répartition des alertes enregistrées pendant les entretiens (mêmes types que l'app RH).",
+    proctoringNote: "Répartition des alertes enregistrées pendant les entretiens.",
     noProctoringAlerts: "Aucune alerte enregistrée",
   },
   en: {
@@ -188,7 +188,7 @@ const copy = {
     unable: "Unable to load technical dashboard.",
     noData: "No sessions available yet.",
     proctoringAlerts: "Proctoring alerts",
-    proctoringNote: "Distribution of alerts recorded during interviews (same types as the HR app).",
+    proctoringNote: "Distribution of alerts recorded during interviews.",
     noProctoringAlerts: "No recorded alert",
   },
 } as const;
@@ -397,6 +397,13 @@ function formatShortDate(value: string) {
   return date.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" });
 }
 
+function formatDateKey(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 function getSessionTime(session: SessionHistoryEntry) {
   return getSessionHistoryAnchorMs(session);
 }
@@ -448,11 +455,10 @@ function AnimatedNumber({ value, suffix = "" }: { value: number; suffix?: string
 }
 
 function buildTimeline(sessions: SessionHistoryEntry[], rangeDays: RangeDays): TimelineItem[] {
-  const latestTime =
-    sessions.reduce((latest, session) => {
-      const time = getSessionTime(session);
-      return Number.isFinite(time) ? Math.max(latest, time) : latest;
-    }, 0) || Date.now();
+  const latestTime = sessions.reduce((latest, session) => {
+    const time = getSessionTime(session);
+    return Number.isFinite(time) ? Math.max(latest, time) : latest;
+  }, Date.now());
   const endDate = new Date(latestTime);
   endDate.setHours(23, 59, 59, 999);
   const startDate = new Date(endDate);
@@ -463,7 +469,7 @@ function buildTimeline(sessions: SessionHistoryEntry[], rangeDays: RangeDays): T
     const date = new Date(startDate);
     date.setDate(startDate.getDate() + index);
     return {
-      date: date.toISOString().slice(0, 10),
+      date: formatDateKey(date),
       interviews: 0,
       scores: [] as number[],
     };
@@ -473,7 +479,7 @@ function buildTimeline(sessions: SessionHistoryEntry[], rangeDays: RangeDays): T
   sessions.forEach((session) => {
     const time = getSessionTime(session);
     if (!Number.isFinite(time) || time < startDate.getTime() || time > endDate.getTime()) return;
-    const date = new Date(time).toISOString().slice(0, 10);
+    const date = formatDateKey(new Date(time));
     const bucket = bucketByDate.get(date);
     if (!bucket) return;
     bucket.interviews += 1;
@@ -497,7 +503,7 @@ function buildVoiceTimeline(audioItems: VoiceAudioItem[], rangeDays: RangeDays) 
   const bucketByDate = new Map(timeline.map((item) => [item.date, { item, volumes: [] as number[] }]));
 
   audioItems.forEach(({ session, metrics }) => {
-    const date = new Date(getSessionTime(session)).toISOString().slice(0, 10);
+    const date = formatDateKey(new Date(getSessionTime(session)));
     const bucket = bucketByDate.get(date);
     if (!bucket) return;
     const volume = Number(metrics.volume_score_avg || 0);

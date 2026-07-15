@@ -190,6 +190,14 @@ function normalizeConfidence(rawConfidence: number | null | undefined, fallbackP
   return clampPercent(fallbackPct);
 }
 
+function cleanEmotionSummary(summary: string | undefined, fallback: string) {
+  const value = String(summary || "").trim();
+  if (!value || value.toLowerCase().includes("emotion label is uncertain")) {
+    return fallback;
+  }
+  return value;
+}
+
 function parseProbabilityPayload(provider: VisionProviderPayload | null) {
   const probabilities = createProbabilityMap();
   const rawEmotion = provider?.metadata?.raw_emotion;
@@ -251,7 +259,7 @@ function buildLiveEmotionAnalysis(payload: VisionRouteResponse): LiveEmotionAnal
   return {
     status: "ready",
     provider: provider.provider || "custom",
-    summary: provider.summary || "Emotion model updated.",
+    summary: cleanEmotionSummary(provider.summary, "Emotion model updated."),
     dominantEmotion,
     confidence,
     stressSignal: computeStressSignal(probabilities),
