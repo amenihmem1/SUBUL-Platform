@@ -253,7 +253,7 @@ function LearnerTechnicalCoachFrame() {
   return (
     <section className="relative flex min-h-[640px] w-full min-w-0 flex-col overflow-visible">
       <iframe
-        key={reloadToken}
+        key={`${reloadToken}-${technicalCoachUrl}`}
         ref={iframeRef}
         title="Subul Technical Coach"
         src={technicalCoachUrl}

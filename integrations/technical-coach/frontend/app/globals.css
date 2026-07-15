@@ -2410,6 +2410,64 @@ svg circle {
   opacity: 0.92;
 }
 
+.avatar-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.avatar-orbit {
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.interviewer-avatar-idle {
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  align-self: center;
+}
+
+.interviewer-avatar-stage {
+  width: 100%;
+  min-height: 252px;
+}
+
+.interviewer-orbit-a {
+  width: 280px;
+  height: 280px;
+  border: 1px dashed rgba(245, 158, 11, 0.16);
+  animation: rotate-slow 18s linear infinite;
+}
+
+.interviewer-orbit-b {
+  width: 334px;
+  height: 334px;
+  border: 1px solid rgba(245, 158, 11, 0.1);
+  animation: rotate-slow 26s linear infinite reverse;
+}
+
+.recruiter-avatar {
+  width: 122px;
+  aspect-ratio: 1 / 1;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 2.1rem;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  background: radial-gradient(circle at 30% 30%, rgba(86, 66, 12, 0.96) 0%, rgba(61, 48, 10, 0.98) 74%);
+  color: #f1a53f;
+  box-shadow:
+    0 0 0 1px rgba(255, 235, 194, 0.16),
+    0 18px 32px rgba(61, 48, 10, 0.18);
+}
+
+.recruiter-avatar::after {
+  display: none;
+}
+
 .candidate-initial {
   position: relative;
   width: 122px;
@@ -5849,6 +5907,15 @@ svg circle {
   padding-bottom: 10px;
   animation: fade-soft 820ms ease both;
   animation-delay: 380ms;
+}
+
+.interviewer-tile.speaking .recruiter-avatar {
+  animation: recruiter-voice-pulse 1s ease-in-out infinite;
+  filter: brightness(1.08);
+}
+
+.interviewer-tile.speaking .recruiter-avatar::after {
+  animation: voice-ring 1s ease-out infinite;
 }
 
 .candidate-tile:hover,
