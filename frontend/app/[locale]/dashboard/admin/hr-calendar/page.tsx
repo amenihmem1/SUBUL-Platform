@@ -2,6 +2,7 @@
 
 import { useMemo, useState, type FormEvent, type ReactNode } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { createPortal } from 'react-dom';
 import {
   CalendarCheck,
   ChevronLeft,
@@ -57,6 +58,11 @@ type FormState = {
   date: string;
   time: string;
 };
+
+function ModalPortal({ children }: { children: ReactNode }) {
+  if (typeof document === 'undefined') return null;
+  return createPortal(children, document.body);
+}
 
 function pad(value: number) {
   return String(value).padStart(2, '0');
@@ -596,9 +602,10 @@ function InterviewFormDialog({
   copy: AdminHrCalendarCopy;
 }) {
   return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
-      <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label={copy.close} />
-      <form onSubmit={onSubmit} className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+    <ModalPortal>
+      <div className="fixed inset-0 z-[100] flex min-h-dvh items-center justify-center overflow-y-auto px-4 py-6 sm:py-8">
+        <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label={copy.close} />
+        <form onSubmit={onSubmit} className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
         <div className="flex items-start justify-between gap-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-5 text-white">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/75">
@@ -703,8 +710,9 @@ function InterviewFormDialog({
             {isSaving ? copy.saving : editing ? copy.edit : copy.add}
           </button>
         </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </ModalPortal>
   );
 }
 
@@ -724,9 +732,10 @@ function DeleteInterviewDialog({
   copy: AdminHrCalendarCopy;
 }) {
   return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
-      <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label={copy.close} />
-      <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+    <ModalPortal>
+      <div className="fixed inset-0 z-[100] flex min-h-dvh items-center justify-center overflow-y-auto px-4 py-6 sm:py-8">
+        <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label={copy.close} />
+        <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
         <div className="p-6">
           <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600">
             <Trash2 className="h-5 w-5" />
@@ -759,8 +768,9 @@ function DeleteInterviewDialog({
           </button>
         </div>
         </div>
+        </div>
       </div>
-    </div>
+    </ModalPortal>
   );
 }
 
@@ -778,9 +788,10 @@ function BulkDeleteInterviewsDialog({
   copy: AdminHrCalendarCopy;
 }) {
   return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
-      <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label={copy.close} />
-      <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+    <ModalPortal>
+      <div className="fixed inset-0 z-[100] flex min-h-dvh items-center justify-center overflow-y-auto px-4 py-6 sm:py-8">
+        <button type="button" className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm" onClick={onClose} aria-label={copy.close} />
+        <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
         <div className="p-6">
           <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600">
             <Trash2 className="h-5 w-5" />
@@ -809,8 +820,9 @@ function BulkDeleteInterviewsDialog({
             </button>
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </ModalPortal>
   );
 }
 

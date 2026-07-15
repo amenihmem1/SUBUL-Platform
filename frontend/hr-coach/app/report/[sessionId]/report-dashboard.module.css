@@ -927,14 +927,16 @@
 .calendarModalOverlay {
   position: fixed;
   inset: 0;
-  z-index: 60;
+  z-index: 90;
   display: grid;
   place-items: center;
-  padding: 20px;
+  min-height: 100dvh;
+  padding: 24px;
+  overflow-y: auto;
 }
 
 .calendarModalBackdrop {
-  position: absolute;
+  position: fixed;
   inset: 0;
   border: 0;
   background: rgba(18, 12, 30, 0.34);
@@ -945,6 +947,8 @@
   position: relative;
   z-index: 1;
   width: min(100%, 640px);
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
   display: grid;
   gap: 18px;
   padding: 24px;
