@@ -32,6 +32,26 @@ type AnimatedHistoryStats = {
   archived: number;
 };
 
+function dedupeHistoryEntries(entries: SessionHistoryEntry[]) {
+  const byId = new Map<string, SessionHistoryEntry>();
+
+  entries.forEach((entry) => {
+    const sessionId = entry.session_id.trim();
+    if (!sessionId) return;
+    const existing = byId.get(sessionId);
+    if (!existing || String(entry.updated_at || "") > String(existing.updated_at || "")) {
+      byId.set(sessionId, entry);
+    }
+  });
+
+  return Array.from(byId.values()).sort((left, right) => {
+    if (left.pinned !== right.pinned) {
+      return left.pinned ? -1 : 1;
+    }
+    return String(right.updated_at || "").localeCompare(String(left.updated_at || ""));
+  });
+}
+
 function formatSessionHistoryDate(value: string | undefined, language: Language) {
   if (!value?.trim()) return "";
   const parsed = new Date(value);
@@ -333,7 +353,7 @@ function HistoryPageContent() {
         setHistoryError(data?.error || "Unable to load interview history.");
         return;
       }
-      setHistorySessions(Array.isArray(data?.sessions) ? data.sessions : []);
+      setHistorySessions(Array.isArray(data?.sessions) ? dedupeHistoryEntries(data.sessions) : []);
     } catch (error) {
       setHistoryError((error as Error).message);
     } finally {
@@ -423,6 +443,48 @@ function HistoryPageContent() {
     if (failedResult) {
       throw failedResult.reason instanceof Error ? failedResult.reason : new Error("Unable to delete this interview.");
     }
+  };
+
+  const openSessionFromHistory = async (targetSessionId: string) => {
+    const fallbackHref = `/?session=${encodeURIComponent(targetSessionId)}`;
+
+    try {
+      const res = await fetch(`/api/tech/session/${encodeURIComponent(targetSessionId)}?include_insights=1`, {
+        method: "GET",
+        cache: "no-store",
+      });
+      const data = (await res.json()) as {
+        final_report?: unknown;
+        interview_status?: string;
+        finalized_at?: string;
+      };
+
+      const hasFinalReport = Boolean(data?.final_report);
+      const finalized =
+        data?.interview_status === "finalized" ||
+        data?.interview_status === "completed" ||
+        Boolean(data?.finalized_at);
+
+      if (res.ok && (hasFinalReport || finalized)) {
+        if (typeof window !== "undefined" && window.parent !== window) {
+          window.parent?.postMessage(
+            {
+              type: "SUBUL_COACH_SELECTED_REPORT",
+              coach: "technical",
+              sessionId: targetSessionId,
+              view: "report",
+            },
+            "*",
+          );
+        }
+        router.push(`/report/${encodeURIComponent(targetSessionId)}?view=report`);
+        return;
+      }
+    } catch {
+      // Fall back to restoring the interview when the detail endpoint is temporarily unavailable.
+    }
+
+    router.push(fallbackHref);
   };
 
   return (
@@ -569,7 +631,7 @@ function HistoryPageContent() {
           <button
             type="button"
             className={`${styles.panelCard} ${styles.historyLeadCard} ${styles.historyLeadButton}`}
-            onClick={() => (latestSession?.session_id ? router.push(`/?session=${encodeURIComponent(latestSession.session_id)}`) : router.push("/"))}
+            onClick={() => (latestSession?.session_id ? void openSessionFromHistory(latestSession.session_id) : router.push("/"))}
           >
             <div className={styles.panelHead}>
               <h3>{copy.recentActivity}</h3>
@@ -604,7 +666,9 @@ function HistoryPageContent() {
               searchValue={historySearch}
               onSearchChange={setHistorySearch}
               onCreateSession={() => router.push("/")}
-              onOpenSession={(targetSessionId) => router.push(`/?session=${encodeURIComponent(targetSessionId)}`)}
+              onOpenSession={(targetSessionId) => {
+                void openSessionFromHistory(targetSessionId);
+              }}
               onRenameSession={(targetSessionId, currentTitle) => {
                 setHistoryDialog({
                   mode: "rename",
