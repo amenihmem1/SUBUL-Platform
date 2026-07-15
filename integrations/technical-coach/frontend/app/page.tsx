@@ -1882,7 +1882,8 @@ function HomePageContent() {
     if (recordedBlob && recordedBlob.size > 0 && !sendingRef.current && !interviewEnded) {
       const pendingSamples = collectPendingMicObservationSamples();
       disposeLiveMic();
-      await transcribeRecordedUtterance(recordedBlob, pendingSamples, { fallbackTranscript: browserTranscript });
+      const sttBlob = pendingSamples?.length ? encodeWav(pendingSamples, LIVE_STT_SAMPLE_RATE) : recordedBlob;
+      await transcribeRecordedUtterance(sttBlob, pendingSamples, { fallbackTranscript: browserTranscript });
       return;
     }
 
