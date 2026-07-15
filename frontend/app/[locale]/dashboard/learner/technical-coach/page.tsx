@@ -135,13 +135,17 @@ function LearnerTechnicalCoachFrame() {
   const resizeFrame = useCallback(() => {
     const iframe = iframeRef.current;
     if (!iframe) return;
+    const frameUrl = new URL(technicalCoachUrl, "http://subul.local");
+    const isReportFrame = frameUrl.pathname.includes("/report/");
+    const reportMinHeight = frameUrl.searchParams.get("view") === "insights" ? 3600 : 2600;
+    const minFrameHeight = isReportFrame ? reportMinHeight : 640;
     try {
       const doc = iframe.contentDocument || iframe.contentWindow?.document;
       const body = doc?.body;
       const html = doc?.documentElement;
       if (!body || !html) return;
       const nextHeight = Math.max(
-        640,
+        minFrameHeight,
         Math.ceil(
           Math.max(
             body.scrollHeight,
@@ -157,9 +161,9 @@ function LearnerTechnicalCoachFrame() {
       setFrameHeight((current) => (Math.abs(current - nextHeight) > 8 ? nextHeight : current));
     } catch {
       setAllowIframeScroll(false);
-      setFrameHeight(Math.max(2200, window.innerHeight - 96));
+      setFrameHeight(Math.max(minFrameHeight, window.innerHeight - 96));
     }
-  }, []);
+  }, [technicalCoachUrl]);
 
   useEffect(() => {
     syncPlatformState();
