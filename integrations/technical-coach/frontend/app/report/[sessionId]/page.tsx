@@ -1001,7 +1001,7 @@ function ReportDashboardPageContent() {
 
   useEffect(() => {
     const reportUnlockedStatus = payload?.interview_status === "finalized" && Boolean(payload?.final_report || null);
-    if (!reportUnlockedStatus && activeView !== "report") {
+    if (payload && !reportUnlockedStatus && activeView !== "report") {
       setActiveView("report");
     }
   }, [payload, activeView]);
