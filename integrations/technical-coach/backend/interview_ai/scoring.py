@@ -51,6 +51,41 @@ def _empty_turn_scoring_payload() -> dict[str, Any]:
     }
 
 
+def _contains_any(text: str, variants: tuple[str, ...]) -> bool:
+    padded = f" {text} "
+    return any(variant in padded for variant in variants)
+
+
+def _concept_group_score(text: str, groups: tuple[tuple[str, ...], ...]) -> int:
+    return sum(1 for group in groups if _contains_any(text, group))
+
+
+def _heuristic_competency_scores(text: str) -> dict[str, int]:
+    normalized = _normalize_text(text)
+    words = len(re.findall(r"\b[\w'-]+\b", normalized, flags=re.UNICODE))
+    score = 0
+    if words >= 18:
+        score = 1
+    if words >= 45:
+        score = 2
+
+    technical_terms = (
+        " api ",
+        " base de donnees ",
+        " blockchain ",
+        " cloud ",
+        " consensus ",
+        " docker ",
+        " modele ",
+        " reseau ",
+        " securite ",
+        " transaction ",
+    )
+    if score and _contains_any(normalized, technical_terms):
+        score = max(score, 2)
+    return {"question_score": min(score, 3)}
+
+
 def _normalize_turn_scoring_payload(
     parsed: dict[str, Any],
     normalize_scores: NormalizeScoresFn,
@@ -147,6 +182,26 @@ def _heuristic_question_answer_score(question: str, answer: str) -> int:
             return 4
         if coverage >= 4:
             return 3
+
+    if "blockchain" in normalized_question and "consensus" in normalized_question:
+        coverage = _concept_group_score(
+            normalized_answer,
+            (
+                (" consensus ", " algorithme de consensus ", " mecanisme ", " accord "),
+                (" noeud ", " noeuds ", " node ", " nodes ", " participants ", " reseau "),
+                (" transaction ", " transactions ", " bloc ", " blocs ", " validation ", " validite ", " valide "),
+                (" decentralise ", " decentralisee ", " autorite centrale ", " sans autorite ", " sans intermediaire "),
+                (" securite ", " attaque ", " malveillant ", " double depense ", " double spending ", " meme transaction "),
+                (" integrite ", " immuable ", " version ", " donnees ", " modifier "),
+                (" limite ", " limites ", " energie ", " lenteur ", " scalabilite ", " cout ", " 51 "),
+            ),
+        )
+        if coverage >= 5 and word_count >= 35:
+            return 4
+        if coverage >= 3:
+            return 3
+        if coverage >= 2:
+            return 2
 
     if "bitcoin" in normalized_question and (
         "monnaie" in normalized_question or "emission" in normalized_question or "classique" in normalized_question
@@ -326,6 +381,11 @@ def score_interview_turn(
         phase=phase,
     )
     normalized = _normalize_turn_scoring_payload(parsed, normalize_scores)
+    heuristic_score = _heuristic_question_answer_score(question, cleaned_answer)
+    if heuristic_score > 0:
+        current_score = int(normalized.get("score_partial", {}).get("question_score", 0) or 0)
+        if heuristic_score > current_score:
+            normalized["score_partial"]["question_score"] = heuristic_score
     return normalized
 
 

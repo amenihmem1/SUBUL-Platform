@@ -1028,8 +1028,27 @@ function ReportDashboardPageContent() {
   const activeQrImageUrl = activePdfViewUrl
     ? `https://api.qrserver.com/v1/create-qr-code/?size=512x512&margin=16&data=${encodeURIComponent(activePdfViewUrl)}`
     : "";
+  const switchReportView = (nextView: "report" | "insights") => {
+    setActiveView(nextView);
+    if (typeof window !== "undefined") {
+      const nextUrl = new URL(window.location.href);
+      nextUrl.searchParams.set("view", nextView);
+      window.history.replaceState(null, "", `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`);
+      if (window.parent !== window) {
+        window.parent?.postMessage(
+          {
+            type: "SUBUL_COACH_SELECTED_REPORT",
+            coach: "technical",
+            sessionId,
+            view: nextView,
+          },
+          "*",
+        );
+      }
+    }
+  };
   const liveInsightsPayload: CandidateInsightsPayload | null = payload
-      ? {
+    ? {
         response_language: language,
         visual_context: visualContext,
         audio_context: audioContext,
@@ -1580,7 +1599,7 @@ function ReportDashboardPageContent() {
             <button
               type="button"
               className={`${styles.navItem} ${styles.navButton} ${reportUnlocked && activeView === "report" ? styles.navItemActive : ""} ${!reportUnlocked ? styles.navItemDisabled : ""}`}
-              onClick={() => setActiveView("report")}
+              onClick={() => switchReportView("report")}
               disabled={!reportUnlocked}
             >
               <SidebarIcon type="dashboard" />
@@ -1589,7 +1608,7 @@ function ReportDashboardPageContent() {
             <button
               type="button"
               className={`${styles.navItem} ${styles.navButton} ${reportUnlocked && activeView === "insights" ? styles.navItemActive : ""} ${!reportUnlocked ? styles.navItemDisabled : ""}`}
-              onClick={() => setActiveView("insights")}
+              onClick={() => switchReportView("insights")}
               disabled={!reportUnlocked}
             >
               <SidebarIcon type="hire" />

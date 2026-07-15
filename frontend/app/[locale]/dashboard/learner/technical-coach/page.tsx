@@ -39,6 +39,8 @@ function LearnerTechnicalCoachFrame() {
   const [reloadToken, setReloadToken] = useState(0);
   const [frameHeight, setFrameHeight] = useState(720);
   const [allowIframeScroll, setAllowIframeScroll] = useState(false);
+  const lastSearchRef = useRef("");
+  const ignoreReportMessagesUntilRef = useRef(0);
 
   const technicalCoachUrl = useMemo(() => {
     const url = withPlatformParams(getTechnicalCoachBaseUrl(), locale);
@@ -65,6 +67,18 @@ function LearnerTechnicalCoachFrame() {
     parsed.searchParams.set("embedded", "1");
     return url.startsWith("/") ? `${parsed.pathname}${parsed.search}${parsed.hash}` : parsed.toString();
   }, [locale, searchParams, theme]);
+
+  useEffect(() => {
+    const currentSearch = searchParams.toString();
+    if (lastSearchRef.current && currentSearch !== lastSearchRef.current) {
+      const nextParams = new URLSearchParams(currentSearch);
+      const requestedCoachPath = nextParams.get("path");
+      if (requestedCoachPath && requestedCoachPath !== "/") {
+        ignoreReportMessagesUntilRef.current = Date.now() + 1200;
+      }
+    }
+    lastSearchRef.current = currentSearch;
+  }, [searchParams]);
 
   const syncPlatformState = useCallback(() => {
     iframeRef.current?.contentWindow?.postMessage(
@@ -93,12 +107,16 @@ function LearnerTechnicalCoachFrame() {
       if (!reportMatch?.[1]) return;
 
       const nextParams = new URLSearchParams(window.location.search);
+      const requestedCoachPath = nextParams.get("path");
+      if (requestedCoachPath && requestedCoachPath !== "/") return;
       const frameParams = new URLSearchParams(frameLocation.search);
+      const selectedSessionId = decodeURIComponent(reportMatch[1]);
       const reportView = frameParams.get("view") === "insights" ? "insights" : "report";
+      if ((nextParams.get("reportSession") || nextParams.get("sessionId")) === selectedSessionId && nextParams.get("view") === "insights" && reportView === "report") return;
       nextParams.delete("path");
       nextParams.delete("session");
       nextParams.delete("sessionId");
-      nextParams.set("reportSession", decodeURIComponent(reportMatch[1]));
+      nextParams.set("reportSession", selectedSessionId);
       nextParams.set("view", reportView);
 
       const nextQuery = nextParams.toString();
@@ -153,7 +171,11 @@ function LearnerTechnicalCoachFrame() {
       if (data?.type !== "SUBUL_COACH_SELECTED_REPORT" || data.coach !== "technical" || !data.sessionId) return;
 
       const nextParams = new URLSearchParams(window.location.search);
+      const requestedCoachPath = nextParams.get("path");
+      if (requestedCoachPath && requestedCoachPath !== "/" && Date.now() < ignoreReportMessagesUntilRef.current) return;
+      const currentReportSession = nextParams.get("reportSession") || nextParams.get("sessionId");
       const reportView = data.view === "insights" ? "insights" : "report";
+      if (currentReportSession === data.sessionId && nextParams.get("view") === "insights" && reportView === "report") return;
       nextParams.delete("path");
       nextParams.delete("session");
       nextParams.delete("sessionId");

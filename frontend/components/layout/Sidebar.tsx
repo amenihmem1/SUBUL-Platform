@@ -72,6 +72,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
   const { t } = useTranslation();
   const pathname = usePathname();
   const [currentSearch, setCurrentSearch] = useState('');
+  const [expandedCoachGroups, setExpandedCoachGroups] = useState<Record<string, boolean>>({});
   const { logout } = useAuth();
 
   const locale = localeFromPathname(pathname);
@@ -283,7 +284,13 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
     for (const key of itemExtraParamKeys) {
       if (currentSearchParams.get(key) !== itemUrl.searchParams.get(key)) return false;
     }
-    if (!itemExtraParamKeys.length && currentSearchParams.has('open')) return false;
+    if (
+      !itemExtraParamKeys.length &&
+      (currentSearchParams.has('open') ||
+        currentSearchParams.has('reportSession') ||
+        currentSearchParams.has('sessionId') ||
+        currentSearchParams.has('view'))
+    ) return false;
     return true;
   };
 
@@ -437,6 +444,14 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
     const Icon = item.icon;
     const active = isActive(item);
     const label = t(item.labelKey) as string;
+    const expanded = expandedCoachGroups[item.id] ?? active;
+    const toggleGroup = () => {
+      setExpandedCoachGroups((current) => ({
+        ...current,
+        [item.id]: !current[item.id],
+      }));
+      syncSearchAfterNavigation();
+    };
 
     if (!open) {
       return (
@@ -466,9 +481,10 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
 
     return (
       <div key={item.id} className="rounded-2xl border border-violet-100/70 bg-white/60 p-1.5 shadow-sm">
-        <Link
-          href={item.href!}
-          onClick={syncSearchAfterNavigation}
+        <button
+          type="button"
+          onClick={toggleGroup}
+          aria-expanded={expanded}
           className={cn(
             'group relative flex w-full items-center gap-2.5 rounded-xl px-2 py-1.5 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-violet-500',
             active ? 'bg-gradient-to-r from-violet-50 to-rose-50/40' : 'hover:bg-muted/50',
@@ -484,8 +500,9 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
           <span className="flex-1 truncate text-[13.5px] font-semibold leading-none tracking-[-0.01em] text-violet-800">
             {label}
           </span>
-        </Link>
-        <div className={cn('mt-1.5 space-y-0.5', isRTL ? 'pr-0' : 'pl-3')}>
+          <ChevronRight className={cn('h-3.5 w-3.5 shrink-0 text-violet-500 transition-transform', expanded && 'rotate-90')} />
+        </button>
+        {expanded && <div className={cn('mt-1.5 space-y-0.5', isRTL ? 'pr-0' : 'pl-3')}>
           {item.children.map((child) => {
             const ChildIcon = child.icon;
             const childActive = isActive(child);
@@ -523,7 +540,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
               </Link>
             );
           })}
-        </div>
+        </div>}
       </div>
     );
   };
