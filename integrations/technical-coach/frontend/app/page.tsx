@@ -841,6 +841,22 @@ function HomePageContent() {
   }, [language]);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.parent === window) return;
+    if (!sessionId || (!finalReportReady && !interviewEnded)) return;
+
+    window.parent?.postMessage(
+      {
+        type: "SUBUL_COACH_SELECTED_REPORT",
+        coach: "technical",
+        sessionId,
+        view: "report",
+      },
+      "*",
+    );
+  }, [finalReportReady, interviewEnded, sessionId]);
+
+  useEffect(() => {
     micMuteRef.current = sending || interviewerSpeaking;
     if (sending || interviewerSpeaking) {
       resetLiveAutoSubmitState();
