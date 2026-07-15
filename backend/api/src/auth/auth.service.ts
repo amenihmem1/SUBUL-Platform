@@ -129,7 +129,15 @@ export class AuthService {
     if (!user.isEmailVerified) {
       return { requiresVerification: true, email: user.email };
     }
-    await this.usersService.updateLastLogin(user.id);
+    try {
+      await this.usersService.updateLastLogin(user.id);
+    } catch (error) {
+      this.logger.warn(
+        `[Auth] Unable to update last_login for user id=${user.id}: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+    }
     const role = effectiveRoleForEmail(user.role, user.email);
     const payload = {
       sub: user.id,
