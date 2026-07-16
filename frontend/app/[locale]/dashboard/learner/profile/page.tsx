@@ -76,6 +76,55 @@ const SCORE_BAR_CONFIGS = [
   { key: 'aiPercentage', label: 'AI & Data', color: '#8b5cf6', icon: Brain },
 ] as const;
 
+const PROFILE_COPY = {
+  fr: {
+    loading: 'Chargement du profil...',
+    loginRequired: 'Connectez-vous pour consulter votre profil.',
+    fullName: 'Nom complet',
+    fullNamePlaceholder: 'Entrez votre nom complet',
+    email: 'Email',
+    phone: 'Telephone',
+    phonePlaceholder: '+216 12 345 678',
+    company: 'Organisation',
+    companyPlaceholder: 'Votre organisation',
+    address: 'Adresse',
+    addressPlaceholder: 'Votre adresse',
+    location: 'Localisation',
+    bio: 'Bio',
+    bioPlaceholder: 'Parlez de vous, vos objectifs, votre experience...',
+    assessment: 'Evaluation du profil',
+    noAssessment: 'Aucune evaluation terminee.',
+    phoneInvalid: 'Format invalide. Ex: +216 12 345 678',
+    updateFailed: 'Impossible de mettre a jour le profil. Reessayez.',
+    pictureUpdated: 'Photo de profil mise a jour.',
+    pictureFailed: 'Impossible de televerser la photo de profil.',
+    photoTooLarge: `La photo doit etre inferieure ou egale a ${MAX_UPLOAD_FILE_SIZE_LABEL}.`,
+  },
+  en: {
+    loading: 'Loading profile...',
+    loginRequired: 'Please log in to view your profile.',
+    fullName: 'Full name',
+    fullNamePlaceholder: 'Enter your full name',
+    email: 'Email',
+    phone: 'Phone',
+    phonePlaceholder: '+216 12 345 678',
+    company: 'Organization',
+    companyPlaceholder: 'Your organization',
+    address: 'Address',
+    addressPlaceholder: 'Your address',
+    location: 'Location',
+    bio: 'Bio',
+    bioPlaceholder: 'Tell us about yourself, your goals, your experience...',
+    assessment: 'Profile assessment',
+    noAssessment: 'No assessment completed.',
+    phoneInvalid: 'Invalid format. Example: +216 12 345 678',
+    updateFailed: 'Failed to update profile. Please try again.',
+    pictureUpdated: 'Profile picture updated.',
+    pictureFailed: 'Failed to upload profile picture.',
+    photoTooLarge: `Photo must be ${MAX_UPLOAD_FILE_SIZE_LABEL} or smaller.`,
+  },
+} as const;
+
 /* ─── sub-components ── */
 function ScoreBar({ label, value, color, Icon }: { label: string; value: number; color: string; Icon: React.ElementType }) {
   return (
@@ -139,8 +188,9 @@ function InputField({
 
 /* ─── page ── */
 export default function LearnerProfilePage() {
-  const { t, dir } = useTranslation();
+  const { t, dir, locale } = useTranslation();
   const isRTL = dir === 'rtl';
+  const copy = PROFILE_COPY[locale === 'fr' ? 'fr' : 'en'];
   const photoInputId = useId();
   const [revealedSecrets, setRevealedSecrets] = useState<Record<string, boolean>>({});
 
@@ -187,7 +237,7 @@ export default function LearnerProfilePage() {
   const handleSaveProfile = async () => {
     if (!currentUser) return;
     if (form.phone && !PHONE_REGEX.test(form.phone)) {
-      const err = 'Format invalide. Ex: +216 12 345 678';
+      const err = copy.phoneInvalid;
       setPhoneError(err);
       return;
     }
@@ -200,22 +250,22 @@ export default function LearnerProfilePage() {
       toast.success(t('profile.profileUpdated'));
       setIsDirty(false);
     } catch {
-      toast.error('Failed to update profile. Please try again.');
+      toast.error(copy.updateFailed);
     }
   };
 
   const handlePhotoUpload = async () => {
     if (!photoFile || !currentUser) return;
     if (photoFile.size > MAX_UPLOAD_FILE_SIZE_BYTES) {
-      toast.error(`Photo must be ${MAX_UPLOAD_FILE_SIZE_LABEL} or smaller.`);
+      toast.error(copy.photoTooLarge);
       return;
     }
     try {
       await uploadPictureMutation.mutateAsync(photoFile);
       setPhotoFile(null);
-      toast.success('Profile picture updated!');
+      toast.success(copy.pictureUpdated);
     } catch {
-      toast.error('Failed to upload profile picture.');
+      toast.error(copy.pictureFailed);
     }
   };
 
@@ -233,7 +283,7 @@ export default function LearnerProfilePage() {
       <div className="flex min-h-[60vh] items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-200 border-t-violet-600" />
-          <p className="text-sm text-slate-500">Loading profile...</p>
+          <p className="text-sm text-slate-500">{copy.loading}</p>
         </div>
       </div>
     );
@@ -241,7 +291,7 @@ export default function LearnerProfilePage() {
   if (!currentUser) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-slate-500">Please log in to view your profile.</p>
+        <p className="text-slate-500">{copy.loginRequired}</p>
       </div>
     );
   }
@@ -357,9 +407,9 @@ export default function LearnerProfilePage() {
             <div className="mt-5 space-y-3 border-t border-slate-100 pt-5">
               {[
                 { icon: Mail, value: currentUser.email },
-                { icon: Building2, value: form.companyName, placeholder: 'Company' },
-                { icon: Phone, value: form.phone, placeholder: '+00 000 000 000' },
-                { icon: MapPin, value: form.address, placeholder: 'Location' },
+                { icon: Building2, value: form.companyName, placeholder: copy.company },
+                { icon: Phone, value: form.phone, placeholder: copy.phonePlaceholder },
+                { icon: MapPin, value: form.address, placeholder: copy.location },
               ].map(({ icon: Icon, value, placeholder }, i) => (
                 <div key={i} className={`flex items-center gap-2.5 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <Icon className="h-4 w-4 shrink-0 text-slate-400" />
@@ -379,7 +429,7 @@ export default function LearnerProfilePage() {
                   <BarChart3 className="h-4 w-4 text-violet-600" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">Profil Assessment</h3>
+                  <h3 className="text-sm font-bold text-slate-900">{copy.assessment}</h3>
                   <p className="text-xs text-slate-400">
                     {new Date(latestAssessment.completedAt).toLocaleDateString()}
                   </p>
@@ -424,9 +474,9 @@ export default function LearnerProfilePage() {
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-50">
                   <BarChart3 className="h-4 w-4 text-violet-600" />
                 </div>
-                <h3 className="text-sm font-bold text-slate-900">Profil Assessment</h3>
+                <h3 className="text-sm font-bold text-slate-900">{copy.assessment}</h3>
               </div>
-              <p className="mt-3 text-sm text-slate-400">Aucun assessment complété.</p>
+              <p className="mt-3 text-sm text-slate-400">{copy.noAssessment}</p>
             </div>
           )}
         </motion.div>
@@ -451,16 +501,16 @@ export default function LearnerProfilePage() {
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <InputField
                   id="fullName"
-                  label={t('common.fullName') || 'Full name'}
+                  label={copy.fullName}
                   value={form.fullName}
                   onChange={onChange('fullName')}
-                  placeholder="Enter your full name"
+                  placeholder={copy.fullNamePlaceholder}
                   autoComplete="name"
                   icon={UserIcon}
                 />
                 <InputField
                   id="email"
-                  label={t('auth.email') || 'Email'}
+                  label={copy.email}
                   type="email"
                   value={form.email}
                   disabled
@@ -483,31 +533,31 @@ export default function LearnerProfilePage() {
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <InputField
                   id="phone"
-                  label={t('common.phone') || 'Phone'}
+                  label={copy.phone}
                   type="tel"
                   value={form.phone}
                   onChange={(e) => { onChange('phone')(e); if (phoneError) setPhoneError(null); }}
-                  placeholder="+216 12 345 678"
+                  placeholder={copy.phonePlaceholder}
                   error={phoneError}
                   autoComplete="tel"
                   icon={Phone}
                 />
                 <InputField
                   id="companyName"
-                  label={t('common.name') || 'Company name'}
+                  label={copy.company}
                   value={form.companyName}
                   onChange={onChange('companyName')}
-                  placeholder="Your company"
+                  placeholder={copy.companyPlaceholder}
                   autoComplete="organization"
                   icon={Building2}
                 />
                 <div className="sm:col-span-2">
                   <InputField
                     id="address"
-                    label={t('common.address') || 'Address'}
+                    label={copy.address}
                   value={form.address}
                   onChange={onChange('address')}
-                  placeholder="Your location"
+                  placeholder={copy.addressPlaceholder}
                   autoComplete="street-address"
                   icon={MapPin}
                 />
@@ -527,7 +577,7 @@ export default function LearnerProfilePage() {
               </div>
               <div className="mt-4">
                 <label htmlFor="bio" className="block text-sm font-medium text-slate-700">
-                  {t('profile.bio')}
+                  {copy.bio}
                 </label>
                 <div className="relative mt-1.5">
                   <Cpu className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-slate-400" />
@@ -535,7 +585,7 @@ export default function LearnerProfilePage() {
                     id="bio"
                     value={form.bio}
                     onChange={onChange('bio')}
-                    placeholder="Tell us about yourself, your goals, your experience..."
+                    placeholder={copy.bioPlaceholder}
                     className="w-full resize-none rounded-xl border border-slate-200 bg-white py-3 pl-10 pr-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"
                     rows={4}
                   />
