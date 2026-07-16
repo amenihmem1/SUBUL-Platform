@@ -5,14 +5,11 @@ import { useSearchParams } from "next/navigation";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const TECHNICAL_COACH_URL =
-  process.env.NEXT_PUBLIC_TECHNICAL_COACH_URL || "http://localhost:8082";
-const TECHNICAL_COACH_PUBLIC_URL =
-  process.env.NEXT_PUBLIC_TECHNICAL_COACH_PUBLIC_URL ||
-  "https://technical-coach-frontend.bravesand-e5d986f3.francecentral.azurecontainerapps.io";
+  process.env.NEXT_PUBLIC_TECHNICAL_COACH_URL || "/technical-coach-app";
 const START_COMMAND = "docker compose -f docker-compose.technical-coach.yml up --build";
 
 function getTechnicalCoachBaseUrl() {
-  return TECHNICAL_COACH_URL.startsWith("/") ? TECHNICAL_COACH_PUBLIC_URL : TECHNICAL_COACH_URL;
+  return TECHNICAL_COACH_URL;
 }
 
 function withPlatformParams(rawUrl: string, locale: string) {
