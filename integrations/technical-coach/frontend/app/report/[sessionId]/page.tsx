@@ -910,17 +910,12 @@ function InsightToneIcon({ tone }: { tone: "visual" | "audio" | "stress" | "summ
   );
 }
 
-function readReportViewFromBrowser(): "report" | "insights" {
-  if (typeof window === "undefined") return "report";
-  return new URLSearchParams(window.location.search).get("view") === "insights" ? "insights" : "report";
-}
-
 function ReportDashboardPageContent() {
   const params = useParams();
   const searchParams = useSearchParams();
   const rawSessionId = params?.sessionId;
   const sessionId = typeof rawSessionId === "string" ? rawSessionId : Array.isArray(rawSessionId) ? rawSessionId[0] : "";
-  const [selectedView, setActiveView] = useState<"report" | "insights">(() => readReportViewFromBrowser());
+  const [activeView, setActiveView] = useState<"report" | "insights">("report");
   const [payload, setPayload] = useState<SessionReportPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -935,12 +930,13 @@ function ReportDashboardPageContent() {
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
 
   useEffect(() => {
-    const searchView = searchParams.get("view") === "insights" ? "insights" : "report";
-    const browserView = readReportViewFromBrowser();
-    setActiveView(browserView === "insights" ? "insights" : searchView);
+    const view = searchParams.get("view");
+    if (view === "insights") {
+      setActiveView("insights");
+      return;
+    }
+    setActiveView("report");
   }, [searchParams]);
-
-  const activeView: "report" | "insights" = searchParams.get("view") === "insights" ? "insights" : selectedView;
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -986,9 +982,7 @@ function ReportDashboardPageContent() {
       setError("");
       try {
         const query = new URLSearchParams({ language });
-        if (activeView === "insights") {
-          query.set("include_insights", "1");
-        }
+        query.set("include_insights", "1");
         const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(sessionId)}?${query.toString()}`, {
           method: "GET",
           cache: "no-store",
@@ -1006,7 +1000,7 @@ function ReportDashboardPageContent() {
     };
 
     void loadReport();
-  }, [sessionId, language, activeView]);
+  }, [sessionId, language]);
 
   const finalReport = payload?.final_report || null;
   const copy = translations[language];
@@ -1030,25 +1024,6 @@ function ReportDashboardPageContent() {
   const activeQrImageUrl = activePdfViewUrl
     ? `https://api.qrserver.com/v1/create-qr-code/?size=512x512&margin=16&data=${encodeURIComponent(activePdfViewUrl)}`
     : "";
-  const switchReportView = (nextView: "report" | "insights") => {
-    setActiveView(nextView);
-    if (typeof window !== "undefined") {
-      const nextUrl = new URL(window.location.href);
-      nextUrl.searchParams.set("view", nextView);
-      window.history.replaceState(null, "", `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`);
-      if (window.parent !== window) {
-        window.parent?.postMessage(
-          {
-            type: "SUBUL_COACH_SELECTED_REPORT",
-            coach: "technical",
-            sessionId,
-            view: nextView,
-          },
-          "*",
-        );
-      }
-    }
-  };
   const liveInsightsPayload: CandidateInsightsPayload | null = payload
     ? {
         response_language: language,
@@ -1598,24 +1573,46 @@ function ReportDashboardPageContent() {
               {copy.analytics}
             </Link>
             <span className={styles.navGroupTitle}>{copy.sidebarReports}</span>
-            <button
-              type="button"
-              className={`${styles.navItem} ${styles.navButton} ${reportUnlocked && activeView === "report" ? styles.navItemActive : ""} ${!reportUnlocked ? styles.navItemDisabled : ""}`}
-              onClick={() => switchReportView("report")}
-              disabled={!reportUnlocked}
-            >
-              <SidebarIcon type="dashboard" />
-              {copy.reportNav}
-            </button>
-            <button
-              type="button"
-              className={`${styles.navItem} ${styles.navButton} ${reportUnlocked && activeView === "insights" ? styles.navItemActive : ""} ${!reportUnlocked ? styles.navItemDisabled : ""}`}
-              onClick={() => switchReportView("insights")}
-              disabled={!reportUnlocked}
-            >
-              <SidebarIcon type="hire" />
-              {copy.insights}
-            </button>
+            {reportUnlocked ? (
+              <Link
+                className={`${styles.navItem} ${activeView === "report" ? styles.navItemActive : ""}`}
+                href={`/report/${encodeURIComponent(sessionId)}?view=report`}
+                onClick={() => setActiveView("report")}
+                aria-current={activeView === "report" ? "page" : undefined}
+              >
+                <SidebarIcon type="dashboard" />
+                {copy.reportNav}
+              </Link>
+            ) : (
+              <button
+                type="button"
+                className={`${styles.navItem} ${styles.navButton} ${styles.navItemDisabled}`}
+                disabled
+              >
+                <SidebarIcon type="dashboard" />
+                {copy.reportNav}
+              </button>
+            )}
+            {reportUnlocked ? (
+              <Link
+                className={`${styles.navItem} ${activeView === "insights" ? styles.navItemActive : ""}`}
+                href={`/report/${encodeURIComponent(sessionId)}?view=insights`}
+                onClick={() => setActiveView("insights")}
+                aria-current={activeView === "insights" ? "page" : undefined}
+              >
+                <SidebarIcon type="hire" />
+                {copy.insights}
+              </Link>
+            ) : (
+              <button
+                type="button"
+                className={`${styles.navItem} ${styles.navButton} ${styles.navItemDisabled}`}
+                disabled
+              >
+                <SidebarIcon type="hire" />
+                {copy.insights}
+              </button>
+            )}
             <span className={styles.navGroupTitle}>{copy.sidebarTools}</span>
             <Link className={styles.navItem} href="/history">
               <SidebarIcon type="memory" />
