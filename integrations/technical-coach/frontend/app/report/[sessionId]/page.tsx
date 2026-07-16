@@ -931,7 +931,8 @@ function ReportDashboardPageContent() {
 
   useEffect(() => {
     const view = searchParams.get("view");
-    if (view === "insights") {
+    const explicitInsights = searchParams.get("insights") === "1";
+    if (view === "insights" || explicitInsights) {
       setActiveView("insights");
       return;
     }
@@ -1596,7 +1597,7 @@ function ReportDashboardPageContent() {
             {reportUnlocked ? (
               <Link
                 className={`${styles.navItem} ${activeView === "insights" ? styles.navItemActive : ""}`}
-                href={`/report/${encodeURIComponent(sessionId)}?view=insights`}
+                href={`/report/${encodeURIComponent(sessionId)}?view=insights&insights=1`}
                 onClick={() => setActiveView("insights")}
                 aria-current={activeView === "insights" ? "page" : undefined}
               >

@@ -59,6 +59,11 @@ function LearnerTechnicalCoachFrame() {
     if (reportSessionId) {
       parsed.pathname = `${basePath}/report/${encodeURIComponent(reportSessionId)}`;
       parsed.searchParams.set("view", reportView === "insights" ? "insights" : "report");
+      if (reportView === "insights") {
+        parsed.searchParams.set("insights", "1");
+      } else {
+        parsed.searchParams.delete("insights");
+      }
     } else if (targetPath === "/") {
       parsed.pathname = basePath || "/";
     } else if (targetPath.startsWith("/") && !targetPath.startsWith("//")) {
