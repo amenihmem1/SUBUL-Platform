@@ -27,7 +27,7 @@ export const ENV = {
   CACHE_TTL: parseInt(process.env.NEXT_PUBLIC_CACHE_TTL || '300'), // 5 minutes
   ENABLE_CACHE: process.env.NEXT_PUBLIC_ENABLE_CACHE !== 'false',
   
-  WS_URL: process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:3001',
+  WS_URL: process.env.NEXT_PUBLIC_WS_URL || (process.env.NODE_ENV === 'production' ? 'wss://subul-api.bravesand-e5d986f3.francecentral.azurecontainerapps.io' : 'ws://localhost:3001'),
   ENABLE_WEBSOCKET: process.env.NEXT_PUBLIC_ENABLE_WEBSOCKET === 'true',
   
   MAX_FILE_SIZE: parseInt(process.env.NEXT_PUBLIC_MAX_FILE_SIZE || '10485760'), // 10MB

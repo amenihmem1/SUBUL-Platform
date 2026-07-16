@@ -7,6 +7,8 @@ import axios, { type AxiosInstance } from 'axios';
 import { DEFAULT_AGENT_API_TIMEOUT_MS } from '@/lib/agent-timeout';
 import { getToken } from '@/lib/auth/token';
 
+const DEFAULT_PRODUCTION_BACKEND_URL = 'https://subul-api.bravesand-e5d986f3.francecentral.azurecontainerapps.io';
+
 /** Strip trailing /api to avoid duplicate prefix (API_PATHS already include /api) */
 function normalizeBackendUrl(url: string): string {
   return url.replace(/\/$/, '').replace(/\/api\/?$/, '');
@@ -158,7 +160,8 @@ api.interceptors.response.use(
 );
 
 export function getBackendUrl(): string {
-  return baseURL;
+  if (baseURL) return baseURL;
+  return process.env.NODE_ENV === 'production' ? DEFAULT_PRODUCTION_BACKEND_URL : '';
 }
 
 export default api;
