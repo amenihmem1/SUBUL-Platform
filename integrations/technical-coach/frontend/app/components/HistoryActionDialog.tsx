@@ -1,6 +1,7 @@
 "use client";
 
-import { FormEvent, useEffect, useRef } from "react";
+import type { CSSProperties, FormEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type HistoryActionDialogProps = {
   open: boolean;
@@ -38,6 +39,56 @@ export function HistoryActionDialog({
   onConfirm,
 }: HistoryActionDialogProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [dialogTop, setDialogTop] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const updateDialogTop = () => {
+      let nextTop = window.innerHeight / 2;
+
+      try {
+        if (window.parent && window.parent !== window) {
+          const parentWindow = window.parent;
+          const frames = Array.from(parentWindow.document.querySelectorAll("iframe"));
+          const currentFrame = frames.find((frame) => frame.contentWindow === window);
+
+          if (currentFrame) {
+            const frameRect = currentFrame.getBoundingClientRect();
+            nextTop = parentWindow.innerHeight / 2 - frameRect.top;
+          }
+        }
+      } catch {
+        nextTop = window.innerHeight / 2;
+      }
+
+      setDialogTop(Math.min(Math.max(nextTop, 150), Math.max(180, window.innerHeight - 90)));
+    };
+
+    updateDialogTop();
+    window.addEventListener("resize", updateDialogTop);
+
+    try {
+      window.parent?.addEventListener("scroll", updateDialogTop, { passive: true });
+      window.parent?.addEventListener("resize", updateDialogTop);
+    } catch {
+      // Cross-origin fallback keeps the dialog centered in the iframe viewport.
+    }
+
+    return () => {
+      window.removeEventListener("resize", updateDialogTop);
+      try {
+        window.parent?.removeEventListener("scroll", updateDialogTop);
+        window.parent?.removeEventListener("resize", updateDialogTop);
+      } catch {
+        // No-op for cross-origin parents.
+      }
+    };
+  }, [open]);
+
+  const dialogStyle = dialogTop
+    ? ({ "--history-dialog-top": `${dialogTop}px` } as CSSProperties)
+    : undefined;
 
   useEffect(() => {
     if (!open) return;
@@ -68,7 +119,7 @@ export function HistoryActionDialog({
   };
 
   return (
-    <div className="history-dialog-layer" role="dialog" aria-modal="true" aria-labelledby="history-dialog-title">
+    <div className="history-dialog-layer" style={dialogStyle} role="dialog" aria-modal="true" aria-labelledby="history-dialog-title">
       <button
         type="button"
         className="history-dialog-backdrop"

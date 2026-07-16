@@ -64,7 +64,6 @@ const nextConfig: NextConfig = {
       ? 'http://127.0.0.1:8082'
       : 'https://technical-coach-frontend.bravesand-e5d986f3.francecentral.azurecontainerapps.io';
     const hrCoach = (process.env.HR_COACH_INTERNAL_URL || defaultHrCoach).replace(/\/$/, '');
-    const hrCoachGateway = (process.env.HR_COACH_GATEWAY_INTERNAL_URL || 'https://hr-coach-gateway.bravesand-e5d986f3.francecentral.azurecontainerapps.io').replace(/\/$/, '');
     const technicalCoach = (process.env.TECHNICAL_COACH_INTERNAL_URL || defaultTechnicalCoach).replace(/\/$/, '');
     return [
       { source: '/hr-coach-app/api/rh/session/:sessionId/report', destination: `${hrCoach}/hr-coach-app/api/rh/session/:sessionId/report` },
@@ -73,8 +72,8 @@ const nextConfig: NextConfig = {
       { source: '/hr-coach-app/api/rh/session/:sessionId/insights-report/view', destination: `${hrCoach}/hr-coach-app/api/rh/session/:sessionId/insights-report/view` },
       { source: '/hr-coach-app/api/rh/sessions', destination: `${hrCoach}/hr-coach-app/api/rh/sessions` },
       { source: '/hr-coach-app/api/rh/sessions/:path*', destination: `${hrCoach}/hr-coach-app/api/rh/sessions/:path*` },
-      { source: '/hr-coach-app/api/rh/session/:sessionId', destination: `${hrCoachGateway}/rh/sessions/:sessionId` },
-      { source: '/hr-coach-app/api/rh/session/:sessionId/:path*', destination: `${hrCoachGateway}/rh/sessions/:sessionId/:path*` },
+      { source: '/hr-coach-app/api/rh/session/:sessionId', destination: `${hrCoach}/hr-coach-app/api/rh/session/:sessionId` },
+      { source: '/hr-coach-app/api/rh/session/:sessionId/:path*', destination: `${hrCoach}/hr-coach-app/api/rh/session/:sessionId/:path*` },
       { source: '/hr-coach-app', destination: `${hrCoach}/hr-coach-app` },
       { source: '/hr-coach-app/:path*', destination: `${hrCoach}/hr-coach-app/:path*` },
       { source: '/:locale(en|fr)/hr-coach-app/api/rh/session/:sessionId/report', destination: `${hrCoach}/hr-coach-app/api/rh/session/:sessionId/report` },
@@ -83,8 +82,8 @@ const nextConfig: NextConfig = {
       { source: '/:locale(en|fr)/hr-coach-app/api/rh/session/:sessionId/insights-report/view', destination: `${hrCoach}/hr-coach-app/api/rh/session/:sessionId/insights-report/view` },
       { source: '/:locale(en|fr)/hr-coach-app/api/rh/sessions', destination: `${hrCoach}/hr-coach-app/api/rh/sessions` },
       { source: '/:locale(en|fr)/hr-coach-app/api/rh/sessions/:path*', destination: `${hrCoach}/hr-coach-app/api/rh/sessions/:path*` },
-      { source: '/:locale(en|fr)/hr-coach-app/api/rh/session/:sessionId', destination: `${hrCoachGateway}/rh/sessions/:sessionId` },
-      { source: '/:locale(en|fr)/hr-coach-app/api/rh/session/:sessionId/:path*', destination: `${hrCoachGateway}/rh/sessions/:sessionId/:path*` },
+      { source: '/:locale(en|fr)/hr-coach-app/api/rh/session/:sessionId', destination: `${hrCoach}/hr-coach-app/api/rh/session/:sessionId` },
+      { source: '/:locale(en|fr)/hr-coach-app/api/rh/session/:sessionId/:path*', destination: `${hrCoach}/hr-coach-app/api/rh/session/:sessionId/:path*` },
       { source: '/:locale(en|fr)/hr-coach-app', destination: `${hrCoach}/hr-coach-app` },
       { source: '/:locale(en|fr)/hr-coach-app/:path*', destination: `${hrCoach}/hr-coach-app/:path*` },
       { source: '/technical-coach-app', destination: `${technicalCoach}` },

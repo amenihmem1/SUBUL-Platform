@@ -992,9 +992,12 @@ svg circle {
   position: fixed;
   inset: 0;
   z-index: 120;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: auto;
   padding: 20px;
+  padding-top: max(20px, calc(var(--history-dialog-top, 50vh) - 210px));
 }
 
 .history-dialog-backdrop {
