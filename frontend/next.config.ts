@@ -44,10 +44,15 @@ const nextConfig: NextConfig = {
     // NOTE: rewrites are resolved at build time in production builds.
     // In Docker, `localhost:3001` points to the frontend container, not the Nest API.
     // Prefer internal docker network hostname (e.g. http://api:3001) when available.
+    const defaultBackend = dev
+      ? 'http://localhost:3001'
+      : 'https://subul-api.bravesand-e5d986f3.francecentral.azurecontainerapps.io';
     const backend =
       process.env.BACKEND_INTERNAL_URL ||
       process.env.BACKEND_URL ||
-      'http://localhost:3001';
+      process.env.NEXT_PUBLIC_BACKEND_URL ||
+      process.env.NEXT_PUBLIC_API_URL ||
+      defaultBackend;
     const base = backend.replace(/\/$/, '');
     // Grafana is reachable in-cluster via the grafana-service DNS name (default namespace).
     // Override with GRAFANA_INTERNAL_URL for local/dev or non-cluster deployments.
