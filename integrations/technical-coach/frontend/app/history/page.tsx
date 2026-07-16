@@ -494,7 +494,7 @@ function HistoryPageContent() {
     >
       <aside className={styles.sidebar}>
         <div className={styles.sidebarTop}>
-          <Image className={styles.logoImage} src={logoImage} alt="SUBUL" priority />
+          <Image className={styles.logoImage} src={logoImage} alt="SUBUL" priority unoptimized />
         </div>
 
         <div className={styles.menuBlock}>

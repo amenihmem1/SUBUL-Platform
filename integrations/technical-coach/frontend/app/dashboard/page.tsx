@@ -836,7 +836,7 @@ export default function DashboardPage() {
     >
       <aside className={layoutStyles.sidebar}>
         <div className={layoutStyles.sidebarTop}>
-          <Image className={layoutStyles.logoImage} src={logoImage} alt="SUBUL" priority />
+          <Image className={layoutStyles.logoImage} src={logoImage} alt="SUBUL" priority unoptimized />
         </div>
 
         <div className={layoutStyles.menuBlock}>

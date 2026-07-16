@@ -910,12 +910,17 @@ function InsightToneIcon({ tone }: { tone: "visual" | "audio" | "stress" | "summ
   );
 }
 
+function readReportViewFromBrowser(): "report" | "insights" {
+  if (typeof window === "undefined") return "report";
+  return new URLSearchParams(window.location.search).get("view") === "insights" ? "insights" : "report";
+}
+
 function ReportDashboardPageContent() {
   const params = useParams();
   const searchParams = useSearchParams();
   const rawSessionId = params?.sessionId;
   const sessionId = typeof rawSessionId === "string" ? rawSessionId : Array.isArray(rawSessionId) ? rawSessionId[0] : "";
-  const [activeView, setActiveView] = useState<"report" | "insights">("report");
+  const [activeView, setActiveView] = useState<"report" | "insights">(() => readReportViewFromBrowser());
   const [payload, setPayload] = useState<SessionReportPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -930,7 +935,9 @@ function ReportDashboardPageContent() {
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
 
   useEffect(() => {
-    setActiveView(searchParams.get("view") === "insights" ? "insights" : "report");
+    const searchView = searchParams.get("view") === "insights" ? "insights" : "report";
+    const browserView = readReportViewFromBrowser();
+    setActiveView(browserView === "insights" ? "insights" : searchView);
   }, [searchParams]);
 
   useEffect(() => {
@@ -1573,7 +1580,7 @@ function ReportDashboardPageContent() {
     <div className={`${styles.shell} ${effectiveTheme === "dark" ? styles.themeDark : styles.themeLight}`}>
       <aside className={styles.sidebar}>
         <div className={styles.sidebarTop}>
-          <Image className={styles.logoImage} src={logoImage} alt="SUBUL" priority />
+          <Image className={styles.logoImage} src={logoImage} alt="SUBUL" priority unoptimized />
         </div>
 
         <div className={styles.menuBlock}>
