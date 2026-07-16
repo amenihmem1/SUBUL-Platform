@@ -999,13 +999,6 @@ function ReportDashboardPageContent() {
     void loadReport();
   }, [sessionId, language, activeView]);
 
-  useEffect(() => {
-    const reportUnlockedStatus = payload?.interview_status === "finalized" && Boolean(payload?.final_report || null);
-    if (payload && !reportUnlockedStatus && activeView !== "report") {
-      setActiveView("report");
-    }
-  }, [payload, activeView]);
-
   const finalReport = payload?.final_report || null;
   const copy = translations[language];
   const tDyn = (text?: string) => translateDynamicTextV2(text, language);
@@ -1013,7 +1006,7 @@ function ReportDashboardPageContent() {
   const effectiveTheme: Theme = theme;
   const shareOrigin = browserOrigin || QR_SHARE_BASE_URL;
   const qrNeedsPublicOrigin = !QR_SHARE_BASE_URL && isLocalOnlyOrigin(browserOrigin);
-  const reportUnlocked = payload?.interview_status === "finalized" && Boolean(finalReport);
+  const reportUnlocked = payload?.interview_status === "finalized";
   const visualContext = payload?.visual_context || payload?.cached_insights?.visual_context || null;
   const audioContext = payload?.audio_context || payload?.cached_insights?.audio_context || null;
   const stressContext = payload?.stress_context || payload?.cached_insights?.stress_context || null;
