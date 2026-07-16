@@ -116,7 +116,9 @@ function LearnerTechnicalCoachFrame() {
       if (requestedCoachPath && requestedCoachPath !== "/") return;
       const frameParams = new URLSearchParams(frameLocation.search);
       const selectedSessionId = decodeURIComponent(reportMatch[1]);
-      const reportView = frameParams.get("view") === "insights" ? "insights" : "report";
+      const currentView = nextParams.get("view") === "insights" ? "insights" : "report";
+      const frameViewParam = frameParams.get("view");
+      const reportView = frameViewParam === "insights" || frameViewParam === "report" ? frameViewParam : currentView;
       if ((nextParams.get("reportSession") || nextParams.get("sessionId")) === selectedSessionId && nextParams.get("view") === "insights" && reportView === "report") return;
       nextParams.delete("path");
       nextParams.delete("session");
@@ -183,7 +185,8 @@ function LearnerTechnicalCoachFrame() {
       const requestedCoachPath = nextParams.get("path");
       if (requestedCoachPath && requestedCoachPath !== "/" && Date.now() < ignoreReportMessagesUntilRef.current) return;
       const currentReportSession = nextParams.get("reportSession") || nextParams.get("sessionId");
-      const reportView = data.view === "insights" ? "insights" : "report";
+      const currentView = nextParams.get("view") === "insights" ? "insights" : "report";
+      const reportView = data.view === "insights" || data.view === "report" ? data.view : currentView;
       if (currentReportSession === data.sessionId && nextParams.get("view") === "insights" && reportView === "report") return;
       nextParams.delete("path");
       nextParams.delete("session");
