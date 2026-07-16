@@ -36,6 +36,14 @@ function LearnerHrCoachFrame() {
   const lastSearchRef = useRef("");
   const ignoreReportMessagesUntilRef = useRef(0);
 
+  useEffect(() => {
+    if (searchParams.get("path") !== "/") return;
+    const nextParams = new URLSearchParams(window.location.search);
+    nextParams.delete("path");
+    const nextQuery = nextParams.toString();
+    window.history.replaceState(null, "", `${window.location.pathname}${nextQuery ? `?${nextQuery}` : ""}`);
+  }, [searchParams]);
+
   const hrCoachUrl = useMemo(() => {
     const url = withPlatformLanguageParams(HR_COACH_URL, locale);
     const parsed = new URL(url, "http://subul.local");

@@ -53,9 +53,18 @@ export default function proxy(request: NextRequest) {
 
   const isJustLocale = /^\/(en|fr)$/.test(pathname);
 
+  if (
+    request.nextUrl.searchParams.get('path') === '/' &&
+    /^\/(en|fr)\/dashboard\/learner\/(hr-coach|technical-coach)$/.test(pathname)
+  ) {
+    const cleanUrl = new URL(request.url);
+    cleanUrl.searchParams.delete('path');
+    return NextResponse.redirect(cleanUrl, 308);
+  }
   if (hasLocale || isJustLocale) {
     // Continue to auth checks below for localized/protected routes.
   } else {
+
     const preferredLocale = resolveLocaleFromRequest(request);
 
     if (pathname === '/') {

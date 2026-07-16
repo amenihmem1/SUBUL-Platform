@@ -167,7 +167,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
         href: createLocalizedUrl('/dashboard/learner/hr-coach'),
         section: 'career',
         children: [
-          { id: 'hr-interview', icon: Bot, labelKey: 'navigation.coachInterview', href: createCoachUrl('/dashboard/learner/hr-coach', '/') },
+          { id: 'hr-interview', icon: Bot, labelKey: 'navigation.coachInterview', href: createLocalizedUrl('/dashboard/learner/hr-coach') },
           { id: 'hr-analytics', icon: BarChart3, labelKey: 'navigation.analytics', href: createCoachUrl('/dashboard/learner/hr-coach', '/dashboard') },
           {
             id: 'hr-dashboard-rh',
@@ -195,7 +195,7 @@ export default function Sidebar({ role, open, toggle }: SidebarProps) {
         href: createLocalizedUrl('/dashboard/learner/technical-coach'),
         section: 'career',
         children: [
-          { id: 'technical-interview', icon: Terminal, labelKey: 'navigation.coachInterview', href: createCoachUrl('/dashboard/learner/technical-coach', '/') },
+          { id: 'technical-interview', icon: Terminal, labelKey: 'navigation.coachInterview', href: createLocalizedUrl('/dashboard/learner/technical-coach') },
           { id: 'technical-analytics', icon: BarChart3, labelKey: 'navigation.analytics', href: createCoachUrl('/dashboard/learner/technical-coach', '/dashboard') },
           {
             id: 'technical-dashboard-report',

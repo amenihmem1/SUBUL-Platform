@@ -42,6 +42,14 @@ function LearnerTechnicalCoachFrame() {
   const lastSearchRef = useRef("");
   const ignoreReportMessagesUntilRef = useRef(0);
 
+  useEffect(() => {
+    if (searchParams.get("path") !== "/") return;
+    const nextParams = new URLSearchParams(window.location.search);
+    nextParams.delete("path");
+    const nextQuery = nextParams.toString();
+    window.history.replaceState(null, "", `${window.location.pathname}${nextQuery ? `?${nextQuery}` : ""}`);
+  }, [searchParams]);
+
   const technicalCoachUrl = useMemo(() => {
     const url = withPlatformParams(getTechnicalCoachBaseUrl(), locale);
     const parsed = new URL(url, "http://subul.local");
