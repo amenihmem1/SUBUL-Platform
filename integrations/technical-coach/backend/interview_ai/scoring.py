@@ -260,6 +260,32 @@ def _heuristic_question_answer_score(question: str, answer: str) -> int:
         if coverage >= 2:
             return 3
 
+    if (
+        "big data" in normalized_question
+        or "donnees volumineuses" in normalized_question
+        or "donnees massives" in normalized_question
+        or ("couche" in normalized_question and "entree" in normalized_question and "sortie" in normalized_question)
+    ):
+        coverage = _concept_group_score(
+            normalized_answer,
+            (
+                (" big data ", " donnees volumineuses ", " donnees massives ", " volume ", " volumineux "),
+                (" couche d entree ", " couche entree ", " entree ", " ingestion ", " collecte ", " sources "),
+                (" stockage ", " stocker ", " conserve ", " conserver ", " distribue ", " distribuee ", " hdfs ", " data lake "),
+                (" traitement ", " analyse ", " analyser ", " spark ", " mapreduce ", " batch ", " streaming "),
+                (" couche de sortie ", " sortie ", " tableaux de bord ", " dashboard ", " rapports ", " api ", " utilisateurs "),
+                (" pipeline ", " architecture ", " couches ", " transformation ", " visualisation "),
+            ),
+        )
+        if coverage >= 5 and word_count >= 45:
+            return 4
+        if coverage >= 4:
+            return 3
+        if coverage >= 3 and word_count >= 35:
+            return 3
+        if coverage >= 2:
+            return 2
+
     if "blockchain" in normalized_question and ("scalabil" in normalized_question or "transactions" in normalized_question):
         coverage = _concept_group_score(
             normalized_answer,

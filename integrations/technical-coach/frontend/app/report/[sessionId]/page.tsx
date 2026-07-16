@@ -659,6 +659,54 @@ function formatScore(value: number, suffix = "/5") {
   return `${Number.isFinite(value) ? value.toFixed(1).replace(".0", "") : "0"}${suffix}`;
 }
 
+function normalizeScoringText(value: string) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/['’]/g, " ")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function containsAnyScoringTerm(text: string, terms: string[]) {
+  const padded = ` ${text} `;
+  return terms.some((term) => padded.includes(term));
+}
+
+function inferQuestionScoreFloor(question: string, answer: string) {
+  const normalizedQuestion = normalizeScoringText(question);
+  const normalizedAnswer = normalizeScoringText(answer);
+  const wordCount = normalizedAnswer.split(/\s+/).filter(Boolean).length;
+
+  if (!normalizedQuestion || !normalizedAnswer || wordCount < 12) return 0;
+
+  const isBigDataQuestion =
+    normalizedQuestion.includes("big data") ||
+    normalizedQuestion.includes("donnees volumineuses") ||
+    normalizedQuestion.includes("donnees massives") ||
+    (normalizedQuestion.includes("couche") &&
+      normalizedQuestion.includes("entree") &&
+      normalizedQuestion.includes("sortie"));
+
+  if (!isBigDataQuestion) return 0;
+
+  const coverage = [
+    [" big data ", " donnees volumineuses ", " donnees massives ", " volume "],
+    [" couche d entree ", " couche entree ", " entree ", " ingestion ", " collecte ", " sources "],
+    [" stockage ", " stocker ", " conserve ", " distribue ", " distribuee ", " hdfs ", " data lake "],
+    [" traitement ", " analyse ", " analyser ", " spark ", " mapreduce ", " batch ", " streaming "],
+    [" couche de sortie ", " sortie ", " tableaux de bord ", " dashboard ", " rapports ", " api ", " utilisateurs "],
+    [" pipeline ", " architecture ", " couches ", " transformation ", " visualisation "],
+  ].filter((terms) => containsAnyScoringTerm(normalizedAnswer, terms)).length;
+
+  if (coverage >= 5 && wordCount >= 45) return 4;
+  if (coverage >= 4) return 3;
+  if (coverage >= 3 && wordCount >= 35) return 3;
+  if (coverage >= 2) return 2;
+  return 0;
+}
+
 function formatPercent(value: number) {
   return `${clamp(value).toFixed(value % 1 === 0 ? 0 : 1)}%`;
 }
@@ -932,7 +980,8 @@ function ReportDashboardPageContent() {
   useEffect(() => {
     const view = searchParams.get("view");
     const explicitInsights = searchParams.get("insights") === "1";
-    if (view === "insights" || explicitInsights) {
+    const modeInsights = searchParams.get("mode") === "insights";
+    if (view === "insights" || explicitInsights || modeInsights) {
       setActiveView("insights");
       return;
     }
@@ -1011,6 +1060,12 @@ function ReportDashboardPageContent() {
   const shareOrigin = browserOrigin || QR_SHARE_BASE_URL;
   const qrNeedsPublicOrigin = !QR_SHARE_BASE_URL && isLocalOnlyOrigin(browserOrigin);
   const reportUnlocked = payload?.interview_status === "finalized";
+  const routeForcesInsights =
+    searchParams.get("view") === "insights" ||
+    searchParams.get("insights") === "1" ||
+    searchParams.get("mode") === "insights";
+  const isInsightsView = routeForcesInsights || activeView === "insights";
+  const isReportView = !isInsightsView;
   const visualContext = payload?.visual_context || payload?.cached_insights?.visual_context || null;
   const audioContext = payload?.audio_context || payload?.cached_insights?.audio_context || null;
   const stressContext = payload?.stress_context || payload?.cached_insights?.stress_context || null;
@@ -1020,8 +1075,8 @@ function ReportDashboardPageContent() {
     sessionId && shareOrigin
       ? `${shareOrigin}/report/${encodeURIComponent(sessionId)}/insights-pdf?language=${encodeURIComponent(language)}`
       : "";
-  const activePdfViewUrl = activeView === "insights" ? insightsPdfViewUrl : reportPdfViewUrl;
-  const activeQrLabel = activeView === "insights" ? copy.qrInsightsPdf : copy.qrPdf;
+  const activePdfViewUrl = isInsightsView ? insightsPdfViewUrl : reportPdfViewUrl;
+  const activeQrLabel = isInsightsView ? copy.qrInsightsPdf : copy.qrPdf;
   const activeQrImageUrl = activePdfViewUrl
     ? `https://api.qrserver.com/v1/create-qr-code/?size=512x512&margin=16&data=${encodeURIComponent(activePdfViewUrl)}`
     : "";
@@ -1096,7 +1151,8 @@ function ReportDashboardPageContent() {
         if (!question || !answer) return null;
 
         const rawScore = Number(turn.score_partial?.question_score);
-        const score = Number.isFinite(rawScore) ? clamp(rawScore, 0, 5) : 0;
+        const normalizedScore = Number.isFinite(rawScore) ? clamp(rawScore, 0, 5) : 0;
+        const score = Math.max(normalizedScore, inferQuestionScoreFloor(question, answer));
 
         return {
           dimension: "",
@@ -1576,10 +1632,10 @@ function ReportDashboardPageContent() {
             <span className={styles.navGroupTitle}>{copy.sidebarReports}</span>
             {reportUnlocked ? (
               <Link
-                className={`${styles.navItem} ${activeView === "report" ? styles.navItemActive : ""}`}
+                className={`${styles.navItem} ${isReportView ? styles.navItemActive : ""}`}
                 href={`/report/${encodeURIComponent(sessionId)}?view=report`}
                 onClick={() => setActiveView("report")}
-                aria-current={activeView === "report" ? "page" : undefined}
+                aria-current={isReportView ? "page" : undefined}
               >
                 <SidebarIcon type="dashboard" />
                 {copy.reportNav}
@@ -1596,10 +1652,10 @@ function ReportDashboardPageContent() {
             )}
             {reportUnlocked ? (
               <Link
-                className={`${styles.navItem} ${activeView === "insights" ? styles.navItemActive : ""}`}
-                href={`/report/${encodeURIComponent(sessionId)}?view=insights&insights=1`}
+                className={`${styles.navItem} ${isInsightsView ? styles.navItemActive : ""}`}
+                href={`/report/${encodeURIComponent(sessionId)}?view=insights&insights=1&mode=insights`}
                 onClick={() => setActiveView("insights")}
-                aria-current={activeView === "insights" ? "page" : undefined}
+                aria-current={isInsightsView ? "page" : undefined}
               >
                 <SidebarIcon type="hire" />
                 {copy.insights}
@@ -1634,7 +1690,7 @@ function ReportDashboardPageContent() {
           className={styles.header}
           id="report-view"
         >
-          {activeView === "insights" ? (
+          {isInsightsView ? (
             <div>
               <h1>{copy.visualVocalInsights}</h1>
               <p>
@@ -1712,7 +1768,7 @@ function ReportDashboardPageContent() {
                 </span>
               </button>
             ) : null}
-            {activeView === "report" ? (
+            {isReportView ? (
               <button
                 type="button"
                 className={`${styles.socialButton} ${styles.headerIconButton}`}
@@ -1730,7 +1786,7 @@ function ReportDashboardPageContent() {
                 </svg>
               </button>
             ) : null}
-            {activeView === "insights" ? (
+            {isInsightsView ? (
               <button
                 type="button"
                 className={`${styles.socialButton} ${styles.headerIconButton}`}
@@ -1748,7 +1804,7 @@ function ReportDashboardPageContent() {
                 </svg>
               </button>
             ) : null}
-            {activeView === "report" ? (
+            {isReportView ? (
               <button
                 type="button"
                 className={`${styles.primaryButton} ${styles.headerIconButton}`}
@@ -1764,7 +1820,7 @@ function ReportDashboardPageContent() {
                 </svg>
               </button>
             ) : null}
-            {activeView === "insights" ? (
+            {isInsightsView ? (
               <button
                 type="button"
                 className={`${styles.primaryButton} ${styles.headerIconButton}`}
@@ -1783,7 +1839,7 @@ function ReportDashboardPageContent() {
           </div>
         </section>
 
-        {activeView === "report" ? (
+        {isReportView ? (
         <section className={`${styles.sectionBlock} ${styles.rhSection}`}>
           
 
@@ -1972,7 +2028,7 @@ function ReportDashboardPageContent() {
         </section>
         ) : null}
 
-        {activeView === "insights" ? (
+        {isInsightsView ? (
           <section className={styles.sectionBlock} id="insights" data-insights-theme={effectiveTheme}>
             <CandidateInsightsPopup
               variant="inline"

@@ -61,8 +61,10 @@ function LearnerTechnicalCoachFrame() {
       parsed.searchParams.set("view", reportView === "insights" ? "insights" : "report");
       if (reportView === "insights") {
         parsed.searchParams.set("insights", "1");
+        parsed.searchParams.set("mode", "insights");
       } else {
         parsed.searchParams.delete("insights");
+        parsed.searchParams.delete("mode");
       }
     } else if (targetPath === "/") {
       parsed.pathname = basePath || "/";
@@ -130,6 +132,13 @@ function LearnerTechnicalCoachFrame() {
       nextParams.delete("sessionId");
       nextParams.set("reportSession", selectedSessionId);
       nextParams.set("view", reportView);
+      if (reportView === "insights") {
+        nextParams.set("insights", "1");
+        nextParams.set("mode", "insights");
+      } else {
+        nextParams.delete("insights");
+        nextParams.delete("mode");
+      }
 
       const nextQuery = nextParams.toString();
       const nextUrl = window.location.pathname + (nextQuery ? `?${nextQuery}` : "");
@@ -198,6 +207,13 @@ function LearnerTechnicalCoachFrame() {
       nextParams.delete("sessionId");
       nextParams.set("reportSession", data.sessionId);
       nextParams.set("view", reportView);
+      if (reportView === "insights") {
+        nextParams.set("insights", "1");
+        nextParams.set("mode", "insights");
+      } else {
+        nextParams.delete("insights");
+        nextParams.delete("mode");
+      }
 
       const nextQuery = nextParams.toString();
       const nextUrl = window.location.pathname + (nextQuery ? `?${nextQuery}` : "");
