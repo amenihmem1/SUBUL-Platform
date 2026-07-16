@@ -920,7 +920,7 @@ function ReportDashboardPageContent() {
   const searchParams = useSearchParams();
   const rawSessionId = params?.sessionId;
   const sessionId = typeof rawSessionId === "string" ? rawSessionId : Array.isArray(rawSessionId) ? rawSessionId[0] : "";
-  const [activeView, setActiveView] = useState<"report" | "insights">(() => readReportViewFromBrowser());
+  const [selectedView, setActiveView] = useState<"report" | "insights">(() => readReportViewFromBrowser());
   const [payload, setPayload] = useState<SessionReportPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -939,6 +939,8 @@ function ReportDashboardPageContent() {
     const browserView = readReportViewFromBrowser();
     setActiveView(browserView === "insights" ? "insights" : searchView);
   }, [searchParams]);
+
+  const activeView: "report" | "insights" = searchParams.get("view") === "insights" ? "insights" : selectedView;
 
   useEffect(() => {
     if (typeof window === "undefined") return;
