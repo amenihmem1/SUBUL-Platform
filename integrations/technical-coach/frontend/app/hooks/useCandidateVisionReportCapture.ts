@@ -421,7 +421,7 @@ export function useCandidateVisionReportCapture(
           body.append("face_box_bottom", String(currentAnalysis.faceBox.bottom));
         }
 
-        const res = await fetch(`/api/tech/session/${encodeURIComponent(sessionId)}/vision`, {
+        const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(sessionId)}/vision`, {
           method: "POST",
           body,
         });

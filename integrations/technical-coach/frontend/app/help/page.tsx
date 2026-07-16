@@ -348,7 +348,7 @@ export default function HelpPage() {
   useEffect(() => {
     const loadHistory = async () => {
       try {
-        const res = await fetch("/api/tech/sessions?limit=80", { method: "GET", cache: "no-store" });
+        const res = await fetch("/technical-coach-app/api/tech/sessions?limit=80", { method: "GET", cache: "no-store" });
         const data = (await res.json()) as SessionHistoryResponse & { error?: string };
         if (!res.ok) {
           return;

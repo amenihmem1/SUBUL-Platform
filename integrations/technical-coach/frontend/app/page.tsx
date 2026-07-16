@@ -1346,7 +1346,7 @@ function HomePageContent() {
 
   const loadHistory = async () => {
     try {
-      const res = await fetch("/api/tech/sessions?limit=80", { method: "GET", cache: "no-store" });
+      const res = await fetch("/technical-coach-app/api/tech/sessions?limit=80", { method: "GET", cache: "no-store" });
       await res.json();
     } catch (error) {
       console.warn("History refresh failed", error);
@@ -1460,7 +1460,7 @@ function HomePageContent() {
           return;
         }
 
-        const res = await fetch("/api/tech/tts", {
+        const res = await fetch("/technical-coach-app/api/tech/tts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text }),
@@ -1506,7 +1506,7 @@ function HomePageContent() {
     setCandidateText("");
 
     try {
-      const res = await fetch(`/api/tech/session/${encodeURIComponent(sessionId)}/message`, {
+      const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(sessionId)}/message`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: clean, candidate_name: candidateName || "Candidate" }),
@@ -1558,7 +1558,7 @@ function HomePageContent() {
       return;
     }
 
-    const res = await fetch(`/api/tech/session/${encodeURIComponent(sessionId)}/audio`, {
+    const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(sessionId)}/audio`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -1612,7 +1612,7 @@ function HomePageContent() {
     form.append("language", language);
 
     try {
-      const res = await fetch("/api/tech/stt", {
+      const res = await fetch("/technical-coach-app/api/tech/stt", {
         method: "POST",
         body: form,
       });
@@ -1966,7 +1966,7 @@ function HomePageContent() {
     try {
       const body = new FormData();
       body.append("file", cvFile);
-      const res = await fetch(`/api/tech/session/${encodeURIComponent(sessionId)}/cv`, {
+      const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(sessionId)}/cv`, {
         method: "POST",
         body,
       });

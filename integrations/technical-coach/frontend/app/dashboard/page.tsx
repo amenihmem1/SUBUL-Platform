@@ -714,7 +714,7 @@ export default function DashboardPage() {
       setError("");
       setProctoringEvents([]);
       try {
-        const res = await fetch("/api/tech/sessions?limit=200", { method: "GET", cache: "no-store" });
+        const res = await fetch("/technical-coach-app/api/tech/sessions?limit=200", { method: "GET", cache: "no-store" });
         const data = (await res.json()) as SessionHistoryResponse & { error?: string };
         if (!res.ok) {
           setError(data?.error || t.unable);
@@ -726,7 +726,7 @@ export default function DashboardPage() {
         const recentSessions = loadedSessions.slice(0, 60);
         const payloads = await Promise.allSettled(
           recentSessions.map(async (session) => {
-            const sessionRes = await fetch(`/api/tech/session/${encodeURIComponent(session.session_id)}?language=${encodeURIComponent(language)}`, {
+            const sessionRes = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(session.session_id)}?language=${encodeURIComponent(language)}`, {
               method: "GET",
               cache: "no-store",
             });

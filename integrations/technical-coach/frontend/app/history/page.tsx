@@ -347,7 +347,7 @@ function HistoryPageContent() {
     setHistoryLoading(true);
     setHistoryError("");
     try {
-      const res = await fetch("/api/tech/sessions?limit=80", { method: "GET", cache: "no-store" });
+      const res = await fetch("/technical-coach-app/api/tech/sessions?limit=80", { method: "GET", cache: "no-store" });
       const data = (await res.json()) as SessionHistoryResponse & { error?: string };
       if (!res.ok) {
         setHistoryError(data?.error || "Unable to load interview history.");
@@ -407,7 +407,7 @@ function HistoryPageContent() {
       archived?: boolean;
     }
   ) => {
-    const res = await fetch(`/api/tech/session/${encodeURIComponent(targetSessionId)}`, {
+    const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(targetSessionId)}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -420,7 +420,7 @@ function HistoryPageContent() {
   };
 
   const deleteSessionHistoryRequest = async (targetSessionId: string) => {
-    const res = await fetch(`/api/tech/session/${encodeURIComponent(targetSessionId)}`, {
+    const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(targetSessionId)}`, {
       method: "DELETE",
     });
     const data = (await res.json()) as { error?: string; detail?: string };
@@ -449,7 +449,7 @@ function HistoryPageContent() {
     const fallbackHref = `/?session=${encodeURIComponent(targetSessionId)}`;
 
     try {
-      const res = await fetch(`/api/tech/session/${encodeURIComponent(targetSessionId)}?include_insights=1`, {
+      const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(targetSessionId)}?include_insights=1`, {
         method: "GET",
         cache: "no-store",
       });

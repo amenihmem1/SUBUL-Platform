@@ -30,7 +30,7 @@ export type SessionResponse = {
 
 export async function fetchSession(sessionId: string, options?: { includeInsights?: boolean }) {
   const query = options?.includeInsights ? "?include_insights=1" : "";
-  const res = await fetch(`/api/tech/session/${encodeURIComponent(sessionId)}${query}`, {
+  const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(sessionId)}${query}`, {
     method: "GET",
     cache: "no-store",
   });
@@ -39,7 +39,7 @@ export async function fetchSession(sessionId: string, options?: { includeInsight
 }
 
 export async function updatePreferredInputMode(sessionId: string, preferredInputMode: InputMode) {
-  const res = await fetch(`/api/tech/session/${encodeURIComponent(sessionId)}/preferences`, {
+  const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(sessionId)}/preferences`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ preferred_input_mode: preferredInputMode }),
@@ -49,7 +49,7 @@ export async function updatePreferredInputMode(sessionId: string, preferredInput
 }
 
 export async function finalizeInterviewSession(sessionId: string, preferredInputMode: InputMode) {
-  const res = await fetch(`/api/tech/session/${encodeURIComponent(sessionId)}/finalize`, {
+  const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(sessionId)}/finalize`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ preferred_input_mode: preferredInputMode, finalized_by: "user" }),
@@ -62,7 +62,7 @@ export async function recordProctoringEvent(
   sessionId: string,
   payload: { reason: string; message: string; count: number; time?: string }
 ) {
-  const res = await fetch(`/api/tech/session/${encodeURIComponent(sessionId)}/proctoring`, {
+  const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(sessionId)}/proctoring`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),

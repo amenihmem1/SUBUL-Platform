@@ -980,7 +980,7 @@ function ReportDashboardPageContent() {
         if (activeView === "insights") {
           query.set("include_insights", "1");
         }
-        const res = await fetch(`/api/tech/session/${encodeURIComponent(sessionId)}?${query.toString()}`, {
+        const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(sessionId)}?${query.toString()}`, {
           method: "GET",
           cache: "no-store",
         });
@@ -1371,7 +1371,7 @@ function ReportDashboardPageContent() {
     if (!sessionId || downloadingPdf) return;
     setDownloadingPdf(true);
     try {
-      const res = await fetch(`/api/tech/session/${encodeURIComponent(sessionId)}/report`, {
+      const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(sessionId)}/report`, {
         method: "GET",
       });
       if (!res.ok) {
@@ -1402,7 +1402,7 @@ function ReportDashboardPageContent() {
     if (!sessionId || downloadingInsightsPdf) return;
     setDownloadingInsightsPdf(true);
     try {
-      const res = await fetch(`/api/tech/session/${encodeURIComponent(sessionId)}/insights-report?language=${encodeURIComponent(language)}`, {
+      const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(sessionId)}/insights-report?language=${encodeURIComponent(language)}`, {
         method: "GET",
       });
       if (!res.ok) {
@@ -1435,7 +1435,7 @@ function ReportDashboardPageContent() {
     setError("");
 
     try {
-      const res = await fetch(`/api/tech/session/${encodeURIComponent(sessionId)}/report`, {
+      const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(sessionId)}/report`, {
         method: "GET",
       });
       if (!res.ok) {
@@ -1472,7 +1472,7 @@ function ReportDashboardPageContent() {
     setError("");
 
     try {
-      const res = await fetch(`/api/tech/session/${encodeURIComponent(sessionId)}/insights-report?language=${encodeURIComponent(language)}`, {
+      const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(sessionId)}/insights-report?language=${encodeURIComponent(language)}`, {
         method: "GET",
       });
       if (!res.ok) {
