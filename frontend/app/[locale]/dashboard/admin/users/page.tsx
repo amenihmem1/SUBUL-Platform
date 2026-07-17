@@ -35,7 +35,7 @@ import {
 import { Badge, Button, useToast } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/contexts/LanguageContext';
-import { normalizeApiError } from '@/lib/errors/normalizeApiError';
+import { getValidationMessage, normalizeApiError } from '@/lib/errors/normalizeApiError';
 import { getAdminUsers } from '@/services/adminUsers';
 
 import ViewUserModal from '@/components/modals/Admin/users/ViewUserModal';
@@ -547,7 +547,8 @@ export default function AdminUsers() {
         await createUser.mutateAsync(row);
         created += 1;
       } catch (err) {
-        const { message, key } = normalizeApiError(err);
+        const { key } = normalizeApiError(err);
+        const message = getValidationMessage(err);
         failed.push({
           line: index + 2,
           email: row.email,
@@ -911,7 +912,6 @@ export default function AdminUsers() {
                   <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('common.role'))}</th>
                   <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('common.status'))}</th>
                   <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{copy.subscription}</th>
-                  <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('progression.courses'))}</th>
                   <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('progression.progressLabel'))}</th>
                   <th className="border-b border-r border-slate-200 p-4 text-left text-sm font-medium text-muted-foreground">{String(t('users.lastActivity'))}</th>
                   <th className="border-b border-slate-200 p-4 text-center text-sm font-medium text-muted-foreground">{String(t('common.actions'))}</th>
@@ -920,7 +920,7 @@ export default function AdminUsers() {
               <tbody>
                 {users.length === 0 ? (
                   <tr>
-                    <td colSpan={9} className="text-center py-10 text-slate-400">
+                    <td colSpan={8} className="text-center py-10 text-slate-400">
                       {String(t('users.noUsers'))}
                     </td>
                   </tr>
@@ -998,17 +998,6 @@ export default function AdminUsers() {
                       })()}
                     </td>
                     <td className="border-b border-r border-slate-200 p-4 font-medium text-slate-900">{user.courses}</td>
-                    <td className="border-b border-r border-slate-200 p-4">
-                      <div className="flex items-center gap-2">
-                        <div className="w-20 bg-slate-200 rounded-full h-2">
-                          <div
-                            className="bg-gradient-to-r from-primary to-accent h-2 rounded-full"
-                            style={{ width: `${user.progress}%` }}
-                          />
-                        </div>
-                        <span className="text-sm font-medium text-slate-700">{user.progress}%</span>
-                      </div>
-                    </td>
                     <td className="border-b border-r border-slate-200 p-4">
                       <div className="flex items-center gap-1 text-sm text-slate-600">
                         <Clock className="w-3.5 h-3.5" />
