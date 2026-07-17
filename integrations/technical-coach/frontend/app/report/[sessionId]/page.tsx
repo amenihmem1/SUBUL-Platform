@@ -958,12 +958,12 @@ function InsightToneIcon({ tone }: { tone: "visual" | "audio" | "stress" | "summ
   );
 }
 
-function ReportDashboardPageContent() {
+function ReportDashboardPageContent({ forcedView }: { forcedView?: "report" | "insights" } = {}) {
   const params = useParams();
   const searchParams = useSearchParams();
   const rawSessionId = params?.sessionId;
   const sessionId = typeof rawSessionId === "string" ? rawSessionId : Array.isArray(rawSessionId) ? rawSessionId[0] : "";
-  const [activeView, setActiveView] = useState<"report" | "insights">("report");
+  const [activeView, setActiveView] = useState<"report" | "insights">(forcedView === "insights" ? "insights" : "report");
   const [payload, setPayload] = useState<SessionReportPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -978,6 +978,10 @@ function ReportDashboardPageContent() {
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
 
   useEffect(() => {
+    if (forcedView === "insights") {
+      setActiveView("insights");
+      return;
+    }
     const view = searchParams.get("view");
     const explicitInsights = searchParams.get("insights") === "1";
     const modeInsights = searchParams.get("mode") === "insights";
@@ -986,7 +990,7 @@ function ReportDashboardPageContent() {
       return;
     }
     setActiveView("report");
-  }, [searchParams]);
+  }, [forcedView, searchParams]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -1059,8 +1063,10 @@ function ReportDashboardPageContent() {
   const effectiveTheme: Theme = theme;
   const shareOrigin = browserOrigin || QR_SHARE_BASE_URL;
   const qrNeedsPublicOrigin = !QR_SHARE_BASE_URL && isLocalOnlyOrigin(browserOrigin);
-  const reportUnlocked = payload?.interview_status === "finalized";
+  const reportUnlocked = payload?.interview_status === "finalized" && Boolean(finalReport);
+  const insightsViewUnlocked = Boolean(payload);
   const routeForcesInsights =
+    forcedView === "insights" ||
     searchParams.get("view") === "insights" ||
     searchParams.get("insights") === "1" ||
     searchParams.get("mode") === "insights";
@@ -1589,7 +1595,7 @@ function ReportDashboardPageContent() {
     );
   }
 
-  if (!reportUnlocked) {
+  if (!reportUnlocked && !(isInsightsView && insightsViewUnlocked)) {
     return (
       <div className={`${styles.shell} ${theme === "dark" ? styles.themeDark : styles.themeLight}`}>
         <aside className={styles.sidebar}>
@@ -1653,7 +1659,7 @@ function ReportDashboardPageContent() {
             {reportUnlocked ? (
               <Link
                 className={`${styles.navItem} ${isInsightsView ? styles.navItemActive : ""}`}
-                href={`/report/${encodeURIComponent(sessionId)}?view=insights&insights=1&mode=insights`}
+                href={`/report/${encodeURIComponent(sessionId)}/insights?view=insights&insights=1&mode=insights`}
                 onClick={() => setActiveView("insights")}
                 aria-current={isInsightsView ? "page" : undefined}
               >
@@ -2086,10 +2092,14 @@ function ReportDashboardPageContent() {
 }
 
 
-export default function ReportDashboardPage() {
+export function TechnicalReportDashboard({ forcedView }: { forcedView?: "report" | "insights" } = {}) {
   return (
     <Suspense fallback={null}>
-      <ReportDashboardPageContent />
+      <ReportDashboardPageContent forcedView={forcedView} />
     </Suspense>
   );
+}
+
+export default function ReportDashboardPage() {
+  return <TechnicalReportDashboard />;
 }

@@ -57,7 +57,10 @@ function LearnerTechnicalCoachFrame() {
     const targetPath = requestedPath && requestedPath !== "/" ? requestedPath : "/";
 
     if (reportSessionId) {
-      parsed.pathname = `${basePath}/report/${encodeURIComponent(reportSessionId)}`;
+      parsed.pathname =
+        reportView === "insights"
+          ? `${basePath}/report/${encodeURIComponent(reportSessionId)}/insights`
+          : `${basePath}/report/${encodeURIComponent(reportSessionId)}`;
       parsed.searchParams.set("view", reportView === "insights" ? "insights" : "report");
       if (reportView === "insights") {
         parsed.searchParams.set("insights", "1");
