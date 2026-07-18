@@ -8,7 +8,7 @@ type RouteParams = {
 export async function GET(_request: Request, { params }: RouteParams) {
   const { session_id } = await params;
   const requestUrl = new URL(_request.url);
-  const includeInsights = requestUrl.searchParams.get("include_insights");
+  const includeInsights = requestUrl.searchParams.get("include_insights") || "1";
   const language = requestUrl.searchParams.get("language");
   const queryParams = new URLSearchParams();
   if (includeInsights) queryParams.set("include_insights", includeInsights);
