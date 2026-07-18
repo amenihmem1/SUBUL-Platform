@@ -442,6 +442,10 @@ class TechnicalWorkflowSupport:
 
     @staticmethod
     def _refresh_shared_media_state(session: TechSessionState, loaded: dict[str, Any]) -> None:
+        if isinstance(loaded.get("final_report"), dict):
+            session.final_report = dict(loaded["final_report"])
+        if isinstance(loaded.get("cached_insights"), dict):
+            session.cached_insights = dict(loaded["cached_insights"])
         if isinstance(loaded.get("audio_observations"), dict):
             session.audio_observations = dict(loaded["audio_observations"])
         if isinstance(loaded.get("visual_observations"), dict):

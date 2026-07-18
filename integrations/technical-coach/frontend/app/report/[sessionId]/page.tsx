@@ -1136,8 +1136,8 @@ function ReportDashboardPageContent({ forcedView }: { forcedView?: "report" | "i
   ].filter((item) => item.value);
 
   const stressScore = clamp(Number(stressContext?.score || 0));
-  const audioMetrics = (finalReport?.audio_metrics || audioContext?.metrics || {}) as Record<string, number>;
-  const visualMetricsSource = (visualContext?.metrics || finalReport?.visual_metrics || {}) as Record<string, unknown>;
+  const audioMetrics = (isInsightsView ? audioContext?.metrics || finalReport?.audio_metrics : finalReport?.audio_metrics || audioContext?.metrics || {}) as Record<string, number>;
+  const visualMetricsSource = (isInsightsView ? visualContext?.metrics || finalReport?.visual_metrics : finalReport?.visual_metrics || visualContext?.metrics || {}) as Record<string, unknown>;
   const visualMetrics = visualMetricsSource as Record<string, number>;
   const turns = payload?.turns || [];
 

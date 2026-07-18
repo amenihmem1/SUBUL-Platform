@@ -625,6 +625,16 @@ export function CandidateInsightsPopup({
   const insightsAdvice = payload?.insights_advice || null;
   const visualFlags = payload?.visual_context?.heuristic_flags || [];
   const audioFlags = payload?.audio_context?.heuristic_flags || [];
+  const hasVisualMetrics =
+    Number(visualMetrics?.sample_count || 0) > 0 ||
+    Number(visualMetrics?.face_detected_count || 0) > 0 ||
+    Number(visualMetrics?.face_detected_pct || 0) > 0 ||
+    Boolean(visualMetrics?.model_emotion_breakdown_available || visualMetrics?.raw_emotion_breakdown_available || visualMetrics?.emotion_breakdown_available);
+  const hasAudioMetrics =
+    Number(audioMetrics?.utterance_count || 0) > 0 ||
+    Number(audioMetrics?.speech_rate_wpm_avg || 0) > 0 ||
+    Number(audioMetrics?.volume_score_avg || 0) > 0;
+  const metricPercent = (value: unknown) => (hasVisualMetrics ? `${Number(value || 0)}%` : "--");
   const audioUtteranceCount = Number(audioMetrics?.utterance_count || 0);
   const audioSampleLimited = audioFlags.includes("analyse_vocale_insuffisante") || audioUtteranceCount <= 1;
   const allFlags = [...visualFlags, ...audioFlags].slice(0, 6);
@@ -876,7 +886,13 @@ export function CandidateInsightsPopup({
       ? `Emotion dominante : ${dominantRawEmotion?.label}.`
       : "Aucune distribution emotionnelle n'a ete capturee.";
 
-  const visualLead = visualSignals[0] || (isEnglish ? "Visual presence remained stable overall." : "La presence visuelle est restee stable dans l'ensemble.");
+  const visualLead =
+    visualSignals[0] ||
+    (!hasVisualMetrics
+      ? (isEnglish
+        ? "No visual metrics were captured for this session."
+        : "Aucune metrique visuelle n'a ete capturee pour cette session.")
+      : (isEnglish ? "Visual presence remained stable overall." : "La presence visuelle est restee stable dans l'ensemble."));
   const audioLead =
     audioSignals[0] ||
     (audioSampleLimited
@@ -1038,16 +1054,18 @@ export function CandidateInsightsPopup({
                   <div className="candidate-insights-metrics-grid">
                     <MetricCard
                       label={isEnglish ? "Presence" : "Presence"}
-                      value={`${Number(visualMetrics?.face_detected_pct || 0)}%`}
+                      value={metricPercent(visualMetrics?.face_detected_pct)}
                       meta=""
                       icon="presence"
                       tone="warm"
                     />
                     <MetricCard
                       label="Focus"
-                      value={`${Number(visualMetrics?.looking_forward_pct || 0)}%`}
+                      value={metricPercent(visualMetrics?.looking_forward_pct)}
                       meta={
-                        isEnglish
+                        !hasVisualMetrics
+                          ? "--"
+                          : isEnglish
                           ? `Framing ${Number(visualMetrics?.centered_pct || 0)}%`
                           : `Cadrage ${Number(visualMetrics?.centered_pct || 0)}%`
                       }
@@ -1056,15 +1074,15 @@ export function CandidateInsightsPopup({
                     />
                     <MetricCard
                       label={isEnglish ? "Enthusiasm" : "Enthousiasme"}
-                      value={`${Number(visualMetrics?.visual_enthusiasm_pct || 0)}%`}
-                      meta={String(visualMetrics?.visual_enthusiasm_bucket || "-")}
+                      value={metricPercent(visualMetrics?.visual_enthusiasm_pct)}
+                      meta={hasVisualMetrics ? String(visualMetrics?.visual_enthusiasm_bucket || "-") : "--"}
                       icon="enthusiasm"
                       tone="warm"
                     />
                     <MetricCard
                       label={isEnglish ? "Neutrality" : "Neutralite"}
-                      value={`${Number(visualMetrics?.neutral_pct || 0)}%`}
-                      meta={`${isEnglish ? "Smiles" : "Sourires"}: ${Number(visualMetrics?.smile_count || 0)}`}
+                      value={metricPercent(visualMetrics?.neutral_pct)}
+                      meta={hasVisualMetrics ? `${isEnglish ? "Smiles" : "Sourires"}: ${Number(visualMetrics?.smile_count || 0)}` : "--"}
                       icon="neutrality"
                       tone="cool"
                     />
@@ -1073,21 +1091,21 @@ export function CandidateInsightsPopup({
                   <div className="candidate-insights-bars">
                     <div className="candidate-insights-bar-row">
                       <span>{isEnglish ? "Stable posture" : "Posture stable"}</span>
-                      <strong>{Number(visualMetrics?.stable_posture_pct || 0)}%</strong>
+                      <strong>{metricPercent(visualMetrics?.stable_posture_pct)}</strong>
                       <div className="candidate-insights-bar">
                         <span style={{ width: `${clampPercent(Number(visualMetrics?.stable_posture_pct || 0))}%` }} />
                       </div>
                     </div>
                     <div className="candidate-insights-bar-row">
                       <span>{isEnglish ? "Framing" : "Cadrage"}</span>
-                      <strong>{Number(visualMetrics?.centered_pct || 0)}%</strong>
+                      <strong>{metricPercent(visualMetrics?.centered_pct)}</strong>
                       <div className="candidate-insights-bar">
                         <span style={{ width: `${clampPercent(Number(visualMetrics?.centered_pct || 0))}%` }} />
                       </div>
                     </div>
                     <div className="candidate-insights-bar-row">
                       <span>{isEnglish ? "Smiles" : "Sourires"}</span>
-                      <strong>{Number(visualMetrics?.smile_pct || 0)}%</strong>
+                      <strong>{metricPercent(visualMetrics?.smile_pct)}</strong>
                       <div className="candidate-insights-bar">
                         <span style={{ width: `${clampPercent(Number(visualMetrics?.smile_pct || 0))}%` }} />
                       </div>
@@ -1263,26 +1281,34 @@ export function CandidateInsightsPopup({
                   </div>
                 </div>
 
-                <div className="candidate-insights-gauges">
-                  <Gauge
-                    label={isEnglish ? "Apparent neutrality" : "Neutralite apparente"}
-                    value={apparentNeutrality}
-                    tone="neutral"
-                    details={neutralityDetails}
-                  />
-                  <Gauge
-                    label={isEnglish ? "Apparent engagement" : "Engagement apparent"}
-                    value={apparentEngagement}
-                    tone="engaged"
-                    details={engagementDetails}
-                  />
-                  <Gauge
-                    label={isEnglish ? "Apparent tension" : "Tension apparente"}
-                    value={apparentTension}
-                    tone="tension"
-                    details={tensionDetails}
-                  />
-                </div>
+                {hasVisualMetrics || hasAudioMetrics ? (
+                  <div className="candidate-insights-gauges">
+                    <Gauge
+                      label={isEnglish ? "Apparent neutrality" : "Neutralite apparente"}
+                      value={apparentNeutrality}
+                      tone="neutral"
+                      details={neutralityDetails}
+                    />
+                    <Gauge
+                      label={isEnglish ? "Apparent engagement" : "Engagement apparent"}
+                      value={apparentEngagement}
+                      tone="engaged"
+                      details={engagementDetails}
+                    />
+                    <Gauge
+                      label={isEnglish ? "Apparent tension" : "Tension apparente"}
+                      value={apparentTension}
+                      tone="tension"
+                      details={tensionDetails}
+                    />
+                  </div>
+                ) : (
+                  <div className="candidate-insights-state">
+                    {isEnglish
+                      ? "No visual or vocal metrics were captured for this session."
+                      : "Aucune metrique visuelle ou vocale n'a ete capturee pour cette session."}
+                  </div>
+                )}
 
                 <div className="candidate-insights-emotion-layout">
                   <div className="candidate-insights-stress">
@@ -1302,8 +1328,8 @@ export function CandidateInsightsPopup({
                         </div>
                       </div>
                       <div className="candidate-insights-stress-score">
-                        <strong>{apparentTension}%</strong>
-                        <span>{String(stressContext?.band || (isEnglish ? "secondary" : "secondaire"))}</span>
+                        <strong>{hasVisualMetrics || hasAudioMetrics ? `${apparentTension}%` : "--"}</strong>
+                        <span>{hasVisualMetrics || hasAudioMetrics ? String(stressContext?.band || (isEnglish ? "secondary" : "secondaire")) : "--"}</span>
                       </div>
                     </div>
 
