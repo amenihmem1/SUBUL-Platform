@@ -506,7 +506,7 @@ function buildVoiceTimeline(audioItems: VoiceAudioItem[], rangeDays: RangeDays) 
     const date = formatDateKey(new Date(getSessionTime(session)));
     const bucket = bucketByDate.get(date);
     if (!bucket) return;
-    const volume = Number(metrics.volume_score_avg || 0);
+    const volume = Number(metrics?.volume_score_avg || 0);
     if (Number.isFinite(volume) && volume > 0) bucket.volumes.push(clamp(volume));
   });
 
@@ -812,11 +812,11 @@ export default function DashboardPage() {
       : null;
 
   const voiceTimelineItems = useMemo(() => buildVoiceTimeline(voiceItems, rangeDays), [rangeDays, voiceItems]);
-  const voiceVolumes = voiceItems.map(({ metrics }) => Number(metrics.volume_score_avg || 0)).filter((value) => Number.isFinite(value) && value > 0);
-  const voiceSpeechRates = voiceItems.map(({ metrics }) => Number(metrics.speech_rate_wpm_avg || 0)).filter((value) => Number.isFinite(value) && value > 0);
-  const voiceSilences = voiceItems.map(({ metrics }) => Number(metrics.silence_pct_avg || 0)).filter((value) => Number.isFinite(value));
-  const voicePitches = voiceItems.map(({ metrics }) => Number(metrics.pitch_variation_hz_avg || metrics.pitch_hz_avg || 0)).filter((value) => Number.isFinite(value) && value > 0);
-  const voicePauseRates = voiceItems.map(({ metrics }) => Number(metrics.pause_rate_per_min_avg || metrics.pause_count_avg || 0)).filter((value) => Number.isFinite(value));
+  const voiceVolumes = voiceItems.map(({ metrics }) => Number(metrics?.volume_score_avg || 0)).filter((value) => Number.isFinite(value) && value > 0);
+  const voiceSpeechRates = voiceItems.map(({ metrics }) => Number(metrics?.speech_rate_wpm_avg || 0)).filter((value) => Number.isFinite(value) && value > 0);
+  const voiceSilences = voiceItems.map(({ metrics }) => Number(metrics?.silence_pct_avg || 0)).filter((value) => Number.isFinite(value));
+  const voicePitches = voiceItems.map(({ metrics }) => Number(metrics?.pitch_variation_hz_avg || metrics?.pitch_hz_avg || 0)).filter((value) => Number.isFinite(value) && value > 0);
+  const voicePauseRates = voiceItems.map(({ metrics }) => Number(metrics?.pause_rate_per_min_avg || metrics?.pause_count_avg || 0)).filter((value) => Number.isFinite(value));
   const voiceSummary = {
     samples: voiceItems.length,
     speechRate: average(voiceSpeechRates),

@@ -43,7 +43,15 @@ export async function POST(request: Request) {
       clearTimeout(timeoutId);
       timeoutId = null;
     }
-    const data = await res.json();
+    const raw = await res.text();
+    let data: unknown;
+    try {
+      data = raw ? JSON.parse(raw) : {};
+    } catch {
+      data = {
+        error: raw || `The transcription service returned HTTP ${res.status}.`,
+      };
+    }
     return NextResponse.json(data, { status: res.status });
   } catch (error) {
     if (timeoutId) {
