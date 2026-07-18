@@ -1145,6 +1145,28 @@ def build_app(service_name: str = "all") -> FastAPI:
             if include_insights
             else {}
         )
+        if include_insights and final_report:
+            if not isinstance(insights_context, dict):
+                insights_context = {}
+            if not insights_context.get("visual_context"):
+                insights_context["visual_context"] = {
+                    "metrics": final_report.get("visual_metrics", {}) or {},
+                    "signals": final_report.get("visual_signals", []) or [],
+                    "heuristic_flags": final_report.get("visual_flags", []) or [],
+                    "confidence_note": final_report.get("confidence_note", "") or "",
+                }
+            if not insights_context.get("audio_context"):
+                insights_context["audio_context"] = {
+                    "metrics": final_report.get("audio_metrics", {}) or {},
+                    "signals": final_report.get("audio_signals", []) or [],
+                    "heuristic_flags": final_report.get("audio_flags", []) or [],
+                    "confidence_note": final_report.get("audio_confidence_note", "") or "",
+                }
+            if not insights_context.get("stress_context"):
+                insights_context["stress_context"] = _build_stress_context(
+                    insights_context.get("audio_context") or {},
+                    response_language,
+                )
         return {
             "session_id": state.session_id,
             "candidate_key": _build_candidate_history_key(state.cv_profile, state.session_id),
