@@ -224,7 +224,7 @@ export async function getAssessmentQuestions(profile: string): Promise<Assessmen
   try {
     const { data } = await api.post('/api/roadmap/level/questions', {
       profile,
-      lang: 'fr',
+      lang: 'en',
     });
 
     return buildQuestionsResponse(profile, data.questions || []);

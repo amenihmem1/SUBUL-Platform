@@ -171,7 +171,7 @@ export default function QuizNiv({ open, onClose, profile, profileData, onLevelCo
         answers: finalAnswers,
         user_id: userId,
         session_id: sessionId,
-        lang: 'fr',
+        lang: 'en',
       });
       setLevelData(data);
       setPhase('results');

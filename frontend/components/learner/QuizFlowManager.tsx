@@ -684,7 +684,7 @@ export default function QuizFlowManager({ open, onClose, onRoadmapGenerated, onC
           level_data: level,
           user_id: userId,
           session_id: sessionId,
-          lang: 'fr',
+          lang: 'en',
         }),
       });
       if (!res.body) throw new Error('No stream body');

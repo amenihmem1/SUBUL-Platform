@@ -89,7 +89,7 @@ export default function AssessmentModal({ open, onClose, onAssessmentComplete }:
   const fetchQuestions = async () => {
     try {
       const { data } = await assessmentApi.post(API_PATHS.roadmap('assess/questions'), {
-        lang: 'fr',
+        lang: 'en',
         user_id: userId,
         session_id: sessionId,
       });

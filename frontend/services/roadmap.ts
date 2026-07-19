@@ -300,7 +300,7 @@ export const generateAIRoadmap = (): Promise<UserRoadmap | null> =>
 
     .post('/api/roadmap/agent/generate', {
 
-      lang: 'fr',
+      lang: 'en',
 
       include_assessment: true,
 
@@ -666,4 +666,3 @@ export const roadmapService = {
   submitLevelAnswers,
   endRoadmapSession,
 };
-
