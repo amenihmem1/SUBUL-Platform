@@ -43,8 +43,8 @@ interface Props {
 
 const PROFILE_META: Record<string, { icon: React.ReactNode; label: string; color: string; bg: string; bar: string }> = {
   cloud: { icon: <Cloud  className="h-6 w-6" />, label: 'Cloud & DevOps',           color: 'text-blue-600',   bg: 'bg-blue-50',   bar: 'bg-blue-500'   },
-  cyber: { icon: <Shield className="h-6 w-6" />, label: 'Cybersécurité',             color: 'text-red-600',    bg: 'bg-red-50',    bar: 'bg-red-500'    },
-  ai:    { icon: <Brain  className="h-6 w-6" />, label: 'Intelligence Artificielle', color: 'text-violet-600', bg: 'bg-violet-50', bar: 'bg-violet-500' },
+  cyber: { icon: <Shield className="h-6 w-6" />, label: 'Cybersecurity',             color: 'text-red-600',    bg: 'bg-red-50',    bar: 'bg-red-500'    },
+  ai:    { icon: <Brain  className="h-6 w-6" />, label: 'Artificial Intelligence',   color: 'text-violet-600', bg: 'bg-violet-50', bar: 'bg-violet-500' },
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -94,12 +94,12 @@ export default function AssessmentModal({ open, onClose, onAssessmentComplete }:
         session_id: sessionId,
       });
       const qs: AssessQuestion[] = data.questions || [];
-      if (qs.length === 0) throw new Error('Aucune question reçue');
+      if (qs.length === 0) throw new Error('No questions received');
       setQuestions(qs);
       setPhase('quiz');
     } catch (err) {
       console.error('[AssessmentModal] fetch error:', err);
-      setErrorMsg('Impossible de charger les questions. Veuillez réessayer.');
+      setErrorMsg('Unable to load questions. Please try again.');
       setPhase('error');
     }
   };
@@ -182,7 +182,7 @@ export default function AssessmentModal({ open, onClose, onAssessmentComplete }:
         });
     } catch (err) {
       console.error('[AssessmentModal] analyze error:', err);
-      setErrorMsg("Erreur lors de l'analyse. Veuillez réessayer.");
+      setErrorMsg('Unable to analyze your profile. Please try again.');
       setPhase('error');
     }
   };
@@ -201,13 +201,13 @@ export default function AssessmentModal({ open, onClose, onAssessmentComplete }:
         {/* ── Header ── */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 flex-shrink-0">
           <div>
-            <p className="font-semibold text-gray-900 text-sm">Détection de profil</p>
+            <p className="font-semibold text-gray-900 text-sm">Profile detection</p>
             <p className="text-xs text-gray-400">
-              {phase === 'loading'    && 'Génération des questions…'}
+              {phase === 'loading'    && 'Generating questions...'}
               {phase === 'quiz'       && `Question ${currentIndex + 1} / ${questions.length}`}
-              {phase === 'analyzing'  && 'Analyse de votre profil…'}
-              {phase === 'profile'    && 'Profil détecté ✓'}
-              {phase === 'error'      && 'Erreur'}
+              {phase === 'analyzing'  && 'Analyzing your profile...'}
+              {phase === 'profile'    && 'Profile detected'}
+              {phase === 'error'      && 'Error'}
             </p>
           </div>
           <button onClick={onClose}
@@ -224,7 +224,7 @@ export default function AssessmentModal({ open, onClose, onAssessmentComplete }:
             <div className="h-full flex flex-col items-center justify-center gap-4">
               <Loader2 className="h-10 w-10 text-violet-500 animate-spin" />
               <p className="text-gray-600 text-sm font-medium">
-                {phase === 'loading' ? 'Génération des questions personnalisées…' : 'Analyse de votre profil…'}
+                {phase === 'loading' ? 'Generating personalized questions...' : 'Analyzing your profile...'}
               </p>
             </div>
           )}
@@ -240,7 +240,7 @@ export default function AssessmentModal({ open, onClose, onAssessmentComplete }:
 
               {/* Question number */}
               <p className="text-xs font-semibold text-violet-500 uppercase tracking-wide mb-2">
-                Question {currentIndex + 1} sur {questions.length}
+                Question {currentIndex + 1} of {questions.length}
               </p>
 
               {/* Question text */}
@@ -270,7 +270,7 @@ export default function AssessmentModal({ open, onClose, onAssessmentComplete }:
                   onClick={() => setCurrentIndex(currentIndex - 1)}
                   className="mt-4 flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 transition-colors"
                 >
-                  <ArrowLeft className="h-3 w-3" /> Question précédente
+                  <ArrowLeft className="h-3 w-3" /> Previous question
                 </button>
               )}
             </div>
@@ -286,9 +286,9 @@ export default function AssessmentModal({ open, onClose, onAssessmentComplete }:
                   {meta.icon}
                 </div>
                 <div className="flex-1">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide font-medium">Profil détecté</p>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide font-medium">Detected profile</p>
                   <p className={`text-xl font-bold ${meta.color}`}>{meta.label}</p>
-                  <p className="text-xs text-gray-500 mt-0.5">Confiance : {Math.round(profileData.confidence * 100)}%</p>
+                  <p className="text-xs text-gray-500 mt-0.5">Confidence: {Math.round(profileData.confidence * 100)}%</p>
                 </div>
               </div>
 
@@ -312,12 +312,12 @@ export default function AssessmentModal({ open, onClose, onAssessmentComplete }:
               </div>
 
               {/* Summary */}
-              <p className="text-sm text-gray-600 leading-relaxed">{profileData.summary_fr}</p>
+              <p className="text-sm text-gray-600 leading-relaxed">{profileData.summary_en || profileData.summary_fr}</p>
 
               {/* Strengths */}
               {profileData.strengths?.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Points forts</p>
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Strengths</p>
                   <div className="flex flex-wrap gap-2">
                     {profileData.strengths.map((s, i) => (
                       <span key={i} className="inline-flex items-center gap-1 text-xs px-3 py-1 bg-gray-100 text-gray-700 rounded-full">
@@ -331,7 +331,7 @@ export default function AssessmentModal({ open, onClose, onAssessmentComplete }:
               {/* Recommended cert */}
               {profileData.recommended_first_certification && (
                 <div className="rounded-xl bg-gray-50 border border-gray-200 px-4 py-3 text-sm text-gray-700">
-                  <span className="font-medium">1ère certification : </span>
+                  <span className="font-medium">First certification: </span>
                   {profileData.recommended_first_certification}
                 </div>
               )}
@@ -341,7 +341,7 @@ export default function AssessmentModal({ open, onClose, onAssessmentComplete }:
                 onClick={() => onAssessmentComplete(profileData.profile, profileData)}
                 className="w-full py-3 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 text-white font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
               >
-                Commencer le test de niveau
+                Start level test
                 <ChevronRight className="h-4 w-4" />
               </button>
             </div>
@@ -356,7 +356,7 @@ export default function AssessmentModal({ open, onClose, onAssessmentComplete }:
                 onClick={fetchQuestions}
                 className="px-5 py-2 rounded-xl bg-violet-600 text-white text-sm font-medium hover:bg-violet-700 transition-colors"
               >
-                Réessayer
+                Try again
               </button>
             </div>
           )}

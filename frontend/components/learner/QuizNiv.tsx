@@ -45,8 +45,8 @@ interface Props {
 
 const PROFILE_META: Record<string, { label: string; icon: React.ReactNode; color: string }> = {
   cloud: { label: 'Cloud & DevOps',          icon: <Cloud  className="h-5 w-5" />, color: 'text-blue-600'   },
-  cyber: { label: 'Cybersécurité',            icon: <Shield className="h-5 w-5" />, color: 'text-red-600'    },
-  ai:    { label: 'Intelligence Artificielle', icon: <Brain  className="h-5 w-5" />, color: 'text-violet-600' },
+  cyber: { label: 'Cybersecurity',            icon: <Shield className="h-5 w-5" />, color: 'text-red-600'    },
+  ai:    { label: 'Artificial Intelligence',  icon: <Brain  className="h-5 w-5" />, color: 'text-violet-600' },
 };
 
 const DIFFICULTY_COLOR: Record<string, string> = {
@@ -56,13 +56,25 @@ const DIFFICULTY_COLOR: Record<string, string> = {
 };
 
 const DIFFICULTY_LABEL: Record<string, string> = {
-  easy: 'Facile', medium: 'Moyen', hard: 'Difficile',
+  easy: 'Easy', medium: 'Medium', hard: 'Hard',
 };
 
 const LEVEL_STYLE: Record<string, { color: string; bg: string }> = {
   'Débutant':       { color: 'text-green-600',  bg: 'bg-green-50'  },
   'Intermédiaire':  { color: 'text-orange-500', bg: 'bg-orange-50' },
   'Expert':         { color: 'text-red-600',    bg: 'bg-red-50'    },
+  'Beginner':       { color: 'text-green-600',  bg: 'bg-green-50'  },
+  'Intermediate':   { color: 'text-orange-500', bg: 'bg-orange-50' },
+  'Advanced':       { color: 'text-red-600',    bg: 'bg-red-50'    },
+};
+
+const LEVEL_LABEL: Record<string, string> = {
+  'Débutant': 'Beginner',
+  'Intermédiaire': 'Intermediate',
+  'Expert': 'Expert',
+  'Beginner': 'Beginner',
+  'Intermediate': 'Intermediate',
+  'Advanced': 'Advanced',
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -116,7 +128,7 @@ export default function QuizNiv({ open, onClose, profile, profileData, onLevelCo
   useEffect(() => {
     if (!open || !assessmentData) return;
     if (assessmentError) {
-      setErrorMsg('Impossible de charger les questions. Veuillez réessayer.');
+      setErrorMsg('Unable to load questions. Please try again.');
       setPhase('error');
       return;
     }
@@ -138,7 +150,7 @@ export default function QuizNiv({ open, onClose, profile, profileData, onLevelCo
     }));
     
     if (qs.length === 0) {
-      setErrorMsg('Aucune question disponible pour ce profil.');
+      setErrorMsg('No questions are available for this profile.');
       setPhase('error');
       return;
     }
@@ -177,7 +189,7 @@ export default function QuizNiv({ open, onClose, profile, profileData, onLevelCo
       setPhase('results');
     } catch (err) {
       console.error('[QuizNiv] evaluate error:', err);
-      setErrorMsg("Erreur lors de l'évaluation. Veuillez réessayer.");
+      setErrorMsg('Unable to evaluate your answers. Please try again.');
       setPhase('error');
     }
   };
@@ -187,6 +199,7 @@ export default function QuizNiv({ open, onClose, profile, profileData, onLevelCo
   const meta  = PROFILE_META[profile] || PROFILE_META['cloud'];
   const q     = questions[currentIndex];
   const lvl   = levelData ? (LEVEL_STYLE[levelData.niveau] || { color: 'text-gray-700', bg: 'bg-gray-50' }) : null;
+  const levelLabel = levelData ? (LEVEL_LABEL[levelData.niveau] || levelData.niveau) : '';
   const pct   = questions.length > 0 ? Math.round((currentIndex / questions.length) * 100) : 0;
 
   return (
@@ -201,13 +214,13 @@ export default function QuizNiv({ open, onClose, profile, profileData, onLevelCo
               {meta.icon}
             </div>
             <div>
-              <p className="font-semibold text-gray-900 text-sm">Test de niveau — {meta.label}</p>
+              <p className="font-semibold text-gray-900 text-sm">Level test - {meta.label}</p>
               <p className="text-xs text-gray-400">
-                {phase === 'loading'    && 'Génération des questions…'}
+                {phase === 'loading'    && 'Generating questions...'}
                 {phase === 'quiz'       && `Question ${currentIndex + 1} / ${questions.length}`}
-                {phase === 'evaluating' && 'Évaluation en cours…'}
-                {phase === 'results'    && 'Résultats'}
-                {phase === 'error'      && 'Erreur'}
+                {phase === 'evaluating' && 'Evaluating...'}
+                {phase === 'results'    && 'Results'}
+                {phase === 'error'      && 'Error'}
               </p>
             </div>
           </div>
@@ -225,10 +238,10 @@ export default function QuizNiv({ open, onClose, profile, profileData, onLevelCo
             <div className="h-full flex flex-col items-center justify-center gap-4">
               <Loader2 className="h-10 w-10 text-violet-500 animate-spin" />
               <p className="text-gray-600 text-sm font-medium">
-                {phase === 'loading'    ? 'Génération de questions personnalisées…' : 'Évaluation de vos réponses…'}
+                {phase === 'loading'    ? 'Generating personalized questions...' : 'Evaluating your answers...'}
               </p>
               <p className="text-xs text-gray-400">
-                {phase === 'loading' ? 'L\'IA prépare un test adapté à votre profil' : 'L\'IA analyse vos réponses'}
+                {phase === 'loading' ? 'AI is preparing a test tailored to your profile' : 'AI is analyzing your answers'}
               </p>
             </div>
           )}
@@ -275,7 +288,7 @@ export default function QuizNiv({ open, onClose, profile, profileData, onLevelCo
                   onClick={() => setCurrentIndex(currentIndex - 1)}
                   className="mt-4 flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 transition-colors"
                 >
-                  <ArrowLeft className="h-3 w-3" /> Question précédente
+                  <ArrowLeft className="h-3 w-3" /> Previous question
                 </button>
               )}
             </div>
@@ -288,9 +301,9 @@ export default function QuizNiv({ open, onClose, profile, profileData, onLevelCo
               {/* Level badge */}
               <div className={`rounded-2xl p-5 ${lvl.bg} text-center`}>
                 <Trophy className={`h-10 w-10 mx-auto mb-2 ${lvl.color}`} />
-                <p className="text-xs text-gray-500 uppercase tracking-wide font-medium">Votre niveau</p>
-                <p className={`text-3xl font-bold mt-1 ${lvl.color}`}>{levelData.niveau}</p>
-                <p className="text-sm text-gray-500 mt-1">Score : {levelData.score?.pourcentage ?? 0}%</p>
+                <p className="text-xs text-gray-500 uppercase tracking-wide font-medium">Your level</p>
+                <p className={`text-3xl font-bold mt-1 ${lvl.color}`}>{levelLabel}</p>
+                <p className="text-sm text-gray-500 mt-1">Score: {levelData.score?.pourcentage ?? 0}%</p>
               </div>
 
               {/* Analyse */}
@@ -301,7 +314,7 @@ export default function QuizNiv({ open, onClose, profile, profileData, onLevelCo
               {/* Points forts */}
               {(levelData.points_forts?.length ?? 0) > 0 && (
                 <div>
-                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Points forts</p>
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Strengths</p>
                   <ul className="space-y-1.5">
                     {(levelData.points_forts ?? []).map((p, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
@@ -316,7 +329,7 @@ export default function QuizNiv({ open, onClose, profile, profileData, onLevelCo
               {/* Points à renforcer */}
               {(levelData.points_a_renforcer?.length ?? 0) > 0 && (
                 <div>
-                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">À renforcer</p>
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">To improve</p>
                   <ul className="space-y-1.5">
                     {(levelData.points_a_renforcer ?? []).map((p, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
@@ -333,7 +346,7 @@ export default function QuizNiv({ open, onClose, profile, profileData, onLevelCo
                 onClick={() => onLevelComplete(levelData, questions)}
                 className="w-full py-3 rounded-xl bg-gradient-to-r from-primary to-accent text-primary-foreground font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
               >
-                Générer mon roadmap personnalisé
+                Generate my personalized roadmap
                 <ChevronRight className="h-4 w-4" />
               </button>
             </div>
@@ -352,7 +365,7 @@ export default function QuizNiv({ open, onClose, profile, profileData, onLevelCo
                 }}
                 className="px-5 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
               >
-                Réessayer
+                Try again
               </button>
             </div>
           )}
