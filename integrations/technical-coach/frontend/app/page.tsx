@@ -784,10 +784,6 @@ function HomePageContent() {
   const audioUrlRef = useRef<string | null>(null);
   const liveTranscriptRef = useRef("");
   const sendingRef = useRef(false);
-  const cvUploadedRef = useRef(false);
-  const finalReportReadyRef = useRef(false);
-  const interviewEndedRef = useRef(false);
-  const micListeningRef = useRef(false);
   const micSocketRef = useRef<WebSocket | null>(null);
   const micAudioContextRef = useRef<AudioContext | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -814,7 +810,6 @@ function HomePageContent() {
   const liveSubmitTimerRef = useRef<number | null>(null);
   const micKeepAliveTimerRef = useRef<number | null>(null);
   const lastMicChunkSentAtRef = useRef(0);
-  const resumeMicAfterInterviewerRef = useRef(false);
   const focusViolationCountRef = useRef(0);
   const lastFocusViolationAtRef = useRef(0);
   const captureShieldTimerRef = useRef<number | null>(null);
@@ -879,21 +874,6 @@ function HomePageContent() {
     sendingRef.current = sending;
   }, [sending]);
 
-  useEffect(() => {
-    cvUploadedRef.current = cvUploaded;
-  }, [cvUploaded]);
-
-  useEffect(() => {
-    finalReportReadyRef.current = finalReportReady;
-  }, [finalReportReady]);
-
-  useEffect(() => {
-    interviewEndedRef.current = interviewEnded;
-  }, [interviewEnded]);
-
-  useEffect(() => {
-    micListeningRef.current = micListening;
-  }, [micListening]);
 
   const showProctoringToast = (toast: ProctoringToast) => {
     setProctoringToast(toast);
@@ -1056,7 +1036,6 @@ function HomePageContent() {
   }, [finalReportReady, interviewEnded, interviewStartedAt, language, sessionId]);
 
   const stopCurrentVoice = () => {
-    resumeMicAfterInterviewerRef.current = false;
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.remove();
@@ -1194,7 +1173,6 @@ function HomePageContent() {
   const disposeLiveMic = () => {
     micClosingRef.current = true;
     resetLiveAutoSubmitState();
-    micListeningRef.current = false;
     setMicListening(false);
 
     if (micSpeechTimerRef.current !== null && typeof window !== "undefined") {
@@ -1432,14 +1410,13 @@ function HomePageContent() {
     }
   };
 
-  const playAudioBlob = async (blob: Blob, options?: { resumeMicAfterPlayback?: boolean }) => {
+  const playAudioBlob = async (blob: Blob) => {
     if (!blob.size) {
       pushFeed("system", "Voice error: empty audio payload.");
       return;
     }
 
     stopCurrentVoice();
-    resumeMicAfterInterviewerRef.current = Boolean(options?.resumeMicAfterPlayback);
 
     const url = URL.createObjectURL(blob);
     audioUrlRef.current = url;
@@ -1450,7 +1427,7 @@ function HomePageContent() {
     document.body.appendChild(audio);
     audioRef.current = audio;
     setInterviewerSpeaking(true);
-    const cleanupPlayback = (resumeMic: boolean) => {
+    audio.onended = () => {
       if (audioUrlRef.current) {
         URL.revokeObjectURL(audioUrlRef.current);
         audioUrlRef.current = null;
@@ -1458,34 +1435,17 @@ function HomePageContent() {
       audio.remove();
       audioRef.current = null;
       setInterviewerSpeaking(false);
-      const shouldResumeMic = resumeMicAfterInterviewerRef.current && resumeMic;
-      resumeMicAfterInterviewerRef.current = false;
-      if (shouldResumeMic) {
-        window.setTimeout(() => {
-          if (
-            !micListeningRef.current &&
-            !sendingRef.current &&
-            !interviewEndedRef.current &&
-            !finalReportReadyRef.current &&
-            cvUploadedRef.current
-          ) {
-            void startMic();
-          }
-        }, 250);
-      }
-    };
-    audio.onended = () => {
-      cleanupPlayback(true);
     };
     audio.onerror = () => {
-      cleanupPlayback(true);
+      if (audioUrlRef.current) {
+        URL.revokeObjectURL(audioUrlRef.current);
+        audioUrlRef.current = null;
+      }
+      audio.remove();
+      audioRef.current = null;
+      setInterviewerSpeaking(false);
     };
-    try {
-      await audio.play();
-    } catch (error) {
-      cleanupPlayback(true);
-      throw error;
-    }
+    await audio.play();
   };
 
   const speakFallbackAudio = (text: string, audioBase64?: string, audioMimeType?: string) => {
@@ -1498,9 +1458,7 @@ function HomePageContent() {
           for (let i = 0; i < binary.length; i += 1) {
             bytes[i] = binary.charCodeAt(i);
           }
-          await playAudioBlob(new Blob([bytes], { type: audioMimeType || "audio/wav" }), {
-            resumeMicAfterPlayback: inputMode === "voice" && cvUploaded && !interviewEnded && !finalReportReady,
-          });
+          await playAudioBlob(new Blob([bytes], { type: audioMimeType || "audio/wav" }));
           return;
         }
 
@@ -1516,9 +1474,7 @@ function HomePageContent() {
         }
 
         const blob = await res.blob();
-        await playAudioBlob(blob, {
-          resumeMicAfterPlayback: inputMode === "voice" && cvUploaded && !interviewEnded && !finalReportReady,
-        });
+        await playAudioBlob(blob);
       } catch (error) {
         const message = (error as Error)?.message || "";
         if (message.includes("play() request was interrupted") || message.includes("The play() request was interrupted")) {
@@ -1807,7 +1763,7 @@ function HomePageContent() {
         clearLiveTranscript();
 
         const merged = concatAudioChunks(chunks);
-        if (!merged.length || micMuteRef.current || sendingRef.current || interviewEndedRef.current) {
+        if (!merged.length || micMuteRef.current || sendingRef.current || interviewEnded) {
           return;
         }
 
@@ -1902,7 +1858,6 @@ function HomePageContent() {
         }
       }
 
-      micListeningRef.current = true;
       setMicListening(true);
     } catch (error) {
       const msg = (error as Error)?.message || "";
