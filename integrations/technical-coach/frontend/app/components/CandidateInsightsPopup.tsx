@@ -1075,7 +1075,7 @@ export function CandidateInsightsPopup({
                     <InsightIcon kind="spark" />
                   </span>
                   <div>
-                    <strong>{isEnglish ? " visual read" : "Lecture visuelle"}</strong>
+                    <strong>{isEnglish ? "Visual read" : "Lecture visuelle"}</strong>
                     <p>{visualLead}</p>
                   </div>
                 </div>

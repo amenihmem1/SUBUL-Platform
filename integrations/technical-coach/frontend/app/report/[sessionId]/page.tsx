@@ -48,6 +48,7 @@ type SessionReportPayload = {
   updated_at?: string;
   finalized_at?: string;
   interview_status?: string;
+  response_language?: string;
   proctoring_events?: Array<{
     time?: string;
     reason?: string;
@@ -983,6 +984,7 @@ function ReportDashboardPageContent({ forcedView }: { forcedView?: "report" | "i
   const [sharingInsightsPdf, setSharingInsightsPdf] = useState(false);
   const [hoveredCompetencyIndex, setHoveredCompetencyIndex] = useState<number | null>(null);
   const [language, setLanguage] = useState<Language>("fr");
+  const [languageOverride, setLanguageOverride] = useState<Language | null>(null);
   const [theme, setTheme] = useState<Theme>("light");
   const [browserOrigin, setBrowserOrigin] = useState("");
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
@@ -1045,7 +1047,10 @@ function ReportDashboardPageContent({ forcedView }: { forcedView?: "report" | "i
       setLoading(true);
       setError("");
       try {
-        const query = new URLSearchParams({ language });
+        const query = new URLSearchParams();
+        if (languageOverride) {
+          query.set("language", languageOverride);
+        }
         query.set("include_insights", "1");
         const res = await fetch(`/technical-coach-app/api/tech/session/${encodeURIComponent(sessionId)}?${query.toString()}`, {
           method: "GET",
@@ -1056,6 +1061,10 @@ function ReportDashboardPageContent({ forcedView }: { forcedView?: "report" | "i
           throw new Error(data?.detail || data?.error || translations.fr.unableToLoadReport);
         }
         setPayload(data);
+        const sessionLanguage = String(data?.response_language || "").trim().toLowerCase();
+        if (!languageOverride && (sessionLanguage === "fr" || sessionLanguage === "en")) {
+          setLanguage(sessionLanguage);
+        }
       } catch (loadError) {
         setError((loadError as Error).message);
       } finally {
@@ -1064,7 +1073,7 @@ function ReportDashboardPageContent({ forcedView }: { forcedView?: "report" | "i
     };
 
     void loadReport();
-  }, [sessionId, language]);
+  }, [sessionId, languageOverride]);
 
   const finalReport = payload?.final_report || null;
   const copy = translations[language];
@@ -1758,10 +1767,24 @@ function ReportDashboardPageContent({ forcedView }: { forcedView?: "report" | "i
               </button>
             </div>
             <div className={styles.languageToggle}>
-              <button type="button" className={`${styles.languageButton} ${language === "fr" ? styles.languageButtonActive : ""}`} onClick={() => setLanguage("fr")}>
+              <button
+                type="button"
+                className={`${styles.languageButton} ${language === "fr" ? styles.languageButtonActive : ""}`}
+                onClick={() => {
+                  setLanguage("fr");
+                  setLanguageOverride("fr");
+                }}
+              >
                 FR
               </button>
-              <button type="button" className={`${styles.languageButton} ${language === "en" ? styles.languageButtonActive : ""}`} onClick={() => setLanguage("en")}>
+              <button
+                type="button"
+                className={`${styles.languageButton} ${language === "en" ? styles.languageButtonActive : ""}`}
+                onClick={() => {
+                  setLanguage("en");
+                  setLanguageOverride("en");
+                }}
+              >
                 EN
               </button>
             </div>
