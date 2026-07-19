@@ -60,6 +60,47 @@ def _concept_group_score(text: str, groups: tuple[tuple[str, ...], ...]) -> int:
     return sum(1 for group in groups if _contains_any(text, group))
 
 
+BIG_DATA_LAYER_GROUPS = (
+    (" big data ", " donnees volumineuses ", " donnees massives ", " volume ", " volumineux "),
+    (" couche d entree ", " couche entree ", " entree ", " ingestion ", " collecte ", " sources "),
+    (" stockage ", " stocker ", " conserve ", " conserver ", " distribue ", " distribuee ", " hdfs ", " data lake "),
+    (" traitement ", " analyse ", " analyser ", " spark ", " mapreduce ", " batch ", " streaming "),
+    (" couche de sortie ", " sortie ", " tableaux de bord ", " dashboard ", " rapports ", " api ", " utilisateurs "),
+    (" pipeline ", " architecture ", " couches ", " transformation ", " visualisation "),
+)
+
+
+def _big_data_layer_score(normalized_question: str, normalized_answer: str, word_count: int) -> int:
+    is_big_data_or_layers_question = (
+        "big data" in normalized_question
+        or "donnees volumineuses" in normalized_question
+        or "donnees massives" in normalized_question
+        or "architecture" in normalized_question
+        or "couche" in normalized_question
+        or "couches" in normalized_question
+        or "traitement des donnees" in normalized_question
+    )
+    answer_layer_coverage = _concept_group_score(normalized_answer, BIG_DATA_LAYER_GROUPS)
+    answer_is_layered_big_data = answer_layer_coverage >= 4 and (
+        "big data" in normalized_answer
+        or "donnees volumineuses" in normalized_answer
+        or "couche" in normalized_answer
+        or "couches" in normalized_answer
+    )
+
+    if not (is_big_data_or_layers_question or answer_is_layered_big_data):
+        return 0
+    if answer_layer_coverage >= 5 and word_count >= 40:
+        return 4
+    if answer_layer_coverage >= 4:
+        return 3
+    if answer_layer_coverage >= 3 and word_count >= 35:
+        return 3
+    if answer_layer_coverage >= 2:
+        return 2
+    return 0
+
+
 def _heuristic_competency_scores(text: str) -> dict[str, int]:
     normalized = _normalize_text(text)
     words = len(re.findall(r"\b[\w'-]+\b", normalized, flags=re.UNICODE))
@@ -260,31 +301,9 @@ def _heuristic_question_answer_score(question: str, answer: str) -> int:
         if coverage >= 2:
             return 3
 
-    if (
-        "big data" in normalized_question
-        or "donnees volumineuses" in normalized_question
-        or "donnees massives" in normalized_question
-        or ("couche" in normalized_question and "entree" in normalized_question and "sortie" in normalized_question)
-    ):
-        coverage = _concept_group_score(
-            normalized_answer,
-            (
-                (" big data ", " donnees volumineuses ", " donnees massives ", " volume ", " volumineux "),
-                (" couche d entree ", " couche entree ", " entree ", " ingestion ", " collecte ", " sources "),
-                (" stockage ", " stocker ", " conserve ", " conserver ", " distribue ", " distribuee ", " hdfs ", " data lake "),
-                (" traitement ", " analyse ", " analyser ", " spark ", " mapreduce ", " batch ", " streaming "),
-                (" couche de sortie ", " sortie ", " tableaux de bord ", " dashboard ", " rapports ", " api ", " utilisateurs "),
-                (" pipeline ", " architecture ", " couches ", " transformation ", " visualisation "),
-            ),
-        )
-        if coverage >= 5 and word_count >= 45:
-            return 4
-        if coverage >= 4:
-            return 3
-        if coverage >= 3 and word_count >= 35:
-            return 3
-        if coverage >= 2:
-            return 2
+    big_data_score = _big_data_layer_score(normalized_question, normalized_answer, word_count)
+    if big_data_score:
+        return big_data_score
 
     if "blockchain" in normalized_question and ("scalabil" in normalized_question or "transactions" in normalized_question):
         coverage = _concept_group_score(

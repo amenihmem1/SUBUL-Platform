@@ -76,6 +76,11 @@ function clampPercent(value: number) {
   return Math.max(0, Math.min(100, Math.round(value)));
 }
 
+function finiteNumber(value: unknown) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : 0;
+}
+
 function getStressShortLabel(factor: StressFactor, isEnglish: boolean) {
   const source = String(factor.key || factor.label || "").toLowerCase();
   if (source.includes("visual")) return isEnglish ? "Visual" : "Visuel";
@@ -634,9 +639,22 @@ export function CandidateInsightsPopup({
     Number(audioMetrics?.utterance_count || 0) > 0 ||
     Number(audioMetrics?.speech_rate_wpm_avg || 0) > 0 ||
     Number(audioMetrics?.volume_score_avg || 0) > 0;
-  const metricPercent = (value: unknown) => (hasVisualMetrics ? `${Number(value || 0)}%` : "--");
+  const metricPercent = (value: unknown) => (hasVisualMetrics ? `${finiteNumber(value)}%` : "--");
   const audioUtteranceCount = Number(audioMetrics?.utterance_count || 0);
   const audioSampleLimited = audioFlags.includes("analyse_vocale_insuffisante") || audioUtteranceCount <= 1;
+  const visualPresencePct = finiteNumber(visualMetrics?.face_detected_pct);
+  const visualFocusPct = finiteNumber(visualMetrics?.looking_forward_pct);
+  const visualPosturePct = finiteNumber(visualMetrics?.stable_posture_pct);
+  const visualCenteredPct = finiteNumber(visualMetrics?.centered_pct);
+  const visualFramingPct =
+    visualCenteredPct > 0
+      ? visualCenteredPct
+      : visualPresencePct >= 75 && visualFocusPct > 0
+        ? Math.round((visualFocusPct + Math.max(visualPosturePct, visualFocusPct)) / 2)
+        : 0;
+  const hasSmileMetric = finiteNumber(visualMetrics?.smile_pct) > 0 || finiteNumber(visualMetrics?.smile_count) > 0;
+  const visualSmilePercent = hasSmileMetric ? `${finiteNumber(visualMetrics?.smile_pct)}%` : "--";
+  const visualSmileBarWidth = hasSmileMetric ? clampPercent(finiteNumber(visualMetrics?.smile_pct)) : 0;
   const allFlags = [...visualFlags, ...audioFlags].slice(0, 6);
   const providerMetricsMap = visualMetrics?.provider_metrics || {};
   const preferredProviderOrder = ["custom"];
@@ -676,13 +694,25 @@ export function CandidateInsightsPopup({
       Number(audioMetrics?.pitch_variation_hz_avg || 0) * 0.4 +
       vocalEnthusiasmBoost,
   );
-  const apparentTension =
-    typeof stressContext?.score === "number"
-      ? clampPercent(stressContext.score)
-      : clampPercent(providerTension * 0.82 + vocalTensionBoost);
   const stressFactors = (
     Array.isArray(stressContext?.factors) ? stressContext.factors : []
   ).slice(0, 4);
+  const stressIsLimited = audioSampleLimited && stressFactors.length === 0;
+  const apparentTension =
+    !stressIsLimited && typeof stressContext?.score === "number"
+      ? clampPercent(stressContext.score)
+      : clampPercent(providerTension * 0.82 + vocalTensionBoost);
+  const stressBandLabel = stressIsLimited
+    ? isEnglish ? "limited data" : "donnees limitees"
+    : String(stressContext?.band || (isEnglish ? "secondary" : "secondaire"));
+  const stressConfidenceText = stressIsLimited
+    ? isEnglish
+      ? "The vocal sample is too short to compute a reliable stress score."
+      : "L'echantillon vocal est trop court pour calculer un score de stress fiable."
+    : String(stressContext?.confidence_note || "") ||
+      (isEnglish
+        ? "Built from visual and vocal cues only."
+        : "Construit uniquement a partir des indices visuels et vocaux.");
   const stressChartSeries = stressFactors.map((factor) => ({
     key: String(factor.key || factor.label || ""),
     label: String(factor.label || factor.key || "-"),
@@ -869,7 +899,7 @@ export function CandidateInsightsPopup({
     },
     {
       label: isEnglish ? "Stress band" : "Niveau de stress",
-      value: String(stressContext?.band || (isEnglish ? "secondary" : "secondaire")),
+      value: stressBandLabel,
     },
     {
       label: isEnglish ? "Dominant cue" : "Signal dominant",
@@ -1066,8 +1096,8 @@ export function CandidateInsightsPopup({
                         !hasVisualMetrics
                           ? "--"
                           : isEnglish
-                          ? `Framing ${Number(visualMetrics?.centered_pct || 0)}%`
-                          : `Cadrage ${Number(visualMetrics?.centered_pct || 0)}%`
+                          ? `Framing ${visualFramingPct}%`
+                          : `Cadrage ${visualFramingPct}%`
                       }
                       icon="focus"
                       tone="cool"
@@ -1082,7 +1112,7 @@ export function CandidateInsightsPopup({
                     <MetricCard
                       label={isEnglish ? "Neutrality" : "Neutralite"}
                       value={metricPercent(visualMetrics?.neutral_pct)}
-                      meta={hasVisualMetrics ? `${isEnglish ? "Smiles" : "Sourires"}: ${Number(visualMetrics?.smile_count || 0)}` : "--"}
+                      meta={hasVisualMetrics ? `${isEnglish ? "Smiles" : "Sourires"}: ${hasSmileMetric ? Number(visualMetrics?.smile_count || 0) : "--"}` : "--"}
                       icon="neutrality"
                       tone="cool"
                     />
@@ -1098,16 +1128,16 @@ export function CandidateInsightsPopup({
                     </div>
                     <div className="candidate-insights-bar-row">
                       <span>{isEnglish ? "Framing" : "Cadrage"}</span>
-                      <strong>{metricPercent(visualMetrics?.centered_pct)}</strong>
+                      <strong>{hasVisualMetrics ? `${visualFramingPct}%` : "--"}</strong>
                       <div className="candidate-insights-bar">
-                        <span style={{ width: `${clampPercent(Number(visualMetrics?.centered_pct || 0))}%` }} />
+                        <span style={{ width: `${clampPercent(visualFramingPct)}%` }} />
                       </div>
                     </div>
                     <div className="candidate-insights-bar-row">
                       <span>{isEnglish ? "Smiles" : "Sourires"}</span>
-                      <strong>{metricPercent(visualMetrics?.smile_pct)}</strong>
+                      <strong>{hasVisualMetrics ? visualSmilePercent : "--"}</strong>
                       <div className="candidate-insights-bar">
-                        <span style={{ width: `${clampPercent(Number(visualMetrics?.smile_pct || 0))}%` }} />
+                        <span style={{ width: `${visualSmileBarWidth}%` }} />
                       </div>
                     </div>
                   </div>
@@ -1320,16 +1350,13 @@ export function CandidateInsightsPopup({
                         <div>
                           <strong>{isEnglish ? "Apparent stress score" : "Score de stress apparent"}</strong>
                           <p>
-                            {String(stressContext?.confidence_note || "") ||
-                              (isEnglish
-                                ? "Built from visual and vocal cues only."
-                                : "Construit uniquement a partir des indices visuels et vocaux.")}
+                            {stressConfidenceText}
                           </p>
                         </div>
                       </div>
                       <div className="candidate-insights-stress-score">
-                        <strong>{hasVisualMetrics || hasAudioMetrics ? `${apparentTension}%` : "--"}</strong>
-                        <span>{hasVisualMetrics || hasAudioMetrics ? String(stressContext?.band || (isEnglish ? "secondary" : "secondaire")) : "--"}</span>
+                        <strong>{stressIsLimited || !(hasVisualMetrics || hasAudioMetrics) ? "--" : `${apparentTension}%`}</strong>
+                        <span>{hasVisualMetrics || hasAudioMetrics ? stressBandLabel : "--"}</span>
                       </div>
                     </div>
 

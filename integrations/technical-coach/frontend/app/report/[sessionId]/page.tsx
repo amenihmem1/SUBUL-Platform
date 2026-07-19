@@ -674,6 +674,15 @@ function containsAnyScoringTerm(text: string, terms: string[]) {
   return terms.some((term) => padded.includes(term));
 }
 
+const bigDataLayerGroups = [
+  [" big data ", " donnees volumineuses ", " donnees massives ", " volume ", " volumineux "],
+  [" couche d entree ", " couche entree ", " entree ", " ingestion ", " collecte ", " sources "],
+  [" stockage ", " stocker ", " conserve ", " conserver ", " distribue ", " distribuee ", " hdfs ", " data lake "],
+  [" traitement ", " analyse ", " analyser ", " spark ", " mapreduce ", " batch ", " streaming "],
+  [" couche de sortie ", " sortie ", " tableaux de bord ", " dashboard ", " rapports ", " api ", " utilisateurs "],
+  [" pipeline ", " architecture ", " couches ", " transformation ", " visualisation "],
+];
+
 function inferQuestionScoreFloor(question: string, answer: string) {
   const normalizedQuestion = normalizeScoringText(question);
   const normalizedAnswer = normalizeScoringText(answer);
@@ -685,22 +694,23 @@ function inferQuestionScoreFloor(question: string, answer: string) {
     normalizedQuestion.includes("big data") ||
     normalizedQuestion.includes("donnees volumineuses") ||
     normalizedQuestion.includes("donnees massives") ||
+    normalizedQuestion.includes("architecture") ||
+    normalizedQuestion.includes("traitement des donnees") ||
     (normalizedQuestion.includes("couche") &&
       normalizedQuestion.includes("entree") &&
       normalizedQuestion.includes("sortie"));
 
-  if (!isBigDataQuestion) return 0;
+  const coverage = bigDataLayerGroups.filter((terms) => containsAnyScoringTerm(normalizedAnswer, terms)).length;
+  const answerLooksLayered =
+    coverage >= 4 &&
+    (normalizedAnswer.includes("big data") ||
+      normalizedAnswer.includes("donnees volumineuses") ||
+      normalizedAnswer.includes("couche") ||
+      normalizedAnswer.includes("couches"));
 
-  const coverage = [
-    [" big data ", " donnees volumineuses ", " donnees massives ", " volume "],
-    [" couche d entree ", " couche entree ", " entree ", " ingestion ", " collecte ", " sources "],
-    [" stockage ", " stocker ", " conserve ", " distribue ", " distribuee ", " hdfs ", " data lake "],
-    [" traitement ", " analyse ", " analyser ", " spark ", " mapreduce ", " batch ", " streaming "],
-    [" couche de sortie ", " sortie ", " tableaux de bord ", " dashboard ", " rapports ", " api ", " utilisateurs "],
-    [" pipeline ", " architecture ", " couches ", " transformation ", " visualisation "],
-  ].filter((terms) => containsAnyScoringTerm(normalizedAnswer, terms)).length;
+  if (!isBigDataQuestion && !answerLooksLayered) return 0;
 
-  if (coverage >= 5 && wordCount >= 45) return 4;
+  if (coverage >= 5 && wordCount >= 40) return 4;
   if (coverage >= 4) return 3;
   if (coverage >= 3 && wordCount >= 35) return 3;
   if (coverage >= 2) return 2;
