@@ -1641,6 +1641,28 @@ function HomePageContent() {
       }
       const text = String(data?.text || "").trim();
       if (!text) {
+        const fallbackTranscript = String(options?.fallbackTranscript || "").trim();
+        if (isUsableTranscript(fallbackTranscript)) {
+          pushFeed(
+            "system",
+            language === "fr"
+              ? "Transcription serveur vide; utilisation de la transcription navigateur."
+              : "Server transcription was empty; using the browser transcript."
+          );
+          if (samples && samples.length) {
+            void buildAndRecordAudioObservation(fallbackTranscript, samples).catch((audioObservationError) => {
+              console.warn("Audio observation upload failed", audioObservationError);
+            });
+          }
+          await submitCandidateText(fallbackTranscript);
+          return;
+        }
+        pushFeed(
+          "system",
+          language === "fr"
+            ? "Aucune transcription detectee. Reessayez en parlant plus pres du micro, puis arretez le micro."
+            : "No transcription was detected. Try again closer to the microphone, then stop the microphone."
+        );
         return;
       }
       if (samples && samples.length) {
@@ -1889,8 +1911,7 @@ function HomePageContent() {
     if (recordedBlob && recordedBlob.size > 0 && !sendingRef.current && !interviewEnded) {
       const pendingSamples = collectPendingMicObservationSamples();
       disposeLiveMic();
-      const sttBlob = pendingSamples?.length ? encodeWav(pendingSamples, LIVE_STT_SAMPLE_RATE) : recordedBlob;
-      await transcribeRecordedUtterance(sttBlob, pendingSamples, { fallbackTranscript: browserTranscript });
+      await transcribeRecordedUtterance(recordedBlob, pendingSamples, { fallbackTranscript: browserTranscript });
       return;
     }
 
