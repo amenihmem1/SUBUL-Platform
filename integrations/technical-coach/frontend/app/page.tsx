@@ -1840,51 +1840,8 @@ function HomePageContent() {
         if (!samples.length) {
           return;
         }
-
-        let sumSquares = 0;
-        for (let index = 0; index < samples.length; index += 1) {
-          const sample = samples[index];
-          sumSquares += sample * sample;
-        }
-        const rms = Math.sqrt(sumSquares / samples.length);
-        const isSpeechStarted = micUtteranceStartedAtRef.current !== null;
-        const noiseFloor = micNoiseFloorRef.current || 0.002;
-        const speechThreshold = Math.max(
-          isSpeechStarted ? VOICE_ACTIVITY_CONTINUE_MIN_RMS : VOICE_ACTIVITY_START_MIN_RMS,
-          noiseFloor * (isSpeechStarted ? VOICE_ACTIVITY_CONTINUE_MULTIPLIER : VOICE_ACTIVITY_START_MULTIPLIER)
-        );
-        const now = Date.now();
-        const isSpeech = rms >= speechThreshold;
-
-        if (!isSpeechStarted && rms < speechThreshold - VOICE_ACTIVITY_RESET_MARGIN) {
-          micNoiseFloorRef.current = noiseFloor * 0.96 + rms * 0.04;
-        }
-
-        const audioChunk = new Float32Array(samples);
-        const entry = { samples: audioChunk, at: now };
         if (micUtteranceActiveRef.current) {
-          micUtteranceChunksRef.current.push(entry);
-        }
-
-        if (!micUtteranceActiveRef.current || !isSpeech) {
-          return;
-        }
-
-        if (micUtteranceStartedAtRef.current === null) {
-          micUtteranceStartedAtRef.current = now;
-        }
-
-        if (micSpeechTimerRef.current !== null && typeof window !== "undefined") {
-          window.clearTimeout(micSpeechTimerRef.current);
-          micSpeechTimerRef.current = null;
-        }
-
-        const elapsed = now - (micUtteranceStartedAtRef.current || now);
-        const finalizeDelay = elapsed >= VOICE_MAX_UTTERANCE_MS ? 0 : VOICE_SILENCE_MS;
-        if (typeof window !== "undefined") {
-          micSpeechTimerRef.current = window.setTimeout(() => {
-            void micFinalizeUtteranceRef.current?.();
-          }, finalizeDelay);
+          micUtteranceChunksRef.current.push({ samples: new Float32Array(samples), at: Date.now() });
         }
       };
 
@@ -1927,17 +1884,7 @@ function HomePageContent() {
             ).trim();
             liveTranscriptRef.current = displayTranscript || "listening";
             setLiveTranscript(displayTranscript || "listening");
-            if (displayTranscript && micUtteranceActiveRef.current && typeof window !== "undefined") {
-              if (micUtteranceStartedAtRef.current === null) {
-                micUtteranceStartedAtRef.current = Date.now();
-              }
-              if (micSpeechTimerRef.current !== null) {
-                window.clearTimeout(micSpeechTimerRef.current);
-              }
-              micSpeechTimerRef.current = window.setTimeout(() => {
-                void micFinalizeUtteranceRef.current?.();
-              }, VOICE_SILENCE_MS);
-            }
+
           };
           recognition.onerror = () => {
             // Leave audio capture fallback active if browser speech recognition fails.
