@@ -4,9 +4,15 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 
 function normalizeSttLanguage(value: unknown) {
-  const normalized = String(value || "").trim().toLowerCase();
-  if (normalized === "fr" || normalized === "en" || normalized === "multi") {
-    return normalized;
+  const normalized = String(value || "").trim().toLowerCase().replace("_", "-");
+  if (normalized === "fr" || normalized === "fr-fr") {
+    return "fr";
+  }
+  if (normalized === "en" || normalized === "en-us" || normalized === "en-gb" || normalized === "english") {
+    return "en-US";
+  }
+  if (normalized === "multi") {
+    return "multi";
   }
   return "";
 }

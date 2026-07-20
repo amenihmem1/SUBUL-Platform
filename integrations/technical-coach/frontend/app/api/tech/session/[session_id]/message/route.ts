@@ -3,6 +3,18 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
+const TTS_PREGEN_TIMEOUT_MS = 3500;
+
+async function fetchWithTimeout(url: string, init: RequestInit, timeoutMs: number) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 type RouteParams = {
   params: Promise<{ session_id: string }>;
 };
@@ -47,12 +59,15 @@ export async function POST(
 
     if (res.ok && data?.say) {
       try {
-        const { session_id } = await params;
-        const ttsRes = await fetch(`${backendBaseUrl()}/tech/tts`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: data.say }),
-        });
+        const ttsRes = await fetchWithTimeout(
+          `${backendBaseUrl()}/tech/tts`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: data.say }),
+          },
+          TTS_PREGEN_TIMEOUT_MS
+        );
         if (ttsRes.ok) {
           const audio = await ttsRes.arrayBuffer();
           data.audio_base64 = Buffer.from(audio).toString("base64");
