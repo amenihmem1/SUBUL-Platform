@@ -1163,6 +1163,9 @@ function HomePageContent() {
       }
 
       try {
+        if (typeof recorder.requestData === "function") {
+          recorder.requestData();
+        }
         recorder.stop();
       } catch {
         finalize();
@@ -1733,7 +1736,7 @@ function HomePageContent() {
               mediaRecorderChunksRef.current.push(event.data);
             }
           };
-          recorder.start();
+          recorder.start(1000);
           mediaRecorderRef.current = recorder;
         } catch {
           mediaRecorderRef.current = null;
