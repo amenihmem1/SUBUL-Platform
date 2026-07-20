@@ -1611,7 +1611,7 @@ function HomePageContent() {
       "file",
       new File([blob], `utterance-${Date.now()}.${isWav ? "wav" : "webm"}`, { type: blob.type || (isWav ? "audio/wav" : "audio/webm") })
     );
-    form.append("language", language);
+    form.append("language", "multi");
 
     try {
       const res = await fetch("/technical-coach-app/api/tech/stt", {
