@@ -1896,6 +1896,13 @@ function HomePageContent() {
   const stopMic = async (options?: { submitPending?: boolean }) => {
     const browserTranscript = options?.submitPending === false ? "" : await stopBrowserSpeechRecognition();
     const recordedBlob = options?.submitPending === false ? null : await stopMediaRecorder();
+    if (recordedBlob && recordedBlob.size > 0 && !sendingRef.current && !interviewEnded) {
+      const pendingSamples = collectPendingMicObservationSamples();
+      disposeLiveMic();
+      await transcribeRecordedUtterance(recordedBlob, pendingSamples, { fallbackTranscript: browserTranscript });
+      return;
+    }
+
     if (browserTranscript && !sendingRef.current && !interviewEnded) {
       const pendingSamples = collectPendingMicObservationSamples();
       disposeLiveMic();
@@ -1905,13 +1912,6 @@ function HomePageContent() {
         });
       }
       await submitCandidateText(browserTranscript);
-      return;
-    }
-
-    if (recordedBlob && recordedBlob.size > 0 && !sendingRef.current && !interviewEnded) {
-      const pendingSamples = collectPendingMicObservationSamples();
-      disposeLiveMic();
-      await transcribeRecordedUtterance(recordedBlob, pendingSamples, { fallbackTranscript: browserTranscript });
       return;
     }
 
