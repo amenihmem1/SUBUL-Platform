@@ -1465,7 +1465,7 @@ function HomePageContent() {
         const res = await fetch("/technical-coach-app/api/tech/tts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text }),
+          body: JSON.stringify({ text, language: "multi" }),
         });
         if (!res.ok) {
           const raw = await res.text();

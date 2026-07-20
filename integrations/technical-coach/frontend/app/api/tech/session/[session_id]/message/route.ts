@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-const TTS_PREGEN_TIMEOUT_MS = 3500;
+const TTS_PREGEN_TIMEOUT_MS = 12000;
 
 async function fetchWithTimeout(url: string, init: RequestInit, timeoutMs: number) {
   const controller = new AbortController();
@@ -64,7 +64,7 @@ export async function POST(
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: data.say }),
+            body: JSON.stringify({ text: data.say, language: "multi" }),
           },
           TTS_PREGEN_TIMEOUT_MS
         );
