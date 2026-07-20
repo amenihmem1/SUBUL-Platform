@@ -1608,21 +1608,44 @@ function HomePageContent() {
       return;
     }
 
-    const form = new FormData();
     const isWav = (blob.type || "").toLowerCase().includes("wav");
-    form.append(
-      "file",
-      new File([blob], `utterance-${Date.now()}.${isWav ? "wav" : "webm"}`, { type: blob.type || (isWav ? "audio/wav" : "audio/webm") })
-    );
-    form.append("language", "multi");
+    const audioFile = new File([blob], `utterance-${Date.now()}.${isWav ? "wav" : "webm"}`, {
+      type: blob.type || (isWav ? "audio/wav" : "audio/webm"),
+    });
+    const preferredLanguage = language === "en" ? "en-US" : "fr";
+    const languageAttempts = Array.from(new Set([preferredLanguage, "en-US", "multi"]));
 
-    try {
-      const res = await fetch("/technical-coach-app/api/tech/stt", {
+    const requestTranscription = async (sttLanguage: string) => {
+      const form = new FormData();
+      form.append("file", audioFile);
+      form.append("language", sttLanguage);
+      return await fetch("/technical-coach-app/api/tech/stt", {
         method: "POST",
         body: form,
       });
-      const data = await res.json();
-      if (!res.ok) {
+    };
+
+    try {
+      let lastError = "";
+      let hadSuccessfulResponse = false;
+      let text = "";
+
+      for (const sttLanguage of languageAttempts) {
+        const res = await requestTranscription(sttLanguage);
+        const data = await res.json();
+        if (!res.ok) {
+          lastError = String(data?.detail || data?.error || "STT unavailable");
+          continue;
+        }
+
+        hadSuccessfulResponse = true;
+        text = String(data?.text || "").trim();
+        if (text) {
+          break;
+        }
+      }
+
+      if (!hadSuccessfulResponse) {
         const fallbackTranscript = String(options?.fallbackTranscript || "").trim();
         if (isUsableTranscript(fallbackTranscript)) {
           pushFeed(
@@ -1639,10 +1662,9 @@ function HomePageContent() {
           await submitCandidateText(fallbackTranscript);
           return;
         }
-        pushFeed("system", `Microphone error: ${data?.detail || data?.error || "STT unavailable"}`);
+        pushFeed("system", `Microphone error: ${lastError || "STT unavailable"}`);
         return;
       }
-      const text = String(data?.text || "").trim();
       if (!text) {
         const fallbackTranscript = String(options?.fallbackTranscript || "").trim();
         if (isUsableTranscript(fallbackTranscript)) {
