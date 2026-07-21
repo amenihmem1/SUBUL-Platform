@@ -62,11 +62,22 @@ def _concept_group_score(text: str, groups: tuple[tuple[str, ...], ...]) -> int:
 
 BIG_DATA_LAYER_GROUPS = (
     (" big data ", " donnees volumineuses ", " donnees massives ", " volume ", " volumineux "),
-    (" couche d entree ", " couche entree ", " entree ", " ingestion ", " collecte ", " sources "),
-    (" stockage ", " stocker ", " conserve ", " conserver ", " distribue ", " distribuee ", " hdfs ", " data lake "),
-    (" traitement ", " analyse ", " analyser ", " spark ", " mapreduce ", " batch ", " streaming "),
-    (" couche de sortie ", " sortie ", " tableaux de bord ", " dashboard ", " rapports ", " api ", " utilisateurs "),
-    (" pipeline ", " architecture ", " couches ", " transformation ", " visualisation "),
+    (" couche d entree ", " couche entree ", " entree ", " input layer ", " ingestion ", " collecte ", " collect ", " sources "),
+    (" stockage ", " stocker ", " conserve ", " conserver ", " distribue ", " distribuee ", " storage ", " distributed ", " hdfs ", " data lake "),
+    (" traitement ", " analyse ", " analyser ", " processing ", " process ", " analyze ", " spark ", " mapreduce ", " batch ", " streaming "),
+    (" couche de sortie ", " sortie ", " output layer ", " output ", " tableaux de bord ", " dashboard ", " dashboards ", " rapports ", " reports ", " api ", " users ", " utilisateurs "),
+    (" pipeline ", " architecture ", " layers ", " couches ", " transformation ", " visualization ", " visualisation "),
+)
+
+AI_ML_CONCEPT_GROUPS = (
+    (" intelligence artificielle ", " artificial intelligence ", " ia ", " ai "),
+    (" machine learning ", " apprentissage automatique ", " supervised ", " supervise ", " non supervise ", " unsupervised "),
+    (" deep learning ", " reseau de neurones ", " neural network ", " neural networks ", " neurone ", " neurons "),
+    (" modele ", " model ", " models ", " entrainement ", " training ", " train ", " apprendre ", " learn "),
+    (" donnees ", " data ", " dataset ", " features ", " variables ", " preprocessing ", " pretraitement "),
+    (" classification ", " regression ", " clustering ", " prediction ", " recommendation ", " recommandation "),
+    (" validation ", " test ", " accuracy ", " precision ", " recall ", " metrique ", " metric "),
+    (" overfitting ", " underfitting ", " generalisation ", " regularisation ", " biais ", " variance "),
 )
 
 
@@ -101,6 +112,63 @@ def _big_data_layer_score(normalized_question: str, normalized_answer: str, word
     return 0
 
 
+def _ai_ml_course_score(normalized_question: str, normalized_answer: str, word_count: int) -> int:
+    is_ai_or_ml_question = (
+        "machine learning" in normalized_question
+        or "artificial intelligence" in normalized_question
+        or "intelligence artificielle" in normalized_question
+        or "deep learning" in normalized_question
+        or "apprentissage automatique" in normalized_question
+        or "modele" in normalized_question
+        or "model" in normalized_question
+        or "classification" in normalized_question
+        or "regression" in normalized_question
+        or "clustering" in normalized_question
+    )
+    answer_coverage = _concept_group_score(normalized_answer, AI_ML_CONCEPT_GROUPS)
+    answer_is_ai_or_ml = answer_coverage >= 3 and (
+        "machine learning" in normalized_answer
+        or "artificial intelligence" in normalized_answer
+        or "intelligence artificielle" in normalized_answer
+        or "deep learning" in normalized_answer
+        or "model" in normalized_answer
+        or "modele" in normalized_answer
+    )
+
+    if not (is_ai_or_ml_question or answer_is_ai_or_ml):
+        return 0
+    if answer_coverage >= 5 and word_count >= 45:
+        return 4
+    if answer_coverage >= 4 and word_count >= 30:
+        return 4
+    if answer_coverage >= 3:
+        return 3
+    if answer_coverage >= 2 and word_count >= 25:
+        return 2
+    return 0
+
+
+def _general_technical_answer_score(normalized_question: str, normalized_answer: str, word_count: int) -> int:
+    if word_count < 24:
+        return 0
+
+    technical_groups = BIG_DATA_LAYER_GROUPS + AI_ML_CONCEPT_GROUPS + (
+        (" api ", " rest ", " database ", " base de donnees ", " mysql ", " postgresql ", " mongodb "),
+        (" cloud ", " docker ", " container ", " kubernetes ", " azure ", " aws "),
+        (" securite ", " security ", " performance ", " scalability ", " scalabilite ", " optimization ", " optimisation "),
+    )
+    coverage = _concept_group_score(normalized_answer, technical_groups)
+    question_is_technical = _concept_group_score(normalized_question, technical_groups) > 0
+
+    if coverage >= 5 and word_count >= 45:
+        return 4
+    if coverage >= 3 and question_is_technical:
+        return 3
+    if coverage >= 2 and word_count >= 35:
+        return 2
+    return 0
+
+
 def _heuristic_competency_scores(text: str) -> dict[str, int]:
     normalized = _normalize_text(text)
     words = len(re.findall(r"\b[\w'-]+\b", normalized, flags=re.UNICODE))
@@ -113,13 +181,19 @@ def _heuristic_competency_scores(text: str) -> dict[str, int]:
     technical_terms = (
         " api ",
         " base de donnees ",
+        " database ",
         " blockchain ",
         " cloud ",
         " consensus ",
         " docker ",
+        " intelligence artificielle ",
+        " artificial intelligence ",
+        " machine learning ",
         " modele ",
+        " model ",
         " reseau ",
         " securite ",
+        " security ",
         " transaction ",
     )
     if score and _contains_any(normalized, technical_terms):
@@ -301,6 +375,10 @@ def _heuristic_question_answer_score(question: str, answer: str) -> int:
         if coverage >= 2:
             return 3
 
+    ai_ml_score = _ai_ml_course_score(normalized_question, normalized_answer, word_count)
+    if ai_ml_score:
+        return ai_ml_score
+
     big_data_score = _big_data_layer_score(normalized_question, normalized_answer, word_count)
     if big_data_score:
         return big_data_score
@@ -345,7 +423,8 @@ def _heuristic_question_answer_score(question: str, answer: str) -> int:
             return 3
 
     heuristic = _heuristic_competency_scores(f"Q: {question}\nR: {answer}").get("question_score", 0)
-    return max(score, heuristic)
+    general = _general_technical_answer_score(normalized_question, normalized_answer, word_count)
+    return max(score, heuristic, general)
 
 
 def score_interview_turn(

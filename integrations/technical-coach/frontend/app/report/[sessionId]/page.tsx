@@ -677,11 +677,22 @@ function containsAnyScoringTerm(text: string, terms: string[]) {
 
 const bigDataLayerGroups = [
   [" big data ", " donnees volumineuses ", " donnees massives ", " volume ", " volumineux "],
-  [" couche d entree ", " couche entree ", " entree ", " ingestion ", " collecte ", " sources "],
-  [" stockage ", " stocker ", " conserve ", " conserver ", " distribue ", " distribuee ", " hdfs ", " data lake "],
-  [" traitement ", " analyse ", " analyser ", " spark ", " mapreduce ", " batch ", " streaming "],
-  [" couche de sortie ", " sortie ", " tableaux de bord ", " dashboard ", " rapports ", " api ", " utilisateurs "],
-  [" pipeline ", " architecture ", " couches ", " transformation ", " visualisation "],
+  [" couche d entree ", " couche entree ", " entree ", " input layer ", " ingestion ", " collecte ", " collect ", " sources "],
+  [" stockage ", " stocker ", " conserve ", " conserver ", " distribue ", " distribuee ", " storage ", " distributed ", " hdfs ", " data lake "],
+  [" traitement ", " analyse ", " analyser ", " processing ", " process ", " analyze ", " spark ", " mapreduce ", " batch ", " streaming "],
+  [" couche de sortie ", " sortie ", " output layer ", " output ", " tableaux de bord ", " dashboard ", " dashboards ", " rapports ", " reports ", " api ", " users ", " utilisateurs "],
+  [" pipeline ", " architecture ", " layers ", " couches ", " transformation ", " visualization ", " visualisation "],
+];
+
+const aiMlConceptGroups = [
+  [" intelligence artificielle ", " artificial intelligence ", " ia ", " ai "],
+  [" machine learning ", " apprentissage automatique ", " supervised ", " supervise ", " non supervise ", " unsupervised "],
+  [" deep learning ", " reseau de neurones ", " neural network ", " neural networks ", " neurone ", " neurons "],
+  [" modele ", " model ", " models ", " entrainement ", " training ", " train ", " apprendre ", " learn "],
+  [" donnees ", " data ", " dataset ", " features ", " variables ", " preprocessing ", " pretraitement "],
+  [" classification ", " regression ", " clustering ", " prediction ", " recommendation ", " recommandation "],
+  [" validation ", " test ", " accuracy ", " precision ", " recall ", " metrique ", " metric "],
+  [" overfitting ", " underfitting ", " generalisation ", " regularisation ", " biais ", " variance "],
 ];
 
 function inferQuestionScoreFloor(question: string, answer: string) {
@@ -709,12 +720,51 @@ function inferQuestionScoreFloor(question: string, answer: string) {
       normalizedAnswer.includes("couche") ||
       normalizedAnswer.includes("couches"));
 
-  if (!isBigDataQuestion && !answerLooksLayered) return 0;
+  if (isBigDataQuestion || answerLooksLayered) {
+    if (coverage >= 5 && wordCount >= 40) return 4;
+    if (coverage >= 4) return 3;
+    if (coverage >= 3 && wordCount >= 35) return 3;
+    if (coverage >= 2) return 2;
+  }
 
-  if (coverage >= 5 && wordCount >= 40) return 4;
-  if (coverage >= 4) return 3;
-  if (coverage >= 3 && wordCount >= 35) return 3;
-  if (coverage >= 2) return 2;
+  const aiCoverage = aiMlConceptGroups.filter((terms) => containsAnyScoringTerm(normalizedAnswer, terms)).length;
+  const questionLooksAi =
+    normalizedQuestion.includes("machine learning") ||
+    normalizedQuestion.includes("artificial intelligence") ||
+    normalizedQuestion.includes("intelligence artificielle") ||
+    normalizedQuestion.includes("deep learning") ||
+    normalizedQuestion.includes("apprentissage automatique") ||
+    normalizedQuestion.includes("classification") ||
+    normalizedQuestion.includes("regression") ||
+    normalizedQuestion.includes("clustering") ||
+    normalizedQuestion.includes("model") ||
+    normalizedQuestion.includes("modele");
+  const answerLooksAi =
+    aiCoverage >= 3 &&
+    (normalizedAnswer.includes("machine learning") ||
+      normalizedAnswer.includes("artificial intelligence") ||
+      normalizedAnswer.includes("intelligence artificielle") ||
+      normalizedAnswer.includes("deep learning") ||
+      normalizedAnswer.includes("model") ||
+      normalizedAnswer.includes("modele"));
+
+  if (questionLooksAi || answerLooksAi) {
+    if (aiCoverage >= 5 && wordCount >= 45) return 4;
+    if (aiCoverage >= 4 && wordCount >= 30) return 4;
+    if (aiCoverage >= 3) return 3;
+    if (aiCoverage >= 2 && wordCount >= 25) return 2;
+  }
+
+  const technicalCoverage = [...bigDataLayerGroups, ...aiMlConceptGroups].filter((terms) =>
+    containsAnyScoringTerm(normalizedAnswer, terms),
+  ).length;
+  const questionHasTechnicalCue = [...bigDataLayerGroups, ...aiMlConceptGroups].some((terms) =>
+    containsAnyScoringTerm(normalizedQuestion, terms),
+  );
+  if (technicalCoverage >= 5 && wordCount >= 45) return 4;
+  if (technicalCoverage >= 3 && questionHasTechnicalCue) return 3;
+  if (technicalCoverage >= 2 && wordCount >= 35) return 2;
+
   return 0;
 }
 
@@ -1154,10 +1204,25 @@ function ReportDashboardPageContent({ forcedView }: { forcedView?: "report" | "i
     },
   ].filter((item) => item.value);
 
-  const stressScore = clamp(Number(stressContext?.score || 0));
   const audioMetrics = ((isInsightsView
     ? audioContext?.metrics || finalReport?.audio_metrics
     : finalReport?.audio_metrics || audioContext?.metrics) || {}) as Record<string, number>;
+  const audioFlagsForStress = [
+    ...((Array.isArray(audioContext?.heuristic_flags) ? audioContext?.heuristic_flags : []) || []),
+    ...((Array.isArray(finalReport?.audio_flags) ? finalReport?.audio_flags : []) || []),
+  ].map((item) => String(item));
+  const audioSampleLimitedForStress =
+    Number(audioMetrics.utterance_count || 0) <= 1 || audioFlagsForStress.includes("analyse_vocale_insuffisante");
+  const stressScoreValue =
+    !audioSampleLimitedForStress && typeof stressContext?.score === "number"
+      ? clamp(Number(stressContext.score))
+      : null;
+  const stressScore = stressScoreValue ?? 0;
+  const audioHasUsableMetrics =
+    !audioSampleLimitedForStress &&
+    (Number(audioMetrics.speech_rate_wpm_avg || 0) > 0 ||
+      Number(audioMetrics.volume_score_avg || 0) > 0 ||
+      Number(audioMetrics.pitch_variation_hz_avg || 0) > 0);
   const visualMetricsSource = ((isInsightsView
     ? visualContext?.metrics || finalReport?.visual_metrics
     : finalReport?.visual_metrics || visualContext?.metrics) || {}) as Record<string, unknown>;
@@ -1355,11 +1420,15 @@ function ReportDashboardPageContent({ forcedView }: { forcedView?: "report" | "i
   }));
 
   const visualAverage = Math.round(visualBars.reduce((sum, item) => sum + item.value, 0) / Math.max(visualBars.length, 1));
-  const audioAverage = Math.round(audioBars.reduce((sum, item) => sum + item.value, 0) / Math.max(audioBars.length, 1));
+  const audioAverage = audioHasUsableMetrics
+    ? Math.round(audioBars.reduce((sum, item) => sum + item.value, 0) / Math.max(audioBars.length, 1))
+    : null;
   const audioSignals = (audioContext?.signals || finalReport?.audio_signals || [copy.noVocalSignal]).map((item) => rawDyn(item) || copy.noVocalSignal);
   const stressAverage = stressFactors.length
     ? Math.round(stressFactors.reduce((sum, item) => sum + item.value, 0) / stressFactors.length)
-    : Math.round(stressScore);
+    : stressScoreValue !== null
+      ? Math.round(stressScoreValue)
+      : null;
   const insightOverviewCards = [
     {
       label: copy.visualReading,
@@ -1369,13 +1438,13 @@ function ReportDashboardPageContent({ forcedView }: { forcedView?: "report" | "i
     },
     {
       label: copy.vocalSignal,
-      value: `${audioAverage}%`,
+      value: audioAverage !== null ? `${audioAverage}%` : "--",
       helper: `${audioBars.length} ${copy.vocalIndicators}`,
       tone: "audio",
     },
     {
       label: copy.observedStress,
-      value: `${stressAverage}%`,
+      value: stressAverage !== null ? `${stressAverage}%` : "--",
       helper: rawDyn(String(stressContext?.band || copy.indicativeReading)) || copy.indicativeReading,
       tone: "stress",
     },
